@@ -5,7 +5,7 @@ Projet fait dans le cadre du cours GLO-4003,
 Fait par:
 * Michaël Blanchet (111 078 159)
 * Pierre-Marc Levasseur (111 080 897)
-* Philippe Gingras
+* Philippe Gingras (111 041 336)
 * Alexandre Gagnon
 * Guillaume Lambert
 * Léandre Noël
