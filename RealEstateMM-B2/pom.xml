@@ -29,9 +29,9 @@
     </dependency>
   </dependencies>
   <modules>
-    <module>RealEstate-services</module>
     <module>RealEstateMM-spring</module>
     <module>RealEstateMM-acceptanceTests</module>
     <module>RealEstateMM-domain</module>
+    <module>RealEstateMM-services</module>
   </modules>
 </project>
