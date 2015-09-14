@@ -1,6 +1,4 @@
 image: maven:3.3.3-jdk-8
 
 unit_test:
-  script: 
-    - cd RealEstateMM-B2
-    - mvn test
+  script: "mvn -f ./RealEstateMM-B2/pom.xml test"
