@@ -7,6 +7,7 @@ import static org.jbehave.core.reporters.Format.*;
 import java.util.Arrays;
 import java.util.List;
 
+import org.RealEstateMM.steps.VendorConnectionSteps;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.embedder.Embedder;
@@ -44,7 +45,7 @@ public class Main extends JUnitStories {
 
 	@Override
 	public InjectableStepsFactory stepsFactory() {
-		return new InstanceStepsFactory(configuration());
+		return new InstanceStepsFactory(configuration(), new VendorConnectionSteps());
 	}
 
 	@Override
