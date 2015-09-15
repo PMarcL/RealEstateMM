@@ -36,4 +36,41 @@
       <version>1.10.19</version>
     </dependency>
   </dependencies>
+  
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources/stories</directory>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.3</version>
+        <executions>
+          <execution>
+            <configuration>
+              <mainClass>org.RealEstateMM.acceptanceTests.Main</mainClass>
+            </configuration>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>integration-test</phase>
+          </execution>
+        </executions>
+      </plugin>      
+    </plugins>
+  </build>
 </project>
