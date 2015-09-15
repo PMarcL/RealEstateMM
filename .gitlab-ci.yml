@@ -4,6 +4,6 @@ unit_tests:
   script: "mvn -f ./RealEstateMM-B2/pom.xml test"
   
 acceptance_tests:
-  script: "mvn -f ./RealEstateMM-B2/RealEstateMM-acceptanceTests -e integration-test"
+  script: "mvn -f ./RealEstateMM-B2/pom.xml integration-test"
   only:
     - master
