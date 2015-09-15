@@ -1,4 +1,9 @@
 image: maven:3.3.3-jdk-8
 
-unit_test:
+unit_tests:
   script: "mvn -f ./RealEstateMM-B2/pom.xml test"
+  
+acceptance_tests:
+  script: "mvn -f ./RealEstateMM-B2/RealEstateMM-acceptanceTests -e integration-test"
+  only:
+    - master
