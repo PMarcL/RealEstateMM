@@ -1,30 +1,29 @@
 package org.RealEstateMM.services;
 
-import org.RealEstateMM.domain.user.UserConnector;
-import org.RealEstateMM.domain.user.UserInformation;
+import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.DTO.UserCredentials;
-import org.RealEstateMM.services.DTO.UserDTO;
+import org.RealEstateMM.services.DTO.UserInformationsDTO;
+import org.RealEstateMM.services.DTO.UserInformationsDTOAssembler;
 
 public class UserConnectionService {
 
 	private UserRepository userRepository;
-	private UserConnector userConnector;
+	private UserInformationsDTOAssembler userInfoDTOAssembler;
 
 	public UserConnectionService() {
 
 	}
 
-	public UserConnectionService(UserRepository userRepo, UserConnector userConnect) {
+	public UserConnectionService(UserRepository userRepo, UserInformationsDTOAssembler dtoAssembler) {
 		userRepository = userRepo;
-		userConnector = userConnect;
+		userInfoDTOAssembler = dtoAssembler;
 	}
 
-	public UserDTO connectWithCredentials(UserCredentials credentials) {
-		UserInformation userInfo = userRepository.getUserWithPseudoAndEmail(credentials.getPseudo(),
-				credentials.getEmail());
-		userConnector.ConnectUser(userInfo);
-		return null;
+	public UserInformationsDTO connectWithCredentials(UserCredentials credentials) {
+		UserInformations userInfo = userRepository.getUserWithPseudoAndPassword(credentials.getPseudo(),
+				credentials.getPassword());
+		return userInfoDTOAssembler.buildDTO(userInfo);
 	}
 
 }

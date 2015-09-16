@@ -2,19 +2,19 @@ package org.RealEstateMM.services.DTO;
 
 public class UserCredentials {
 
-	private String email;
+	private String password;
 	private String pseudonym;
 
-	public String getEmail() {
-		return email;
+	public String getPassword() {
+		return password;
 	}
 
 	public String getPseudo() {
 		return pseudonym;
 	}
 
-	public void setEmail(String userEmail) {
-		email = userEmail;
+	public void setPassword(String userPassword) {
+		password = userPassword;
 	}
 
 	public void setPseudo(String userPseudo) {
