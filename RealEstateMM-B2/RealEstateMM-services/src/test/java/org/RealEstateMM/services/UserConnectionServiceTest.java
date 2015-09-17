@@ -1,8 +1,9 @@
 package org.RealEstateMM.services;
 
-import static org.mockito.Mockito.*;
-import static org.mockito.BDDMockito.*;
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
+
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.DTO.UserCredentials;
@@ -28,7 +29,7 @@ public class UserConnectionServiceTest {
 	public void initialisation() {
 		userRepoMock = mock(UserRepository.class);
 		dtoAssemblerMock = mock(UserInformationsDTOAssembler.class);
-		userInfo = new UserInformations();
+		userInfo = mock(UserInformations.class);
 		userInfoDTO = mock(UserInformationsDTO.class);
 		userCredentials = new UserCredentials();
 		userCredentials.setPassword(USER_PASSWORD);
