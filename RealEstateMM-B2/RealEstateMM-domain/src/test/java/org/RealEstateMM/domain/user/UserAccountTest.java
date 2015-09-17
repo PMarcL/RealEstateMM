@@ -102,7 +102,7 @@ public class UserAccountTest {
 		}
 
 		UserAccount build() {
-			return new UserAccount(pseudonym, name, email, phoneNumber);
+			return new UserAccount(pseudonym, name, email, new PhoneNumber(phoneNumber));
 		}
 	}
 }

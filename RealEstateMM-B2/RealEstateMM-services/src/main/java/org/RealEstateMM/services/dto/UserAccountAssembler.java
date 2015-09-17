@@ -8,7 +8,7 @@ public class UserAccountAssembler {
 		UserInformations dto = new UserInformations();
 		dto.email = userInfo.email;
 		dto.name = userInfo.name;
-		dto.phoneNumber = userInfo.phoneNumber;
+		dto.phoneNumber = userInfo.phoneNumber.toString();
 		dto.pseudonym = userInfo.pseudonym;
 		return dto;
 	}

@@ -3,16 +3,17 @@ package org.RealEstateMM.domain.user;
 public class UserAccount {
 	public final String name;
 	public final String email; // TODO create Email class
-	public final String phoneNumber; // TODO create PhoneNumber class
+	public final PhoneNumber phoneNumber;
 	public final String pseudonym;
 
-	public UserAccount(String pseudonym, String name, String email, String phoneNumber) {
+	public UserAccount(String pseudonym, String name, String email, PhoneNumber phoneNumber) {
 		this.pseudonym = pseudonym;
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof UserAccount))
 			return false;
