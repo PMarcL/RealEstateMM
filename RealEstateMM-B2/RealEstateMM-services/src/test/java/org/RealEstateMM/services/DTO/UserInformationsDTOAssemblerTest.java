@@ -28,9 +28,9 @@ public class UserInformationsDTOAssemblerTest {
 	public void givenAUserInformationsObjectWhenBuildDTOIsCalledThenReturnsDTOWithValidInformations() {
 		userInfoDTO = assembler.buildDTO(userInfo);
 
-		assertTrue(userInfoDTO.getEmail().equals(EMAIL));
-		assertTrue(userInfoDTO.getPhoneNumber().equals(PHONE_NUMBER));
-		assertTrue(userInfoDTO.getName().equals(NAME));
-		assertTrue(userInfoDTO.getPseudonym().equals(PSEUDO));
+		assertTrue(userInfoDTO.email.equals(EMAIL));
+		assertTrue(userInfoDTO.phoneNumber.equals(PHONE_NUMBER));
+		assertTrue(userInfoDTO.name.equals(NAME));
+		assertTrue(userInfoDTO.pseudonym.equals(PSEUDO));
 	}
 }
