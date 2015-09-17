@@ -1,6 +1,6 @@
-package org.RealEstateMM.services.DTO;
+package org.RealEstateMM.services.dto;
 
-public class UserInformationsDTO {
+public class UserInformations {
 	public String name;
 	public String email;
 	public String phoneNumber;

@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.DTO;
+package org.RealEstateMM.services.dto;
 
 public class UserCredentials {
 

@@ -1,12 +1,12 @@
 package org.RealEstateMM.domain.user;
 
-public class UserInformations {
+public class UserAccount {
 	public final String name;
 	public final String email;
 	public final String phoneNumber;
 	public final String pseudonym;
 
-	public UserInformations(String pseudonym, String name, String email, String phoneNumber) {
+	public UserAccount(String pseudonym, String name, String email, String phoneNumber) {
 		this.pseudonym = pseudonym;
 		this.name = name;
 		this.email = email;
@@ -14,14 +14,14 @@ public class UserInformations {
 	}
 
 	public boolean equals(Object object) {
-		if (!(object instanceof UserInformations))
+		if (!(object instanceof UserAccount))
 			return false;
 
-		UserInformations userInfos = (UserInformations) object;
+		UserAccount userInfos = (UserAccount) object;
 		return hasSameInformations(userInfos);
 	}
 
-	private boolean hasSameInformations(UserInformations user) {
+	private boolean hasSameInformations(UserAccount user) {
 		boolean areEquals = this.email.equals(user.email);
 		areEquals &= this.name.equals(user.name);
 		areEquals &= this.phoneNumber.equals(user.phoneNumber);

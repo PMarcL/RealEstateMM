@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UserInformationsTest {
-	private UserInformations user;
-	private UserInformations otherUser;
+public class UserAccountTest {
+	private UserAccount user;
+	private UserAccount otherUser;
 
 	@Before
 	public void initialisation() {
@@ -101,8 +101,8 @@ public class UserInformationsTest {
 			return this;
 		}
 
-		UserInformations build() {
-			return new UserInformations(pseudonym, name, email, phoneNumber);
+		UserAccount build() {
+			return new UserAccount(pseudonym, name, email, phoneNumber);
 		}
 	}
 }

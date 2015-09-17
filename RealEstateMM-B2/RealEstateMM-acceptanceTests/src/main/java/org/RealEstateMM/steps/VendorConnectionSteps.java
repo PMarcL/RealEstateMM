@@ -3,8 +3,8 @@ package org.RealEstateMM.steps;
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.services.UserConnectionService;
-import org.RealEstateMM.services.DTO.UserCredentials;
-import org.RealEstateMM.services.DTO.UserInformationsDTO;
+import org.RealEstateMM.services.dto.UserCredentials;
+import org.RealEstateMM.services.dto.UserInformations;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -12,7 +12,7 @@ import org.jbehave.core.annotations.When;
 public class VendorConnectionSteps {
 
 	private UserConnectionService connectionService;
-	private UserInformationsDTO returnedUser;
+	private UserInformations returnedUser;
 
 	@Given("an anonymous user")
 	public void givenAnAnonymousUser() {

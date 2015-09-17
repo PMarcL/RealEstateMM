@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.*;
 
-import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserAccount;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.services.DTO.UserCredentials;
-import org.RealEstateMM.services.DTO.UserInformationsDTO;
-import org.RealEstateMM.services.DTO.UserInformationsDTOAssembler;
+import org.RealEstateMM.services.dto.UserCredentials;
+import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,17 +20,17 @@ public class UserConnectionServiceTest {
 	private UserConnectionService connectionService;
 
 	private UserCredentials userCredentials;
-	private UserInformations userInfo;
+	private UserAccount userInfo;
 	private UserRepository userRepoMock;
-	private UserInformationsDTOAssembler dtoAssemblerMock;
-	private UserInformationsDTO userInfoDTO;
+	private UserAccountAssembler dtoAssemblerMock;
+	private UserInformations userInfoDTO;
 
 	@Before
 	public void initialisation() {
 		userRepoMock = mock(UserRepository.class);
-		dtoAssemblerMock = mock(UserInformationsDTOAssembler.class);
-		userInfo = mock(UserInformations.class);
-		userInfoDTO = mock(UserInformationsDTO.class);
+		dtoAssemblerMock = mock(UserAccountAssembler.class);
+		userInfo = mock(UserAccount.class);
+		userInfoDTO = mock(UserInformations.class);
 		userCredentials = new UserCredentials();
 		userCredentials.setPassword(USER_PASSWORD);
 		userCredentials.setPseudo(USER_PSEUDO);
@@ -56,7 +56,7 @@ public class UserConnectionServiceTest {
 		given(userRepoMock.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userInfo);
 		given(dtoAssemblerMock.buildDTO(userInfo)).willReturn(userInfoDTO);
 
-		UserInformationsDTO returnedDTO = connectionService.connectWithCredentials(userCredentials);
+		UserInformations returnedDTO = connectionService.connectWithCredentials(userCredentials);
 
 		assertEquals(userInfoDTO, returnedDTO);
 	}

@@ -1,27 +1,29 @@
-package org.RealEstateMM.services.DTO;
+package org.RealEstateMM.services.dto;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserAccount;
+import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UserInformationsDTOAssemblerTest {
+public class UserAccountAssemblerTest {
 
 	private final String EMAIL = "example@hotmail.com";
 	private final String NAME = "John Doe";
 	private final String PHONE_NUMBER = "(819) 418-5739";
 	private final String PSEUDO = "JohnD90";
 
-	private UserInformationsDTOAssembler assembler;
+	private UserAccountAssembler assembler;
 
-	private UserInformations userInfo;
-	private UserInformationsDTO userInfoDTO;
+	private UserAccount userInfo;
+	private UserInformations userInfoDTO;
 
 	@Before
 	public void initialisation() {
-		assembler = new UserInformationsDTOAssembler();
-		userInfo = new UserInformations(PSEUDO, NAME, EMAIL, PHONE_NUMBER);
+		assembler = new UserAccountAssembler();
+		userInfo = new UserAccount(PSEUDO, NAME, EMAIL, PHONE_NUMBER);
 	}
 
 	@Test
