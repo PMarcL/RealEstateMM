@@ -2,11 +2,11 @@ package org.RealEstateMM.domain.user;
 
 public class UserAccount {
 	public final String name;
-	public final String email; // TODO create Email class
+	public final Email email;
 	public final PhoneNumber phoneNumber;
 	public final String pseudonym;
 
-	public UserAccount(String pseudonym, String name, String email, PhoneNumber phoneNumber) {
+	public UserAccount(String pseudonym, String name, Email email, PhoneNumber phoneNumber) {
 		this.pseudonym = pseudonym;
 		this.name = name;
 		this.email = email;

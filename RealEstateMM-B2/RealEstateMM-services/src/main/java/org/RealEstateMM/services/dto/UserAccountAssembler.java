@@ -4,12 +4,12 @@ import org.RealEstateMM.domain.user.UserAccount;
 
 public class UserAccountAssembler {
 
-	public UserInformations buildDTO(UserAccount userInfo) {
+	public UserInformations buildDTO(UserAccount userAccount) {
 		UserInformations dto = new UserInformations();
-		dto.email = userInfo.email;
-		dto.name = userInfo.name;
-		dto.phoneNumber = userInfo.phoneNumber.toString();
-		dto.pseudonym = userInfo.pseudonym;
+		dto.email = userAccount.email.toString();
+		dto.name = userAccount.name;
+		dto.phoneNumber = userAccount.phoneNumber.toString();
+		dto.pseudonym = userAccount.pseudonym;
 		return dto;
 	}
 
