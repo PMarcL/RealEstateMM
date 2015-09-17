@@ -2,8 +2,8 @@ package org.RealEstateMM.domain.user;
 
 public class UserAccount {
 	public final String name;
-	public final String email;
-	public final String phoneNumber;
+	public final String email; // TODO create Email class
+	public final String phoneNumber; // TODO create PhoneNumber class
 	public final String pseudonym;
 
 	public UserAccount(String pseudonym, String name, String email, String phoneNumber) {
