@@ -1,0 +1,30 @@
+@import '../../jeet/index';
+
+.form
+{
+  @include j-center(960px);
+}
+
+.input-field
+{
+  @include j-column(1/3);
+}
+
+.signup
+{
+  @include j-stack();
+}
+
+
+@media screen and (max-width: 600px)
+{
+  .input-field
+  {
+    @include j-column(9/10);
+  }
+}
+
+select
+{
+  @include j-column(1/2);
+}

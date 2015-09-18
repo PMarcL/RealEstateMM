@@ -1,0 +1,67 @@
+@import '../../jeet/index';
+
+
+@include j-edit();
+
+.toolbar
+{
+  @include j-cf();
+  height:50px;
+  background-color: #232838;
+}
+
+aside
+{
+  text-align: left;
+  @include j-column(1/3,$offset:2/3);
+
+}
+
+.login
+{
+  margin-right: 5%;
+}
+section a
+{
+  margin-top: 1%;
+}
+
+.welcome-page img
+{
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  position:relative;
+}
+
+.welcome-page img:hover
+{
+  opacity: 0.8;
+}
+
+h3 {
+  position: absolute;
+  left: 25%;
+  top: 150px;
+  color:#D32F2F;
+  font-weight: bold;
+}
+
+h5
+{
+  position:absolute;
+  left:27%;
+  top:225px;
+  color:#D32F2F;
+}
+
+
+
+@media screen and (max-width: 800px)
+{
+  aside
+  {
+    text-align: left;
+    @include j-column(1);
+
+  }
+}

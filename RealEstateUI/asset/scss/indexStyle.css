@@ -1,0 +1,62 @@
+* {
+  background: rgba(0, 0, 0, 0.05); }
+
+.toolbar {
+  *zoom: 1;
+  height: 50px;
+  background-color: #232838; }
+  .toolbar:before, .toolbar:after {
+    content: '';
+    display: table; }
+  .toolbar:after {
+    clear: both; }
+
+aside {
+  text-align: left;
+  float: left;
+  clear: none;
+  width: 31.33333%;
+  margin-left: 68.66667%;
+  margin-right: 3%; }
+  aside:last-child {
+    margin-right: 0; }
+
+.login {
+  margin-right: 5%; }
+
+section a {
+  margin-top: 1%; }
+
+.welcome-page img {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  position: relative; }
+
+.welcome-page img:hover {
+  opacity: 0.8; }
+
+h3 {
+  position: absolute;
+  left: 25%;
+  top: 150px;
+  color: #D32F2F;
+  font-weight: bold; }
+
+h5 {
+  position: absolute;
+  left: 27%;
+  top: 225px;
+  color: #D32F2F; }
+
+@media screen and (max-width: 800px) {
+  aside {
+    text-align: left;
+    float: left;
+    clear: none;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 3%; }
+    aside:last-child {
+      margin-right: 0; } }
+
+/*# sourceMappingURL=indexStyle.css.map */
