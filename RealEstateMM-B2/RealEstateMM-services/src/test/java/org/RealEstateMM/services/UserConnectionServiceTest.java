@@ -1,14 +1,15 @@
 package org.RealEstateMM.services;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.RealEstateMM.domain.user.UserAccount;
 import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.RealEstateMM.services.dto.UserCredentials;
 import org.RealEstateMM.services.dto.UserInformations;
-import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.junit.Before;
 import org.junit.Test;
 

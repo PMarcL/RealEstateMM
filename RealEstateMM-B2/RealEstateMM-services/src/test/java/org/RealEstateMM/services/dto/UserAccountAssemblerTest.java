@@ -30,9 +30,9 @@ public class UserAccountAssemblerTest {
 	public void givenAUserInformationsObjectWhenBuildDTOIsCalledThenReturnsDTOWithValidInformations() {
 		userInfo = assembler.buildDTO(userAccount);
 
-		assertTrue(userInfo.email.equals(EMAIL.toString()));
-		assertTrue(userInfo.phoneNumber.equals(PHONE_NUMBER.toString()));
-		assertTrue(userInfo.name.equals(NAME));
-		assertTrue(userInfo.pseudonym.equals(PSEUDO));
+		assertEquals(userInfo.email, EMAIL.toString());
+		assertEquals(userInfo.phoneNumber, PHONE_NUMBER.toString());
+		assertEquals(userInfo.name, NAME);
+		assertEquals(userInfo.pseudonym, PSEUDO);
 	}
 }
