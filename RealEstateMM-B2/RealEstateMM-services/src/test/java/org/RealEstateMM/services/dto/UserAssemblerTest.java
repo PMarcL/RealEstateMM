@@ -28,7 +28,7 @@ public class UserAssemblerTest {
 	}
 
 	@Test
-	public void givenAUserInformationsObjectWhenBuildDTOIsCalledThenReturnsDTOWithValidInformations() {
+	public void givenAUserInformationsObjectWhenBuildDTOThenReturnsDTOWithSameInformations() {
 		userInfo = assembler.buildDTO(userAccount);
 
 		assertEquals(userInfo.pseudonym, PSEUDO);
@@ -39,7 +39,7 @@ public class UserAssemblerTest {
 	}
 
 	@Test
-	public void givenADTOWhenAssembleThenReturnADomainObjectUser() {
+	public void givenADTOWhenAssembleThenReturnADomainObjectUserWithSameInfo() {
 		UserDTO dto = assembler.buildDTO(userAccount);
 		User result = assembler.assemble(dto);
 
