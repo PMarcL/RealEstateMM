@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UserAccountTest {
-	private UserAccount user;
-	private UserAccount otherUser;
+public class UserTest {
+	private User user;
+	private User otherUser;
 
 	@Before
 	public void initialisation() {
@@ -29,7 +29,7 @@ public class UserAccountTest {
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentNameWhenComparingShouldReturnFalse() {
-		final String ANOTHER_NAME = "Bobby Dick";
+		final Name ANOTHER_NAME = new Name("Bobby", "Dick");
 		otherUser = aUser().withName(ANOTHER_NAME).build();
 		assertNotEquals(user, otherUser);
 	}
@@ -65,12 +65,12 @@ public class UserAccountTest {
 
 	private class UserInformationsBuilder {
 		private final String EMAIL = "example@hotmail.com";
-		private final String NAME = "John Doe";
+		private final Name NAME = new Name("John", "Doe");
 		private final String PHONE_NUMBER = "(819) 418-5739";
 		private final String PSEUDO = "JohnD90";
 
 		private String email;
-		private String name;
+		private Name name;
 		private String phoneNumber;
 		private String pseudonym;
 
@@ -91,7 +91,7 @@ public class UserAccountTest {
 			return this;
 		}
 
-		public UserInformationsBuilder withName(String name) {
+		public UserInformationsBuilder withName(Name name) {
 			this.name = name;
 			return this;
 		}
@@ -101,8 +101,8 @@ public class UserAccountTest {
 			return this;
 		}
 
-		UserAccount build() {
-			return new UserAccount(pseudonym, name, new Email(email), new PhoneNumber(phoneNumber));
+		User build() {
+			return new User(pseudonym, name, new Email(email), new PhoneNumber(phoneNumber));
 		}
 	}
 }

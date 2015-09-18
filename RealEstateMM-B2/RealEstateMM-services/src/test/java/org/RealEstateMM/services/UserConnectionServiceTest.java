@@ -5,11 +5,11 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.RealEstateMM.domain.user.UserAccount;
+import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.services.dto.UserAccountAssembler;
+import org.RealEstateMM.services.dto.UserAssembler;
 import org.RealEstateMM.services.dto.UserCredentials;
-import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,17 +21,17 @@ public class UserConnectionServiceTest {
 	private UserConnectionService connectionService;
 
 	private UserCredentials userCredentials;
-	private UserAccount userInfo;
+	private User userInfo;
 	private UserRepository userRepoMock;
-	private UserAccountAssembler dtoAssemblerMock;
-	private UserInformations userInfoDTO;
+	private UserAssembler dtoAssemblerMock;
+	private UserDTO userInfoDTO;
 
 	@Before
 	public void initialisation() {
 		userRepoMock = mock(UserRepository.class);
-		dtoAssemblerMock = mock(UserAccountAssembler.class);
-		userInfo = mock(UserAccount.class);
-		userInfoDTO = mock(UserInformations.class);
+		dtoAssemblerMock = mock(UserAssembler.class);
+		userInfo = mock(User.class);
+		userInfoDTO = mock(UserDTO.class);
 		userCredentials = new UserCredentials();
 		userCredentials.setPassword(USER_PASSWORD);
 		userCredentials.setPseudo(USER_PSEUDO);
@@ -57,7 +57,7 @@ public class UserConnectionServiceTest {
 		given(userRepoMock.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userInfo);
 		given(dtoAssemblerMock.buildDTO(userInfo)).willReturn(userInfoDTO);
 
-		UserInformations returnedDTO = connectionService.connectWithCredentials(userCredentials);
+		UserDTO returnedDTO = connectionService.connectWithCredentials(userCredentials);
 
 		assertEquals(userInfoDTO, returnedDTO);
 	}
