@@ -67,10 +67,10 @@ public class UserRegistrationAntiCorruptionTest {
 
 	private void createUserDTO() {
 		userDTO = new UserDTO();
-		userDTO.email = EMAIL;
-		userDTO.phoneNumber = PHONENUMBER;
-		userDTO.firstName = FIRSTNAME;
-		userDTO.lastName = LASTNAME;
+		userDTO.setEmail(EMAIL);
+		userDTO.setPhoneNumber(PHONENUMBER);
+		userDTO.setFirstName(FIRSTNAME);
+		userDTO.setLastName(LASTNAME);
 	}
 
 	private void allFieldsAreValid() {

@@ -10,8 +10,8 @@ public class UserRegistrationService {
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
 
-	public UserRegistrationService(UserRepository userRepoMock, UserAssembler userAssembler) {
-		this.userRepository = userRepoMock;
+	public UserRegistrationService(UserRepository userRepo, UserAssembler userAssembler) {
+		this.userRepository = userRepo;
 		this.userAssembler = userAssembler;
 	}
 
