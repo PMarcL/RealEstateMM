@@ -46,6 +46,11 @@ public class UserRegistrationServiceTest {
 		assertEquals(user, captor.getValue());
 	}
 
+	@Test
+	public void givenANewUserWithAnAlreadyExistingPseudonymWhenRegisterThenThrowException() {
+
+	}
+
 	private User aNewUserWithUniquePseudo() {
 		return new User(UNIQUE_PSEUDO, A_NAME, A_EMAIL, A_PHONE_NUM);
 	}

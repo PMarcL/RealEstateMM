@@ -2,6 +2,7 @@ package org.RealEstateMM.services.dto;
 
 import static org.junit.Assert.assertEquals;
 
+import org.RealEstateMM.domain.builders.UserBuilder;
 import org.RealEstateMM.domain.user.Email;
 import org.RealEstateMM.domain.user.Name;
 import org.RealEstateMM.domain.user.PhoneNumber;
@@ -11,10 +12,10 @@ import org.junit.Test;
 
 public class UserAssemblerTest {
 
+	private final String PSEUDO = "JohnD90";
 	private final Email EMAIL = new Email("example@hotmail.com");
 	private final Name NAME = new Name("John", "Doe");
 	private final PhoneNumber PHONE_NUMBER = new PhoneNumber("(819) 418-5739");
-	private final String PSEUDO = "JohnD90";
 
 	private UserAssembler assembler;
 
@@ -24,7 +25,8 @@ public class UserAssemblerTest {
 	@Before
 	public void initialisation() {
 		assembler = new UserAssembler();
-		userAccount = new User(PSEUDO, NAME, EMAIL, PHONE_NUMBER);
+		userAccount = new UserBuilder().withPseudonym(PSEUDO).withName(NAME).withEmail(EMAIL)
+				.withPhoneNumber(PHONE_NUMBER).build();
 	}
 
 	@Test
