@@ -1,8 +1,12 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.models.user;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-import org.RealEstateMM.domain.builders.UserBuilder;
+import org.RealEstateMM.domain.models.user.informations.Email;
+import org.RealEstateMM.domain.models.user.informations.Name;
+import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
+import org.RealEstateMM.testdata.DefaultUserBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,40 +16,40 @@ public class UserTest {
 
 	@Before
 	public void initialisation() {
-		user = aDefaultUserBuilder().build();
+		user = new DefaultUserBuilder().build();
 	}
 
 	@Test
 	public void givenTwoIdenticalUserInformationsWhenComparingThenShouldReturnsTrue() {
-		otherUser = aDefaultUserBuilder().build();
+		otherUser = new DefaultUserBuilder().build();
 		assertEquals(user, otherUser);
 	}
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentEmailWhenComparingShouldReturnFalse() {
 		final Email ANOTHER_EMAIL = new Email("emailTest@gmail.com");
-		otherUser = aDefaultUserBuilder().withEmail(ANOTHER_EMAIL).build();
+		otherUser = new DefaultUserBuilder().withEmail(ANOTHER_EMAIL).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentNameWhenComparingShouldReturnFalse() {
 		final Name ANOTHER_NAME = new Name("Bobby", "Dick");
-		otherUser = aDefaultUserBuilder().withName(ANOTHER_NAME).build();
+		otherUser = new DefaultUserBuilder().withName(ANOTHER_NAME).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentPhoneNumberWhenComparingShouldReturnFalse() {
 		final PhoneNumber ANOTHER_PHONE_NUMBER = new PhoneNumber("(418)356-1234");
-		otherUser = aDefaultUserBuilder().withPhoneNumber(ANOTHER_PHONE_NUMBER).build();
+		otherUser = new DefaultUserBuilder().withPhoneNumber(ANOTHER_PHONE_NUMBER).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentPseudonymWhenComparingShouldReturnFalse() {
 		final String ANOTHER_PSEUDO = "jimmy129";
-		otherUser = aDefaultUserBuilder().withPseudonym(ANOTHER_PSEUDO).build();
+		otherUser = new DefaultUserBuilder().withPseudonym(ANOTHER_PSEUDO).build();
 		assertNotEquals(user, otherUser);
 	}
 
@@ -60,12 +64,4 @@ public class UserTest {
 		assertNotEquals(user, objectOfAnotherType);
 	}
 
-	private UserBuilder aDefaultUserBuilder() {
-		String pseudo = "JohnD90";
-		Name name = new Name("John", "Doe");
-		Email email = new Email("example@hotmail.com");
-		PhoneNumber phoneNumber = new PhoneNumber("(819) 418-5739");
-
-		return new UserBuilder(pseudo, name, email, phoneNumber);
-	}
 }

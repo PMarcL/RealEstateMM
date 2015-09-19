@@ -1,7 +1,9 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.models.user.informations;
 
 import static org.junit.Assert.*;
 
+import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
+import org.RealEstateMM.domain.models.user.informations.PhoneNumberFormatException;
 import org.junit.Test;
 
 public class PhoneNumberTest {

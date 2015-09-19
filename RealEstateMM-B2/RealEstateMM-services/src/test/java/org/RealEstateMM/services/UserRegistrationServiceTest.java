@@ -6,63 +6,63 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.RealEstateMM.domain.builders.UserBuilder;
-import org.RealEstateMM.domain.user.Email;
-import org.RealEstateMM.domain.user.Name;
-import org.RealEstateMM.domain.user.PhoneNumber;
-import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.models.user.User;
+import org.RealEstateMM.domain.repositories.UserRepository;
 import org.RealEstateMM.services.dto.UserAssembler;
 import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.testdata.DefaultUserBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 public class UserRegistrationServiceTest {
 
-	private final String A_PSEUDO = "MyCoolName";
-	private final Name A_NAME = new Name("John", "Doe");
-	private final Email A_EMAIL = new Email("myEmail@something.ca");
-	private final PhoneNumber A_PHONE_NUM = new PhoneNumber("418-656-7766");
+	private final String UNIQUE_PSEUDO = "MyCoolPseudo";
+	private final String EXISTING_PSEUDO = "MyTooCommonPseudo";
+
+	private final User UNIQUE_PSEUDO_USER = userWithPseudo(UNIQUE_PSEUDO);
+	private final User EXISTING_PSEUDO_USER = userWithPseudo(EXISTING_PSEUDO);
+
+	private final UserDTO EXISTING_PSEUDO_USER_DTO = new UserAssembler().buildDTO(EXISTING_PSEUDO_USER);
+	private final UserDTO UNIQUE_PSEUDO_USER_DTO = new UserAssembler().buildDTO(UNIQUE_PSEUDO_USER);
+
+	private UserRepository userRepoMock;
+	private UserAssembler userAssemblerMock;
+	private UserRegistrationService service;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		userRepoMock = mock(UserRepository.class);
+		userAssemblerMock = mock(UserAssembler.class);
+
+		when(userAssemblerMock.assemble(UNIQUE_PSEUDO_USER_DTO)).thenReturn(UNIQUE_PSEUDO_USER);
+		when(userAssemblerMock.assemble(EXISTING_PSEUDO_USER_DTO)).thenReturn(EXISTING_PSEUDO_USER);
+		when(userRepoMock.create(EXISTING_PSEUDO_USER)).thenThrow(new ExistingPseudoException(EXISTING_PSEUDO));
+
+		service = new UserRegistrationService(userRepoMock, userAssemblerMock);
 
 	}
 
 	@Test
 	public void givenANewUserWithUniquePseudonymWhenRegisterThenCreateTheUserOnce() {
-		User aUserWithUniquePseudo = aUser();
-		UserDTO userDTO = new UserAssembler().buildDTO(aUserWithUniquePseudo);
-
-		UserRepository userRepoMock = mock(UserRepository.class);
-		UserAssembler userAssemblerMock = mock(UserAssembler.class);
-		when(userAssemblerMock.assemble(userDTO)).thenReturn(aUserWithUniquePseudo);
-		UserRegistrationService service = new UserRegistrationService(userRepoMock, userAssemblerMock);
-
-		service.register(userDTO);
+		service.register(UNIQUE_PSEUDO_USER_DTO);
 
 		ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
 		verify(userRepoMock, times(1)).create(captor.capture());
-		assertEquals(aUserWithUniquePseudo, captor.getValue());
+		assertEquals(UNIQUE_PSEUDO_USER, captor.getValue());
 	}
 
 	@Test(expected = ExistingPseudoException.class)
-	public void givenANewUserWithAnAlreadyExistingPseudonymWhenRegisterThenThrowsExistingPseudoException() {
-		User aUserWithExistingPseudo = aUser();
-		UserDTO userDTO = new UserAssembler().buildDTO(aUserWithExistingPseudo);
-
-		UserRepository userRepoMock = mock(UserRepository.class);
-		UserAssembler userAssemblerMock = mock(UserAssembler.class);
-		when(userAssemblerMock.assemble(userDTO)).thenReturn(aUserWithExistingPseudo);
-		when(userRepoMock.create(aUserWithExistingPseudo)).thenThrow(new ExistingPseudoException(userDTO.pseudonym));
-		UserRegistrationService userRegistrationService = new UserRegistrationService(userRepoMock, userAssemblerMock);
-
-		userRegistrationService.register(userDTO);
+	public void givenANewUserWithAnAlreadyExistingPseudoWhenRegisterThenThrowsExistingPseudoException() {
+		service.register(EXISTING_PSEUDO_USER_DTO);
 	}
 
-	private User aUser() {
-		return new UserBuilder(A_PSEUDO, A_NAME, A_EMAIL, A_PHONE_NUM).build();
+	@Test
+	public void givenANewUserWithAnAlreadyExistingPseudoWhenRegisterThenDontCreateSession() {
+
 	}
 
+	private User userWithPseudo(String pseudo) {
+		return new DefaultUserBuilder().withPseudonym(pseudo).build();
+	}
 }

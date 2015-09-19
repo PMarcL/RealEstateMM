@@ -1,4 +1,8 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.models.user;
+
+import org.RealEstateMM.domain.models.user.informations.Email;
+import org.RealEstateMM.domain.models.user.informations.Name;
+import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
 
 public class User {
 

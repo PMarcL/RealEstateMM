@@ -1,4 +1,6 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.repositories;
+
+import org.RealEstateMM.domain.models.user.User;
 
 public interface UserRepository {
 

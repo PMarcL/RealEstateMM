@@ -5,8 +5,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.models.user.User;
+import org.RealEstateMM.domain.repositories.UserRepository;
 import org.RealEstateMM.services.dto.UserAssembler;
 import org.RealEstateMM.services.dto.UserCredentials;
 import org.RealEstateMM.services.dto.UserDTO;

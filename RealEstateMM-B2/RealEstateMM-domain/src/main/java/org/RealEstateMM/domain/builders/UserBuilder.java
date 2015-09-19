@@ -1,9 +1,9 @@
 package org.RealEstateMM.domain.builders;
 
-import org.RealEstateMM.domain.user.Email;
-import org.RealEstateMM.domain.user.Name;
-import org.RealEstateMM.domain.user.PhoneNumber;
-import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.models.user.User;
+import org.RealEstateMM.domain.models.user.informations.Email;
+import org.RealEstateMM.domain.models.user.informations.Name;
+import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
 
 public class UserBuilder {
 
@@ -13,13 +13,6 @@ public class UserBuilder {
 	private PhoneNumber phoneNumber;
 
 	public UserBuilder() {
-	}
-
-	public UserBuilder(String pseudonym, Name name, Email email, PhoneNumber phoneNumber) {
-		this.pseudonym = pseudonym;
-		this.name = name;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
 	}
 
 	public UserBuilder withPseudonym(String pseudonym) {

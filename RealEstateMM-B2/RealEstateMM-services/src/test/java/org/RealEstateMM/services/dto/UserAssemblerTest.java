@@ -3,10 +3,10 @@ package org.RealEstateMM.services.dto;
 import static org.junit.Assert.assertEquals;
 
 import org.RealEstateMM.domain.builders.UserBuilder;
-import org.RealEstateMM.domain.user.Email;
-import org.RealEstateMM.domain.user.Name;
-import org.RealEstateMM.domain.user.PhoneNumber;
-import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.models.user.User;
+import org.RealEstateMM.domain.models.user.informations.Email;
+import org.RealEstateMM.domain.models.user.informations.Name;
+import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
 import org.junit.Before;
 import org.junit.Test;
 
