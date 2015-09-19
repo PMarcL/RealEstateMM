@@ -1,8 +1,12 @@
 package org.RealEstateMM.persistence;
 
 import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
+import java.util.Optional;
+
+import org.RealEstateMM.domain.user.Email;
+import org.RealEstateMM.domain.user.PhoneNumber;
 import org.RealEstateMM.domain.user.UserAccount;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,44 +14,55 @@ import org.junit.Test;
 public class InMemoryUserRepositoryTest {
 
 	private final String PSEUDO = "bob32";
+	private final String OTHER_PSEUDO = "algo133";
+	private final String NAME_DUMMY = "Bobby";
+	private final Email EMAIL_DUMMY = mock(Email.class);
+	private final PhoneNumber PHONE_NUMBER_DUMMY = mock(PhoneNumber.class);
 
-	private InMemoryUserRepository repo;
+	private InMemoryUserRepository repository;
 	private UserAccount user;
 
 	@Before
-	public void initialisation() {
-		repo = new InMemoryUserRepository();
-		user = new UserAccount(PSEUDO, PSEUDO, null, null);
+	public void setup() {
+		repository = new InMemoryUserRepository();
+		user = new UserAccount(PSEUDO, NAME_DUMMY, EMAIL_DUMMY, PHONE_NUMBER_DUMMY);
 	}
 
 	@Test
-	public void givenAnEmptyRepositoryWhenGetSizeThenItsSizeIsZero() {
-		assertEquals(0, repo.getSize());
+	public void containsInitiallyNoUser() {
+		assertEquals(0, repository.getSize());
 	}
 
 	@Test
-	public void givenAnEmptyRepositoryWhenAddingAUserThenItsSizeIsOne() {
-		repo.addUser(user);
-		assertEquals(1, repo.getSize());
+	public void givenAnEmptyRepositoryWhenAddingAUserThenShouldContainsOneUser() {
+		repository.addUser(user);
+		assertEquals(1, repository.getSize());
 	}
 
 	@Test
-	public void givenARepositoryContainingUserXWhenAddingUserXThenItsSizeIsNotChanged() {
-		repo.addUser(user);
-		int initialSize = repo.getSize();
+	public void givenNotEmptyRepositoryWhenAddNewUserThenShoudlContainsOneMoreUser() {
+		repository.addUser(user);
+		repository.addUser(mock(UserAccount.class));
+		assertEquals(2, repository.getSize());
+	}
 
-		repo.addUser(user);
-
-		assertEquals(initialSize, repo.getSize());
+	@Test(expected = PseudonymAlreadyUsedException.class)
+	public void givenNotEmptyRepositoryWhenAddingUserWithSamePseudoAsPersistedUserThenShouldThrowException() {
+		repository.addUser(user);
+		repository.addUser(user);
 	}
 
 	@Test
-	public void givenARepositoryContainingUserYWhenAddingUserXThenItsSizeIncrements() {
-		repo.addUser(user);
-		int initialSize = repo.getSize();
+	public void givenNotEmptyRepositoryWhenGetUserWithExistingPseudonymShouldReturnUserWithSamePseudonym() {
+		repository.addUser(user);
+		Optional<UserAccount> returnedUser = repository.getUserWithPseudonym(user.pseudonym);
+		assertEquals(user, returnedUser.get());
+	}
 
-		repo.addUser(mock(UserAccount.class));
-
-		assertEquals(initialSize + 1, repo.getSize());
+	@Test
+	public void givenNotEmptryRepositoryWhenGetUserWithNonExistingPseudonymShouldReturnEmptyResult() {
+		repository.addUser(user);
+		Optional<UserAccount> returnedUser = repository.getUserWithPseudonym(OTHER_PSEUDO);
+		assertFalse(returnedUser.isPresent());
 	}
 }

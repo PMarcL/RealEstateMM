@@ -1,8 +1,10 @@
 package org.RealEstateMM.domain.user;
 
+import java.util.Optional;
+
 public interface UserRepository {
 
-	public UserAccount getUserWithPseudoAndPassword(String userPseudo, String password);
+	public Optional<UserAccount> getUserWithPseudonym(String pseudonym);
 
 	public void addUser(UserAccount user);
 }
