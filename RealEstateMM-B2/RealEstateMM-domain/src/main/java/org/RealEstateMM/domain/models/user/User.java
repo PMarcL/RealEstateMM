@@ -1,12 +1,17 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.models.user;
 
-public class UserAccount {
-	public final String name;
+import org.RealEstateMM.domain.models.user.informations.Email;
+import org.RealEstateMM.domain.models.user.informations.Name;
+import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
+
+public class User {
+
+	public final String pseudonym;
+	public final Name name;
 	public final Email email;
 	public final PhoneNumber phoneNumber;
-	public final String pseudonym;
 
-	public UserAccount(String pseudonym, String name, Email email, PhoneNumber phoneNumber) {
+	public User(String pseudonym, Name name, Email email, PhoneNumber phoneNumber) {
 		this.pseudonym = pseudonym;
 		this.name = name;
 		this.email = email;
@@ -15,14 +20,14 @@ public class UserAccount {
 
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof UserAccount))
+		if (!(object instanceof User))
 			return false;
 
-		UserAccount userInfos = (UserAccount) object;
+		User userInfos = (User) object;
 		return hasSameInformations(userInfos);
 	}
 
-	private boolean hasSameInformations(UserAccount user) {
+	private boolean hasSameInformations(User user) {
 		boolean areEquals = this.email.equals(user.email);
 		areEquals &= this.name.equals(user.name);
 		areEquals &= this.phoneNumber.equals(user.phoneNumber);
