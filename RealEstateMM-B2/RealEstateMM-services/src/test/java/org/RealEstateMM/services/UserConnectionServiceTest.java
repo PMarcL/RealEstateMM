@@ -6,9 +6,9 @@ import static org.mockito.Mockito.*;
 
 import org.RealEstateMM.domain.user.UserAccount;
 import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.RealEstateMM.services.dto.UserCredentials;
 import org.RealEstateMM.services.dto.UserInformations;
-import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,45 +19,55 @@ public class UserConnectionServiceTest {
 
 	private UserConnectionService connectionService;
 
-	private UserCredentials userCredentials;
-	private UserAccount userInfo;
-	private UserRepository userRepoMock;
-	private UserAccountAssembler dtoAssemblerMock;
-	private UserInformations userInfoDTO;
+	private UserCredentials credentials;
+	private UserAccount userAccount;
+	private UserRepository userRepository;
+	private UserAccountAssembler assembler;
+	private UserInformations userInfos;
 
 	@Before
 	public void initialisation() {
-		userRepoMock = mock(UserRepository.class);
-		dtoAssemblerMock = mock(UserAccountAssembler.class);
-		userInfo = mock(UserAccount.class);
-		userInfoDTO = mock(UserInformations.class);
-		userCredentials = new UserCredentials();
-		userCredentials.setPassword(USER_PASSWORD);
-		userCredentials.setPseudo(USER_PSEUDO);
+		userRepository = mock(UserRepository.class);
+		assembler = mock(UserAccountAssembler.class);
+		userAccount = mock(UserAccount.class);
+		userInfos = mock(UserInformations.class);
+		credentials = new UserCredentials();
+		credentials.setPassword(USER_PASSWORD);
+		credentials.setPseudo(USER_PSEUDO);
 
-		connectionService = new UserConnectionService(userRepoMock, dtoAssemblerMock);
+		connectionService = new UserConnectionService(userRepository, assembler);
+	}
+
+	@Test
+	public void givenValidCredentionWhenUserConnectShouldReturnUsersInformations() {
+		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
+		given(assembler.buildDTO(userAccount)).willReturn(userInfos);
+
+		UserInformations returnedInfos = connectionService.connectWithCredentials(credentials);
+
+		assertSame(userInfos, returnedInfos);
 	}
 
 	@Test
 	public void whenConnectWithUserCredentialsIsCalledThenGetUserFromRepository() {
-		connectionService.connectWithCredentials(userCredentials);
-		verify(userRepoMock).getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD);
+		connectionService.connectWithCredentials(credentials);
+		verify(userRepository).getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD);
 	}
 
 	@Test
 	public void givenConnectWithUserCredentialsIsCalledWhenRepositorySuccessfullyReturnsUserThenUserInfoDTOAssemblerIsCalled() {
-		given(userRepoMock.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userInfo);
-		connectionService.connectWithCredentials(userCredentials);
-		verify(dtoAssemblerMock).buildDTO(userInfo);
+		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
+		connectionService.connectWithCredentials(credentials);
+		verify(assembler).buildDTO(userAccount);
 	}
 
 	@Test
 	public void givenConnectWithUserCredentialsIsCalledWhenDTOAssemblerReturnsUserInfoDTOThenReturnsDTO() {
-		given(userRepoMock.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userInfo);
-		given(dtoAssemblerMock.buildDTO(userInfo)).willReturn(userInfoDTO);
+		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
+		given(assembler.buildDTO(userAccount)).willReturn(userInfos);
 
-		UserInformations returnedDTO = connectionService.connectWithCredentials(userCredentials);
+		UserInformations returnedDTO = connectionService.connectWithCredentials(credentials);
 
-		assertEquals(userInfoDTO, returnedDTO);
+		assertEquals(userInfos, returnedDTO);
 	}
 }

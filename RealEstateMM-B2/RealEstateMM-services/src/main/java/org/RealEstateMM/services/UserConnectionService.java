@@ -2,9 +2,9 @@ package org.RealEstateMM.services;
 
 import org.RealEstateMM.domain.user.UserAccount;
 import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.RealEstateMM.services.dto.UserCredentials;
 import org.RealEstateMM.services.dto.UserInformations;
-import org.RealEstateMM.services.dto.UserAccountAssembler;
 
 public class UserConnectionService {
 
@@ -12,7 +12,7 @@ public class UserConnectionService {
 	private UserAccountAssembler userInfoDTOAssembler;
 
 	public UserConnectionService() {
-
+		// TODO to remove --> not useful, only used in uat
 	}
 
 	public UserConnectionService(UserRepository userRepo, UserAccountAssembler dtoAssembler) {
