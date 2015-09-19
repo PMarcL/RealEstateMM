@@ -20,7 +20,7 @@ import org.mockito.ArgumentCaptor;
 
 public class UserRegistrationServiceTest {
 
-	private final String UNIQUE_PSEUDO = "MyCoolName";
+	private final String A_PSEUDO = "MyCoolName";
 	private final Name A_NAME = new Name("John", "Doe");
 	private final Email A_EMAIL = new Email("myEmail@something.ca");
 	private final PhoneNumber A_PHONE_NUM = new PhoneNumber("418-656-7766");
@@ -32,28 +32,37 @@ public class UserRegistrationServiceTest {
 
 	@Test
 	public void givenANewUserWithUniquePseudonymWhenRegisterThenCreateTheUserOnce() {
-		User user = aNewUserWithUniquePseudo();
-		UserDTO userDTO = new UserAssembler().buildDTO(user);
+		User aUserWithUniquePseudo = aUser();
+		UserDTO userDTO = new UserAssembler().buildDTO(aUserWithUniquePseudo);
 
 		UserRepository userRepoMock = mock(UserRepository.class);
-		UserAssembler userAssembler = mock(UserAssembler.class);
-		when(userAssembler.assemble(userDTO)).thenReturn(user);
-		UserRegistrationService userRegistrationService = new UserRegistrationService(userRepoMock, userAssembler);
+		UserAssembler userAssemblerMock = mock(UserAssembler.class);
+		when(userAssemblerMock.assemble(userDTO)).thenReturn(aUserWithUniquePseudo);
+		UserRegistrationService service = new UserRegistrationService(userRepoMock, userAssemblerMock);
 
-		userRegistrationService.register(userDTO);
+		service.register(userDTO);
 
 		ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
 		verify(userRepoMock, times(1)).create(captor.capture());
-		assertEquals(user, captor.getValue());
+		assertEquals(aUserWithUniquePseudo, captor.getValue());
 	}
 
-	@Test
-	public void givenANewUserWithAnAlreadyExistingPseudonymWhenRegisterThenThrowException() {
+	@Test(expected = ExistingPseudoException.class)
+	public void givenANewUserWithAnAlreadyExistingPseudonymWhenRegisterThenThrowsExistingPseudoException() {
+		User aUserWithExistingPseudo = aUser();
+		UserDTO userDTO = new UserAssembler().buildDTO(aUserWithExistingPseudo);
 
+		UserRepository userRepoMock = mock(UserRepository.class);
+		UserAssembler userAssemblerMock = mock(UserAssembler.class);
+		when(userAssemblerMock.assemble(userDTO)).thenReturn(aUserWithExistingPseudo);
+		when(userRepoMock.create(aUserWithExistingPseudo)).thenThrow(new ExistingPseudoException(userDTO.pseudonym));
+		UserRegistrationService userRegistrationService = new UserRegistrationService(userRepoMock, userAssemblerMock);
+
+		userRegistrationService.register(userDTO);
 	}
 
-	private User aNewUserWithUniquePseudo() {
-		return new UserBuilder(UNIQUE_PSEUDO, A_NAME, A_EMAIL, A_PHONE_NUM).build();
+	private User aUser() {
+		return new UserBuilder(A_PSEUDO, A_NAME, A_EMAIL, A_PHONE_NUM).build();
 	}
 
 }
