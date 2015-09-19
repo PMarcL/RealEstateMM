@@ -11,10 +11,6 @@ public class UserConnectionService {
 	private UserRepository userRepository;
 	private UserAccountAssembler userInfoDTOAssembler;
 
-	public UserConnectionService() {
-		// TODO to remove --> not useful, only used in uat
-	}
-
 	public UserConnectionService(UserRepository userRepo, UserAccountAssembler dtoAssembler) {
 		userRepository = userRepo;
 		userInfoDTOAssembler = dtoAssembler;
