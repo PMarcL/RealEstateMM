@@ -17,6 +17,6 @@ public class UserRegistrationService {
 
 	public void register(UserDTO newUserDTO) {
 		User newUser = userAssembler.assemble(newUserDTO);
-		userRepository.create(newUser);
+		userRepository.addUser(newUser);
 	}
 }

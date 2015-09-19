@@ -11,6 +11,7 @@ import org.RealEstateMM.domain.repositories.UserRepository;
 import org.RealEstateMM.services.dto.UserAssembler;
 import org.RealEstateMM.services.dto.UserDTO;
 import org.RealEstateMM.testdata.DefaultUserBuilder;
+import org.RealEstateMM.services.ExistingPseudoException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -37,7 +38,7 @@ public class UserRegistrationServiceTest {
 
 		when(userAssemblerMock.assemble(UNIQUE_PSEUDO_USER_DTO)).thenReturn(UNIQUE_PSEUDO_USER);
 		when(userAssemblerMock.assemble(EXISTING_PSEUDO_USER_DTO)).thenReturn(EXISTING_PSEUDO_USER);
-		when(userRepoMock.create(EXISTING_PSEUDO_USER)).thenThrow(new ExistingPseudoException(EXISTING_PSEUDO));
+		when(userRepoMock.addUser(EXISTING_PSEUDO_USER)).thenThrow(new ExistingPseudoException(EXISTING_PSEUDO));
 
 		service = new UserRegistrationService(userRepoMock, userAssemblerMock);
 
@@ -48,7 +49,7 @@ public class UserRegistrationServiceTest {
 		service.register(UNIQUE_PSEUDO_USER_DTO);
 
 		ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
-		verify(userRepoMock, times(1)).create(captor.capture());
+		verify(userRepoMock, times(1)).addUser(captor.capture());
 		assertEquals(UNIQUE_PSEUDO_USER, captor.getValue());
 	}
 

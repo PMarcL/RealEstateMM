@@ -6,6 +6,6 @@ public interface UserRepository {
 
 	public User getUserWithPseudoAndPassword(String userPseudo, String password);
 
-	public User create(User user);
+	User addUser(User user);
 
 }

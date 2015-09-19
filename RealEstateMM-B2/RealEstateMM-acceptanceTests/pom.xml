@@ -20,6 +20,11 @@
       <version>4.12</version>
     </dependency>
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+    </dependency>
+    <dependency>
       <groupId>org.jbehave</groupId>
       <artifactId>jbehave-core</artifactId>
       <version>4.0-beta-11</version>
@@ -33,6 +38,16 @@
       <groupId>ca.ulaval.glo4003</groupId>
       <artifactId>RealEstateMM-services</artifactId>
       <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.ulaval.glo4003</groupId>
+      <artifactId>RealEstateMM-persistence</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>ca.ulaval.glo4003</groupId>
+    	<artifactId>RealEstateMM-domain</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
   

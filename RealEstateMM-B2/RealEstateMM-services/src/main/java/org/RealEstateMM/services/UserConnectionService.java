@@ -11,10 +11,6 @@ public class UserConnectionService {
 	private UserRepository userRepository;
 	private UserAssembler userInfoDTOAssembler;
 
-	public UserConnectionService() {
-
-	}
-
 	public UserConnectionService(UserRepository userRepo, UserAssembler dtoAssembler) {
 		userRepository = userRepo;
 		userInfoDTOAssembler = dtoAssembler;
