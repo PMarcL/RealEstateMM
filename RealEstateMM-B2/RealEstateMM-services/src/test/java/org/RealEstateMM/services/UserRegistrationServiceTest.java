@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.RealEstateMM.domain.builders.UserBuilder;
 import org.RealEstateMM.domain.user.Email;
 import org.RealEstateMM.domain.user.Name;
 import org.RealEstateMM.domain.user.PhoneNumber;
@@ -52,7 +53,7 @@ public class UserRegistrationServiceTest {
 	}
 
 	private User aNewUserWithUniquePseudo() {
-		return new User(UNIQUE_PSEUDO, A_NAME, A_EMAIL, A_PHONE_NUM);
+		return new UserBuilder(UNIQUE_PSEUDO, A_NAME, A_EMAIL, A_PHONE_NUM).build();
 	}
 
 }

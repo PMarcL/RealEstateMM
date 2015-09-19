@@ -12,40 +12,40 @@ public class UserTest {
 
 	@Before
 	public void initialisation() {
-		user = aUserBuilder().build();
+		user = aDefaultUserBuilder().build();
 	}
 
 	@Test
 	public void givenTwoIdenticalUserInformationsWhenComparingThenShouldReturnsTrue() {
-		otherUser = aUserBuilder().build();
+		otherUser = aDefaultUserBuilder().build();
 		assertEquals(user, otherUser);
 	}
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentEmailWhenComparingShouldReturnFalse() {
 		final Email ANOTHER_EMAIL = new Email("emailTest@gmail.com");
-		otherUser = aUserBuilder().withEmail(ANOTHER_EMAIL).build();
+		otherUser = aDefaultUserBuilder().withEmail(ANOTHER_EMAIL).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentNameWhenComparingShouldReturnFalse() {
 		final Name ANOTHER_NAME = new Name("Bobby", "Dick");
-		otherUser = aUserBuilder().withName(ANOTHER_NAME).build();
+		otherUser = aDefaultUserBuilder().withName(ANOTHER_NAME).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentPhoneNumberWhenComparingShouldReturnFalse() {
 		final PhoneNumber ANOTHER_PHONE_NUMBER = new PhoneNumber("(418)356-1234");
-		otherUser = aUserBuilder().withPhoneNumber(ANOTHER_PHONE_NUMBER).build();
+		otherUser = aDefaultUserBuilder().withPhoneNumber(ANOTHER_PHONE_NUMBER).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
 	public void givenTwoUserInformationsWithDifferentPseudonymWhenComparingShouldReturnFalse() {
 		final String ANOTHER_PSEUDO = "jimmy129";
-		otherUser = aUserBuilder().withPseudonym(ANOTHER_PSEUDO).build();
+		otherUser = aDefaultUserBuilder().withPseudonym(ANOTHER_PSEUDO).build();
 		assertNotEquals(user, otherUser);
 	}
 
@@ -60,15 +60,12 @@ public class UserTest {
 		assertNotEquals(user, objectOfAnotherType);
 	}
 
-	private UserBuilder aUserBuilder() {
+	private UserBuilder aDefaultUserBuilder() {
 		String pseudo = "JohnD90";
 		Name name = new Name("John", "Doe");
 		Email email = new Email("example@hotmail.com");
 		PhoneNumber phoneNumber = new PhoneNumber("(819) 418-5739");
 
-		UserBuilder builder = new UserBuilder();
-		builder.setDefaults(pseudo, name, email, phoneNumber);
-
-		return builder;
+		return new UserBuilder(pseudo, name, email, phoneNumber);
 	}
 }

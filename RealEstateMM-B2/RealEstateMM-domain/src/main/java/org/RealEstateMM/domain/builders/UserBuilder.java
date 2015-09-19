@@ -15,12 +15,11 @@ public class UserBuilder {
 	public UserBuilder() {
 	}
 
-	public void setDefaults(String pseudo, Name name, Email email, PhoneNumber phoneNumber) {
-		pseudonym = pseudo;
+	public UserBuilder(String pseudonym, Name name, Email email, PhoneNumber phoneNumber) {
+		this.pseudonym = pseudonym;
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-
 	}
 
 	public UserBuilder withPseudonym(String pseudonym) {
