@@ -12,11 +12,11 @@ import org.RealEstateMM.services.dto.UserDTO;
 
 @Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
-public class UserConnectionControler {
+public class UserControler {
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response ajouterDemande(UserDTO userDTO) {
+	public Response registerUser(UserDTO userDTO) {
+
 		return Response.ok(Status.OK).build();
 	}
 
