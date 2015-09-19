@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.models.user.informations;
 
 public class PhoneNumber {
 	private String value;

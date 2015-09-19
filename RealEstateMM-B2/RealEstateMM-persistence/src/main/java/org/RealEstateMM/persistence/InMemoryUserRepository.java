@@ -2,35 +2,37 @@ package org.RealEstateMM.persistence;
 
 import java.util.ArrayList;
 
-import org.RealEstateMM.domain.user.UserAccount;
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.models.user.User;
+import org.RealEstateMM.domain.repositories.UserRepository;
 
 public class InMemoryUserRepository implements UserRepository {
 
-	private ArrayList<UserAccount> users;
+	private ArrayList<User> users;
 
 	public InMemoryUserRepository() {
-		users = new ArrayList<UserAccount>();
+		users = new ArrayList<User>();
 	}
 
 	@Override
-	public UserAccount getUserWithPseudoAndPassword(String userPseudo, String password) {
+	public User getUserWithPseudoAndPassword(String userPseudo, String password) {
 		return null;
 	}
 
 	@Override
-	public void addUser(UserAccount user) {
+	public User addUser(User user) {
 		if (userIsInRepository(user)) {
 			users.add(user);
 		}
+
+		return user;
 	}
 
 	public int getSize() {
 		return users.size();
 	}
 
-	private boolean userIsInRepository(UserAccount user) {
-		for (UserAccount aUser : users) {
+	private boolean userIsInRepository(User user) {
+		for (User aUser : users) {
 			if (aUser.pseudonym.equals(user.pseudonym)) {
 				return false;
 			}

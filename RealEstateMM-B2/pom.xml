@@ -50,5 +50,6 @@
     <module>RealEstateMM-domain</module>
     <module>RealEstateMM-services</module>
     <module>RealEstateMM-persistence</module>
+    <module>RealEstateMM-jersey</module>
   </modules>
 </project>

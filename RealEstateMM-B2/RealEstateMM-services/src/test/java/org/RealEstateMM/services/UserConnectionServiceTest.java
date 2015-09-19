@@ -1,13 +1,15 @@
 package org.RealEstateMM.services;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import org.RealEstateMM.domain.user.UserAccount;
-import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.services.dto.UserAccountAssembler;
+import org.RealEstateMM.domain.models.user.User;
+import org.RealEstateMM.domain.repositories.UserRepository;
+import org.RealEstateMM.services.dto.UserAssembler;
 import org.RealEstateMM.services.dto.UserCredentials;
-import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,55 +20,45 @@ public class UserConnectionServiceTest {
 
 	private UserConnectionService connectionService;
 
-	private UserCredentials credentials;
-	private UserAccount userAccount;
-	private UserRepository userRepository;
-	private UserAccountAssembler assembler;
-	private UserInformations userInfos;
+	private UserCredentials userCredentials;
+	private User userInfo;
+	private UserRepository userRepoMock;
+	private UserAssembler dtoAssemblerMock;
+	private UserDTO userInfoDTO;
 
 	@Before
 	public void initialisation() {
-		userRepository = mock(UserRepository.class);
-		assembler = mock(UserAccountAssembler.class);
-		userAccount = mock(UserAccount.class);
-		userInfos = mock(UserInformations.class);
-		credentials = new UserCredentials();
-		credentials.setPassword(USER_PASSWORD);
-		credentials.setPseudo(USER_PSEUDO);
+		userRepoMock = mock(UserRepository.class);
+		dtoAssemblerMock = mock(UserAssembler.class);
+		userInfo = mock(User.class);
+		userInfoDTO = mock(UserDTO.class);
+		userCredentials = new UserCredentials();
+		userCredentials.setPassword(USER_PASSWORD);
+		userCredentials.setPseudo(USER_PSEUDO);
 
-		connectionService = new UserConnectionService(userRepository, assembler);
-	}
-
-	@Test
-	public void givenValidCredentionWhenUserConnectShouldReturnUsersInformations() {
-		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
-		given(assembler.buildDTO(userAccount)).willReturn(userInfos);
-
-		UserInformations returnedInfos = connectionService.connectWithCredentials(credentials);
-
-		assertSame(userInfos, returnedInfos);
+		connectionService = new UserConnectionService(userRepoMock, dtoAssemblerMock);
 	}
 
 	@Test
 	public void whenConnectWithUserCredentialsIsCalledThenGetUserFromRepository() {
-		connectionService.connectWithCredentials(credentials);
-		verify(userRepository).getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD);
+		connectionService.connectWithCredentials(userCredentials);
+		verify(userRepoMock).getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD);
 	}
 
 	@Test
 	public void givenConnectWithUserCredentialsIsCalledWhenRepositorySuccessfullyReturnsUserThenUserInfoDTOAssemblerIsCalled() {
-		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
-		connectionService.connectWithCredentials(credentials);
-		verify(assembler).buildDTO(userAccount);
+		given(userRepoMock.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userInfo);
+		connectionService.connectWithCredentials(userCredentials);
+		verify(dtoAssemblerMock).buildDTO(userInfo);
 	}
 
 	@Test
 	public void givenConnectWithUserCredentialsIsCalledWhenDTOAssemblerReturnsUserInfoDTOThenReturnsDTO() {
-		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
-		given(assembler.buildDTO(userAccount)).willReturn(userInfos);
+		given(userRepoMock.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userInfo);
+		given(dtoAssemblerMock.buildDTO(userInfo)).willReturn(userInfoDTO);
 
-		UserInformations returnedDTO = connectionService.connectWithCredentials(credentials);
+		UserDTO returnedDTO = connectionService.connectWithCredentials(userCredentials);
 
-		assertEquals(userInfos, returnedDTO);
+		assertEquals(userInfoDTO, returnedDTO);
 	}
 }

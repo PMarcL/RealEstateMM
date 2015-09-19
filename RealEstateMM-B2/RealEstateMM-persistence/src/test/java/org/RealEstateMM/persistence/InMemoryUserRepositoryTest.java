@@ -1,23 +1,22 @@
 package org.RealEstateMM.persistence;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
-import org.RealEstateMM.domain.user.UserAccount;
+import org.RealEstateMM.domain.builders.DefaultUserBuilder;
+import org.RealEstateMM.domain.models.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
 public class InMemoryUserRepositoryTest {
 
-	private final String PSEUDO = "bob32";
-
 	private InMemoryUserRepository repo;
-	private UserAccount user;
+	private User user;
 
 	@Before
 	public void initialisation() {
 		repo = new InMemoryUserRepository();
-		user = new UserAccount(PSEUDO, PSEUDO, null, null);
+		user = new DefaultUserBuilder().build();
 	}
 
 	@Test
@@ -46,7 +45,7 @@ public class InMemoryUserRepositoryTest {
 		repo.addUser(user);
 		int initialSize = repo.getSize();
 
-		repo.addUser(mock(UserAccount.class));
+		repo.addUser(mock(User.class));
 
 		assertEquals(initialSize + 1, repo.getSize());
 	}
