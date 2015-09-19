@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserDTO;
 
 @Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -16,7 +16,7 @@ public class UserConnectionControler {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response ajouterDemande(UserInformations userDTO) {
+	public Response ajouterDemande(UserDTO userDTO) {
 		return Response.ok(Status.OK).build();
 	}
 

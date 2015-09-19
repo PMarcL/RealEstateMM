@@ -6,11 +6,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.RealEstateMM.domain.builders.DefaultUserBuilder;
 import org.RealEstateMM.domain.models.user.User;
 import org.RealEstateMM.domain.repositories.UserRepository;
 import org.RealEstateMM.services.dto.UserAssembler;
 import org.RealEstateMM.services.dto.UserDTO;
-import org.RealEstateMM.testdata.DefaultUserBuilder;
 import org.RealEstateMM.services.ExistingPseudoException;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +21,8 @@ public class UserRegistrationServiceTest {
 	private final String UNIQUE_PSEUDO = "MyCoolPseudo";
 	private final String EXISTING_PSEUDO = "MyTooCommonPseudo";
 
-	private final User UNIQUE_PSEUDO_USER = userWithPseudo(UNIQUE_PSEUDO);
-	private final User EXISTING_PSEUDO_USER = userWithPseudo(EXISTING_PSEUDO);
+	private final User UNIQUE_PSEUDO_USER = createEserWithPseudo(UNIQUE_PSEUDO);
+	private final User EXISTING_PSEUDO_USER = createEserWithPseudo(EXISTING_PSEUDO);
 
 	private final UserDTO EXISTING_PSEUDO_USER_DTO = new UserAssembler().buildDTO(EXISTING_PSEUDO_USER);
 	private final UserDTO UNIQUE_PSEUDO_USER_DTO = new UserAssembler().buildDTO(UNIQUE_PSEUDO_USER);
@@ -63,7 +63,7 @@ public class UserRegistrationServiceTest {
 
 	}
 
-	private User userWithPseudo(String pseudo) {
+	private User createEserWithPseudo(String pseudo) {
 		return new DefaultUserBuilder().withPseudonym(pseudo).build();
 	}
 }

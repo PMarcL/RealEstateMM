@@ -1,6 +1,5 @@
-package org.RealEstateMM.testdata;
+package org.RealEstateMM.domain.builders;
 
-import org.RealEstateMM.domain.builders.UserBuilder;
 import org.RealEstateMM.domain.models.user.informations.Email;
 import org.RealEstateMM.domain.models.user.informations.Name;
 import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
