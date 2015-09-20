@@ -1,12 +1,9 @@
 package org.RealEstateMM.steps;
 
-import static org.junit.Assert.*;
-
 import org.RealEstateMM.domain.user.UserAccount;
 import org.RealEstateMM.persistence.InMemoryUserRepository;
 import org.RealEstateMM.services.UserConnectionService;
 import org.RealEstateMM.services.dto.UserAccountAssembler;
-import org.RealEstateMM.services.dto.UserCredentials;
 import org.RealEstateMM.services.dto.UserInformations;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
@@ -14,7 +11,7 @@ import org.jbehave.core.annotations.When;
 
 public class VendorConnectionSteps {
 
-	private final UserAccount A_USER = new UserAccount("bob32", "Robert", null, null);
+	private final UserAccount A_USER = new UserAccount("bob32", "12345", "Robert", null, null);
 
 	private UserConnectionService connectionService;
 	private InMemoryUserRepository repo;

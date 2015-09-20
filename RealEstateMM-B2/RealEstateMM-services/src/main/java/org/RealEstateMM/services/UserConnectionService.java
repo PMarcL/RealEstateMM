@@ -1,5 +1,7 @@
 package org.RealEstateMM.services;
 
+import java.util.Optional;
+
 import org.RealEstateMM.domain.user.UserAccount;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.dto.UserAccountAssembler;
@@ -17,9 +19,22 @@ public class UserConnectionService {
 	}
 
 	public UserInformations connectWithCredentials(UserCredentials credentials) {
-		UserAccount userInfo = userRepository.getUserWithPseudoAndPassword(credentials.getPseudo(),
-				credentials.getPassword());
-		return userInfoDTOAssembler.buildDTO(userInfo);
+		Optional<UserAccount> userAccount = userRepository.getUserWithPseudonym(credentials.getPseudo());
+		validateUserAccountCredentials(credentials, userAccount);
+		return userInfoDTOAssembler.buildDTO(userAccount.get());
+	}
+
+	private void validateUserAccountCredentials(UserCredentials credentials, Optional<UserAccount> userAccount) {
+		if (userDoesNotExist(userAccount)) {
+			throw new UserNotFoundException();
+		}
+		if (!userAccount.get().hasPassword(credentials.getPassword())) {
+			throw new ErronousPasswordException();
+		}
+	}
+
+	private boolean userDoesNotExist(Optional<UserAccount> userAccount) {
+		return !userAccount.isPresent();
 	}
 
 }

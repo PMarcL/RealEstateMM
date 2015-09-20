@@ -2,6 +2,9 @@ package org.RealEstateMM.services;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
 
 import org.RealEstateMM.domain.user.UserAccount;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -33,40 +36,37 @@ public class UserConnectionServiceTest {
 		credentials = new UserCredentials();
 		credentials.setPassword(USER_PASSWORD);
 		credentials.setPseudo(USER_PSEUDO);
+		given(assembler.buildDTO(userAccount)).willReturn(userInfos);
 
 		connectionService = new UserConnectionService(userRepository, assembler);
 	}
 
 	@Test
 	public void givenValidCredentionWhenUserConnectShouldReturnUsersInformations() {
-		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
-		given(assembler.buildDTO(userAccount)).willReturn(userInfos);
-
+		credentialsAreValid();
 		UserInformations returnedInfos = connectionService.connectWithCredentials(credentials);
-
 		assertSame(userInfos, returnedInfos);
 	}
 
-	@Test
-	public void whenConnectWithUserCredentialsIsCalledThenGetUserFromRepository() {
-		connectionService.connectWithCredentials(credentials);
-		verify(userRepository).getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD);
+	private void credentialsAreValid() {
+		given(userRepository.getUserWithPseudonym(USER_PSEUDO)).willReturn(Optional.of(userAccount));
+		given(userAccount.hasPassword(USER_PASSWORD)).willReturn(true);
 	}
 
-	@Test
-	public void givenConnectWithUserCredentialsIsCalledWhenRepositorySuccessfullyReturnsUserThenUserInfoDTOAssemblerIsCalled() {
-		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
+	@Test(expected = UserNotFoundException.class)
+	public void givenUserDoesNotHaveAnAccountWhenUserConnectShouldThrowException() {
+		given(userRepository.getUserWithPseudonym(USER_PSEUDO)).willReturn(Optional.empty());
 		connectionService.connectWithCredentials(credentials);
-		verify(assembler).buildDTO(userAccount);
 	}
 
-	@Test
-	public void givenConnectWithUserCredentialsIsCalledWhenDTOAssemblerReturnsUserInfoDTOThenReturnsDTO() {
-		given(userRepository.getUserWithPseudoAndPassword(USER_PSEUDO, USER_PASSWORD)).willReturn(userAccount);
-		given(assembler.buildDTO(userAccount)).willReturn(userInfos);
+	@Test(expected = ErronousPasswordException.class)
+	public void givenUserConnectWithErronousPasswordWhenUserConnectShouldThrowException() {
+		passwordIsErronous();
+		connectionService.connectWithCredentials(credentials);
+	}
 
-		UserInformations returnedDTO = connectionService.connectWithCredentials(credentials);
-
-		assertEquals(userInfos, returnedDTO);
+	private void passwordIsErronous() {
+		given(userRepository.getUserWithPseudonym(USER_PSEUDO)).willReturn(Optional.of(userAccount));
+		given(userAccount.hasPassword(USER_PASSWORD)).willReturn(false);
 	}
 }

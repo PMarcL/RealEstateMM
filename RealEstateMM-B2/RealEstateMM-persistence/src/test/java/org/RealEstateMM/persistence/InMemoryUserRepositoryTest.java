@@ -14,6 +14,7 @@ import org.junit.Test;
 public class InMemoryUserRepositoryTest {
 
 	private final String PSEUDO = "bob32";
+	private final String PASSWORD = "12345";
 	private final String OTHER_PSEUDO = "algo133";
 	private final String NAME_DUMMY = "Bobby";
 	private final Email EMAIL_DUMMY = mock(Email.class);
@@ -25,7 +26,7 @@ public class InMemoryUserRepositoryTest {
 	@Before
 	public void setup() {
 		repository = new InMemoryUserRepository();
-		user = new UserAccount(PSEUDO, NAME_DUMMY, EMAIL_DUMMY, PHONE_NUMBER_DUMMY);
+		user = new UserAccount(PSEUDO, PASSWORD, NAME_DUMMY, EMAIL_DUMMY, PHONE_NUMBER_DUMMY);
 	}
 
 	@Test

@@ -12,6 +12,7 @@ public class UserAccountAssemblerTest {
 
 	private final Email EMAIL = new Email("example@hotmail.com");
 	private final String NAME = "John Doe";
+	private final String PASSWORD = "123450";
 	private final PhoneNumber PHONE_NUMBER = new PhoneNumber("(819) 418-5739");
 	private final String PSEUDO = "JohnD90";
 
@@ -23,7 +24,7 @@ public class UserAccountAssemblerTest {
 	@Before
 	public void initialisation() {
 		assembler = new UserAccountAssembler();
-		userAccount = new UserAccount(PSEUDO, NAME, EMAIL, PHONE_NUMBER);
+		userAccount = new UserAccount(PSEUDO, PASSWORD, NAME, EMAIL, PHONE_NUMBER);
 	}
 
 	@Test

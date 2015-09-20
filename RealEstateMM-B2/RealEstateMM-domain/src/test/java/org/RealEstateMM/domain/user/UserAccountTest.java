@@ -15,36 +15,43 @@ public class UserAccountTest {
 	}
 
 	@Test
-	public void givenTwoIdenticalUserInformationsWhenComparingThenShouldReturnsTrue() {
+	public void givenTwoIdenticalUsersWhenComparingThenShouldReturnsTrue() {
 		otherUser = aUser().build();
 		assertEquals(user, otherUser);
 	}
 
 	@Test
-	public void givenTwoUserInformationsWithDifferentEmailWhenComparingShouldReturnFalse() {
+	public void givenTwoUsersWithDifferentEmailWhenComparingShouldReturnFalse() {
 		final String ANOTHER_EMAIL = "emailTest@gmail.com";
 		otherUser = aUser().withEmail(ANOTHER_EMAIL).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
-	public void givenTwoUserInformationsWithDifferentNameWhenComparingShouldReturnFalse() {
+	public void givenTwoUsersWithDifferentNameWhenComparingShouldReturnFalse() {
 		final String ANOTHER_NAME = "Bobby Dick";
 		otherUser = aUser().withName(ANOTHER_NAME).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
-	public void givenTwoUserInformationsWithDifferentPhoneNumberWhenComparingShouldReturnFalse() {
+	public void givenTwoUsersWithDifferentPhoneNumberWhenComparingShouldReturnFalse() {
 		final String ANOTHER_PHONE_NUMBER = "(418)356-1234";
 		otherUser = aUser().withPhoneNumber(ANOTHER_PHONE_NUMBER).build();
 		assertNotEquals(user, otherUser);
 	}
 
 	@Test
-	public void givenTwoUserInformationsWithDifferentPseudonymWhenComparingShouldReturnFalse() {
+	public void givenTwoUsersWithDifferentPseudonymWhenComparingShouldReturnFalse() {
 		final String ANOTHER_PSEUDO = "jimmy129";
 		otherUser = aUser().withPseudonym(ANOTHER_PSEUDO).build();
+		assertNotEquals(user, otherUser);
+	}
+
+	@Test
+	public void givenTwoUsersWithDifferentPasswordWhenComparingShouldReturnFalse() {
+		final String ANOTHER_PASSWORD = "potatoe123";
+		otherUser = aUser().withPassword(ANOTHER_PASSWORD).build();
 		assertNotEquals(user, otherUser);
 	}
 
@@ -59,13 +66,25 @@ public class UserAccountTest {
 		assertNotEquals(user, objectOfAnotherType);
 	}
 
-	private UserInformationsBuilder aUser() {
-		return new UserInformationsBuilder();
+	@Test
+	public void givenSamePasswordWhenCheckingPasswordShouldReturnTrue() {
+		assertTrue(user.hasPassword(user.password));
 	}
 
-	private class UserInformationsBuilder {
+	@Test
+	public void givenDifferentPasswordWhenCheckingPasswordShouldReturnFalse() {
+		final String ANOTHER_PASSWORD = "password123";
+		assertFalse(user.hasPassword(ANOTHER_PASSWORD));
+	}
+
+	private UserAccountBuilder aUser() {
+		return new UserAccountBuilder();
+	}
+
+	private class UserAccountBuilder {
 		private final String EMAIL = "example@hotmail.com";
 		private final String NAME = "John Doe";
+		private final String PASSWORD = "12345";
 		private final String PHONE_NUMBER = "(819) 418-5739";
 		private final String PSEUDO = "JohnD90";
 
@@ -73,36 +92,43 @@ public class UserAccountTest {
 		private String name;
 		private String phoneNumber;
 		private String pseudonym;
+		private String password;
 
-		public UserInformationsBuilder() {
+		public UserAccountBuilder() {
 			email = EMAIL;
 			name = NAME;
 			phoneNumber = PHONE_NUMBER;
 			pseudonym = PSEUDO;
+			password = PASSWORD;
 		}
 
-		public UserInformationsBuilder withPseudonym(String pseudonym) {
+		public UserAccountBuilder withPassword(String password) {
+			this.password = password;
+			return this;
+		}
+
+		public UserAccountBuilder withPseudonym(String pseudonym) {
 			this.pseudonym = pseudonym;
 			return this;
 		}
 
-		public UserInformationsBuilder withPhoneNumber(String phoneNumber) {
+		public UserAccountBuilder withPhoneNumber(String phoneNumber) {
 			this.phoneNumber = phoneNumber;
 			return this;
 		}
 
-		public UserInformationsBuilder withName(String name) {
+		public UserAccountBuilder withName(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public UserInformationsBuilder withEmail(String email) {
+		public UserAccountBuilder withEmail(String email) {
 			this.email = email;
 			return this;
 		}
 
 		UserAccount build() {
-			return new UserAccount(pseudonym, name, new Email(email), new PhoneNumber(phoneNumber));
+			return new UserAccount(pseudonym, password, name, new Email(email), new PhoneNumber(phoneNumber));
 		}
 	}
 }
