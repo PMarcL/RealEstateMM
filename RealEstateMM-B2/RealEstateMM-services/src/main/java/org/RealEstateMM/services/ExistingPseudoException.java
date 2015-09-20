@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.repositories;
+package org.RealEstateMM.services;
 
 public class ExistingPseudoException extends RuntimeException {
 
