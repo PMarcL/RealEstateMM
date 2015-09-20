@@ -1,8 +1,8 @@
 package org.RealEstateMM.services;
 
 import org.RealEstateMM.services.assemblers.UserAssembler;
-import org.RealEstateMM.services.dto.UserCredentials;
-import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.dtos.UserCredentials;
+import org.RealEstateMM.services.dtos.UserDTO;
 import org.RealEstateMM.domain.models.user.User;
 import org.RealEstateMM.domain.repositories.UserRepository;
 

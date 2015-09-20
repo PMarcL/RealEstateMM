@@ -7,8 +7,8 @@ import org.RealEstateMM.domain.models.user.User;
 import org.RealEstateMM.domain.models.user.informations.Email;
 import org.RealEstateMM.domain.models.user.informations.Name;
 import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
-import org.RealEstateMM.services.dto.UserDTO;
 import org.RealEstateMM.services.assemblers.UserAssembler;
+import org.RealEstateMM.services.dtos.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,11 +35,11 @@ public class UserAssemblerTest {
 	public void givenAUserInformationsObjectWhenBuildDTOThenReturnsDTOWithSameInformations() {
 		userInfo = assembler.buildDTO(userAccount);
 
-		assertEquals(userInfo.pseudonym, PSEUDO);
-		assertEquals(userInfo.email, EMAIL.toString());
-		assertEquals(userInfo.phoneNumber, PHONE_NUMBER.toString());
-		assertEquals(userInfo.firstName, NAME.firstName);
-		assertEquals(userInfo.lastName, NAME.lastName);
+		assertEquals(userInfo.getPseudonym(), PSEUDO);
+		assertEquals(userInfo.getEmail(), EMAIL.toString());
+		assertEquals(userInfo.getPhoneNumber(), PHONE_NUMBER.toString());
+		assertEquals(userInfo.getFirstName(), NAME.firstName);
+		assertEquals(userInfo.getLastName(), NAME.lastName);
 	}
 
 	@Test
@@ -47,10 +47,10 @@ public class UserAssemblerTest {
 		UserDTO dto = assembler.buildDTO(userAccount);
 		User result = assembler.assemble(dto);
 
-		assertEquals(result.pseudonym, dto.pseudonym);
-		assertEquals(result.email.toString(), dto.email);
-		assertEquals(result.phoneNumber.toString(), dto.phoneNumber);
-		assertEquals(result.name.firstName, dto.firstName);
-		assertEquals(result.name.lastName, dto.lastName);
+		assertEquals(result.pseudonym, dto.getPseudonym());
+		assertEquals(result.email.toString(), dto.getEmail());
+		assertEquals(result.phoneNumber.toString(), dto.getPhoneNumber());
+		assertEquals(result.name.firstName, dto.getFirstName());
+		assertEquals(result.name.lastName, dto.getLastName());
 	}
 }

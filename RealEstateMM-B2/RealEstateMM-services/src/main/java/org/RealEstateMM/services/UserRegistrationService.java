@@ -4,7 +4,7 @@ import org.RealEstateMM.domain.models.session.Session;
 import org.RealEstateMM.domain.models.user.User;
 import org.RealEstateMM.domain.repositories.UserRepository;
 import org.RealEstateMM.services.assemblers.UserAssembler;
-import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.dtos.UserDTO;
 
 public class UserRegistrationService {
 
@@ -25,7 +25,7 @@ public class UserRegistrationService {
 		Session session = sessionService.createSession(addedUser);
 
 		UserDTO connectedUser = userAssembler.buildDTO(session.getUser());
-		connectedUser.token = session.getToken();
+		connectedUser.setToken(session.getToken());
 
 		return connectedUser;
 	}

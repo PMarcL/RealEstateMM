@@ -3,8 +3,8 @@ package org.RealEstateMM.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
+import org.RealEstateMM.domain.builders.DefaultUserBuilder;
 import org.RealEstateMM.domain.models.user.User;
-import org.RealEstateMM.testdata.DefaultUserBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

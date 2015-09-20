@@ -24,29 +24,16 @@ public class Name {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		if (!(obj instanceof Name)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Name other = (Name) obj;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (fullName == null) {
-			if (other.fullName != null)
-				return false;
-		} else if (!fullName.equals(other.fullName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		return true;
+		} else {
+			Name name = (Name) obj;
+			boolean areEquals = false;
+			areEquals = this.firstName.equals(name.firstName);
+			areEquals = this.lastName.equals(name.lastName);
+			areEquals = this.fullName.equals(name.fullName);
+			return areEquals;
+		}
 	}
 
 }

@@ -7,13 +7,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import org.RealEstateMM.domain.builders.DefaultUserBuilder;
 import org.RealEstateMM.domain.models.session.Session;
 import org.RealEstateMM.domain.models.user.User;
 import org.RealEstateMM.domain.repositories.ExistingPseudoException;
 import org.RealEstateMM.domain.repositories.UserRepository;
 import org.RealEstateMM.services.assemblers.UserAssembler;
-import org.RealEstateMM.services.dto.UserDTO;
-import org.RealEstateMM.testdata.DefaultUserBuilder;
+import org.RealEstateMM.services.dtos.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -24,8 +24,8 @@ public class UserRegistrationServiceTest {
 	private final String UNIQUE_PSEUDO = "MyCoolPseudo";
 	private final String EXISTING_PSEUDO = "MyTooCommonPseudo";
 
-	private final User UNIQUE_PSEUDO_USER = userWithPseudo(UNIQUE_PSEUDO);
-	private final User EXISTING_PSEUDO_USER = userWithPseudo(EXISTING_PSEUDO);
+	private final User UNIQUE_PSEUDO_USER = createEserWithPseudo(UNIQUE_PSEUDO);
+	private final User EXISTING_PSEUDO_USER = createEserWithPseudo(EXISTING_PSEUDO);
 
 	private final UserDTO EXISTING_PSEUDO_USER_DTO = new UserAssembler().buildDTO(EXISTING_PSEUDO_USER);
 	private final UserDTO UNIQUE_PSEUDO_USER_DTO = new UserAssembler().buildDTO(UNIQUE_PSEUDO_USER);
@@ -45,6 +45,11 @@ public class UserRegistrationServiceTest {
 		when(userAssemblerMock.assemble(EXISTING_PSEUDO_USER_DTO)).thenReturn(EXISTING_PSEUDO_USER);
 		when(userRepoMock.addUser(UNIQUE_PSEUDO_USER)).thenReturn(UNIQUE_PSEUDO_USER);
 		when(userRepoMock.addUser(EXISTING_PSEUDO_USER)).thenThrow(new ExistingPseudoException(EXISTING_PSEUDO));
+
+		when(userAssemblerMock.buildDTO(UNIQUE_PSEUDO_USER)).thenReturn(UNIQUE_PSEUDO_USER_DTO);
+
+		Session newSession = new Session(UNIQUE_PSEUDO_USER, SOME_TOKEN);
+		when(sessionService.createSession(UNIQUE_PSEUDO_USER)).thenReturn(newSession);
 
 		service = new UserRegistrationService(userRepoMock, sessionService, userAssemblerMock);
 	}
@@ -79,18 +84,15 @@ public class UserRegistrationServiceTest {
 	}
 
 	@Test
-	public void givenANewUserWithAnAlreadyExistingPseudoWhenRegisterThenReturnUserDTOWithSessionToken() {
-		Session newSession = new Session(UNIQUE_PSEUDO_USER, SOME_TOKEN);
-		when(sessionService.createSession(UNIQUE_PSEUDO_USER)).thenReturn(newSession);
-
+	public void givenANewUserWithAnUniquePseudoWhenRegisterThenReturnUserDTOWithSessionToken() {
 		UserDTO actual = service.register(UNIQUE_PSEUDO_USER_DTO);
 
 		UserDTO expected = new UserAssembler().buildDTO(UNIQUE_PSEUDO_USER);
-		expected.token = SOME_TOKEN;
+		expected.setToken(SOME_TOKEN);
 		assertEquals(expected, actual);
 	}
 
-	private User userWithPseudo(String pseudo) {
+	private User createEserWithPseudo(String pseudo) {
 		return new DefaultUserBuilder().withPseudonym(pseudo).build();
 	}
 }
