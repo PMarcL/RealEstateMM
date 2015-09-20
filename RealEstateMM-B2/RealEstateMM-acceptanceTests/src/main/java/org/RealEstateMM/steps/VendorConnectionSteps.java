@@ -2,7 +2,6 @@ package org.RealEstateMM.steps;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.domain.user.informations.Name;
 import org.RealEstateMM.persistence.InMemoryUserRepository;
 import org.RealEstateMM.services.UserConnectionService;
 import org.RealEstateMM.services.dto.UserInformations;
@@ -12,7 +11,7 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
 public class VendorConnectionSteps {
-	private final User A_USER = new User("bob32", "12345", new Name("Robert", "Fross"), null, null);
+	private final User A_USER = new User("bob32", "12345", "Robert", "Fross", "email@hotmail.com", "819 938-3950");
 
 	private UserConnectionService connectionService;
 	private UserRepository userRepository;
@@ -20,7 +19,6 @@ public class VendorConnectionSteps {
 	private UserInformations returnedUser;
 
 	@Given("an anonymous user")
-
 	public void givenAnAnonymousUser() {
 		userRepository = new InMemoryUserRepository();
 		assembler = new UserInformationsAssembler();

@@ -6,9 +6,6 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.informations.Email;
-import org.RealEstateMM.domain.user.informations.Name;
-import org.RealEstateMM.domain.user.informations.PhoneNumber;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,9 +14,10 @@ public class InMemoryUserRepositoryTest {
 	private final String PSEUDO = "bob32";
 	private final String PASSWORD = "12345";
 	private final String OTHER_PSEUDO = "algo133";
-	private final Name NAME_DUMMY = new Name("Robert", "Fross");
-	private final Email EMAIL_DUMMY = mock(Email.class);
-	private final PhoneNumber PHONE_NUMBER_DUMMY = mock(PhoneNumber.class);
+	private final String FIRSTNAME = "Robert";
+	private final String LASTNAME = "Fross";
+	private final String EMAIL = "email@hotmail.com";
+	private final String PHONE_NUMBER = "819 930-3909";
 
 	private InMemoryUserRepository repository;
 	private User user;
@@ -27,7 +25,7 @@ public class InMemoryUserRepositoryTest {
 	@Before
 	public void setup() {
 		repository = new InMemoryUserRepository();
-		user = new User(PSEUDO, PASSWORD, NAME_DUMMY, EMAIL_DUMMY, PHONE_NUMBER_DUMMY);
+		user = new User(PSEUDO, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE_NUMBER);
 	}
 
 	@Test

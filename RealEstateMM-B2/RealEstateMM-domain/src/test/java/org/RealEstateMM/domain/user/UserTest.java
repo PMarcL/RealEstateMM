@@ -2,9 +2,6 @@ package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.user.informations.Email;
-import org.RealEstateMM.domain.user.informations.Name;
-import org.RealEstateMM.domain.user.informations.PhoneNumber;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,9 +28,16 @@ public class UserTest {
 	}
 
 	@Test
-	public void givenTwoUsersWithDifferentNameWhenComparingShouldReturnFalse() {
-		final Name ANOTHER_NAME = new Name("Bobby", "Dick");
-		otherUser = aUser().withName(ANOTHER_NAME).build();
+	public void givenTwoUsersWithDifferentFirstNameWhenComparingShouldReturnFalse() {
+		final String ANOTHER_FIRSTNAME = "Bobby";
+		otherUser = aUser().withFirstName(ANOTHER_FIRSTNAME).build();
+		assertNotEquals(user, otherUser);
+	}
+
+	@Test
+	public void givenTwoUsersWithDifferentLastNameWhenComparingShouldReturnFalse() {
+		final String ANOTHER_LASTNAME = "Dick";
+		otherUser = aUser().withLastName(ANOTHER_LASTNAME).build();
 		assertNotEquals(user, otherUser);
 	}
 
@@ -53,7 +57,7 @@ public class UserTest {
 
 	@Test
 	public void givenTwoUsersWithDifferentPasswordWhenComparingShouldReturnFalse() {
-		final String ANOTHER_PASSWORD = "potatoe123";
+		final String ANOTHER_PASSWORD = "j129L";
 		otherUser = aUser().withPassword(ANOTHER_PASSWORD).build();
 		assertNotEquals(user, otherUser);
 	}
@@ -69,49 +73,41 @@ public class UserTest {
 		assertNotEquals(user, objectOfAnotherType);
 	}
 
-	@Test
-	public void givenSamePasswordWhenCheckingPasswordShouldReturnTrue() {
-		assertTrue(user.hasPassword(user.password));
-	}
-
-	@Test
-	public void givenDifferentPasswordWhenCheckingPasswordShouldReturnFalse() {
-		final String ANOTHER_PASSWORD = "password123";
-		assertFalse(user.hasPassword(ANOTHER_PASSWORD));
-	}
-
 	private UserAccountBuilder aUser() {
 		return new UserAccountBuilder();
 	}
 
 	private class UserAccountBuilder {
 		private final String EMAIL = "example@hotmail.com";
-		private final Name NAME = new Name("John", "Doe");
 		private final String PASSWORD = "12345";
+		private final String FIRSTNAME = "John";
+		private final String LASTNAME = "Doe";
 		private final String PHONE_NUMBER = "(819) 418-5739";
 		private final String PSEUDO = "JohnD90";
 
 		private String email;
-		private Name name;
+		private String firstName;
+		private String lastName;
 		private String phoneNumber;
 		private String pseudonym;
 		private String password;
 
 		public UserAccountBuilder() {
 			email = EMAIL;
-			name = NAME;
+			password = PASSWORD;
+			firstName = FIRSTNAME;
+			lastName = LASTNAME;
 			phoneNumber = PHONE_NUMBER;
 			pseudonym = PSEUDO;
-			password = PASSWORD;
-		}
-
-		public UserAccountBuilder withPassword(String password) {
-			this.password = password;
-			return this;
 		}
 
 		public UserAccountBuilder withPseudonym(String pseudonym) {
 			this.pseudonym = pseudonym;
+			return this;
+		}
+
+		public UserAccountBuilder withPassword(String password) {
+			this.password = password;
 			return this;
 		}
 
@@ -120,8 +116,13 @@ public class UserTest {
 			return this;
 		}
 
-		public UserAccountBuilder withName(Name name) {
-			this.name = name;
+		public UserAccountBuilder withFirstName(String firstName) {
+			this.firstName = firstName;
+			return this;
+		}
+
+		public UserAccountBuilder withLastName(String lastName) {
+			this.lastName = lastName;
 			return this;
 		}
 
@@ -131,7 +132,7 @@ public class UserTest {
 		}
 
 		User build() {
-			return new User(pseudonym, password, name, new Email(email), new PhoneNumber(phoneNumber));
+			return new User(pseudonym, password, firstName, lastName, email, phoneNumber);
 		}
 	}
 

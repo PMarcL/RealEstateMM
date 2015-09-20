@@ -3,6 +3,7 @@ package org.RealEstateMM.services;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.*;
 
+import org.RealEstateMM.domain.session.Session;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.dto.UserInformations;

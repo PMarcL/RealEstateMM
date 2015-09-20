@@ -3,9 +3,6 @@ package org.RealEstateMM.services.dto;
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.informations.Email;
-import org.RealEstateMM.domain.user.informations.Name;
-import org.RealEstateMM.domain.user.informations.PhoneNumber;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,9 +10,10 @@ public class UserInformationsAssemblerTest {
 
 	private final String PSEUDO = "JohnD90";
 	private final String PASSWORD = "potato123";
-	private final Email EMAIL = new Email("example@hotmail.com");
-	private final Name NAME = new Name("John", "Doe");
-	private final PhoneNumber PHONE_NUMBER = new PhoneNumber("(819) 418-5739");
+	private final String EMAIL = "example@hotmail.com";
+	private final String FIRSTNAME = "John";
+	private final String LASTNAME = "Doe";
+	private final String PHONE_NUMBER = "(819) 418-5739";
 
 	private UserInformationsAssembler assembler;
 
@@ -25,7 +23,7 @@ public class UserInformationsAssemblerTest {
 	@Before
 	public void initialisation() {
 		assembler = new UserInformationsAssembler();
-		user = new User(PSEUDO, PASSWORD, NAME, EMAIL, PHONE_NUMBER);
+		user = new User(PSEUDO, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE_NUMBER);
 	}
 
 	@Test
@@ -33,10 +31,10 @@ public class UserInformationsAssemblerTest {
 		userInfo = assembler.toDTO(user);
 
 		assertEquals(userInfo.getPseudonym(), PSEUDO);
-		assertEquals(userInfo.getEmail(), EMAIL.toString());
-		assertEquals(userInfo.getPhoneNumber(), PHONE_NUMBER.toString());
-		assertEquals(userInfo.getFirstName(), NAME.firstName);
-		assertEquals(userInfo.getLastName(), NAME.lastName);
+		assertEquals(userInfo.getEmail(), EMAIL);
+		assertEquals(userInfo.getPhoneNumber(), PHONE_NUMBER);
+		assertEquals(userInfo.getFirstName(), FIRSTNAME);
+		assertEquals(userInfo.getLastName(), LASTNAME);
 	}
 
 	@Test
@@ -47,7 +45,7 @@ public class UserInformationsAssemblerTest {
 		assertEquals(result.pseudonym, dto.getPseudonym());
 		assertEquals(result.email.toString(), dto.getEmail());
 		assertEquals(result.phoneNumber.toString(), dto.getPhoneNumber());
-		assertEquals(result.name.firstName, dto.getFirstName());
-		assertEquals(result.name.lastName, dto.getLastName());
+		assertEquals(result.firstName, dto.getFirstName());
+		assertEquals(result.lastName, dto.getLastName());
 	}
 }
