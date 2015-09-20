@@ -2,24 +2,70 @@ package org.RealEstateMM.services.dto;
 
 public class UserInformations {
 
-	public String pseudonym;
-	public String firstName;
-	public String lastName;
-	public String email;
-	public String phoneNumber;
-	public String password;
+	private String pseudonym;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String phoneNumber;
+	private String token;
 
 	public UserInformations() {
 	}
 
-	public UserInformations(String pseudonym, String password, String firstName, String lastName, String email,
-			String phoneNumber) {
+	public UserInformations(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
+		this.setPseudonym(pseudonym);
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setEmail(email);
+		this.setPhoneNumber(phoneNumber);
+	}
+
+	public String getPseudonym() {
+		return pseudonym;
+	}
+
+	public void setPseudonym(String pseudonym) {
 		this.pseudonym = pseudonym;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-		this.password = password;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

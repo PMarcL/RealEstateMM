@@ -9,19 +9,19 @@ public class UserInformationsAssembler {
 
 	public UserInformations toDTO(User user) {
 		UserInformations dto = new UserInformations();
-		dto.email = user.email.toString();
-		dto.firstName = user.name.firstName;
-		dto.lastName = user.name.lastName;
-		dto.phoneNumber = user.phoneNumber.toString();
-		dto.pseudonym = user.pseudonym;
+		dto.setEmail(user.email.toString());
+		dto.setFirstName(user.name.firstName);
+		dto.setLastName(user.name.lastName);
+		dto.setPhoneNumber(user.phoneNumber.toString());
+		dto.setPseudonym(user.pseudonym);
 		return dto;
 	}
 
 	public User fromDTO(UserInformations userInfos) {
-		Name name = new Name(userInfos.firstName, userInfos.lastName);
-		Email email = new Email(userInfos.email);
-		PhoneNumber phoneNumber = new PhoneNumber(userInfos.phoneNumber);
-		return new User(userInfos.pseudonym, userInfos.password, name, email, phoneNumber);
+		Name name = new Name(userInfos.getFirstName(), userInfos.getLastName());
+		Email email = new Email(userInfos.getEmail());
+		PhoneNumber phoneNumber = new PhoneNumber(userInfos.getPhoneNumber());
+		return new User(userInfos.getPseudonym(), userInfos.getPassword(), name, email, phoneNumber);
 	}
 
 }

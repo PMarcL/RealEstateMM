@@ -15,17 +15,18 @@ public class VendorConnectionSteps {
 	private final User A_USER = new User("bob32", "12345", new Name("Robert", "Fross"), null, null);
 
 	private UserConnectionService connectionService;
-	private UserRepository repo;
+	private UserRepository userRepository;
 	private UserInformationsAssembler assembler;
 	private UserInformations returnedUser;
 
 	@Given("an anonymous user")
-	public void givenAnAnonymousUser() {
-		repo = new InMemoryUserRepository();
-		assembler = new UserInformationsAssembler();
-		connectionService = new UserConnectionService(repo, assembler);
 
-		repo.addUser(A_USER);
+	public void givenAnAnonymousUser() {
+		userRepository = new InMemoryUserRepository();
+		assembler = new UserInformationsAssembler();
+		connectionService = new UserConnectionService(userRepository, assembler);
+
+		userRepository.addUser(A_USER);
 	}
 
 	@When("he enters valid vendor credentials")
