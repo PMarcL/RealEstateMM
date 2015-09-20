@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.user.informations;
 
 @SuppressWarnings("serial")
 public class InvalidEmailFormatException extends RuntimeException {

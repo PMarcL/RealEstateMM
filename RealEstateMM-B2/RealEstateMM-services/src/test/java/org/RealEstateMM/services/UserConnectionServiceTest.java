@@ -6,11 +6,11 @@ import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.user.UserAccount;
+import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.RealEstateMM.services.dto.UserCredentials;
 import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserInformationsAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,21 +22,21 @@ public class UserConnectionServiceTest {
 	private UserConnectionService connectionService;
 
 	private UserCredentials credentials;
-	private UserAccount userAccount;
+	private User user;
 	private UserRepository userRepository;
-	private UserAccountAssembler assembler;
+	private UserInformationsAssembler assembler;
 	private UserInformations userInfos;
 
 	@Before
 	public void initialisation() {
 		userRepository = mock(UserRepository.class);
-		assembler = mock(UserAccountAssembler.class);
-		userAccount = mock(UserAccount.class);
+		assembler = mock(UserInformationsAssembler.class);
+		user = mock(User.class);
 		userInfos = mock(UserInformations.class);
 		credentials = new UserCredentials();
 		credentials.setPassword(USER_PASSWORD);
 		credentials.setPseudo(USER_PSEUDO);
-		given(assembler.buildDTO(userAccount)).willReturn(userInfos);
+		given(assembler.toDTO(user)).willReturn(userInfos);
 
 		connectionService = new UserConnectionService(userRepository, assembler);
 	}
@@ -49,8 +49,8 @@ public class UserConnectionServiceTest {
 	}
 
 	private void credentialsAreValid() {
-		given(userRepository.getUserWithPseudonym(USER_PSEUDO)).willReturn(Optional.of(userAccount));
-		given(userAccount.hasPassword(USER_PASSWORD)).willReturn(true);
+		given(userRepository.getUserWithPseudonym(USER_PSEUDO)).willReturn(Optional.of(user));
+		given(user.hasPassword(USER_PASSWORD)).willReturn(true);
 	}
 
 	@Test(expected = UserNotFoundException.class)
@@ -66,7 +66,7 @@ public class UserConnectionServiceTest {
 	}
 
 	private void passwordIsErronous() {
-		given(userRepository.getUserWithPseudonym(USER_PSEUDO)).willReturn(Optional.of(userAccount));
-		given(userAccount.hasPassword(USER_PASSWORD)).willReturn(false);
+		given(userRepository.getUserWithPseudonym(USER_PSEUDO)).willReturn(Optional.of(user));
+		given(user.hasPassword(USER_PASSWORD)).willReturn(false);
 	}
 }

@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.user.informations;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

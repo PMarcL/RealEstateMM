@@ -4,19 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.RealEstateMM.domain.user.UserAccount;
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.User;
 
-public class InMemoryUserRepository implements UserRepository {
+public class InMemoryUserRepository implements org.RealEstateMM.domain.user.UserRepository {
 
-	private Map<String, UserAccount> users;
+	private Map<String, User> users;
 
 	public InMemoryUserRepository() {
-		users = new HashMap<String, UserAccount>();
+		users = new HashMap<String, User>();
 	}
 
 	@Override
-	public Optional<UserAccount> getUserWithPseudonym(String pseudonym) {
+	public Optional<User> getUserWithPseudonym(String pseudonym) {
 		if (!userExist(pseudonym)) {
 			return Optional.empty();
 		}
@@ -29,7 +28,7 @@ public class InMemoryUserRepository implements UserRepository {
 	}
 
 	@Override
-	public void addUser(UserAccount user) {
+	public void addUser(User user) {
 		if (userExist(user.pseudonym)) {
 			throw new PseudonymAlreadyUsedException();
 		}

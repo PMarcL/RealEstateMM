@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-	public Optional<UserAccount> getUserWithPseudonym(String pseudonym);
+	public Optional<User> getUserWithPseudonym(String pseudonym);
 
-	public void addUser(UserAccount user);
+	public void addUser(User user);
 }

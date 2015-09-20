@@ -1,6 +1,9 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.user.informations;
 
 import static org.junit.Assert.*;
+
+import org.RealEstateMM.domain.user.informations.Email;
+import org.RealEstateMM.domain.user.informations.InvalidEmailFormatException;
 import org.junit.Test;
 
 public class EmailTest {

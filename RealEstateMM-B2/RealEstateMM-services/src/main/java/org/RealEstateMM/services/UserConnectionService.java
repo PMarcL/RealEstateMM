@@ -2,39 +2,40 @@ package org.RealEstateMM.services;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.user.UserAccount;
+import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.services.dto.UserAccountAssembler;
 import org.RealEstateMM.services.dto.UserCredentials;
 import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserInformationsAssembler;
 
 public class UserConnectionService {
 
 	private UserRepository userRepository;
-	private UserAccountAssembler userInfoDTOAssembler;
+	private UserInformationsAssembler assembler;
 
-	public UserConnectionService(UserRepository userRepo, UserAccountAssembler dtoAssembler) {
-		userRepository = userRepo;
-		userInfoDTOAssembler = dtoAssembler;
+	public UserConnectionService(UserRepository userRepository, UserInformationsAssembler assembler) {
+		this.userRepository = userRepository;
+		this.assembler = assembler;
 	}
 
 	public UserInformations connectWithCredentials(UserCredentials credentials) {
-		Optional<UserAccount> userAccount = userRepository.getUserWithPseudonym(credentials.getPseudo());
-		validateUserAccountCredentials(credentials, userAccount);
-		return userInfoDTOAssembler.buildDTO(userAccount.get());
+		Optional<User> user = userRepository.getUserWithPseudonym(credentials.getPseudo());
+		validateUserCredentials(credentials, user);
+		return assembler.toDTO(user.get());
 	}
 
-	private void validateUserAccountCredentials(UserCredentials credentials, Optional<UserAccount> userAccount) {
+	private void validateUserCredentials(UserCredentials credentials, Optional<User> userAccount) {
 		if (userDoesNotExist(userAccount)) {
 			throw new UserNotFoundException();
+			// TODO verify if this should go into the UserRepository instead?
 		}
 		if (!userAccount.get().hasPassword(credentials.getPassword())) {
 			throw new ErronousPasswordException();
 		}
 	}
 
-	private boolean userDoesNotExist(Optional<UserAccount> userAccount) {
-		return !userAccount.isPresent();
+	private boolean userDoesNotExist(Optional<User> user) {
+		return !user.isPresent();
 	}
 
 }
