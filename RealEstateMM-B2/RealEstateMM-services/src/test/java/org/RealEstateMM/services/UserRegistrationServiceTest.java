@@ -41,12 +41,11 @@ public class UserRegistrationServiceTest {
 		userAssemblerMock = mock(UserAssembler.class);
 		sessionService = mock(SessionService.class);
 
+		when(userAssemblerMock.buildDTO(UNIQUE_PSEUDO_USER)).thenReturn(UNIQUE_PSEUDO_USER_DTO);
 		when(userAssemblerMock.assemble(UNIQUE_PSEUDO_USER_DTO)).thenReturn(UNIQUE_PSEUDO_USER);
 		when(userAssemblerMock.assemble(EXISTING_PSEUDO_USER_DTO)).thenReturn(EXISTING_PSEUDO_USER);
 		when(userRepoMock.addUser(UNIQUE_PSEUDO_USER)).thenReturn(UNIQUE_PSEUDO_USER);
 		when(userRepoMock.addUser(EXISTING_PSEUDO_USER)).thenThrow(new ExistingPseudoException(EXISTING_PSEUDO));
-
-		when(userAssemblerMock.buildDTO(UNIQUE_PSEUDO_USER)).thenReturn(UNIQUE_PSEUDO_USER_DTO);
 
 		Session newSession = new Session(UNIQUE_PSEUDO_USER, SOME_TOKEN);
 		when(sessionService.createSession(UNIQUE_PSEUDO_USER)).thenReturn(newSession);
@@ -75,6 +74,7 @@ public class UserRegistrationServiceTest {
 		ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
 		verify(sessionService, times(1)).createSession(captor.capture());
 		assertEquals(UNIQUE_PSEUDO_USER, captor.getValue());
+		verifyNoMoreInteractions(sessionService);
 	}
 
 	@Test(expected = ExistingPseudoException.class)
