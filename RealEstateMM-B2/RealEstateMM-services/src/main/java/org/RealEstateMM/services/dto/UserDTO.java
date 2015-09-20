@@ -7,6 +7,7 @@ public class UserDTO {
 	public String lastName;
 	public String email;
 	public String phoneNumber;
+	public String token;
 
 	public UserDTO() {
 	}

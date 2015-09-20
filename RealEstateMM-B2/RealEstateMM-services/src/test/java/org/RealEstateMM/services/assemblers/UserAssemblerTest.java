@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.dto;
+package org.RealEstateMM.services.assemblers;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,6 +7,8 @@ import org.RealEstateMM.domain.models.user.User;
 import org.RealEstateMM.domain.models.user.informations.Email;
 import org.RealEstateMM.domain.models.user.informations.Name;
 import org.RealEstateMM.domain.models.user.informations.PhoneNumber;
+import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.assemblers.UserAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
