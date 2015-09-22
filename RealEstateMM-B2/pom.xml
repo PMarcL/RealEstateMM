@@ -45,7 +45,6 @@
 	</dependencies>
 
 	<modules>
-		<module>RealEstateMM-spring</module>
 		<module>RealEstateMM-acceptanceTests</module>
 		<module>RealEstateMM-domain</module>
 		<module>RealEstateMM-services</module>
