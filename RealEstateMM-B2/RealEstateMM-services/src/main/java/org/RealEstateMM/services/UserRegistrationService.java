@@ -5,12 +5,18 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.dto.UserInformations;
 import org.RealEstateMM.services.dto.UserInformationsAssembler;
+import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class UserRegistrationService {
 
 	private UserRepository userRepository;
 	private SessionService sessionService;
 	private UserInformationsAssembler userAssembler;
+
+	public UserRegistrationService() {
+		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
+		userAssembler = new UserInformationsAssembler();
+	}
 
 	public UserRegistrationService(UserRepository userRepository, SessionService sessionService,
 			UserInformationsAssembler userAssembler) {

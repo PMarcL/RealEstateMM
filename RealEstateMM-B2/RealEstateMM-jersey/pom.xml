@@ -68,5 +68,10 @@
       <artifactId>RealEstateMM-persistence</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>ca.ulaval.glo4003</groupId>
+      <artifactId>RealEstateMM-context</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
