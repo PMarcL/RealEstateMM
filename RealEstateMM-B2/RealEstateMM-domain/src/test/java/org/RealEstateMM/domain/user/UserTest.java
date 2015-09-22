@@ -17,60 +17,54 @@ public class UserTest {
 	@Test
 	public void givenTwoIdenticalUsersWhenComparingThenShouldReturnsTrue() {
 		otherUser = aUser().build();
-		assertEquals(user, otherUser);
+		assertTrue(user.isEquals(otherUser));
 	}
 
 	@Test
 	public void givenTwoUsersWithDifferentEmailWhenComparingShouldReturnFalse() {
 		final String ANOTHER_EMAIL = "emailTest@gmail.com";
 		otherUser = aUser().withEmail(ANOTHER_EMAIL).build();
-		assertNotEquals(user, otherUser);
+		assertFalse(user.isEquals(otherUser));
 	}
 
 	@Test
 	public void givenTwoUsersWithDifferentFirstNameWhenComparingShouldReturnFalse() {
 		final String ANOTHER_FIRSTNAME = "Bobby";
 		otherUser = aUser().withFirstName(ANOTHER_FIRSTNAME).build();
-		assertNotEquals(user, otherUser);
+		assertFalse(user.isEquals(otherUser));
 	}
 
 	@Test
 	public void givenTwoUsersWithDifferentLastNameWhenComparingShouldReturnFalse() {
 		final String ANOTHER_LASTNAME = "Dick";
 		otherUser = aUser().withLastName(ANOTHER_LASTNAME).build();
-		assertNotEquals(user, otherUser);
+		assertFalse(user.isEquals(otherUser));
 	}
 
 	@Test
 	public void givenTwoUsersWithDifferentPhoneNumberWhenComparingShouldReturnFalse() {
 		final String ANOTHER_PHONE_NUMBER = "(418)356-1234";
 		otherUser = aUser().withPhoneNumber(ANOTHER_PHONE_NUMBER).build();
-		assertNotEquals(user, otherUser);
+		assertFalse(user.isEquals(otherUser));
 	}
 
 	@Test
 	public void givenTwoUsersWithDifferentPseudonymWhenComparingShouldReturnFalse() {
 		final String ANOTHER_PSEUDO = "jimmy129";
 		otherUser = aUser().withPseudonym(ANOTHER_PSEUDO).build();
-		assertNotEquals(user, otherUser);
+		assertFalse(user.isEquals(otherUser));
 	}
 
 	@Test
 	public void givenTwoUsersWithDifferentPasswordWhenComparingShouldReturnFalse() {
 		final String ANOTHER_PASSWORD = "j129L";
 		otherUser = aUser().withPassword(ANOTHER_PASSWORD).build();
-		assertNotEquals(user, otherUser);
+		assertFalse(user.isEquals(otherUser));
 	}
 
 	@Test
 	public void givenANullObjectWhenComparingThenShouldReturnsFalse() {
-		assertNotEquals(user, null);
-	}
-
-	@Test
-	public void givenAnObjectOfADifferentTypeWhenComparingThenShouldReturnsFalse() {
-		String objectOfAnotherType = "I am a string";
-		assertNotEquals(user, objectOfAnotherType);
+		assertFalse(user.isEquals(null));
 	}
 
 	private UserAccountBuilder aUser() {

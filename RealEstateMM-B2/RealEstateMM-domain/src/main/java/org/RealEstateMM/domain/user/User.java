@@ -18,20 +18,11 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof User))
+	public boolean isEquals(User user) {
+		if (user == null) {
 			return false;
+		}
 
-		User userInfos = (User) object;
-		return hasSameInformations(userInfos);
-	}
-
-	public boolean hasPassword(String password) {
-		return this.password.equals(password);
-	}
-
-	private boolean hasSameInformations(User user) {
 		boolean areEquals = this.email.equals(user.email);
 		areEquals &= this.password.equals(user.password);
 		areEquals &= this.firstName.equals(user.firstName);
@@ -39,5 +30,9 @@ public class User {
 		areEquals &= this.phoneNumber.equals(user.phoneNumber);
 		areEquals &= this.pseudonym.equals(user.pseudonym);
 		return areEquals;
+	}
+
+	public boolean hasPassword(String password) {
+		return this.password.equals(password);
 	}
 }
