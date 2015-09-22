@@ -52,5 +52,6 @@
 		<module>RealEstateMM-services</module>
 		<module>RealEstateMM-persistence</module>
 		<module>RealEstateMM-jersey</module>
+		<module>RealEstateMM-authentication</module>
 	</modules>
 </project>
