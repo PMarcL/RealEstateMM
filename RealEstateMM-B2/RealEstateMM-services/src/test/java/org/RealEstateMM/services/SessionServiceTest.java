@@ -2,7 +2,7 @@ package org.RealEstateMM.services;
 
 public class SessionServiceTest {
 
-	private SessionService sessionService;
+	// private SessionService sessionService;
 
 	// TODO fix test
 	// @Test

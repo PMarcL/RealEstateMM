@@ -5,20 +5,20 @@ import java.util.Optional;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.dto.UserCredentials;
-import org.RealEstateMM.services.dto.UserInformations;
-import org.RealEstateMM.services.dto.UserInformationsAssembler;
+import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.dto.UserAssembler;
 
 public class UserConnectionService {
 
 	private UserRepository userRepository;
-	private UserInformationsAssembler assembler;
+	private UserAssembler assembler;
 
-	public UserConnectionService(UserRepository userRepository, UserInformationsAssembler assembler) {
+	public UserConnectionService(UserRepository userRepository, UserAssembler assembler) {
 		this.userRepository = userRepository;
 		this.assembler = assembler;
 	}
 
-	public UserInformations connectWithCredentials(UserCredentials credentials) {
+	public UserDTO connectWithCredentials(UserCredentials credentials) {
 		Optional<User> user = userRepository.getUserWithPseudonym(credentials.getPseudo());
 		validateUserCredentials(credentials, user);
 		return assembler.toDTO(user.get());
@@ -29,9 +29,9 @@ public class UserConnectionService {
 			throw new UserNotFoundException();
 			// TODO verify if this should go into the UserRepository instead?
 		}
-		if (!userAccount.get().hasPassword(credentials.getPassword())) {
-			throw new ErronousPasswordException();
-		}
+		// if (!userAccount.get().hasPassword(credentials.getPassword())) {
+		// throw new ErronousPasswordException();
+		// }
 	}
 
 	private boolean userDoesNotExist(Optional<User> user) {

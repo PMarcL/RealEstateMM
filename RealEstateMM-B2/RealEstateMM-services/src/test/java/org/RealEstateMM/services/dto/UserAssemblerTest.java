@@ -6,24 +6,23 @@ import org.RealEstateMM.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UserInformationsAssemblerTest {
+public class UserAssemblerTest {
 
 	private final String PSEUDO = "JohnD90";
-	private final String PASSWORD = "potato123";
 	private final String EMAIL = "example@hotmail.com";
 	private final String FIRSTNAME = "John";
 	private final String LASTNAME = "Doe";
 	private final String PHONE_NUMBER = "(819) 418-5739";
 
-	private UserInformationsAssembler assembler;
+	private UserAssembler assembler;
 
 	private User user;
-	private UserInformations userInfo;
+	private UserDTO userInfo;
 
 	@Before
 	public void initialisation() {
-		assembler = new UserInformationsAssembler();
-		user = new User(PSEUDO, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE_NUMBER);
+		assembler = new UserAssembler();
+		user = new User(PSEUDO, FIRSTNAME, LASTNAME, EMAIL, PHONE_NUMBER);
 	}
 
 	@Test
@@ -39,7 +38,7 @@ public class UserInformationsAssemblerTest {
 
 	@Test
 	public void givenADTOWhenAssembleThenReturnADomainObjectUserWithSameInfo() {
-		UserInformations dto = assembler.toDTO(user);
+		UserDTO dto = assembler.toDTO(user);
 		User result = assembler.fromDTO(dto);
 
 		assertEquals(result.pseudonym, dto.getPseudonym());

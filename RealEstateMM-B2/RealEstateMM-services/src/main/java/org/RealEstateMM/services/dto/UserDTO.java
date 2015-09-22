@@ -1,6 +1,6 @@
 package org.RealEstateMM.services.dto;
 
-public class UserInformations {
+public class UserDTO {
 
 	private String pseudonym;
 	private String firstName;
@@ -9,10 +9,10 @@ public class UserInformations {
 	private String phoneNumber;
 	private String token;
 
-	public UserInformations() {
+	public UserDTO() {
 	}
 
-	public UserInformations(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
+	public UserDTO(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
 		this.setPseudonym(pseudonym);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);

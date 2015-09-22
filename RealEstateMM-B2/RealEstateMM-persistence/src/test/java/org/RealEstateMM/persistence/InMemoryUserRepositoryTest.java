@@ -12,7 +12,6 @@ import org.junit.Test;
 public class InMemoryUserRepositoryTest {
 
 	private final String PSEUDO = "bob32";
-	private final String PASSWORD = "12345";
 	private final String OTHER_PSEUDO = "algo133";
 	private final String FIRSTNAME = "Robert";
 	private final String LASTNAME = "Fross";
@@ -25,7 +24,7 @@ public class InMemoryUserRepositoryTest {
 	@Before
 	public void setup() {
 		repository = new InMemoryUserRepository();
-		user = new User(PSEUDO, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE_NUMBER);
+		user = new User(PSEUDO, FIRSTNAME, LASTNAME, EMAIL, PHONE_NUMBER);
 	}
 
 	@Test

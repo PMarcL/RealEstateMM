@@ -3,7 +3,7 @@ package org.RealEstateMM.services.anticorruption;
 import static org.mockito.Mockito.*;
 
 import org.RealEstateMM.services.UserRegistrationService;
-import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class UserRegistrationAntiCorruptionTest {
 	private UserRegistrationAntiCorruption userRegistrationAC;
 
 	private UserInformationsValidator validator;
-	private UserInformations userInfos;
+	private UserDTO userInfos;
 	private UserRegistrationService service;
 
 	@Before
@@ -66,7 +66,7 @@ public class UserRegistrationAntiCorruptionTest {
 	}
 
 	private void createUserDTO() {
-		userInfos = new UserInformations();
+		userInfos = new UserDTO();
 		userInfos.setEmail(EMAIL);
 		userInfos.setPhoneNumber(PHONENUMBER);
 		userInfos.setFirstName(FIRSTNAME);

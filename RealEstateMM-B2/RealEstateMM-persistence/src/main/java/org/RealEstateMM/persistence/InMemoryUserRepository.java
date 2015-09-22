@@ -28,12 +28,12 @@ public class InMemoryUserRepository implements org.RealEstateMM.domain.user.User
 	}
 
 	@Override
-	public void addUser(User user) {
+	public User addUser(User user) {
 		if (userExist(user.pseudonym)) {
 			throw new PseudonymAlreadyUsedException();
 		}
 
-		users.put(user.pseudonym, user);
+		return users.put(user.pseudonym, user);
 	}
 
 	public int getSize() {

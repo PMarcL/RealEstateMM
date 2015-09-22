@@ -6,5 +6,5 @@ public interface UserRepository {
 
 	public Optional<User> getUserWithPseudonym(String pseudonym);
 
-	public void addUser(User user);
+	public User addUser(User user);
 }

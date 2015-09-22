@@ -1,7 +1,7 @@
 package org.RealEstateMM.services.anticorruption;
 
 import org.RealEstateMM.services.UserRegistrationService;
-import org.RealEstateMM.services.dto.UserInformations;
+import org.RealEstateMM.services.dto.UserDTO;
 
 public class UserRegistrationAntiCorruption {
 
@@ -13,12 +13,12 @@ public class UserRegistrationAntiCorruption {
 		informationsValidator = validator;
 	}
 
-	public void register(UserInformations userInfos) {
+	public void register(UserDTO userInfos) {
 		validateUserInformation(userInfos);
 		registrationService.register(userInfos);
 	}
 
-	private void validateUserInformation(UserInformations userDTO) {
+	private void validateUserInformation(UserDTO userDTO) {
 		if (!informationsValidator.nameIsValid(userDTO.getFirstName())) {
 			throw new InvalidUserInformationsException("FirstName");
 		}
