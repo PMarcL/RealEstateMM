@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.dto;
+package org.RealEstateMM.services.dtos.user;
 
 public class UserDTO {
 
@@ -7,7 +7,6 @@ public class UserDTO {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	private String token;
 
 	public UserDTO() {
 	}
@@ -58,14 +57,6 @@ public class UserDTO {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 }

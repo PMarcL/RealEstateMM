@@ -1,24 +1,25 @@
 package org.RealEstateMM.services.anticorruption;
 
-import org.RealEstateMM.services.UserService;
-import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.AccountService;
+import org.RealEstateMM.services.dtos.account.AccountDTO;
+import org.RealEstateMM.services.dtos.user.UserDTO;
 
-public class UserRegistrationAntiCorruption {
+public class AccountServiceAntiCorruption {
 
 	private UserInformationsValidator informationsValidator;
-	private UserService registrationService;
+	private AccountService accountService;
 
-	public UserRegistrationAntiCorruption(UserService service, UserInformationsValidator validator) {
-		registrationService = service;
+	public AccountServiceAntiCorruption(AccountService service, UserInformationsValidator validator) {
+		accountService = service;
 		informationsValidator = validator;
 	}
 
-	public void createUser(UserDTO userInfos) {
-		validateUserInformation(userInfos);
-		registrationService.createUser(userInfos);
+	public void createAccount(AccountDTO accountDTO) {
+		validateUserDTO(accountDTO.getOwner());
+		accountService.createAccount(accountDTO);
 	}
 
-	private void validateUserInformation(UserDTO userDTO) {
+	private void validateUserDTO(UserDTO userDTO) {
 		if (!informationsValidator.nameIsValid(userDTO.getFirstName())) {
 			throw new InvalidUserInformationsException("FirstName");
 		}

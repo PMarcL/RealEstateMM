@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
+import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,8 +27,7 @@ public class UserRepositoryTest {
 
 	@Test(expected = UserWithPseudonymAlreadyStoredException.class)
 	public void givenAnExistingUserWhenAddUserWithSamePseudonymShouldThrowException() {
-		final String PSEUDONYM = "bob32";
-		User newUser = new User(PSEUDONYM, null, null, null, null);
+		User newUser = new DefaultUserBuilder().build();
 		repository.addExistingUser(newUser);
 
 		repository.addUser(newUser);

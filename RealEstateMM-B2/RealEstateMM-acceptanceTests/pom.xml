@@ -44,6 +44,12 @@
     	<artifactId>RealEstateMM-domain</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+    	<groupId>ca.ulaval.glo4003</groupId>
+    	<artifactId>RealEstateMM-domain</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    	<type>test-jar</type>
+    </dependency>
   </dependencies>
   
   <build>

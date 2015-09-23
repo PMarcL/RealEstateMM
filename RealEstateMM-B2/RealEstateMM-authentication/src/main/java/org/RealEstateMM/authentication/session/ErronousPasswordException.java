@@ -1,4 +1,4 @@
-package org.RealEstateMM.services;
+package org.RealEstateMM.authentication.session;
 
 public class ErronousPasswordException extends RuntimeException {
 

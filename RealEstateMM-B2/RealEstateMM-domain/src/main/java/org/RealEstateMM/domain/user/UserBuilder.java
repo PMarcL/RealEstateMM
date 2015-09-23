@@ -3,6 +3,7 @@ package org.RealEstateMM.domain.user;
 public class UserBuilder {
 
 	private String pseudonym;
+	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -45,6 +46,6 @@ public class UserBuilder {
 	}
 
 	public User build() {
-		return new User(pseudonym, firstName, lastName, email, phoneNumber);
+		return new User(pseudonym, password, firstName, lastName, email, phoneNumber);
 	}
 }

@@ -8,28 +8,33 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.services.UserService;
+import org.RealEstateMM.persistence.InMemoryUserRepository;
+import org.RealEstateMM.services.AccountService;
+import org.RealEstateMM.services.anticorruption.AccountServiceAntiCorruption;
 import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
-import org.RealEstateMM.services.anticorruption.UserRegistrationAntiCorruption;
-import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.dtos.account.AccountAssembler;
+import org.RealEstateMM.services.dtos.account.AccountDTO;
 
 @Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserConnectionResource {
 
-	private UserRegistrationAntiCorruption registrationAC;
+	private AccountServiceAntiCorruption accountServiceAC;
 
 	public UserConnectionResource() {
-		UserService registrationService = new UserService();
-		registrationAC = new UserRegistrationAntiCorruption(registrationService, new UserInformationsValidator());
+		InMemoryUserRepository userRepository = new InMemoryUserRepository();
+		AccountAssembler accountAssembler = new AccountAssembler();
+
+		AccountService accountService = new AccountService(userRepository, null, accountAssembler);
+		accountServiceAC = new AccountServiceAntiCorruption(accountService, new UserInformationsValidator());
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response registerUser(UserDTO userInfos) {
+	public Response registerUser(AccountDTO accountDTO) {
 		try {
-			registrationAC.createUser(userInfos);
+			accountServiceAC.createAccount(accountDTO);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();

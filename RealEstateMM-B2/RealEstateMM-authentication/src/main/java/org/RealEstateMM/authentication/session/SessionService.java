@@ -3,8 +3,8 @@ package org.RealEstateMM.authentication.session;
 import java.util.UUID;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.services.dto.UserAssembler;
-import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.dtos.user.UserAssembler;
+import org.RealEstateMM.services.dtos.user.UserDTO;
 
 public class SessionService {
 

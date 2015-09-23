@@ -1,39 +1,37 @@
-package org.RealEstateMM.services.dto;
+package org.RealEstateMM.services.dtos.user;
 
 import static org.junit.Assert.*;
 
+import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
+import org.RealEstateMM.domain.helpers.DefaultUserValue;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.services.dtos.user.UserAssembler;
+import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 
 public class UserAssemblerTest {
 
-	private final String PSEUDO = "JohnD90";
-	private final String EMAIL = "example@hotmail.com";
-	private final String FIRSTNAME = "John";
-	private final String LASTNAME = "Doe";
-	private final String PHONE_NUMBER = "(819) 418-5739";
-
 	private UserAssembler assembler;
 
 	private User user;
-	private UserDTO userInfo;
+	private UserDTO userDTO;
 
 	@Before
 	public void initialisation() {
 		assembler = new UserAssembler();
-		user = new User(PSEUDO, FIRSTNAME, LASTNAME, EMAIL, PHONE_NUMBER);
+		user = new DefaultUserBuilder().build();
 	}
 
 	@Test
 	public void givenAUserInformationsObjectWhenBuildDTOThenReturnsDTOWithSameInformations() {
-		userInfo = assembler.toDTO(user);
+		userDTO = assembler.toDTO(user);
 
-		assertEquals(userInfo.getPseudonym(), PSEUDO);
-		assertEquals(userInfo.getEmail(), EMAIL);
-		assertEquals(userInfo.getPhoneNumber(), PHONE_NUMBER);
-		assertEquals(userInfo.getFirstName(), FIRSTNAME);
-		assertEquals(userInfo.getLastName(), LASTNAME);
+		assertEquals(userDTO.getPseudonym(), DefaultUserValue.PSEUDO);
+		assertEquals(userDTO.getEmail(), DefaultUserValue.EMAIL);
+		assertEquals(userDTO.getPhoneNumber(), DefaultUserValue.PHONE_NUMBER);
+		assertEquals(userDTO.getFirstName(), DefaultUserValue.FIRST_NAME);
+		assertEquals(userDTO.getLastName(), DefaultUserValue.LAST_NAME);
 	}
 
 	@Test

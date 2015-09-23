@@ -5,8 +5,8 @@ import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.services.dto.UserAssembler;
-import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.dtos.user.UserAssembler;
+import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class SessionServiceTest {
 	}
 
 	@Test
-	public void givenAUserNotConnectedWhenLogInThenAddOrOverwriteANewSessionForThatUserInTheSessionRepository() {
+	public void whenOpenSessionThenAddOrOverwriteANewSessionForThatUserInTheSessionRepository() {
 
 		sessionService.openSession(A_USER_DTO);
 
@@ -43,10 +43,12 @@ public class SessionServiceTest {
 	}
 
 	@Test
-	public void givenAUserNotConnectedWhenCreateSessionThenReturnTheCreatedSession() {
+	public void whenOpenSessionThenReturnTheCreatedSession() {
 		Session actual = sessionService.openSession(A_USER_DTO);
 
 		assertEquals(A_USER.pseudonym, actual.pseudonym);
 		assertNotNull(actual.token);
+		assertNotNull(actual.role);
 	}
+
 }

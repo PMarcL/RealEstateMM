@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.dto;
+package org.RealEstateMM.services.dtos.user;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserBuilder;
