@@ -8,13 +8,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.persistence.InMemoryUserRepository;
 import org.RealEstateMM.services.UserRegistrationService;
 import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.anticorruption.UserRegistrationAntiCorruption;
 import org.RealEstateMM.services.dto.UserAssembler;
-import org.RealEstateMM.services.dto.UserDTO;
 
 @Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -23,10 +21,7 @@ public class UserConnectionResource {
 	private UserRegistrationAntiCorruption registrationAC;
 
 	public UserConnectionResource() {
-		InMemoryUserRepository userRepository = new InMemoryUserRepository();
-		UserAssembler userAssembler = new UserAssembler();
-
-		UserRegistrationService registrationService = new UserRegistrationService(userRepository, userAssembler);
+		UserRegistrationService registrationService = new UserRegistrationService();
 		registrationAC = new UserRegistrationAntiCorruption(registrationService, new UserInformationsValidator());
 	}
 

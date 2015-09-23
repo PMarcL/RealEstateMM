@@ -1,5 +1,6 @@
 package org.RealEstateMM.jersey;
 
+import org.RealEstateMM.context.DevelopmentContext;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -10,6 +11,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
+		new DevelopmentContext().apply();
 		new Main().startServer();
 	}
 
@@ -24,8 +26,8 @@ public class Main {
 	}
 
 	private void configureJersey(ServletContextHandler servletContextHandler) {
-		ServletContainer container = new ServletContainer(
-				new ResourceConfig().packages("org.RealEstateMM.jersey.resources").register(JacksonFeature.class));
+		ServletContainer container = new ServletContainer(new ResourceConfig().packages(
+				"org.RealEstateMM.jersey.resources").register(JacksonFeature.class));
 		ServletHolder jerseyServletHolder = new ServletHolder(container);
 		servletContextHandler.addServlet(jerseyServletHolder, "/*");
 	}

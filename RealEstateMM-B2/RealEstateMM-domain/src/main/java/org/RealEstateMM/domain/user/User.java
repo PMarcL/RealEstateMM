@@ -16,20 +16,20 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public boolean isEqual(Object object) {
-		if (!(object instanceof User))
+	public boolean isEquals(User user) {
+		if (user == null) {
 			return false;
+		}
 
-		User userInfos = (User) object;
-		return hasSameInformations(userInfos);
-	}
-
-	private boolean hasSameInformations(User user) {
 		boolean areEquals = this.email.equals(user.email);
 		areEquals &= this.firstName.equals(user.firstName);
 		areEquals &= this.lastName.equals(user.lastName);
 		areEquals &= this.phoneNumber.equals(user.phoneNumber);
 		areEquals &= this.pseudonym.equals(user.pseudonym);
 		return areEquals;
+	}
+
+	public boolean hasPassword(String password) {
+		return this.password.equals(password);
 	}
 }
