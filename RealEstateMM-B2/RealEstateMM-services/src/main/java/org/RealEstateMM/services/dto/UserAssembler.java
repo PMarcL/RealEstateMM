@@ -15,9 +15,9 @@ public class UserAssembler {
 		return dto;
 	}
 
-	public User fromDTO(UserDTO userInfos) {
-		return new UserBuilder(userInfos.getPseudonym(), userInfos.getFirstName(), userInfos.getLastName(),
-				userInfos.getEmail(), userInfos.getPhoneNumber()).build();
+	public User fromDTO(UserDTO userDTO) {
+		return new UserBuilder(userDTO.getPseudonym(), userDTO.getFirstName(), userDTO.getLastName(),
+				userDTO.getEmail(), userDTO.getPhoneNumber()).build();
 	}
 
 }

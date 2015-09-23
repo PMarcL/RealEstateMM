@@ -43,10 +43,16 @@
 			<version>1.10.19</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.unitils</groupId>
+			<artifactId>unitils-core</artifactId>
+			<version>3.4.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<modules>
-		<module>RealEstateMM-spring</module>
+		
 		<module>RealEstateMM-acceptanceTests</module>
 		<module>RealEstateMM-domain</module>
 		<module>RealEstateMM-services</module>

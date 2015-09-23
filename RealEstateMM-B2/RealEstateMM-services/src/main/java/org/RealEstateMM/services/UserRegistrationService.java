@@ -18,7 +18,6 @@ public class UserRegistrationService {
 	public UserDTO register(UserDTO newUserInfos) {
 		User newUser = userAssembler.fromDTO(newUserInfos);
 		User storedUser = userRepository.addUser(newUser);
-
 		return userAssembler.toDTO(storedUser);
 	}
 }

@@ -9,7 +9,6 @@ public class UserBuilder {
 	private String phoneNumber;
 
 	public UserBuilder() {
-
 	}
 
 	public UserBuilder(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {

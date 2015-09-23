@@ -4,11 +4,11 @@ import org.RealEstateMM.domain.user.UserBuilder;
 
 public class DefaultUserBuilder extends UserBuilder {
 
-	private final String PSEUDO = "JohnD90";
-	private final String EMAIL = "example@hotmail.com";
-	private final String FIRST_NAME = "John";
-	private final String LAST_NAME = "Doe";
-	private final String PHONE_NUMBER = "(819) 418-5739";
+	public static final String PSEUDO = "JohnD90";
+	public static final String EMAIL = "example@hotmail.com";
+	public static final String FIRST_NAME = "John";
+	public static final String LAST_NAME = "Doe";
+	public static final String PHONE_NUMBER = "(819) 418-5739";
 
 	public DefaultUserBuilder() {
 		withPseudonym(PSEUDO);
