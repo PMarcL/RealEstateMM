@@ -67,11 +67,11 @@ public class UserTest {
 		assertFalse(user.isEquals(null));
 	}
 
-	private UserAccountBuilder aUser() {
-		return new UserAccountBuilder();
+	private UserBuilder aUser() {
+		return new UserBuilder();
 	}
 
-	private class UserAccountBuilder {
+	private class UserBuilder {
 		private final String EMAIL = "example@hotmail.com";
 		private final String PASSWORD = "12345";
 		private final String FIRSTNAME = "John";
@@ -86,7 +86,7 @@ public class UserTest {
 		private String pseudonym;
 		private String password;
 
-		public UserAccountBuilder() {
+		public UserBuilder() {
 			email = EMAIL;
 			password = PASSWORD;
 			firstName = FIRSTNAME;
@@ -95,32 +95,32 @@ public class UserTest {
 			pseudonym = PSEUDO;
 		}
 
-		public UserAccountBuilder withPseudonym(String pseudonym) {
+		public UserBuilder withPseudonym(String pseudonym) {
 			this.pseudonym = pseudonym;
 			return this;
 		}
 
-		public UserAccountBuilder withPassword(String password) {
+		public UserBuilder withPassword(String password) {
 			this.password = password;
 			return this;
 		}
 
-		public UserAccountBuilder withPhoneNumber(String phoneNumber) {
+		public UserBuilder withPhoneNumber(String phoneNumber) {
 			this.phoneNumber = phoneNumber;
 			return this;
 		}
 
-		public UserAccountBuilder withFirstName(String firstName) {
+		public UserBuilder withFirstName(String firstName) {
 			this.firstName = firstName;
 			return this;
 		}
 
-		public UserAccountBuilder withLastName(String lastName) {
+		public UserBuilder withLastName(String lastName) {
 			this.lastName = lastName;
 			return this;
 		}
 
-		public UserAccountBuilder withEmail(String email) {
+		public UserBuilder withEmail(String email) {
 			this.email = email;
 			return this;
 		}

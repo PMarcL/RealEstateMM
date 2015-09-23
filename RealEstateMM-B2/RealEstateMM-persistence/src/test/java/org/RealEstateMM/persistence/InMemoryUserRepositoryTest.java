@@ -1,7 +1,6 @@
 package org.RealEstateMM.persistence;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
@@ -10,59 +9,109 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class InMemoryUserRepositoryTest {
+	private final String PSEUDONYM = "bobby194";
 
-	private final String PSEUDO = "bob32";
-	private final String PASSWORD = "12345";
-	private final String OTHER_PSEUDO = "algo133";
-	private final String FIRSTNAME = "Robert";
-	private final String LASTNAME = "Fross";
-	private final String EMAIL = "email@hotmail.com";
-	private final String PHONE_NUMBER = "819 930-3909";
-
-	private InMemoryUserRepository repository;
-	private User user;
+	private InMemoryUserRepositoryFake repository;
 
 	@Before
 	public void setup() {
-		repository = new InMemoryUserRepository();
-		user = new User(PSEUDO, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE_NUMBER);
+		repository = new InMemoryUserRepositoryFake();
 	}
 
 	@Test
-	public void containsInitiallyNoUser() {
-		assertEquals(0, repository.getSize());
+	public void isInitiallyEmpty() {
+		assertTrue(repository.isEmpty());
 	}
 
 	@Test
-	public void givenAnEmptyRepositoryWhenAddingAUserThenShouldContainsOneUser() {
-		repository.addUser(user);
-		assertEquals(1, repository.getSize());
+	public void givenEmptyRepositoryWhenAddUserShouldNotBeEmpty() {
+		repository.add(aUser().build());
+		assertFalse(repository.isEmpty());
 	}
 
 	@Test
-	public void givenNotEmptyRepositoryWhenAddNewUserThenShoudlContainsOneMoreUser() {
-		repository.addUser(user);
-		repository.addUser(mock(User.class));
-		assertEquals(2, repository.getSize());
-	}
-
-	@Test(expected = PseudonymAlreadyUsedException.class)
-	public void givenNotEmptyRepositoryWhenAddingUserWithSamePseudoAsPersistedUserThenShouldThrowException() {
-		repository.addUser(user);
-		repository.addUser(user);
+	public void givenEmptyRepositoryWhenAddUserShouldContainsOneElement() {
+		repository.add(aUser().build());
+		assertEquals(1, repository.size());
 	}
 
 	@Test
-	public void givenNotEmptyRepositoryWhenGetUserWithExistingPseudonymShouldReturnUserWithSamePseudonym() {
-		repository.addUser(user);
-		Optional<User> returnedUser = repository.getUserWithPseudonym(user.pseudonym);
-		assertEquals(user, returnedUser.get());
+	public void givenNotEmptyRepositoryWhenAddNotExistingUserShouldContainsOneMoreUser() {
+		repository.add(aUser().withPseudonym(PSEUDONYM).build());
+		repository.add(aUser().withPseudonym("anotherPseudonym").build());
+		assertEquals(2, repository.size());
 	}
 
 	@Test
-	public void givenNotEmptryRepositoryWhenGetUserWithNonExistingPseudonymShouldReturnEmptyResult() {
-		repository.addUser(user);
-		Optional<User> returnedUser = repository.getUserWithPseudonym(OTHER_PSEUDO);
+	public void givenNewUserWhenAddedToRepositoryShouldContainsUser() {
+		repository.add(aUser().withPseudonym(PSEUDONYM).build());
+		assertTrue(repository.contains(PSEUDONYM));
+	}
+
+	@Test
+	public void givenNotExistingUserPseudonymWhenCheckingIfContainsShouldNotContains() {
+		assertFalse(repository.contains(PSEUDONYM));
+	}
+
+	@Test
+	public void canRetrieveAddedUserWithPseudonym() {
+		User newUser = aUser().withPseudonym(PSEUDONYM).build();
+		repository.add(newUser);
+		assertSame(newUser, repository.getUserWithPseudonym(PSEUDONYM).get());
+	}
+
+	@Test
+	public void givenNotAddedUserWhenRetrivingWithPseudonymShouldReturnEmptyResult() {
+		Optional<User> returnedUser = repository.getUserWithPseudonym(PSEUDONYM);
 		assertFalse(returnedUser.isPresent());
+	}
+
+	private class InMemoryUserRepositoryFake extends InMemoryUserRepository {
+
+		public boolean contains(String pseudonym) {
+			return super.contains(pseudonym);
+		}
+
+		public void add(User user) {
+			super.add(user);
+		}
+	}
+
+	private UserBuilder aUser() {
+		return new UserBuilder();
+	}
+
+	private class UserBuilder {
+		private final String EMAIL = "example@hotmail.com";
+		private final String PASSWORD = "12345";
+		private final String FIRSTNAME = "John";
+		private final String LASTNAME = "Doe";
+		private final String PHONE_NUMBER = "(819) 418-5739";
+		private final String PSEUDO = "JohnD90";
+
+		private String email;
+		private String firstName;
+		private String lastName;
+		private String phoneNumber;
+		private String pseudonym;
+		private String password;
+
+		public UserBuilder() {
+			email = EMAIL;
+			password = PASSWORD;
+			firstName = FIRSTNAME;
+			lastName = LASTNAME;
+			phoneNumber = PHONE_NUMBER;
+			pseudonym = PSEUDO;
+		}
+
+		public UserBuilder withPseudonym(String pseudonym) {
+			this.pseudonym = pseudonym;
+			return this;
+		}
+
+		User build() {
+			return new User(pseudonym, password, firstName, lastName, email, phoneNumber);
+		}
 	}
 }
