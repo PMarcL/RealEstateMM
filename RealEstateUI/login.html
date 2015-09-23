@@ -16,8 +16,8 @@
 
 
         <div class="input-field">
-            <input id="last_name" type="text" class="validate">
-            <label for="last_name">Username</label>
+            <input id="username" type="text" class="validate">
+            <label for="username">Username</label>
         </div>
 
 
@@ -25,11 +25,19 @@
             <input id="password" type="password" class="validate">
             <label for="password">Password</label>
         </div>
-        <a  class = "waves-effect waves-light red darken-2 btn login">Log in</a>
+        <div class = "input-field">
+            <select class = "account-type" style="display: block ;">
+                <option value="Buyer">Buyer</option>
+                <option value="Seller">Seller</option>
+            </select>
+        </div>
+        <a  class = "waves-effect waves-light red darken-2 btn login" onclick="getUser()">Log in</a>
     </form>
 </div>
+
 <script src="jquery/jquery-2.1.4.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+<script src = "asset/js/GetUser.js"></script>
 
 </body>
 </html>

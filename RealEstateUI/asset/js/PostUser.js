@@ -16,16 +16,10 @@ function postUser() {
         data: formData,
         dataType: "json",
         success: function (data, status, httpResponse) {
-            alert(httpResponse.cookie);
+            alert(httpResponse.getResponseHeader('content-type'));
         },
         error: function (httpRequest) {
             alert(httpRequest.responseText + " fuck");
         }
     });
-}
-
-function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
 }

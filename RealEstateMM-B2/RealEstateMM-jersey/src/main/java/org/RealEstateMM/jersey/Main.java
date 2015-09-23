@@ -27,7 +27,7 @@ public class Main {
 
 	private void configureJersey(ServletContextHandler servletContextHandler) {
 		ServletContainer container = new ServletContainer(new ResourceConfig().packages(
-				"org.RealEstateMM.jersey.resources").register(JacksonFeature.class));
+				"org.RealEstateMM.jersey").register(JacksonFeature.class));
 		ServletHolder jerseyServletHolder = new ServletHolder(container);
 		servletContextHandler.addServlet(jerseyServletHolder, "/*");
 	}

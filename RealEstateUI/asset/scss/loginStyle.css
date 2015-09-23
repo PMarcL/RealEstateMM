@@ -50,4 +50,15 @@ body {
   .form:last-child {
     margin-right: 0; }
 
+.account-type {
+  display: block;
+  margin-bottom: 20px;
+  float: left;
+  clear: none;
+  width: 65.66667%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .account-type:last-child {
+    margin-right: 0; }
+
 /*# sourceMappingURL=loginStyle.css.map */
