@@ -1,21 +1,21 @@
 package org.RealEstateMM.services.anticorruption;
 
-import org.RealEstateMM.services.UserRegistrationService;
+import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.dto.UserDTO;
 
 public class UserRegistrationAntiCorruption {
 
 	private UserInformationsValidator informationsValidator;
-	private UserRegistrationService registrationService;
+	private UserService registrationService;
 
-	public UserRegistrationAntiCorruption(UserRegistrationService service, UserInformationsValidator validator) {
+	public UserRegistrationAntiCorruption(UserService service, UserInformationsValidator validator) {
 		registrationService = service;
 		informationsValidator = validator;
 	}
 
-	public void register(UserDTO userInfos) {
+	public void createUser(UserDTO userInfos) {
 		validateUserInformation(userInfos);
-		registrationService.register(userInfos);
+		registrationService.createUser(userInfos);
 	}
 
 	private void validateUserInformation(UserDTO userDTO) {

@@ -2,7 +2,7 @@ package org.RealEstateMM.services.anticorruption;
 
 import static org.mockito.Mockito.*;
 
-import org.RealEstateMM.services.UserRegistrationService;
+import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.dto.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,12 +18,12 @@ public class UserRegistrationAntiCorruptionTest {
 
 	private UserInformationsValidator validator;
 	private UserDTO userInfos;
-	private UserRegistrationService service;
+	private UserService service;
 
 	@Before
 	public void initialisation() {
 		validator = mock(UserInformationsValidator.class);
-		service = mock(UserRegistrationService.class);
+		service = mock(UserService.class);
 		userRegistrationAC = new UserRegistrationAntiCorruption(service, validator);
 		allFieldsAreValid();
 		createUserDTO();
@@ -31,38 +31,38 @@ public class UserRegistrationAntiCorruptionTest {
 
 	@Test
 	public void givenNewUserInformationsWhenRegisterNewUserThenChecksForEmptyFirstName() {
-		userRegistrationAC.register(userInfos);
+		userRegistrationAC.createUser(userInfos);
 		verify(validator).nameIsValid(FIRSTNAME);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenRegisterNewUserThenChecksForEmptyLastName() {
-		userRegistrationAC.register(userInfos);
+		userRegistrationAC.createUser(userInfos);
 		verify(validator).nameIsValid(LASTNAME);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenRegisterNewUserThenChecksEmailValidity() {
-		userRegistrationAC.register(userInfos);
+		userRegistrationAC.createUser(userInfos);
 		verify(validator).emailIsValid(EMAIL);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenRegisterNewUserThenChecksPhoneNumberValidity() {
-		userRegistrationAC.register(userInfos);
+		userRegistrationAC.createUser(userInfos);
 		verify(validator).phoneNumberIsValid(PHONENUMBER);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenRegisterNewUserThenRegisterUserWithService() {
-		userRegistrationAC.register(userInfos);
-		verify(service).register(userInfos);
+		userRegistrationAC.createUser(userInfos);
+		verify(service).createUser(userInfos);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
 		when(validator.emailIsValid(EMAIL)).thenReturn(false);
-		userRegistrationAC.register(userInfos);
+		userRegistrationAC.createUser(userInfos);
 	}
 
 	private void createUserDTO() {

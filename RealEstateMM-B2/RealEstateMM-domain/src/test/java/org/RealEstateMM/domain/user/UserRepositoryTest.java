@@ -27,7 +27,7 @@ public class UserRepositoryTest {
 	@Test(expected = UserWithPseudonymAlreadyStoredException.class)
 	public void givenAnExistingUserWhenAddUserWithSamePseudonymShouldThrowException() {
 		final String PSEUDONYM = "bob32";
-		User newUser = new User(PSEUDONYM, null, null, null, null, null);
+		User newUser = new User(PSEUDONYM, null, null, null, null);
 		repository.addExistingUser(newUser);
 
 		repository.addUser(newUser);

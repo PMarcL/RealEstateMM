@@ -16,7 +16,7 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public boolean isEquals(User user) {
+	public boolean isEqual(User user) {
 		if (user == null) {
 			return false;
 		}
@@ -29,7 +29,4 @@ public class User {
 		return areEquals;
 	}
 
-	public boolean hasPassword(String password) {
-		return this.password.equals(password);
-	}
 }

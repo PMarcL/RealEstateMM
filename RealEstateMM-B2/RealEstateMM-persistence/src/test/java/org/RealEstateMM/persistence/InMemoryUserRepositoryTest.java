@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Optional;
 
+import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,26 +26,26 @@ public class InMemoryUserRepositoryTest {
 
 	@Test
 	public void givenEmptyRepositoryWhenAddUserShouldNotBeEmpty() {
-		repository.add(aUser().build());
+		repository.add(new DefaultUserBuilder().build());
 		assertFalse(repository.isEmpty());
 	}
 
 	@Test
 	public void givenEmptyRepositoryWhenAddUserShouldContainsOneElement() {
-		repository.add(aUser().build());
+		repository.add(new DefaultUserBuilder().build());
 		assertEquals(1, repository.size());
 	}
 
 	@Test
 	public void givenNotEmptyRepositoryWhenAddNotExistingUserShouldContainsOneMoreUser() {
-		repository.add(aUser().withPseudonym(PSEUDONYM).build());
-		repository.add(aUser().withPseudonym("anotherPseudonym").build());
+		repository.add(new DefaultUserBuilder().withPseudonym(PSEUDONYM).build());
+		repository.add(new DefaultUserBuilder().withPseudonym("anotherPseudonym").build());
 		assertEquals(2, repository.size());
 	}
 
 	@Test
 	public void givenNewUserWhenAddedToRepositoryShouldContainsUser() {
-		repository.add(aUser().withPseudonym(PSEUDONYM).build());
+		repository.add(new DefaultUserBuilder().withPseudonym(PSEUDONYM).build());
 		assertTrue(repository.contains(PSEUDONYM));
 	}
 
@@ -55,7 +56,7 @@ public class InMemoryUserRepositoryTest {
 
 	@Test
 	public void canRetrieveAddedUserWithPseudonym() {
-		User newUser = aUser().withPseudonym(PSEUDONYM).build();
+		User newUser = new DefaultUserBuilder().withPseudonym(PSEUDONYM).build();
 		repository.add(newUser);
 		assertSame(newUser, repository.getUserWithPseudonym(PSEUDONYM).get());
 	}
@@ -74,44 +75,6 @@ public class InMemoryUserRepositoryTest {
 
 		public void add(User user) {
 			super.add(user);
-		}
-	}
-
-	private UserBuilder aUser() {
-		return new UserBuilder();
-	}
-
-	private class UserBuilder {
-		private final String EMAIL = "example@hotmail.com";
-		private final String PASSWORD = "12345";
-		private final String FIRSTNAME = "John";
-		private final String LASTNAME = "Doe";
-		private final String PHONE_NUMBER = "(819) 418-5739";
-		private final String PSEUDO = "JohnD90";
-
-		private String email;
-		private String firstName;
-		private String lastName;
-		private String phoneNumber;
-		private String pseudonym;
-		private String password;
-
-		public UserBuilder() {
-			email = EMAIL;
-			password = PASSWORD;
-			firstName = FIRSTNAME;
-			lastName = LASTNAME;
-			phoneNumber = PHONE_NUMBER;
-			pseudonym = PSEUDO;
-		}
-
-		public UserBuilder withPseudonym(String pseudonym) {
-			this.pseudonym = pseudonym;
-			return this;
-		}
-
-		User build() {
-			return new User(pseudonym, password, firstName, lastName, email, phoneNumber);
 		}
 	}
 }

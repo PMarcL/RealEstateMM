@@ -39,7 +39,7 @@ public class InMemoryUserRepository extends UserRepository {
 
 	@Override
 	protected void add(User user) {
-		return users.put(user.pseudonym, user);
+		users.put(user.pseudonym, user);
 	}
 
 }
