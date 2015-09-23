@@ -1,44 +1,32 @@
 package org.RealEstateMM.domain.user;
 
-import org.RealEstateMM.domain.user.informations.Email;
-import org.RealEstateMM.domain.user.informations.Name;
-import org.RealEstateMM.domain.user.informations.PhoneNumber;
-
 public class User {
 
 	public final String pseudonym;
-	public final Name name;
-	public final Email email;
-	public final PhoneNumber phoneNumber;
-	public final String password;
+	public final String firstName;
+	public final String lastName;
+	public final String email;
+	public final String phoneNumber;
 
-	public User(String pseudonym, String password, Name name, Email email, PhoneNumber phoneNumber) {
+	public User(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
 		this.pseudonym = pseudonym;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.password = password;
 	}
 
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof User))
+	public boolean isEqual(User user) {
+		if (user == null) {
 			return false;
+		}
 
-		User userInfos = (User) object;
-		return hasSameInformations(userInfos);
-	}
-
-	private boolean hasSameInformations(User user) {
 		boolean areEquals = this.email.equals(user.email);
-		areEquals &= this.name.equals(user.name);
+		areEquals &= this.firstName.equals(user.firstName);
+		areEquals &= this.lastName.equals(user.lastName);
 		areEquals &= this.phoneNumber.equals(user.phoneNumber);
 		areEquals &= this.pseudonym.equals(user.pseudonym);
-		areEquals &= this.password.equals(user.password);
 		return areEquals;
 	}
 
-	public boolean hasPassword(String password) {
-		return this.password.equals(password);
-	}
 }

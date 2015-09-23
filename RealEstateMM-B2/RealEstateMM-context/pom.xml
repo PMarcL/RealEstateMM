@@ -7,24 +7,27 @@
     <artifactId>RealEstateMM-B2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>RealEstateMM-persistence</artifactId>
-  <name>RealEstateMM-persistence</name>
+  <artifactId>RealEstateMM-context</artifactId>
+  <name>RealEstateMM-context</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>ca.ulaval.glo4003</groupId>
-      <artifactId>RealEstateMM-domain</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>ca.ulaval.glo4003</groupId>
-      <artifactId>RealEstateMM-domain</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <scope>test</scope>
-      <type>test-jar</type>
-    </dependency>
+  <dependency>
+    <groupId>ca.ulaval.glo4003</groupId>
+    <artifactId>RealEstateMM-services</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
+    <groupId>ca.ulaval.glo4003</groupId>
+    <artifactId>RealEstateMM-persistence</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
+    <groupId>ca.ulaval.glo4003</groupId>
+    <artifactId>RealEstateMM-domain</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
   </dependencies>
 </project>
