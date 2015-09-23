@@ -10,10 +10,10 @@ public class Session {
 	public final Role role;
 	public final Date creationDate;
 
-	public Session(String pseudonym, String token) {
+	public Session(String pseudonym, String token, Role role) {
 		this.pseudonym = pseudonym;
 		this.token = token;
-		this.role = null;
+		this.role = role;
 		this.creationDate = new Date();
 	}
 

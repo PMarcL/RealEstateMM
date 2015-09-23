@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.roles.Role;
 
 public class SessionService {
 
@@ -16,18 +17,18 @@ public class SessionService {
 		this.userAssembler = userAssembler;
 	}
 
-	public Session openSession(UserDTO userDTO) {
+	public Session openSessionWithRole(UserDTO userDTO, Role role) {
 		User user = userAssembler.fromDTO(userDTO);
 
-		Session createdSession = createASession(user);
+		Session createdSession = createASession(user, role);
 		sessionRepository.saveOrOverwriteSession(createdSession);
 
 		return createdSession;
 	}
 
-	private Session createASession(User user) {
+	private Session createASession(User user, Role role) {
 		String token = UUID.randomUUID().toString();
-		return new Session(user.pseudonym, token);
+		return new Session(user.pseudonym, token, role);
 	}
 
 }
