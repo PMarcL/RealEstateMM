@@ -1,7 +1,10 @@
 package org.RealEstateMM.services;
 
+import java.util.Optional;
+
 import org.RealEstateMM.domain.account.Account;
 import org.RealEstateMM.domain.account.AccountRepository;
+import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.dtos.account.AccountAssembler;
 import org.RealEstateMM.services.dtos.account.AccountDTO;
@@ -34,12 +37,17 @@ public class AccountService {
 		accountRepository.addAccount(account);
 	}
 
-	public void createAccountWhenLogedIn(AccountDTO accountDTO, RightManager rightManager)
+	public void createAccountWhenLoggedIn(AccountDTO accountDTO, RightManager rightManager)
 			throws NoRightOnThatUserException {
 		if (!rightManager.isAllowedToEdit(accountDTO.getOwner()))
 			throw new NoRightOnThatUserException();
 		Account account = accountAssembler.fromDTO(accountDTO);
 		accountRepository.addAccount(account);
+	}
+
+	public boolean userExists(String pseudonym) {
+		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudonym);
+		return userOptional.isPresent();
 	}
 
 }

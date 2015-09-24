@@ -10,13 +10,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.AccountService;
 import org.RealEstateMM.services.anticorruption.AccountServiceAntiCorruption;
 import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.dtos.account.AccountDTO;
-import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 @Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -31,9 +29,7 @@ public class UserResource {
 	@GET
 	public Response getExistingUser(@QueryParam("username") String pseudonym) {
 		try {
-			boolean isUserFound = ServiceLocator.getInstance().getService(UserRepository.class)
-					.getUserWithPseudonym(pseudonym).isPresent();
-			if (isUserFound) {
+			if (accountServiceAC.userExists(pseudonym)) {
 				return Response.ok(Status.OK).build();
 
 			} else {

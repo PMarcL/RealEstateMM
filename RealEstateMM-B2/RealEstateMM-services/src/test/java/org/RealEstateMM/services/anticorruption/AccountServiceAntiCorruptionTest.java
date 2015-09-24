@@ -13,6 +13,8 @@ import org.junit.Test;
 
 public class AccountServiceAntiCorruptionTest {
 
+	private final String VALID_PSEUDO = "pseudo34";
+	private final String INVALID_PSEUDO = "";
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
 	private final AccountDTO AN_ACCOUNT_DTO = new AccountDTOBuilder().withOwner(A_USER_DTO).build();
 
@@ -63,6 +65,26 @@ public class AccountServiceAntiCorruptionTest {
 	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
 		when(validator.emailIsValid(DefaultUserValue.EMAIL)).thenReturn(false);
 		accountServiceAC.createAccount(AN_ACCOUNT_DTO);
+	}
+
+	@Test
+	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() {
+		when(validator.nameIsValid(VALID_PSEUDO)).thenReturn(true);
+		accountServiceAC.userExists(VALID_PSEUDO);
+		verify(service).userExists(VALID_PSEUDO);
+	}
+
+	@Test
+	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() {
+		when(validator.nameIsValid(VALID_PSEUDO)).thenReturn(true);
+		accountServiceAC.userExists(VALID_PSEUDO);
+		verify(validator).nameIsValid(VALID_PSEUDO);
+	}
+
+	@Test(expected = InvalidUserInformationsException.class)
+	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() {
+		when(validator.nameIsValid(INVALID_PSEUDO)).thenReturn(false);
+		accountServiceAC.userExists(INVALID_PSEUDO);
 	}
 
 	private void allFieldsAreValid() {

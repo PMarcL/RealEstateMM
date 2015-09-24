@@ -1,7 +1,8 @@
 package org.RealEstateMM.services;
 
 import static org.mockito.BDDMockito.*;
-
+import static org.junit.Assert.*;
+import java.util.Optional;
 import org.RealEstateMM.domain.account.Account;
 import org.RealEstateMM.domain.account.AccountBuilder;
 import org.RealEstateMM.domain.account.AccountRepository;
@@ -24,6 +25,7 @@ public class AccountServiceTest {
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
 	private final Account AN_ACCOUNT = new AccountBuilder().withOwner(A_USER).build();
 	private final AccountDTO AN_ACCOUNT_DTO = new AccountDTOBuilder().withOwner(A_USER_DTO).build();
+	private final String PSEUDO = "pseudo34";
 
 	private UserRepository userRepository;
 	private AccountRepository accountRepository;
@@ -56,7 +58,7 @@ public class AccountServiceTest {
 		RightManager rightManager = mock(RightManager.class);
 		given(rightManager.isAllowedToEdit(AN_ACCOUNT_DTO.getOwner())).willReturn(true);
 
-		accountService.createAccountWhenLogedIn(AN_ACCOUNT_DTO, rightManager);
+		accountService.createAccountWhenLoggedIn(AN_ACCOUNT_DTO, rightManager);
 
 		verify(accountRepository, times(1)).addAccount(AN_ACCOUNT);
 	}
@@ -67,7 +69,25 @@ public class AccountServiceTest {
 		RightManager rightManager = mock(RightManager.class);
 		given(rightManager.isAllowedToEdit(A_USER_DTO)).willReturn(false);
 
-		accountService.createAccountWhenLogedIn(AN_ACCOUNT_DTO, rightManager);
+		accountService.createAccountWhenLoggedIn(AN_ACCOUNT_DTO, rightManager);
 	}
 
+	@Test
+	public void givenAPseudonymWhenCheckingForUserExistanceThenCallsTheRepository() {
+		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.empty());
+		accountService.userExists(PSEUDO);
+		verify(userRepository).getUserWithPseudonym(PSEUDO);
+	}
+
+	@Test
+	public void givenAPseudonymWhenCheckingForUserExistanceIfNoUserExistsThenReturnsFalse() {
+		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.empty());
+		assertFalse(accountService.userExists(PSEUDO));
+	}
+
+	@Test
+	public void givenAPseudonymWhenCheckingForUserExistanceIfUserExistsThenReturnsTrue() {
+		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.of(A_USER));
+		assertTrue(accountService.userExists(PSEUDO));
+	}
 }

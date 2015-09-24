@@ -19,6 +19,13 @@ public class AccountServiceAntiCorruption {
 		accountService.createAccount(accountDTO);
 	}
 
+	public boolean userExists(String pseudonym) {
+		if (!informationsValidator.nameIsValid(pseudonym)) {
+			throw new InvalidUserInformationsException("Pseudonym");
+		}
+		return accountService.userExists(pseudonym);
+	}
+
 	private void validateUserDTO(UserDTO userDTO) {
 		if (!informationsValidator.nameIsValid(userDTO.getFirstName())) {
 			throw new InvalidUserInformationsException("FirstName");
