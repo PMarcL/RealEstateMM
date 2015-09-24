@@ -35,6 +35,8 @@ public class UserResource {
 			} else {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
+		} catch (InvalidUserInformationsException exception) {
+			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (Exception ex) {
 			return Response.serverError().build();
 		}
