@@ -8,7 +8,7 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
-import org.RealEstateMM.services.roles.Role;
+import org.RealEstateMM.services.roles.RightManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -17,14 +17,14 @@ public class SessionServiceTest {
 
 	private final User A_USER = new DefaultUserBuilder().build();
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
-	private Role aRole;
+	private RightManager aRole;
 
 	private SessionService sessionService;
 	private SessionRepository sessionRepository;
 
 	@Before
 	public void setUp() {
-		aRole = mock(Role.class);
+		aRole = mock(RightManager.class);
 
 		sessionRepository = mock(SessionRepository.class);
 		UserAssembler userAssembler = mock(UserAssembler.class);

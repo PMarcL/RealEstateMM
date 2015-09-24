@@ -13,6 +13,7 @@ import org.RealEstateMM.services.dtos.account.AccountDTO;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.AccountDTOBuilder;
 import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
+import org.RealEstateMM.services.roles.RightManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -51,8 +52,22 @@ public class AccountServiceTest {
 	}
 
 	@Test
-	public void whenCreateAccountAsConnectedUser() {
-		// TODO
+	public void whenAddAnAccountToTheUserLogedInThenAddAccountToRepository() throws NoRightOnThatUserException {
+		RightManager rightManager = mock(RightManager.class);
+		given(rightManager.isAllowedToEdit(AN_ACCOUNT_DTO.getOwner())).willReturn(true);
+
+		accountService.createAccountWhenLogedIn(AN_ACCOUNT_DTO, rightManager);
+
+		verify(accountRepository, times(1)).addAccount(AN_ACCOUNT);
+	}
+
+	@Test(expected = NoRightOnThatUserException.class)
+	public void whenAddAnAccountToAnotherUserThanTheOneLogedInThenThrowNoRightOnThatUserException()
+			throws NoRightOnThatUserException {
+		RightManager rightManager = mock(RightManager.class);
+		given(rightManager.isAllowedToEdit(A_USER_DTO)).willReturn(false);
+
+		accountService.createAccountWhenLogedIn(AN_ACCOUNT_DTO, rightManager);
 	}
 
 }
