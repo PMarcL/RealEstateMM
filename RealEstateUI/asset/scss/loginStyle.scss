@@ -33,3 +33,10 @@ body
   padding-right:5%;
 
 }
+
+.account-type
+{
+  display: block;
+  margin-bottom: 20px;
+  @include j-column(2/3);
+}
