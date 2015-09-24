@@ -15,22 +15,17 @@ import org.RealEstateMM.services.AccountService;
 import org.RealEstateMM.services.anticorruption.AccountServiceAntiCorruption;
 import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
-import org.RealEstateMM.services.dtos.account.AccountAssembler;
 import org.RealEstateMM.services.dtos.account.AccountDTO;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 @Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
-public class UserConnectionResource {
+public class UserResource {
 
 	private AccountServiceAntiCorruption accountServiceAC;
 
-	public UserConnectionResource() {
-		InMemoryUserRepository userRepository = new InMemoryUserRepository();
-		AccountAssembler accountAssembler = new AccountAssembler();
-
-		AccountService accountService = new AccountService(userRepository, null, accountAssembler);
-		accountServiceAC = new AccountServiceAntiCorruption(accountService, new UserInformationsValidator());
+	public UserResource() {
+		accountServiceAC = new AccountServiceAntiCorruption(new AccountService(), new UserInformationsValidator());
 	}
 
 	@GET

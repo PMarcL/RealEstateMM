@@ -6,6 +6,7 @@ import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.services.dtos.account.AccountAssembler;
 import org.RealEstateMM.services.dtos.account.AccountDTO;
 import org.RealEstateMM.services.roles.RightManager;
+import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class AccountService {
 
@@ -18,6 +19,13 @@ public class AccountService {
 		this.userRepository = userRepository;
 		this.accountRepository = accountRepository;
 		this.accountAssembler = accountAssembler;
+	}
+
+	public AccountService() {
+		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
+		accountRepository = ServiceLocator.getInstance().getService(AccountRepository.class);
+		accountAssembler = new AccountAssembler();
+
 	}
 
 	public void createAccount(AccountDTO accountDTO) {

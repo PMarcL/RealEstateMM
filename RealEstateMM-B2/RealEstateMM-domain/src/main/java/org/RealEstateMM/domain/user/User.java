@@ -19,18 +19,4 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
-	// TODO
-	// public boolean isEqual(User user) {
-	// if (user == null) {
-	// return false;
-	// }
-	//
-	// boolean areEquals = this.email.equals(user.email);
-	// areEquals &= this.firstName.equals(user.firstName);
-	// areEquals &= this.lastName.equals(user.lastName);
-	// areEquals &= this.phoneNumber.equals(user.phoneNumber);
-	// areEquals &= this.pseudonym.equals(user.pseudonym);
-	// return areEquals;
-	// }
-
 }
