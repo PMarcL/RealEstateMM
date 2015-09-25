@@ -10,9 +10,11 @@ public class DefaultUserDTOBuilder {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	private String password;
 
 	public DefaultUserDTOBuilder() {
 		this.pseudonym = DefaultUserValue.PSEUDO;
+		this.password = DefaultUserValue.PASSWORD;
 		this.firstName = DefaultUserValue.FIRST_NAME;
 		this.lastName = DefaultUserValue.LAST_NAME;
 		this.email = DefaultUserValue.EMAIL;
@@ -44,8 +46,13 @@ public class DefaultUserDTOBuilder {
 		return this;
 	}
 
+	public DefaultUserDTOBuilder withPassword(String password) {
+		this.password = password;
+		return this;
+	}
+
 	public UserDTO build() {
-		return new UserDTO(pseudonym, firstName, lastName, email, phoneNumber);
+		return new UserDTO(pseudonym, password, firstName, lastName, email, phoneNumber);
 	}
 
 }

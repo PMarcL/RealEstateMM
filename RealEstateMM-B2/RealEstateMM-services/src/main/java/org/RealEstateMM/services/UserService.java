@@ -2,47 +2,30 @@ package org.RealEstateMM.services;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.account.Account;
-import org.RealEstateMM.domain.account.AccountRepository;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.services.dtos.account.AccountAssembler;
-import org.RealEstateMM.services.dtos.account.AccountDTO;
-import org.RealEstateMM.services.roles.RightManager;
+import org.RealEstateMM.services.dtos.user.UserAssembler;
+import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
-public class AccountService {
+public class UserService {
 
 	private UserRepository userRepository;
-	private AccountRepository accountRepository;
-	private AccountAssembler accountAssembler;
+	private UserAssembler userAssembler;
 
-	public AccountService(UserRepository userRepository, AccountRepository accountRepository,
-			AccountAssembler accountAssembler) {
+	public UserService(UserRepository userRepository, UserAssembler accountAssembler) {
 		this.userRepository = userRepository;
-		this.accountRepository = accountRepository;
-		this.accountAssembler = accountAssembler;
+		this.userAssembler = accountAssembler;
 	}
 
-	public AccountService() {
+	public UserService() {
 		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
-		accountRepository = ServiceLocator.getInstance().getService(AccountRepository.class);
-		accountAssembler = new AccountAssembler();
-
+		userAssembler = new UserAssembler();
 	}
 
-	public void createAccount(AccountDTO accountDTO) {
-		Account account = accountAssembler.fromDTO(accountDTO);
-		userRepository.addUser(account.getOwner());
-		accountRepository.addAccount(account);
-	}
-
-	public void createAccountWhenLoggedIn(AccountDTO accountDTO, RightManager rightManager)
-			throws NoRightOnThatUserException {
-		if (!rightManager.isAllowedToEdit(accountDTO.getOwner()))
-			throw new NoRightOnThatUserException();
-		Account account = accountAssembler.fromDTO(accountDTO);
-		accountRepository.addAccount(account);
+	public void createUser(UserDTO userDTO) {
+		User newUser = userAssembler.fromDTO(userDTO);
+		userRepository.addUser(newUser);
 	}
 
 	public boolean userExists(String pseudonym) {

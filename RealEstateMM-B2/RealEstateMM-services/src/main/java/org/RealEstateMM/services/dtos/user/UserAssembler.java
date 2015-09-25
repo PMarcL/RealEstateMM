@@ -12,12 +12,13 @@ public class UserAssembler {
 		dto.setLastName(user.lastName);
 		dto.setPhoneNumber(user.phoneNumber.toString());
 		dto.setPseudonym(user.pseudonym);
+		dto.setPassword(user.password);
 		return dto;
 	}
 
 	public User fromDTO(UserDTO userDTO) {
-		return new UserBuilder(userDTO.getPseudonym(), userDTO.getFirstName(), userDTO.getLastName(),
-				userDTO.getEmail(), userDTO.getPhoneNumber()).build();
+		return new UserBuilder(userDTO.getPseudonym(), userDTO.getPassword(), userDTO.getFirstName(),
+				userDTO.getLastName(), userDTO.getEmail(), userDTO.getPhoneNumber()).build();
 	}
 
 }

@@ -7,12 +7,15 @@ public class UserDTO {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	private String password;
 
 	public UserDTO() {
 	}
 
-	public UserDTO(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
+	public UserDTO(String pseudonym, String password, String firstName, String lastName, String email,
+			String phoneNumber) {
 		this.setPseudonym(pseudonym);
+		this.setPassword(password);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setEmail(email);
@@ -57,6 +60,14 @@ public class UserDTO {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
