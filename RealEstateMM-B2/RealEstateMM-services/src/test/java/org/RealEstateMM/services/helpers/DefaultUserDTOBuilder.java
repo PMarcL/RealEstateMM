@@ -20,6 +20,7 @@ public class DefaultUserDTOBuilder {
 		this.lastName = DefaultUserValue.LAST_NAME;
 		this.email = DefaultUserValue.EMAIL;
 		this.phoneNumber = DefaultUserValue.PHONE_NUMBER;
+		this.userType = DefaultUserValue.USER_TYPE;
 	}
 
 	public DefaultUserDTOBuilder withPseudonym(String pseudonym) {

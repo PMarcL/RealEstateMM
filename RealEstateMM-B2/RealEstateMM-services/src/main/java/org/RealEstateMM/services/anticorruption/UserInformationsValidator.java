@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 
 public class UserInformationsValidator {
 
+	private final String SELLER = "seller";
+	private final String BUYER = "buyer";
+	private final String ADMIN = "admin";
+
 	// Regex taken from this source:
 	// http://www.ex-parrot.com/pdw/Mail-RFC822-Address.html
 	private final Pattern EMAIL_REGEX = Pattern
@@ -26,5 +30,12 @@ public class UserInformationsValidator {
 		if (name == null || name == "")
 			return false;
 		return true;
+	}
+
+	public boolean userTypeIsValid(String userType) {
+		if (userType.equals(SELLER) || userType.equals(BUYER) || userType.equals(ADMIN)) {
+			return true;
+		}
+		return false;
 	}
 }

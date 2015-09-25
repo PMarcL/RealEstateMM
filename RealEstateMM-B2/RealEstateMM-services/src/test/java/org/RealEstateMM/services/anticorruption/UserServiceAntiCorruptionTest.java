@@ -23,7 +23,7 @@ public class UserServiceAntiCorruptionTest {
 	private UserServiceAntiCorruption userServiceAC;
 
 	@Before
-	public void initialisation() {
+	public void setup() {
 		validator = mock(UserInformationsValidator.class);
 		service = mock(UserService.class);
 		userServiceAC = new UserServiceAntiCorruption(service, validator);
@@ -31,31 +31,37 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenRegisterNewUserThenChecksForEmptyFirstName() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyFirstName() {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).stringIsValid(DefaultUserValue.FIRST_NAME);
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenRegisterNewUserThenChecksForEmptyLastName() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).stringIsValid(DefaultUserValue.LAST_NAME);
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenRegisterNewUserThenChecksEmailValidity() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).emailIsValid(DefaultUserValue.EMAIL);
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenRegisterNewUserThenChecksPhoneNumberValidity() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).phoneNumberIsValid(DefaultUserValue.PHONE_NUMBER);
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenRegisterNewUserThenRegisterUserWithService() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() {
+		userServiceAC.createUser(A_USER_DTO);
+		verify(validator).userTypeIsValid(DefaultUserValue.USER_TYPE);
+	}
+
+	@Test
+	public void givenNewUserInformationsWhenCreateNewUserThenRegisterUserWithService() {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(service).createUser(A_USER_DTO);
 	}
@@ -103,5 +109,6 @@ public class UserServiceAntiCorruptionTest {
 		when(validator.emailIsValid(DefaultUserValue.EMAIL)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PASSWORD)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PSEUDO)).thenReturn(true);
+		when(validator.userTypeIsValid(DefaultUserValue.USER_TYPE)).thenReturn(true);
 	}
 }

@@ -40,6 +40,9 @@ public class UserServiceAntiCorruption {
 		if (!informationsValidator.phoneNumberIsValid(userDTO.getPhoneNumber())) {
 			throw new InvalidUserInformationsException("PhoneNumber");
 		}
+		if (!informationsValidator.userTypeIsValid(userDTO.getUserType())) {
+			throw new InvalidUserInformationsException("User type");
+		}
 	}
 
 }

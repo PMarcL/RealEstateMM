@@ -19,6 +19,7 @@ public class UserBuilder {
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
+		this.password = password;
 	}
 
 	public UserBuilder withPseudonym(String pseudonym) {

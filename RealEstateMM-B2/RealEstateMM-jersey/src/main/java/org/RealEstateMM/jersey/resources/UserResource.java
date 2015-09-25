@@ -18,7 +18,6 @@ import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 
 @Path("/user")
-@Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
 
 	private UserServiceAntiCorruption userServiceAC;
@@ -32,7 +31,7 @@ public class UserResource {
 	}
 
 	@GET
-	public Response logInUser(@QueryParam("username") String pseudonym, String password) {
+	public Response logInUser(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
 		try {
 			if (userServiceAC.userExists(pseudonym, password)) {
 				return Response.ok(Status.OK).build();
@@ -48,6 +47,7 @@ public class UserResource {
 	}
 
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response registerUser(UserDTO userDTO) {
 		try {
