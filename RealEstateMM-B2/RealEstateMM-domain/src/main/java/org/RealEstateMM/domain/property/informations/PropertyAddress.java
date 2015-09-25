@@ -1,7 +1,5 @@
 package org.RealEstateMM.domain.property.informations;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PropertyAddress {
 	
@@ -11,25 +9,14 @@ public class PropertyAddress {
 	public final String province;
 	public final String zipCode;
 	
-	private final Pattern ZIP_CODE_PATTERN = Pattern.compile("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$");
 
 	public PropertyAddress(String streetNumber, String streetName, String city, String province, String zipCode)
 	{
-		if(!zipCodeIsValid(zipCode))
-		{
-			throw new InvalidZipCodeFormatException(zipCode);
-		}
 		this.streetNumber = streetNumber;
 		this.streetName = streetName;
 		this.city = city;
 		this.province = province;
 		this.zipCode = zipCode;
-	}
-	
-	private boolean zipCodeIsValid(String zipCode)
-	{
-		Matcher matcher = ZIP_CODE_PATTERN.matcher(zipCode);
-		return matcher.matches();
 	}
 	
 	@Override

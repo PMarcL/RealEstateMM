@@ -19,8 +19,6 @@ public class PropertyAddressTest {
 	private static String AN_OTHER_ADDRESS_CITY_NAME = "Pleasanter Town";
 	private static String AN_OTHER_ADDRESS_PROVINCE_NAME = "Manitoba";
 	
-	private static String AN_INVALID_ADDRESS_ZIP_CODE = "ABC 012";
-	
 	@Before
 	public void setup()
 	{
@@ -28,12 +26,12 @@ public class PropertyAddressTest {
 				AN_ADDRESS_CITY_NAME, AN_ADDRESS_PROVINCE_NAME, AN_ADDRESS_ZIP_CODE);
 	}
 
-	@Test(expected = InvalidZipCodeFormatException.class)
-	public void creatingAPropertyAddressWithAnInvalidZipCodeShouldThrowAnInvalidZipCodeFormatException()
-	{
-		@SuppressWarnings("unused")
-		PropertyAddress invalidZipCodeAddress = new PropertyAddress(AN_ADDRESS_STREET_NUMBER, AN_ADDRESS_STREET_NAME, AN_ADDRESS_CITY_NAME, AN_OTHER_ADDRESS_PROVINCE_NAME, AN_INVALID_ADDRESS_ZIP_CODE);
-	}
+//	@Test(expected = InvalidZipCodeFormatException.class)
+//	public void creatingAPropertyAddressWithAnInvalidZipCodeShouldThrowAnInvalidZipCodeFormatException()
+//	{
+//		@SuppressWarnings("unused")
+//		PropertyAddress invalidZipCodeAddress = new PropertyAddress(AN_ADDRESS_STREET_NUMBER, AN_ADDRESS_STREET_NAME, AN_ADDRESS_CITY_NAME, AN_OTHER_ADDRESS_PROVINCE_NAME, AN_INVALID_ADDRESS_ZIP_CODE);
+//	}
 	
 	@Test
 	public void comparingTwoEqualsPropertyAddressShouldReturnTrue()

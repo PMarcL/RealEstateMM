@@ -17,9 +17,9 @@ public class PropertyInformations {
 		
 	}
 	
-	public PropertyInformations(PropertyType propertyType, PropertyAddress propertyAddress, double propertyPrice, User propertyOwner, PropertyStatus propertyStatus){
+	public PropertyInformations(PropertyType propertyType, double propertyPrice, User propertyOwner, PropertyStatus propertyStatus){
 		this.setPropertyType(propertyType);
-		this.setPropertyAddress(propertyAddress);
+		//this.setPropertyAddress(propertyAddress);
 		this.setPropertyPrice(propertyPrice);
 		this.setPropertyOwner(propertyOwner);
 		this.setPropertyStatus(propertyStatus);

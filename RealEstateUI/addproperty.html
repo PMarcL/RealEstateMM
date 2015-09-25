@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a new property</title>
+    <link rel="stylesheet" href="asset/css/signupStyle.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+
+</head>
+<body>
+<div class="form">
+    <form>
+        <div class"address">
+            <div class="input-field">
+                <input id="street_number" type="text" class="validate">
+                <label for="street_number">Street Number</label>
+            </div>
+
+            <div class="input-field">
+                <input id="street_name" type="text" class="validate">
+                <label for="street_name">Street Number</label>
+            </div>
+
+            <div class="input-field">
+                <input id="city" type="text" class="validate">
+                <label for="city">City</label>
+            </div>
+
+            <div class="input-field">
+                <input id="province" type="text" class="validate">
+                <label for="province">Province</label>
+            </div>
+
+            <div class="input-field">
+                <input id="zip_code" type="text" class="validate">
+                <label for="zip_code">Zip Code</label>
+            </div>
+        </div>
+        <div class="input-field">
+                 <select name="propertyType">
+                      <option value="residential">Residential</option>
+                      <option value="commercial">Commercial</option>
+                      <option value="multiplex">Multiplex</option>
+                      <option value="land">Land</option>
+                      <option value="farm">Farm</option>
+                </select>
+            </div>
+        <div class="signup"><a class="waves-effect waves-light btn" onclick="postUser()">Sign Up</a></div>
+    </form>
+</div>
+
+
+<script src="jquery/jquery-2.1.4.js"></script>
+<script src="materialize/materialize.js"></script>
+<script src = "asset/js/PostNewProperty.js"></script>
+</body>
+</html>

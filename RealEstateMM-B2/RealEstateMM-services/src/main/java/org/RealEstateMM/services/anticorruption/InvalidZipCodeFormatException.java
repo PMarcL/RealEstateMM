@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.property.informations;
+package org.RealEstateMM.services.anticorruption;
 
 @SuppressWarnings("serial")
 public class InvalidZipCodeFormatException extends RuntimeException {
