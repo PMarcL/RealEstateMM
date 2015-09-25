@@ -30,7 +30,10 @@ public class UserService {
 
 	public boolean userExists(String pseudonym, String password) {
 		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudonym);
-		return userOptional.isPresent();
+		if (userOptional.isPresent()) {
+			return userOptional.get().hasPassword(password);
+		}
+		return false;
 	}
 
 }

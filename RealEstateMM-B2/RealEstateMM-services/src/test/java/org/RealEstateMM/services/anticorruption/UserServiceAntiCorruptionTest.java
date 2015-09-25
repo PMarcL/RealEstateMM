@@ -33,13 +33,13 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenRegisterNewUserThenChecksForEmptyFirstName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).nameIsValid(DefaultUserValue.FIRST_NAME);
+		verify(validator).stringIsValid(DefaultUserValue.FIRST_NAME);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenRegisterNewUserThenChecksForEmptyLastName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).nameIsValid(DefaultUserValue.LAST_NAME);
+		verify(validator).stringIsValid(DefaultUserValue.LAST_NAME);
 	}
 
 	@Test
@@ -68,29 +68,40 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test
 	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() {
-		when(validator.nameIsValid(VALID_PSEUDO)).thenReturn(true);
 		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
 		verify(service).userExists(VALID_PSEUDO, VALID_PASSWORD);
 	}
 
 	@Test
 	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() {
-		when(validator.nameIsValid(VALID_PSEUDO)).thenReturn(true);
 		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
-		verify(validator).nameIsValid(VALID_PSEUDO);
+		verify(validator).stringIsValid(VALID_PSEUDO);
+	}
+
+	@Test
+	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() {
+		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
+		verify(validator).stringIsValid(VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() {
-		when(validator.nameIsValid(INVALID_PSEUDO)).thenReturn(false);
+		when(validator.stringIsValid(INVALID_PSEUDO)).thenReturn(false);
 		userServiceAC.userExists(INVALID_PSEUDO, VALID_PASSWORD);
 	}
 
+	@Test(expected = InvalidUserInformationsException.class)
+	public void givenAnInvalidPasswordWhenCheckingUserExistanceThenThrowException() {
+		when(validator.stringIsValid(INVALID_PASSWORD)).thenReturn(false);
+		userServiceAC.userExists(INVALID_PSEUDO, INVALID_PASSWORD);
+	}
+
 	private void allFieldsAreValid() {
-		when(validator.nameIsValid(DefaultUserValue.FIRST_NAME)).thenReturn(true);
-		when(validator.nameIsValid(DefaultUserValue.LAST_NAME)).thenReturn(true);
+		when(validator.stringIsValid(DefaultUserValue.FIRST_NAME)).thenReturn(true);
+		when(validator.stringIsValid(DefaultUserValue.LAST_NAME)).thenReturn(true);
 		when(validator.phoneNumberIsValid(DefaultUserValue.PHONE_NUMBER)).thenReturn(true);
 		when(validator.emailIsValid(DefaultUserValue.EMAIL)).thenReturn(true);
-
+		when(validator.stringIsValid(VALID_PASSWORD)).thenReturn(true);
+		when(validator.stringIsValid(VALID_PSEUDO)).thenReturn(true);
 	}
 }

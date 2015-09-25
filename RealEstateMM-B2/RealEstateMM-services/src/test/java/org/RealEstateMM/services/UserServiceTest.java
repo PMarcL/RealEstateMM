@@ -3,7 +3,6 @@ package org.RealEstateMM.services;
 import static org.mockito.BDDMockito.*;
 import static org.junit.Assert.*;
 import java.util.Optional;
-import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
@@ -14,13 +13,13 @@ import org.junit.Test;
 
 public class UserServiceTest {
 
-	private final User A_USER = new DefaultUserBuilder().build();
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
 	private final String PSEUDO = "pseudo34";
 	private final String PASSWORD = "pw1234";
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
+	private User user;
 
 	private UserService accountService;
 
@@ -28,6 +27,7 @@ public class UserServiceTest {
 	public void setup() throws Exception {
 		userRepository = mock(UserRepository.class);
 		userAssembler = mock(UserAssembler.class);
+		user = mock(User.class);
 
 		accountService = new UserService(userRepository, userAssembler);
 	}
@@ -40,9 +40,9 @@ public class UserServiceTest {
 
 	@Test
 	public void whenCreateUserThenAddNewUserToRepository() {
-		when(userAssembler.fromDTO(A_USER_DTO)).thenReturn(A_USER);
+		when(userAssembler.fromDTO(A_USER_DTO)).thenReturn(user);
 		accountService.createUser(A_USER_DTO);
-		verify(userRepository).addUser(A_USER);
+		verify(userRepository).addUser(user);
 	}
 
 	@Test
@@ -59,8 +59,16 @@ public class UserServiceTest {
 	}
 
 	@Test
+	public void givenAValidPseudonymWhenCheckingForUserExistanceThenChecksIfUserHasPassword() {
+		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.of(user));
+		accountService.userExists(PSEUDO, PASSWORD);
+		verify(user).hasPassword(PASSWORD);
+	}
+
+	@Test
 	public void givenAPseudonymWhenCheckingForUserExistanceIfUserExistsThenReturnsTrue() {
-		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.of(A_USER));
+		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.of(user));
+		when(user.hasPassword(PASSWORD)).thenReturn(true);
 		assertTrue(accountService.userExists(PSEUDO, PASSWORD));
 	}
 }

@@ -45,13 +45,13 @@ public class UserInformationsValidatorTest {
 
 	@Test
 	public void givenAValidNameWhenVerifyNameThenReturnsTrue() {
-		assertTrue(validator.nameIsValid(VALID_NAME));
+		assertTrue(validator.stringIsValid(VALID_NAME));
 	}
 
 	@Test
 	public void givenAnInvalidNameWhenVerifyNameThenReturnsFalse() {
-		assertFalse(validator.nameIsValid(INVALID_NAME1));
-		assertFalse(validator.nameIsValid(INVALID_NAME2));
+		assertFalse(validator.stringIsValid(INVALID_NAME1));
+		assertFalse(validator.stringIsValid(INVALID_NAME2));
 	}
 
 }

@@ -22,7 +22,7 @@ public class UserInformationsValidator {
 		return m.matches();
 	}
 
-	public boolean nameIsValid(String name) {
+	public boolean stringIsValid(String name) {
 		if (name == null || name == "")
 			return false;
 		return true;

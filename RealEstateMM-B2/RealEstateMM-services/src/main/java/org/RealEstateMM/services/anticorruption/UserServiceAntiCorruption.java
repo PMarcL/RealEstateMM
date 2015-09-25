@@ -19,17 +19,19 @@ public class UserServiceAntiCorruption {
 	}
 
 	public boolean userExists(String pseudonym, String password) {
-		if (!informationsValidator.nameIsValid(pseudonym)) {
+		if (!informationsValidator.stringIsValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
+		} else if (!informationsValidator.stringIsValid(password)) {
+			throw new InvalidUserInformationsException("Password");
 		}
 		return userService.userExists(pseudonym, password);
 	}
 
 	private void validateUserDTO(UserDTO userDTO) {
-		if (!informationsValidator.nameIsValid(userDTO.getFirstName())) {
+		if (!informationsValidator.stringIsValid(userDTO.getFirstName())) {
 			throw new InvalidUserInformationsException("FirstName");
 		}
-		if (!informationsValidator.nameIsValid(userDTO.getLastName())) {
+		if (!informationsValidator.stringIsValid(userDTO.getLastName())) {
 			throw new InvalidUserInformationsException("LastName");
 		}
 		if (!informationsValidator.emailIsValid(userDTO.getEmail())) {

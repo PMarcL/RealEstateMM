@@ -32,4 +32,8 @@ public class User {
 		return userInformation.pseudonym;
 	}
 
+	public boolean hasPassword(String password) {
+		return userInformation.password.equals(password);
+	}
+
 }
