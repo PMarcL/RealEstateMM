@@ -12,7 +12,9 @@ import org.junit.Test;
 public class UserServiceAntiCorruptionTest {
 
 	private final String VALID_PSEUDO = "pseudo34";
+	private final String VALID_PASSWORD = "pw1234";
 	private final String INVALID_PSEUDO = "";
+	private final String INVALID_PASSWORD = "";
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
 
 	private UserInformationsValidator validator;
@@ -67,21 +69,21 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() {
 		when(validator.nameIsValid(VALID_PSEUDO)).thenReturn(true);
-		userServiceAC.userExists(VALID_PSEUDO);
-		verify(service).userExists(VALID_PSEUDO);
+		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
+		verify(service).userExists(VALID_PSEUDO, VALID_PASSWORD);
 	}
 
 	@Test
 	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() {
 		when(validator.nameIsValid(VALID_PSEUDO)).thenReturn(true);
-		userServiceAC.userExists(VALID_PSEUDO);
+		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).nameIsValid(VALID_PSEUDO);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() {
 		when(validator.nameIsValid(INVALID_PSEUDO)).thenReturn(false);
-		userServiceAC.userExists(INVALID_PSEUDO);
+		userServiceAC.userExists(INVALID_PSEUDO, VALID_PASSWORD);
 	}
 
 	private void allFieldsAreValid() {

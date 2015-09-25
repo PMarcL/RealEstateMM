@@ -39,10 +39,10 @@ public class UserAssemblerTest {
 		UserDTO dto = assembler.toDTO(user);
 		User result = assembler.fromDTO(dto);
 
-		assertEquals(result.pseudonym, dto.getPseudonym());
-		assertEquals(result.email.toString(), dto.getEmail());
-		assertEquals(result.phoneNumber.toString(), dto.getPhoneNumber());
-		assertEquals(result.firstName, dto.getFirstName());
-		assertEquals(result.lastName, dto.getLastName());
+		assertEquals(result.getPseudonym(), dto.getPseudonym());
+		assertEquals(result.getEmail().toString(), dto.getEmail());
+		assertEquals(result.getPhoneNumber().toString(), dto.getPhoneNumber());
+		assertEquals(result.getFirstName(), dto.getFirstName());
+		assertEquals(result.getLastName(), dto.getLastName());
 	}
 }

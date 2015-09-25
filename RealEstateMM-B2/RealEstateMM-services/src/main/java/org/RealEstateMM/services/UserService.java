@@ -3,7 +3,7 @@ package org.RealEstateMM.services;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
@@ -28,7 +28,7 @@ public class UserService {
 		userRepository.addUser(newUser);
 	}
 
-	public boolean userExists(String pseudonym) {
+	public boolean userExists(String pseudonym, String password) {
 		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudonym);
 		return userOptional.isPresent();
 	}

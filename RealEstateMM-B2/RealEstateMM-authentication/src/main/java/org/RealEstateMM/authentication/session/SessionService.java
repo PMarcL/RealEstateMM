@@ -28,7 +28,7 @@ public class SessionService {
 
 	private Session createASession(User user, RightManager role) {
 		String token = UUID.randomUUID().toString();
-		return new Session(user.pseudonym, token, role);
+		return new Session(user.getPseudonym(), token, role);
 	}
 
 }

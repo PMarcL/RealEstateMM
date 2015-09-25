@@ -7,12 +7,12 @@ public class UserAssembler {
 
 	public UserDTO toDTO(User user) {
 		UserDTO dto = new UserDTO();
-		dto.setEmail(user.email.toString());
-		dto.setFirstName(user.firstName);
-		dto.setLastName(user.lastName);
-		dto.setPhoneNumber(user.phoneNumber.toString());
-		dto.setPseudonym(user.pseudonym);
-		dto.setPassword(user.password);
+		dto.setEmail(user.getEmail().toString());
+		dto.setFirstName(user.getFirstName());
+		dto.setLastName(user.getLastName());
+		dto.setPhoneNumber(user.getPhoneNumber().toString());
+		dto.setPseudonym(user.getPseudonym());
+		dto.setPassword(user.getPassword());
 		return dto;
 	}
 

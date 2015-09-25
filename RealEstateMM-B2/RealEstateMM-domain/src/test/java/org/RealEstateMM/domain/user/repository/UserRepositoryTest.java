@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.user.repository;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -6,6 +6,9 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
+import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +46,7 @@ public class UserRepositoryTest {
 		}
 
 		public void addExistingUser(User newUser) {
-			existingUserPseudo = newUser.pseudonym;
+			existingUserPseudo = newUser.getPseudonym();
 		}
 
 		@Override

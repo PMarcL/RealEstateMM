@@ -11,6 +11,7 @@ public class DefaultUserDTOBuilder {
 	private String email;
 	private String phoneNumber;
 	private String password;
+	private String userType;
 
 	public DefaultUserDTOBuilder() {
 		this.pseudonym = DefaultUserValue.PSEUDO;
@@ -51,8 +52,13 @@ public class DefaultUserDTOBuilder {
 		return this;
 	}
 
+	public DefaultUserDTOBuilder withUserType(String userType) {
+		this.userType = userType;
+		return this;
+	}
+
 	public UserDTO build() {
-		return new UserDTO(pseudonym, password, firstName, lastName, email, phoneNumber);
+		return new UserDTO(pseudonym, password, firstName, lastName, email, phoneNumber, userType);
 	}
 
 }

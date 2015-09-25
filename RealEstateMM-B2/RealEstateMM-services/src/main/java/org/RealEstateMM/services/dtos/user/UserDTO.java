@@ -8,18 +8,20 @@ public class UserDTO {
 	private String email;
 	private String phoneNumber;
 	private String password;
+	private String userType;
 
 	public UserDTO() {
 	}
 
 	public UserDTO(String pseudonym, String password, String firstName, String lastName, String email,
-			String phoneNumber) {
+			String phoneNumber, String userType) {
 		this.setPseudonym(pseudonym);
 		this.setPassword(password);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setEmail(email);
 		this.setPhoneNumber(phoneNumber);
+		this.setUserType(userType);
 	}
 
 	public String getPseudonym() {
@@ -68,6 +70,14 @@ public class UserDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 }

@@ -1,14 +1,16 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.user.repository;
 
 import java.util.Optional;
+
+import org.RealEstateMM.domain.user.User;
 
 public abstract class UserRepository {
 
 	public abstract Optional<User> getUserWithPseudonym(String pseudonym);
 
 	public void addUser(User user) {
-		if (contains(user.pseudonym)) {
-			throw new UserWithPseudonymAlreadyStoredException(user.pseudonym);
+		if (contains(user.getPseudonym())) {
+			throw new UserWithPseudonymAlreadyStoredException(user.getPseudonym());
 		}
 
 		add(user);

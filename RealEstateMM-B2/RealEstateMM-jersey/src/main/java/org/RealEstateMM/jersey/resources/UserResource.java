@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
@@ -32,9 +32,9 @@ public class UserResource {
 	}
 
 	@GET
-	public Response logInUser(@QueryParam("username") String pseudonym) {
+	public Response logInUser(@QueryParam("username") String pseudonym, String password) {
 		try {
-			if (userServiceAC.userExists(pseudonym)) {
+			if (userServiceAC.userExists(pseudonym, password)) {
 				return Response.ok(Status.OK).build();
 			} else {
 				return Response.status(Status.BAD_REQUEST).build();

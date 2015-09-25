@@ -1,6 +1,6 @@
 package org.RealEstateMM.context;
 
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.persistence.InMemoryUserRepository;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 

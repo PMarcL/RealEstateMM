@@ -5,7 +5,7 @@ import static org.mockito.BDDMockito.*;
 
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.StatusType;
-import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.user.UserDTO;
