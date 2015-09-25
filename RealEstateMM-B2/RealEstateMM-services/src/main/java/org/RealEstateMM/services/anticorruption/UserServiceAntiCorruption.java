@@ -1,29 +1,28 @@
 package org.RealEstateMM.services.anticorruption;
 
-import org.RealEstateMM.services.AccountService;
-import org.RealEstateMM.services.dtos.account.AccountDTO;
+import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 
-public class AccountServiceAntiCorruption {
+public class UserServiceAntiCorruption {
 
 	private UserInformationsValidator informationsValidator;
-	private AccountService accountService;
+	private UserService userService;
 
-	public AccountServiceAntiCorruption(AccountService service, UserInformationsValidator validator) {
-		accountService = service;
+	public UserServiceAntiCorruption(UserService service, UserInformationsValidator validator) {
+		userService = service;
 		informationsValidator = validator;
 	}
 
-	public void createAccount(AccountDTO accountDTO) {
-		validateUserDTO(accountDTO.getOwner());
-		accountService.createAccount(accountDTO);
+	public void createUser(UserDTO userDTO) {
+		validateUserDTO(userDTO);
+		userService.createUser(userDTO);
 	}
 
 	public boolean userExists(String pseudonym) {
 		if (!informationsValidator.nameIsValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
 		}
-		return accountService.userExists(pseudonym);
+		return userService.userExists(pseudonym);
 	}
 
 	private void validateUserDTO(UserDTO userDTO) {

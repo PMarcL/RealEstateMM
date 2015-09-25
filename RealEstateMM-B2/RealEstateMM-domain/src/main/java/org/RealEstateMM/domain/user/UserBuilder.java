@@ -12,7 +12,8 @@ public class UserBuilder {
 	public UserBuilder() {
 	}
 
-	public UserBuilder(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
+	public UserBuilder(String pseudonym, String password, String firstName, String lastName, String email,
+			String phoneNumber) {
 		this.pseudonym = pseudonym;
 		this.firstName = firstName;
 		this.lastName = lastName;

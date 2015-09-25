@@ -10,28 +10,32 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.services.AccountService;
-import org.RealEstateMM.services.anticorruption.AccountServiceAntiCorruption;
+import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.services.UserService;
+import org.RealEstateMM.services.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
-import org.RealEstateMM.services.dtos.account.AccountDTO;
+import org.RealEstateMM.services.dtos.user.UserDTO;
 
 @Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-	private AccountServiceAntiCorruption accountServiceAC;
+	private UserServiceAntiCorruption userServiceAC;
 
 	public UserResource() {
-		accountServiceAC = new AccountServiceAntiCorruption(new AccountService(), new UserInformationsValidator());
+		userServiceAC = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
+	}
+
+	public UserResource(UserServiceAntiCorruption userService) {
+		userServiceAC = userService;
 	}
 
 	@GET
-	public Response getExistingUser(@QueryParam("username") String pseudonym) {
+	public Response logInUser(@QueryParam("username") String pseudonym) {
 		try {
-			if (accountServiceAC.userExists(pseudonym)) {
+			if (userServiceAC.userExists(pseudonym)) {
 				return Response.ok(Status.OK).build();
-
 			} else {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
@@ -45,11 +49,13 @@ public class UserResource {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response registerUser(AccountDTO accountDTO) {
+	public Response registerUser(UserDTO userDTO) {
 		try {
-			accountServiceAC.createAccount(accountDTO);
+			userServiceAC.createUser(userDTO);
 			return Response.ok(Status.OK).header("isLoggedIn", "true").build();
 		} catch (InvalidUserInformationsException exception) {
+			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		} catch (UserWithPseudonymAlreadyStoredException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (Exception ex) {
 			return Response.serverError().build();
