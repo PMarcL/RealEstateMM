@@ -1,10 +1,12 @@
 function postUser() {
     var formData = JSON.stringify({
         "pseudonym": $('#username').val(),
+        "password" : $('#password').val(),
         "firstName": $('#firstName').val(),
         "lastName": $('#lastName').val(),
         "email": $('#email').val(),
-        "phoneNumber": $('#phone').val()
+        "phoneNumber": $('#phone').val(),
+        "userType" : $('select').val().toLowerCase()
     });
     if(isAFieldEmpty())
     {

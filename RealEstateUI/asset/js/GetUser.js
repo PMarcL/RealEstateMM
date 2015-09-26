@@ -2,7 +2,7 @@
 function getUser()
 {
     $.ajax({
-        url: "http://localhost:8080/user?pseudonym=" + $("#username").val(),
+        url: "http://localhost:8080/user?pseudonym=" + $("#username").val() + "&password=" + $("#password").val(),
         type: "GET",
         contentType: "application/json",
         success: function (data, status, httpResponse) {
