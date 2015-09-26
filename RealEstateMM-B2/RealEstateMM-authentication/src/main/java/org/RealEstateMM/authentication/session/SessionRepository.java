@@ -1,9 +1,7 @@
 package org.RealEstateMM.authentication.session;
 
-public class SessionRepository {
+public interface SessionRepository {
 
-	public void saveOrOverwriteSession(Session session) {
-
-	}
+	public void saveOrOverwriteSession(Session session);
 
 }

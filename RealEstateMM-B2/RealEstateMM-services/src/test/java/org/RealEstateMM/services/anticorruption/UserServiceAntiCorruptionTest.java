@@ -13,8 +13,7 @@ public class UserServiceAntiCorruptionTest {
 
 	private final String VALID_PSEUDO = "pseudo34";
 	private final String VALID_PASSWORD = "pw1234";
-	private final String INVALID_PSEUDO = "";
-	private final String INVALID_PASSWORD = "";
+	private final String INVALID_STRING = "";
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
 
 	private UserInformationsValidator validator;
@@ -28,6 +27,11 @@ public class UserServiceAntiCorruptionTest {
 		service = mock(UserService.class);
 		userServiceAC = new UserServiceAntiCorruption(service, validator);
 		allFieldsAreValid();
+		setupInvalidFields();
+	}
+
+	private void setupInvalidFields() {
+		when(validator.stringIsValid(INVALID_STRING)).thenReturn(false);
 	}
 
 	@Test
@@ -92,14 +96,17 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() {
-		when(validator.stringIsValid(INVALID_PSEUDO)).thenReturn(false);
-		userServiceAC.userExists(INVALID_PSEUDO, VALID_PASSWORD);
+		userServiceAC.userExists(INVALID_STRING, VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAnInvalidPasswordWhenCheckingUserExistanceThenThrowException() {
-		when(validator.stringIsValid(INVALID_PASSWORD)).thenReturn(false);
-		userServiceAC.userExists(INVALID_PSEUDO, INVALID_PASSWORD);
+		userServiceAC.userExists(INVALID_STRING, INVALID_STRING);
+	}
+
+	@Test(expected = InvalidUserInformationsException.class)
+	public void givenAValidPseudoAndInvalidePasswordWhenCheckinUserExistanceThenThrowException() {
+		userServiceAC.userExists(VALID_PSEUDO, INVALID_STRING);
 	}
 
 	private void allFieldsAreValid() {
