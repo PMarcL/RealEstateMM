@@ -12,11 +12,11 @@ import org.junit.Test;
 public class InMemoryUserRepositoryTest {
 	private final String PSEUDONYM = "bobby194";
 
-	private InMemoryUserRepositoryFake repository;
+	private InMemoryUserRepository repository;
 
 	@Before
 	public void setup() {
-		repository = new InMemoryUserRepositoryFake();
+		repository = new InMemoryUserRepository();
 	}
 
 	@Test
@@ -65,17 +65,6 @@ public class InMemoryUserRepositoryTest {
 	public void givenNotAddedUserWhenRetrivingWithPseudonymShouldReturnEmptyResult() {
 		Optional<User> returnedUser = repository.getUserWithPseudonym(PSEUDONYM);
 		assertFalse(returnedUser.isPresent());
-	}
-
-	private class InMemoryUserRepositoryFake extends InMemoryUserRepository {
-
-		public boolean contains(String pseudonym) {
-			return super.contains(pseudonym);
-		}
-
-		public void add(User user) {
-			super.add(user);
-		}
 	}
 
 	private UserBuilder aUser() {
