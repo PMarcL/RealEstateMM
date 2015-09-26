@@ -3,11 +3,9 @@ package org.RealEstateMM.services.anticorruption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserInformationsValidator {
+import org.RealEstateMM.domain.user.UserTypeDescription;
 
-	private final String SELLER = "seller";
-	private final String BUYER = "buyer";
-	private final String ADMIN = "admin";
+public class UserInformationsValidator {
 
 	// Regex taken from this source:
 	// http://www.ex-parrot.com/pdw/Mail-RFC822-Address.html
@@ -33,7 +31,8 @@ public class UserInformationsValidator {
 	}
 
 	public boolean userTypeIsValid(String userType) {
-		if (userType.equals(SELLER) || userType.equals(BUYER) || userType.equals(ADMIN)) {
+		if (userType.equals(UserTypeDescription.SELLER) || userType.equals(UserTypeDescription.BUYER)
+				|| userType.equals(UserTypeDescription.ADMIN)) {
 			return true;
 		}
 		return false;

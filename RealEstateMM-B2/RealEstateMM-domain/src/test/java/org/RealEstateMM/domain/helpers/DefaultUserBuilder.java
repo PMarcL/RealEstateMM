@@ -10,6 +10,8 @@ public class DefaultUserBuilder extends UserBuilder {
 		withLastName(DefaultUserValue.LAST_NAME);
 		withEmail(DefaultUserValue.EMAIL);
 		withPhoneNumber(DefaultUserValue.PHONE_NUMBER);
+		withPassword(DefaultUserValue.PASSWORD);
+		withUserType(DefaultUserValue.USER_TYPE_DESC);
 	}
 
 }

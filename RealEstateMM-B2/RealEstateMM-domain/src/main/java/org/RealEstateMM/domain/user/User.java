@@ -3,9 +3,11 @@ package org.RealEstateMM.domain.user;
 public class User {
 
 	private UserInformation userInformation;
+	private UserType userType;
 
-	public User(String pseudonym, String password, String firstName, String lastName, String email, String phoneNumber) {
-		this.userInformation = new UserInformation(pseudonym, password, firstName, lastName, email, phoneNumber);
+	public User(UserInformation userInfo, UserType type) {
+		this.userInformation = userInfo;
+		this.userType = type;
 	}
 
 	public String getPhoneNumber() {
@@ -34,6 +36,16 @@ public class User {
 
 	public boolean hasPassword(String password) {
 		return userInformation.password.equals(password);
+	}
+
+	public String getUserTypeDescription() {
+		if (userType == UserType.BUYER) {
+			return UserTypeDescription.BUYER;
+		} else if (userType == UserType.SELLER) {
+			return UserTypeDescription.SELLER;
+		} else {
+			return UserTypeDescription.ADMIN;
+		}
 	}
 
 }

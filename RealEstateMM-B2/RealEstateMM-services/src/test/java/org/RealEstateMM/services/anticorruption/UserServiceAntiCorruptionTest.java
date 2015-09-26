@@ -57,7 +57,7 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).userTypeIsValid(DefaultUserValue.USER_TYPE);
+		verify(validator).userTypeIsValid(DefaultUserValue.USER_TYPE_DESC);
 	}
 
 	@Test
@@ -109,6 +109,6 @@ public class UserServiceAntiCorruptionTest {
 		when(validator.emailIsValid(DefaultUserValue.EMAIL)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PASSWORD)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PSEUDO)).thenReturn(true);
-		when(validator.userTypeIsValid(DefaultUserValue.USER_TYPE)).thenReturn(true);
+		when(validator.userTypeIsValid(DefaultUserValue.USER_TYPE_DESC)).thenReturn(true);
 	}
 }

@@ -27,11 +27,13 @@ public class UserAssemblerTest {
 	public void givenAUserInformationsObjectWhenBuildDTOThenReturnsDTOWithSameInformations() {
 		userDTO = assembler.toDTO(user);
 
-		assertEquals(userDTO.getPseudonym(), DefaultUserValue.PSEUDO);
-		assertEquals(userDTO.getEmail(), DefaultUserValue.EMAIL);
-		assertEquals(userDTO.getPhoneNumber(), DefaultUserValue.PHONE_NUMBER);
-		assertEquals(userDTO.getFirstName(), DefaultUserValue.FIRST_NAME);
-		assertEquals(userDTO.getLastName(), DefaultUserValue.LAST_NAME);
+		assertEquals(DefaultUserValue.PSEUDO, userDTO.getPseudonym());
+		assertEquals(DefaultUserValue.EMAIL, userDTO.getEmail());
+		assertEquals(DefaultUserValue.PHONE_NUMBER, userDTO.getPhoneNumber());
+		assertEquals(DefaultUserValue.FIRST_NAME, userDTO.getFirstName());
+		assertEquals(DefaultUserValue.LAST_NAME, userDTO.getLastName());
+		assertEquals(DefaultUserValue.PASSWORD, userDTO.getPassword());
+		assertEquals(DefaultUserValue.USER_TYPE_DESC, userDTO.getUserType());
 	}
 
 	@Test
@@ -39,10 +41,13 @@ public class UserAssemblerTest {
 		UserDTO dto = assembler.toDTO(user);
 		User result = assembler.fromDTO(dto);
 
-		assertEquals(result.getPseudonym(), dto.getPseudonym());
-		assertEquals(result.getEmail().toString(), dto.getEmail());
-		assertEquals(result.getPhoneNumber().toString(), dto.getPhoneNumber());
-		assertEquals(result.getFirstName(), dto.getFirstName());
-		assertEquals(result.getLastName(), dto.getLastName());
+		assertEquals(dto.getPseudonym(), result.getPseudonym());
+		assertEquals(dto.getEmail(), result.getEmail());
+		assertEquals(dto.getPhoneNumber(), result.getPhoneNumber());
+		assertEquals(dto.getFirstName(), result.getFirstName());
+		assertEquals(dto.getLastName(), result.getLastName());
+		assertEquals(dto.getPassword(), result.getPassword());
+		assertEquals(dto.getUserType(), result.getUserTypeDescription());
 	}
+
 }
