@@ -31,6 +31,7 @@ public class UserResource {
 	}
 
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response logInUser(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
 		try {
 			if (userServiceAC.userExists(pseudonym, password)) {
