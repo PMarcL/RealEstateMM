@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.dto;
+package org.RealEstateMM.services.dtos.user;
 
 public class UserDTO {
 
@@ -7,17 +7,21 @@ public class UserDTO {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	private String token;
+	private String password;
+	private String userType;
 
 	public UserDTO() {
 	}
 
-	public UserDTO(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
+	public UserDTO(String pseudonym, String password, String firstName, String lastName, String email,
+			String phoneNumber, String userType) {
 		this.setPseudonym(pseudonym);
+		this.setPassword(password);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setEmail(email);
 		this.setPhoneNumber(phoneNumber);
+		this.setUserType(userType);
 	}
 
 	public String getPseudonym() {
@@ -60,12 +64,20 @@ public class UserDTO {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getToken() {
-		return token;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 }

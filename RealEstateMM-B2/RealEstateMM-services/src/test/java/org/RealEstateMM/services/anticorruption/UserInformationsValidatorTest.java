@@ -1,6 +1,8 @@
 package org.RealEstateMM.services.anticorruption;
 
 import static org.junit.Assert.*;
+
+import org.RealEstateMM.domain.user.UserTypeDescription;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +16,7 @@ public class UserInformationsValidatorTest {
 	private final String VALID_NAME = "John";
 	private final String INVALID_NAME1 = "";
 	private final String INVALID_NAME2 = null;
+	private final String INVALID_USER_TYPE = "";
 
 	private UserInformationsValidator validator;
 
@@ -45,13 +48,24 @@ public class UserInformationsValidatorTest {
 
 	@Test
 	public void givenAValidNameWhenVerifyNameThenReturnsTrue() {
-		assertTrue(validator.nameIsValid(VALID_NAME));
+		assertTrue(validator.stringIsValid(VALID_NAME));
 	}
 
 	@Test
 	public void givenAnInvalidNameWhenVerifyNameThenReturnsFalse() {
-		assertFalse(validator.nameIsValid(INVALID_NAME1));
-		assertFalse(validator.nameIsValid(INVALID_NAME2));
+		assertFalse(validator.stringIsValid(INVALID_NAME1));
+		assertFalse(validator.stringIsValid(INVALID_NAME2));
 	}
 
+	@Test
+	public void givenAValidUserTypeWhenVerifyUserTypeThenReturnsTrue() {
+		assertTrue(validator.userTypeIsValid(UserTypeDescription.ADMIN));
+		assertTrue(validator.userTypeIsValid(UserTypeDescription.SELLER));
+		assertTrue(validator.userTypeIsValid(UserTypeDescription.BUYER));
+	}
+
+	@Test
+	public void givenAnInvalidUserTypeWhenVerifyUserTypeThenReturnsFalse() {
+		assertFalse(validator.userTypeIsValid(INVALID_USER_TYPE));
+	}
 }

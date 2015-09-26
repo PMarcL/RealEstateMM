@@ -1,14 +1,15 @@
 package org.RealEstateMM.steps;
 
+import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.persistence.memory.InMemoryUserRepository;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
 public class VendorConnectionSteps {
-	private final User A_USER = new User("bob32", "Robert", "Fross", "email@hotmail.com", "819 938-3950");
+	private final User A_USER = new DefaultUserBuilder().build();
 
 	private UserRepository userRepository;
 
@@ -21,11 +22,11 @@ public class VendorConnectionSteps {
 
 	@When("he enters valid vendor credentials")
 	public void whenHeEntersValidVendorCredentials() {
-		// TODO
+		// TODO acceptation test
 	}
 
 	@Then("he is connected to his vendor account")
 	public void thenHeIsConnectedToHisVendorAccount() {
-		// TODO
+		// TODO acceptation test
 	}
 }

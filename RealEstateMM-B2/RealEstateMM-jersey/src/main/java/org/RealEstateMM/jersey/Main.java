@@ -26,10 +26,18 @@ public class Main {
 	}
 
 	private void configureJersey(ServletContextHandler servletContextHandler) {
-		ServletContainer container = new ServletContainer(new ResourceConfig().packages(
-				"org.RealEstateMM.jersey").register(JacksonFeature.class));
+		ServletContainer container = new ServletContainer(setUpRessoures());
 		ServletHolder jerseyServletHolder = new ServletHolder(container);
 		servletContextHandler.addServlet(jerseyServletHolder, "/*");
+	}
+
+	private ResourceConfig setUpRessoures() {
+		ResourceConfig resourceConfig = new ResourceConfig();
+
+		resourceConfig.packages("org.RealEstateMM.jersey");
+		resourceConfig.register(JacksonFeature.class);
+
+		return resourceConfig;
 	}
 
 }

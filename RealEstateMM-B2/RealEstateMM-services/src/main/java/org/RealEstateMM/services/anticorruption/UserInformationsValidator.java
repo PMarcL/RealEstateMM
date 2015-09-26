@@ -3,6 +3,8 @@ package org.RealEstateMM.services.anticorruption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.RealEstateMM.domain.user.UserTypeDescription;
+
 public class UserInformationsValidator {
 
 	// Regex taken from this source:
@@ -22,9 +24,17 @@ public class UserInformationsValidator {
 		return m.matches();
 	}
 
-	public boolean nameIsValid(String name) {
+	public boolean stringIsValid(String name) {
 		if (name == null || name == "")
 			return false;
 		return true;
+	}
+
+	public boolean userTypeIsValid(String userType) {
+		if (userType.equals(UserTypeDescription.SELLER) || userType.equals(UserTypeDescription.BUYER)
+				|| userType.equals(UserTypeDescription.ADMIN)) {
+			return true;
+		}
+		return false;
 	}
 }

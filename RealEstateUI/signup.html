@@ -15,8 +15,8 @@
 
 
         <div class="input-field">
-            <input id="last_name" type="text" class="validate">
-            <label for="last_name">Username</label>
+            <input id="username" type="text" class="validate">
+            <label for="username">Username</label>
         </div>
 
 
@@ -26,30 +26,43 @@
         </div>
 
         <div class="input-field">
-            <input type="text" class="validate">
+            <input id="firstName" type="text" class="validate">
+            <label>First Name</label>
+        </div>
+
+        <div class="input-field">
+            <input id="lastName" type="text" class="validate">
+            <label>Last Name</label>
+        </div>
+
+        <div class="input-field">
+            <input id="email" type="text" class="validate">
             <label>Email</label>
         </div>
 
         <div class="input-field">
-            <input type="text" class="validate">
-            <label>Full Name</label>
-        </div>
-
-        <div class="input-field">
-            <input type="text" class="validate">
+            <input id="phone" type="text" class="validate">
             <label>Phone Number</label>
         </div>
+        <div class="input-field select">
+            <select style="display:block">
+                <option value="" disabled selected>Choose your account type</option>
+                <option value="Buyer">Buyer</option>
+                <option value="Seller">Seller</option>
+            </select>
+        </div>
 
 
-
+        <div class="card red darken-2">You must fill all fields</div>
         <div class="signup"><a class="waves-effect waves-light btn" onclick="postUser()">Sign Up</a></div>
 
     </form>
+
 </div>
 
 
 <script src="jquery/jquery-2.1.4.js"></script>
 <script src="materialize/materialize.js"></script>
-<script src = "asset/js/PostUser.js"></script>
+<script src="asset/js/PostUser.js"></script>
 </body>
 </html>

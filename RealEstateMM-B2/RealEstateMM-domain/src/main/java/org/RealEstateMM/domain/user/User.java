@@ -2,31 +2,50 @@ package org.RealEstateMM.domain.user;
 
 public class User {
 
-	public final String pseudonym;
-	public final String firstName;
-	public final String lastName;
-	public final String email;
-	public final String phoneNumber;
+	private UserInformation userInformation;
+	private UserType userType;
 
-	public User(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
-		this.pseudonym = pseudonym;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
+	public User(UserInformation userInfo, UserType type) {
+		this.userInformation = userInfo;
+		this.userType = type;
 	}
 
-	public boolean isEqual(User user) {
-		if (user == null) {
-			return false;
-		}
+	public String getPhoneNumber() {
+		return userInformation.phoneNumber;
+	}
 
-		boolean areEquals = this.email.equals(user.email);
-		areEquals &= this.firstName.equals(user.firstName);
-		areEquals &= this.lastName.equals(user.lastName);
-		areEquals &= this.phoneNumber.equals(user.phoneNumber);
-		areEquals &= this.pseudonym.equals(user.pseudonym);
-		return areEquals;
+	public String getEmail() {
+		return userInformation.email;
+	}
+
+	public String getLastName() {
+		return userInformation.lastName;
+	}
+
+	public String getFirstName() {
+		return userInformation.firstName;
+	}
+
+	public String getPassword() {
+		return userInformation.password;
+	}
+
+	public String getPseudonym() {
+		return userInformation.pseudonym;
+	}
+
+	public boolean hasPassword(String password) {
+		return userInformation.password.equals(password);
+	}
+
+	public String getUserTypeDescription() {
+		if (userType == UserType.BUYER) {
+			return UserTypeDescription.BUYER;
+		} else if (userType == UserType.SELLER) {
+			return UserTypeDescription.SELLER;
+		} else {
+			return UserTypeDescription.ADMIN;
+		}
 	}
 
 }

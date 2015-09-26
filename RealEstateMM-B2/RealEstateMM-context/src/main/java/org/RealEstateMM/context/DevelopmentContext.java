@@ -1,6 +1,6 @@
 package org.RealEstateMM.context;
 
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.persistence.memory.InMemoryUserRepository;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
@@ -15,7 +15,6 @@ public class DevelopmentContext extends Context {
 	@Override
 	protected void registerServices() {
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
-
 	}
 
 	@Override

@@ -5,9 +5,10 @@ import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.services.dto.UserAssembler;
-import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.dtos.user.UserAssembler;
+import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
+import org.RealEstateMM.services.roles.RightManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,12 +17,15 @@ public class SessionServiceTest {
 
 	private final User A_USER = new DefaultUserBuilder().build();
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
+	private RightManager aRole;
 
 	private SessionService sessionService;
 	private SessionRepository sessionRepository;
 
 	@Before
 	public void setUp() {
+		aRole = mock(RightManager.class);
+
 		sessionRepository = mock(SessionRepository.class);
 		UserAssembler userAssembler = mock(UserAssembler.class);
 
@@ -31,22 +35,24 @@ public class SessionServiceTest {
 	}
 
 	@Test
-	public void givenAUserNotConnectedWhenLogInThenAddOrOverwriteANewSessionForThatUserInTheSessionRepository() {
+	public void whenOpenSessionThenAddOrOverwriteANewSessionForThatUserInTheSessionRepository() {
 
-		sessionService.openSession(A_USER_DTO);
+		sessionService.openSessionWithRole(A_USER_DTO, aRole);
 
 		ArgumentCaptor<Session> captor = ArgumentCaptor.forClass(Session.class);
 		verify(sessionRepository, times(1)).saveOrOverwriteSession(captor.capture());
-		assertEquals(A_USER.pseudonym, captor.getValue().pseudonym);
+		assertEquals(A_USER.getPseudonym(), captor.getValue().pseudonym);
 
 		verifyNoMoreInteractions(sessionRepository);
 	}
 
 	@Test
-	public void givenAUserNotConnectedWhenCreateSessionThenReturnTheCreatedSession() {
-		Session actual = sessionService.openSession(A_USER_DTO);
+	public void whenOpenSessionThenReturnTheCreatedSession() {
+		Session actual = sessionService.openSessionWithRole(A_USER_DTO, aRole);
 
-		assertEquals(A_USER.pseudonym, actual.pseudonym);
+		assertEquals(A_USER.getPseudonym(), actual.pseudonym);
 		assertNotNull(actual.token);
+		assertNotNull(actual.role);
 	}
+
 }

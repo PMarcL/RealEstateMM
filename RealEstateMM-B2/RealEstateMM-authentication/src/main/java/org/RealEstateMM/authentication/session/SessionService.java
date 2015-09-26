@@ -3,8 +3,9 @@ package org.RealEstateMM.authentication.session;
 import java.util.UUID;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.services.dto.UserAssembler;
-import org.RealEstateMM.services.dto.UserDTO;
+import org.RealEstateMM.services.dtos.user.UserAssembler;
+import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.roles.RightManager;
 
 public class SessionService {
 
@@ -16,18 +17,18 @@ public class SessionService {
 		this.userAssembler = userAssembler;
 	}
 
-	public Session openSession(UserDTO userDTO) {
+	public Session openSessionWithRole(UserDTO userDTO, RightManager role) {
 		User user = userAssembler.fromDTO(userDTO);
 
-		Session createdSession = createASession(user);
+		Session createdSession = createASession(user, role);
 		sessionRepository.saveOrOverwriteSession(createdSession);
 
 		return createdSession;
 	}
 
-	private Session createASession(User user) {
+	private Session createASession(User user, RightManager role) {
 		String token = UUID.randomUUID().toString();
-		return new Session(user.pseudonym, token);
+		return new Session(user.getPseudonym(), token, role);
 	}
 
 }

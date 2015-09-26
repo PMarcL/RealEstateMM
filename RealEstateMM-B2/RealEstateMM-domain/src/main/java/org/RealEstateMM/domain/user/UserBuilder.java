@@ -3,20 +3,24 @@ package org.RealEstateMM.domain.user;
 public class UserBuilder {
 
 	private String pseudonym;
+	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	private String uerTypeDescription;
 
 	public UserBuilder() {
 	}
 
-	public UserBuilder(String pseudonym, String firstName, String lastName, String email, String phoneNumber) {
+	public UserBuilder(String pseudonym, String password, String firstName, String lastName, String email,
+			String phoneNumber) {
 		this.pseudonym = pseudonym;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
+		this.password = password;
 	}
 
 	public UserBuilder withPseudonym(String pseudonym) {
@@ -44,7 +48,29 @@ public class UserBuilder {
 		return this;
 	}
 
+	public UserBuilder withPassword(String password) {
+		this.password = password;
+		return this;
+	}
+
+	public UserBuilder withUserType(String type) {
+		this.uerTypeDescription = type;
+		return this;
+	}
+
 	public User build() {
-		return new User(pseudonym, firstName, lastName, email, phoneNumber);
+		UserInformation userInfo = new UserInformation(pseudonym, password, firstName, lastName, email, phoneNumber);
+		UserType userType = getUserTypeFromDescription(uerTypeDescription);
+		return new User(userInfo, userType);
+	}
+
+	private UserType getUserTypeFromDescription(String type) {
+		if (type.equals(UserTypeDescription.SELLER)) {
+			return UserType.SELLER;
+		} else if (type.equals(UserTypeDescription.BUYER)) {
+			return UserType.BUYER;
+		} else {
+			return UserType.ADMIN;
+		}
 	}
 }
