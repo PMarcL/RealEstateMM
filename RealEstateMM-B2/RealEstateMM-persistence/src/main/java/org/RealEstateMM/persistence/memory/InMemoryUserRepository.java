@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence;
+package org.RealEstateMM.persistence.memory;
 
 import java.util.HashMap;
 import java.util.Map;

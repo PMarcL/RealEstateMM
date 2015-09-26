@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence;
+package org.RealEstateMM.persistence.memory;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.persistence.memory.InMemoryUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 

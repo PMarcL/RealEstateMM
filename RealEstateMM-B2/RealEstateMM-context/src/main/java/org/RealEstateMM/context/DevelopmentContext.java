@@ -1,7 +1,7 @@
 package org.RealEstateMM.context;
 
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.persistence.InMemoryUserRepository;
+import org.RealEstateMM.persistence.memory.InMemoryUserRepository;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class DevelopmentContext extends Context {

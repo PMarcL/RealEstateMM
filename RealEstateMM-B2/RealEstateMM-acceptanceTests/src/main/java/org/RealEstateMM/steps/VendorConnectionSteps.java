@@ -2,7 +2,7 @@ package org.RealEstateMM.steps;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.persistence.InMemoryUserRepository;
+import org.RealEstateMM.persistence.memory.InMemoryUserRepository;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
