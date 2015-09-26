@@ -1,7 +1,7 @@
 package org.RealEstateMM.services.dtos.user;
 
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserBuilder;
 
 public class UserAssembler {
 

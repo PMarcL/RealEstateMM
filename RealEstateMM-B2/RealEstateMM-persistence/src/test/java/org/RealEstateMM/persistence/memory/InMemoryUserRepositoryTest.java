@@ -4,9 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.persistence.memory.InMemoryUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,26 +26,26 @@ public class InMemoryUserRepositoryTest {
 
 	@Test
 	public void givenEmptyRepositoryWhenAddUserShouldNotBeEmpty() {
-		repository.add(new DefaultUserBuilder().build());
+		repository.add(aUser().build());
 		assertFalse(repository.isEmpty());
 	}
 
 	@Test
 	public void givenEmptyRepositoryWhenAddUserShouldContainsOneElement() {
-		repository.add(new DefaultUserBuilder().build());
+		repository.add(aUser().build());
 		assertEquals(1, repository.size());
 	}
 
 	@Test
 	public void givenNotEmptyRepositoryWhenAddNotExistingUserShouldContainsOneMoreUser() {
-		repository.add(new DefaultUserBuilder().withPseudonym(PSEUDONYM).build());
-		repository.add(new DefaultUserBuilder().withPseudonym("anotherPseudonym").build());
+		repository.add(aUser().withPseudonym(PSEUDONYM).build());
+		repository.add(aUser().withPseudonym("anotherPseudonym").build());
 		assertEquals(2, repository.size());
 	}
 
 	@Test
 	public void givenNewUserWhenAddedToRepositoryShouldContainsUser() {
-		repository.add(new DefaultUserBuilder().withPseudonym(PSEUDONYM).build());
+		repository.add(aUser().withPseudonym(PSEUDONYM).build());
 		assertTrue(repository.contains(PSEUDONYM));
 	}
 
@@ -57,7 +56,7 @@ public class InMemoryUserRepositoryTest {
 
 	@Test
 	public void canRetrieveAddedUserWithPseudonym() {
-		User newUser = new DefaultUserBuilder().withPseudonym(PSEUDONYM).build();
+		User newUser = aUser().withPseudonym(PSEUDONYM).build();
 		repository.add(newUser);
 		assertSame(newUser, repository.getUserWithPseudonym(PSEUDONYM).get());
 	}
@@ -77,5 +76,9 @@ public class InMemoryUserRepositoryTest {
 		public void add(User user) {
 			super.add(user);
 		}
+	}
+
+	private UserBuilder aUser() {
+		return new UserBuilder();
 	}
 }
