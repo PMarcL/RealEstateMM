@@ -3,7 +3,7 @@ package org.RealEstateMM.services.anticorruption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.RealEstateMM.domain.user.UserTypeDescription;
+import org.RealEstateMM.domain.user.usertype.UserTypeDescription;
 
 public class UserInformationsValidator {
 

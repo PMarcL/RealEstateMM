@@ -2,7 +2,7 @@ package org.RealEstateMM.services.anticorruption;
 
 import static org.mockito.Mockito.*;
 
-import org.RealEstateMM.domain.helpers.DefaultUserValue;
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
@@ -33,31 +33,31 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyFirstName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).stringIsValid(DefaultUserValue.FIRST_NAME);
+		verify(validator).stringIsValid(UserBuilder.DEFAULT_FIRST_NAME);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).stringIsValid(DefaultUserValue.LAST_NAME);
+		verify(validator).stringIsValid(UserBuilder.DEFAULT_LAST_NAME);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).emailIsValid(DefaultUserValue.EMAIL);
+		verify(validator).emailIsValid(UserBuilder.DEFAULT_EMAIL);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).phoneNumberIsValid(DefaultUserValue.PHONE_NUMBER);
+		verify(validator).phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).userTypeIsValid(DefaultUserValue.USER_TYPE_DESC);
+		verify(validator).userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC);
 	}
 
 	@Test
@@ -68,7 +68,7 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
-		when(validator.emailIsValid(DefaultUserValue.EMAIL)).thenReturn(false);
+		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL)).thenReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
 
@@ -103,12 +103,12 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	private void allFieldsAreValid() {
-		when(validator.stringIsValid(DefaultUserValue.FIRST_NAME)).thenReturn(true);
-		when(validator.stringIsValid(DefaultUserValue.LAST_NAME)).thenReturn(true);
-		when(validator.phoneNumberIsValid(DefaultUserValue.PHONE_NUMBER)).thenReturn(true);
-		when(validator.emailIsValid(DefaultUserValue.EMAIL)).thenReturn(true);
+		when(validator.stringIsValid(UserBuilder.DEFAULT_FIRST_NAME)).thenReturn(true);
+		when(validator.stringIsValid(UserBuilder.DEFAULT_LAST_NAME)).thenReturn(true);
+		when(validator.phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER)).thenReturn(true);
+		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PASSWORD)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PSEUDO)).thenReturn(true);
-		when(validator.userTypeIsValid(DefaultUserValue.USER_TYPE_DESC)).thenReturn(true);
+		when(validator.userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC)).thenReturn(true);
 	}
 }

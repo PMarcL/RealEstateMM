@@ -2,7 +2,7 @@ package org.RealEstateMM.services.anticorruption;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.user.UserTypeDescription;
+import org.RealEstateMM.domain.user.usertype.UserTypeDescription;
 import org.junit.Before;
 import org.junit.Test;
 

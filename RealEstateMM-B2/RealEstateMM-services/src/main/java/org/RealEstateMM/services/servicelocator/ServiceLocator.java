@@ -28,6 +28,10 @@ public class ServiceLocator {
 		services = new HashMap<Class<?>, Object>();
 	}
 
+	public void clearAllServices() {
+		services = new HashMap<Class<?>, Object>();
+	}
+
 	public <T> void registerService(Class<T> service, T implementation) {
 		if (services.containsKey(service)) {
 			throw new ServiceAlreadyRegisteredException(service.toString());

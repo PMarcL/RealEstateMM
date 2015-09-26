@@ -3,7 +3,7 @@ package org.RealEstateMM.authentication.session;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
@@ -15,7 +15,7 @@ import org.mockito.ArgumentCaptor;
 
 public class SessionServiceTest {
 
-	private final User A_USER = new DefaultUserBuilder().build();
+	private final User A_USER = new UserBuilder().build();
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
 	private RightManager aRole;
 
