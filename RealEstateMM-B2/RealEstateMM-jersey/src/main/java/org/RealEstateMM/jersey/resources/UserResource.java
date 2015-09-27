@@ -53,7 +53,7 @@ public class UserResource {
 	public Response registerUser(UserDTO userDTO) {
 		try {
 			userServiceAC.createUser(userDTO);
-			return Response.ok(Status.OK).header("isLoggedIn", "true").build();
+			return Response.ok(Status.OK).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (UserWithPseudonymAlreadyStoredException exception) {

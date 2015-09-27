@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="asset/css/loginStyle.css"/>
 </head>
 <body>
-<div class ="form-header">
-    <div class = "header-text light grey-text text-lighten-3">Log In</div>
+<div class="form-header">
+    <div class="header-text light grey-text text-lighten-3">Log In</div>
 
 </div>
-<div class = "form">
+<div class="form">
     <form>
 
 
@@ -25,19 +25,18 @@
             <input id="password" type="password" class="validate">
             <label for="password">Password</label>
         </div>
-        <div class = "input-field">
-            <select class = "account-type" style="display: block ;">
-                <option value="Buyer">Buyer</option>
-                <option value="Seller">Seller</option>
-            </select>
+        <div class="card red darken-2"> Invalid user information</div>
+        <div class="loginDiv">
+            <a class="waves-effect waves-light red darken-2 btn login" onclick="getUser()">Log in</a>
         </div>
-        <a  class = "waves-effect waves-light red darken-2 btn login" onclick="getUser()">Log in</a>
+
     </form>
 </div>
 
 <script src="jquery/jquery-2.1.4.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
-<script src = "asset/js/GetUser.js"></script>
+<script src="asset/js/LoginCookie.js"></script>
+<script src="asset/js/GetUser.js"></script>
 
 </body>
 </html>

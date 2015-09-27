@@ -5,7 +5,7 @@ function LoginCookie() {
     }
 
     this.isUserPresent = function isUserPresent() {
-        if (getCookieValue(COOKIE_NAME) !=null) {
+        if (getCookieValue(COOKIE_NAME) != null) {
             return true;
         }
         else {
@@ -19,8 +19,12 @@ function LoginCookie() {
         return (value != null) ? decodeURI(value[1]) : null;
     }
 
+    this.setUsernameCookie = function setUsernameCookie(username) {
+        document.cookie = "realestateUser=" + username;
+    }
+
     this.delete = function deleteCookie() {
-        document.cookie= COOKIE_NAME + "="+getCookieValue(COOKIE_NAME)+"; expires=Thu, 18 Dec 2013 12:00:00 UTC";
+        document.cookie = COOKIE_NAME + "=" + getCookieValue(COOKIE_NAME) + "; expires=Thu, 18 Dec 2013 12:00:00 UTC";
     }
 
 }

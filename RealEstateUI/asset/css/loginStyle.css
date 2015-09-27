@@ -61,4 +61,19 @@ body {
   .account-type:last-child {
     margin-right: 0; }
 
+.card {
+  display: none;
+  opacity: 0.7;
+  float: left;
+  clear: none;
+  width: 65.66667%;
+  margin-left: 0;
+  margin-right: 3%;
+  color: white; }
+  .card:last-child {
+    margin-right: 0; }
+
+.card:hover {
+  opacity: 1; }
+
 /*# sourceMappingURL=loginStyle.css.map */
