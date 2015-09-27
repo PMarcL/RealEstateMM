@@ -12,6 +12,7 @@ public class UserInformationsValidatorTest {
 	private final String INVALID_EMAIL = "hello";
 	private final String VALID_PHONENUMBER1 = "(819) 244-4353";
 	private final String VALID_PHONENUMBER2 = "819 244-4353";
+	private final String VALID_PHONENUMBER3 = "4182346666";
 	private final String INVALID_PHONENUMBER = "(819) 44-435";
 	private final String VALID_NAME = "John";
 	private final String INVALID_NAME1 = "";
@@ -39,6 +40,7 @@ public class UserInformationsValidatorTest {
 	public void givenAValidPhoneNumberWhenVerifyPhoneNumberThenReturnsTrue() {
 		assertTrue(validator.phoneNumberIsValid(VALID_PHONENUMBER1));
 		assertTrue(validator.phoneNumberIsValid(VALID_PHONENUMBER2));
+		assertTrue(validator.phoneNumberIsValid(VALID_PHONENUMBER3));
 	}
 
 	@Test

@@ -77,36 +77,36 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() {
-		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
-		verify(service).userExists(VALID_PSEUDO, VALID_PASSWORD);
+	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() throws Exception {
+		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
+		verify(service).findUserType(VALID_PSEUDO, VALID_PASSWORD);
 	}
 
 	@Test
-	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() {
-		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
+	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() throws Exception {
+		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).stringIsValid(VALID_PSEUDO);
 	}
 
 	@Test
-	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() {
-		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
+	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() throws Exception {
+		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).stringIsValid(VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
-	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() {
-		userServiceAC.userExists(INVALID_STRING, VALID_PASSWORD);
+	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() throws Exception {
+		userServiceAC.findUserType(INVALID_STRING, VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
-	public void givenAnInvalidPasswordWhenCheckingUserExistanceThenThrowException() {
-		userServiceAC.userExists(INVALID_STRING, INVALID_STRING);
+	public void givenAnInvalidPasswordWhenCheckingUserExistanceThenThrowException() throws Exception {
+		userServiceAC.findUserType(INVALID_STRING, INVALID_STRING);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
-	public void givenAValidPseudoAndInvalidePasswordWhenCheckinUserExistanceThenThrowException() {
-		userServiceAC.userExists(VALID_PSEUDO, INVALID_STRING);
+	public void givenAValidPseudoAndInvalidePasswordWhenCheckinUserExistanceThenThrowException() throws Exception {
+		userServiceAC.findUserType(VALID_PSEUDO, INVALID_STRING);
 	}
 
 	private void allFieldsAreValid() {
