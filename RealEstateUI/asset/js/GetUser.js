@@ -12,11 +12,16 @@ function getUser()
         },
         success: function (data, status, httpResponse) {
             var loginCookie = new LoginCookie();
+            var accountTypeCookie = new AccountTypeCookie();
             loginCookie.setUsernameCookie($('#username').val());
-            window.location.href = '/RealEstateUI/index.html';
+            var usertype = JSON.parse(httpResponse.responseText).userType;
+            accountTypeCookie.setAccountTypeCookie(usertype);
+            window.location.href = 'index.html';
+
 
         },
-        error: function (httpRequest) {
+        error: function (data, textStatus, xhr) {
+            alert(data.responseText);
             $('.card').attr('style','display:block');
         }
     });

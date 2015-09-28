@@ -1,17 +1,10 @@
-function LoginCookie() {
-    var COOKIE_NAME = "realestateUser";
+
+function AccountTypeCookie() {
+    var COOKIE_NAME = "accountType";
     this.cookie = function findCookie() {
         return getCookieValue(COOKIE_NAME);
     }
 
-    this.isUserPresent = function isUserPresent() {
-        if (getCookieValue(COOKIE_NAME) != null) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     function getCookieValue(name) {
         var re = new RegExp(name + "=([^;]+)");
@@ -19,8 +12,8 @@ function LoginCookie() {
         return (value != null) ? decodeURI(value[1]) : null;
     }
 
-    this.setUsernameCookie = function setUsernameCookie(username) {
-        document.cookie = COOKIE_NAME + "=" + username;
+    this.setAccountTypeCookie = function setAccountTypeCookie(accountType) {
+        document.cookie = COOKIE_NAME + "=" + accountType;
     }
 
     this.delete = function deleteCookie() {

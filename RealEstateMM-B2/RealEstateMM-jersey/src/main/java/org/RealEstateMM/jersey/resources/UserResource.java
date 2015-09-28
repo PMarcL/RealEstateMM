@@ -34,8 +34,8 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response logInUser(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
 		try {
-			userServiceAC.findUserType(pseudonym, password);
-			return Response.ok(Status.OK).build();
+			String userType = userServiceAC.findUserType(pseudonym, password);
+			return Response.ok(Status.OK).entity("{\"userType\":\"" + userType + "\"}").build();
 
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
