@@ -3,7 +3,7 @@ package org.RealEstateMM.services.helpers;
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 
-public class DefaultUserDTOBuilder {
+public class UserDTOBuilder {
 
 	private String pseudonym;
 	private String firstName;
@@ -13,7 +13,7 @@ public class DefaultUserDTOBuilder {
 	private String password;
 	private String userType;
 
-	public DefaultUserDTOBuilder() {
+	public UserDTOBuilder() {
 		this.pseudonym = UserBuilder.DEFAULT_PSEUDO;
 		this.password = UserBuilder.DEFAULT_PASSWORD;
 		this.firstName = UserBuilder.DEFAULT_FIRST_NAME;
@@ -23,37 +23,37 @@ public class DefaultUserDTOBuilder {
 		this.userType = UserBuilder.DEFAULT_USER_TYPE_DESC;
 	}
 
-	public DefaultUserDTOBuilder withPseudonym(String pseudonym) {
+	public UserDTOBuilder withPseudonym(String pseudonym) {
 		this.pseudonym = pseudonym;
 		return this;
 	}
 
-	public DefaultUserDTOBuilder withPhoneNumber(String phoneNumber) {
+	public UserDTOBuilder withPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 		return this;
 	}
 
-	public DefaultUserDTOBuilder withFirstName(String firstName) {
+	public UserDTOBuilder withFirstName(String firstName) {
 		this.firstName = firstName;
 		return this;
 	}
 
-	public DefaultUserDTOBuilder withLastName(String lastName) {
+	public UserDTOBuilder withLastName(String lastName) {
 		this.lastName = lastName;
 		return this;
 	}
 
-	public DefaultUserDTOBuilder withEmail(String email) {
+	public UserDTOBuilder withEmail(String email) {
 		this.email = email;
 		return this;
 	}
 
-	public DefaultUserDTOBuilder withPassword(String password) {
+	public UserDTOBuilder withPassword(String password) {
 		this.password = password;
 		return this;
 	}
 
-	public DefaultUserDTOBuilder withUserType(String userType) {
+	public UserDTOBuilder withUserType(String userType) {
 		this.userType = userType;
 		return this;
 	}

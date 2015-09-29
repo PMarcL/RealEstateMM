@@ -10,13 +10,13 @@ import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredExc
 import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
+import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
 public class UserResourceTest {
 
-	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
+	private final UserDTO A_USER_DTO = new UserDTOBuilder().build();
 
 	private UserResource userConnectionResource;
 

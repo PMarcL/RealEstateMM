@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
+import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class UserServiceAntiCorruptionTest {
 	private final String VALID_PSEUDO = "pseudo34";
 	private final String VALID_PASSWORD = "pw1234";
 	private final String INVALID_STRING = "";
-	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
+	private final UserDTO A_USER_DTO = new UserDTOBuilder().build();
 
 	private UserInformationsValidator validator;
 	private UserService service;

@@ -7,7 +7,7 @@ import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
+import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -15,7 +15,7 @@ import org.mockito.ArgumentCaptor;
 public class SessionServiceTest {
 
 	private final User A_USER = new UserBuilder().build();
-	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
+	private final UserDTO A_USER_DTO = new UserDTOBuilder().build();
 
 	private SessionService sessionService;
 	private SessionRepository sessionRepository;
