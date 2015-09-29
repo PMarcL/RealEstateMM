@@ -7,22 +7,40 @@ import org.RealEstateMM.domain.user.repository.UserRepository;
 
 public class XmlUserRepository extends UserRepository {
 
+	XmlUserCollection usersCache;
+	XmlMarshaller marshaller;
+	XmlUserAssembler userAssembler;
+
+	public XmlUserRepository(XmlMarshaller marshaller, XmlUserAssembler userAssembler) {
+		this.marshaller = marshaller;
+		this.userAssembler = userAssembler;
+		this.usersCache = this.marshaller.unmarshall();
+	}
+
 	@Override
 	public Optional<User> getUserWithPseudonym(String pseudonym) {
-		// TODO Auto-generated method stub
-		return null;
+		if (isUserNotInCache(pseudonym))
+			return Optional.empty();
+
+		XmlUser xmlUser = usersCache.getUser(pseudonym);
+		User user = userAssembler.toUser(xmlUser);
+		return Optional.of(user);
+	}
+
+	private boolean isUserNotInCache(String pseudonym) {
+		return !usersCache.contains(pseudonym);
 	}
 
 	@Override
 	protected boolean contains(String pseudonym) {
-		// TODO Auto-generated method stub
-		return false;
+		return usersCache.contains(pseudonym);
 	}
 
 	@Override
-	protected void add(User user) {
-		// TODO Auto-generated method stub
-
+	protected void add(User newUser) {
+		XmlUser xmlUser = userAssembler.fromUser(newUser);
+		usersCache.add(xmlUser);
+		marshaller.marshall(usersCache);
 	}
 
 }
