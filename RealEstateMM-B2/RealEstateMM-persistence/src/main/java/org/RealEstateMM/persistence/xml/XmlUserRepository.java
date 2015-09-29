@@ -19,7 +19,7 @@ public class XmlUserRepository extends UserRepository {
 
 	@Override
 	public Optional<User> getUserWithPseudonym(String pseudonym) {
-		if (isUserNotInCache(pseudonym))
+		if (isUserAbsentFromCache(pseudonym))
 			return Optional.empty();
 
 		XmlUser xmlUser = usersCache.getUser(pseudonym);
@@ -27,7 +27,7 @@ public class XmlUserRepository extends UserRepository {
 		return Optional.of(user);
 	}
 
-	private boolean isUserNotInCache(String pseudonym) {
+	private boolean isUserAbsentFromCache(String pseudonym) {
 		return !usersCache.contains(pseudonym);
 	}
 
