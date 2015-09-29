@@ -9,19 +9,19 @@ public class PropertyUploadAntiCorruption {
 	private PropertyAddressValidator informationValidator;
 	private PropertyUploadService uploadService;
 	
-	private PropertyUploadAntiCorruption(PropertyUploadService service, PropertyAddressValidator validator){
+	public PropertyUploadAntiCorruption(PropertyUploadService service, PropertyAddressValidator validator){
 		this.informationValidator = validator;
 		this.uploadService = service;
 	}
 	
-	public void upload(PropertyInformations propertyInfos, PropertyAddressInformations propertyAddressInfos){
-		validatePropertyAddress(propertyAddressInfos);
-		uploadService.uploadProperty(propertyInfos, propertyAddressInfos);
+	public void upload(PropertyInformations propertyInfos){
+		validatePropertyAddress(propertyInfos);
+		uploadService.uploadProperty(propertyInfos);
 	}
 
-	private void validatePropertyAddress(PropertyAddressInformations propertyAddressInfos) {
-		if(!informationValidator.zipCodeIsValid(propertyAddressInfos.getZipCode())){
-			throw new InvalidZipCodeFormatException(propertyAddressInfos.getZipCode());
+	private void validatePropertyAddress(PropertyInformations propertyInfos) {
+		if(!informationValidator.zipCodeIsValid(propertyInfos.getPropertyAddress().zipCode)){ //TODO Train wreck
+			throw new InvalidZipCodeFormatException(propertyInfos.getPropertyAddress().zipCode);
 		}
 	}
 }

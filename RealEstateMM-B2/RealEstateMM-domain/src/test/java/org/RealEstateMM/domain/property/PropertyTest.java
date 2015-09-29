@@ -17,10 +17,12 @@ import org.mockito.MockitoAnnotations;
 public class PropertyTest {
 	
 	private Property property;
-	
-	private static PropertyType A_PROPERTY_TYPE = PropertyType.RESIDENTIAL;
+
 	private static double A_PROPERTY_PRICE = 200000.00;
-	private static PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
+//	private static PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
+//	private static PropertyType A_PROPERTY_TYPE = PropertyType.RESIDENTIAL;
+	private static String A_PROPERTY_STATUS = "residential";
+	private static String A_PROPERTY_TYPE = "for sale";
 	
 	@Mock
 	private PropertyAddress propertyAddress;

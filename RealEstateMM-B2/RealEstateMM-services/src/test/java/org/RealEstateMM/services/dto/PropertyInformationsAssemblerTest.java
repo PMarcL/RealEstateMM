@@ -11,9 +11,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PropertyInformationsAssemblerTest {
-	private PropertyType A_PROPERTY_TYPE = PropertyType.RESIDENTIAL;
 	private double A_PRICE = 200000.00;
-	private PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
+//	private PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
+//	private PropertyType A_PROPERTY_TYPE = PropertyType.RESIDENTIAL;
+	private String A_PROPERTY_STATUS = "On sale";
+	private String A_PROPERTY_TYPE = "Residential";
 	
 	private PropertyAddress propertyAddress;
 	private User owner;

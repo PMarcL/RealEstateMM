@@ -7,29 +7,45 @@ import org.RealEstateMM.domain.user.User;
 
 public class PropertyInformations {
 	
-	private PropertyType propertyType;
+
+//	private PropertyType propertyType;
+	private String propertyType;
 	private PropertyAddress propertyAddress;
 	private double propertyPrice;
 	private User propertyOwner;
-	private PropertyStatus propertyStatus; //TODO find a better name;
+	//private PropertyStatus propertyStatus; //TODO find a better name;
+	private String propertyStatus;
+	
+	private PropertyAddressInformationsAssembler addressAssembler;
+	private UserInformationsAssembler ownerAssembler;
 
 	public PropertyInformations(){
 		
 	}
 	
-	public PropertyInformations(PropertyType propertyType, double propertyPrice, User propertyOwner, PropertyStatus propertyStatus){
+	public PropertyInformations(String propertyType, PropertyAddressInformations propertyAddressInfos, double propertyPrice, UserInformations propertyOwnerInfo, String propertyStatus){
+		addressAssembler = new PropertyAddressInformationsAssembler();
+		ownerAssembler = new UserInformationsAssembler();
+		
 		this.setPropertyType(propertyType);
-		//this.setPropertyAddress(propertyAddress);
+		this.setPropertyAddress(propertyAddressInfos); //TODO coder l'assignation des deux DTO
 		this.setPropertyPrice(propertyPrice);
-		this.setPropertyOwner(propertyOwner);
+		this.setPropertyOwner(propertyOwnerInfo);
 		this.setPropertyStatus(propertyStatus);
 	}
 
-	public PropertyType getPropertyType() {
+//	public PropertyType getPropertyType() {
+//		return propertyType;
+//	}
+
+//	public void setPropertyType(PropertyType propertyType) {
+//		this.propertyType = propertyType;
+//	}
+	public String  getPropertyType(){
 		return propertyType;
 	}
-
-	public void setPropertyType(PropertyType propertyType) {
+	
+	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
 	}
 
@@ -37,7 +53,11 @@ public class PropertyInformations {
 		return propertyAddress;
 	}
 
-	public void setPropertyAddress(PropertyAddress propertyAddress) {
+	public void setPropertyAddress(PropertyAddressInformations propertyAddressInfo) {
+		this.propertyAddress = addressAssembler.fromDTO(propertyAddressInfo);
+	}
+	
+	public void setPropertyAddress(PropertyAddress propertyAddress){
 		this.propertyAddress = propertyAddress;
 	}
 
@@ -53,15 +73,19 @@ public class PropertyInformations {
 		return propertyOwner;
 	}
 
-	public void setPropertyOwner(User propertyOwner) {
-		this.propertyOwner = propertyOwner;
+	public void setPropertyOwner(UserInformations propertyOwnerInfos) {
+		this.propertyOwner = ownerAssembler.fromDTO(propertyOwnerInfos);
+	}
+	public void setPropertyOwner(User owner){
+		this.propertyOwner = owner;
 	}
 
-	public PropertyStatus getPropertyStatus() {
+	public String getPropertyStatus() {
 		return propertyStatus;
 	}
 
-	public void setPropertyStatus(PropertyStatus propertyStatus) {
+	public void setPropertyStatus(String propertyStatus) {
 		this.propertyStatus = propertyStatus;
 	}
+	
 }
