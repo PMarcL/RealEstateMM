@@ -16,7 +16,7 @@ aside {
   float: left;
   clear: none;
   width: 31.33333%;
-  margin-left: 68.66667%;
+  margin-left: 14.71429%;
   margin-right: 3%; }
   aside:last-child {
     margin-right: 0; }
@@ -58,5 +58,13 @@ h5 {
     margin-right: 3%; }
     aside:last-child {
       margin-right: 0; } }
+.accountActions {
+  float: left;
+  clear: none;
+  width: 48.5%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .accountActions:last-child {
+    margin-right: 0; }
 
 /*# sourceMappingURL=indexStyle.css.map */

@@ -13,7 +13,7 @@
 aside
 {
   text-align: left;
-  @include j-column(1/3,$offset:2/3);
+  @include j-column(1/3,$offset:1/7);
 
 }
 
@@ -23,6 +23,7 @@ aside
 }
 section a
 {
+
   margin-top: 1%;
 }
 
@@ -64,4 +65,9 @@ h5
     @include j-column(1);
 
   }
+}
+
+.accountActions
+{
+  @include j-column(1/2);
 }
