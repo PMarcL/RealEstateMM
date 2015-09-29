@@ -1,21 +1,40 @@
 package org.RealEstateMM.persistence.xml;
 
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.usertype.UserType;
+import org.RealEstateMM.domain.user.usertype.UserTypeFactory;
 
 public class XmlUserAssembler {
 
-	public XmlUserAssembler(XmlUserFactory factory) {
-		// TODO Auto-generated constructor stub
+	private UserTypeFactory userTypeFactory;
+
+	public XmlUserAssembler(UserTypeFactory factory) {
+		userTypeFactory = factory;
 	}
 
 	public XmlUser fromUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		XmlUser newUser = new XmlUser();
+		UserInformations userInfo = user.getUserInformations();
+
+		newUser.setPseudonym(userInfo.pseudonym);
+		newUser.setPassword(userInfo.password);
+		newUser.setFirstName(userInfo.firstName);
+		newUser.setLastName(userInfo.lastName);
+		newUser.setEmail(userInfo.email);
+		newUser.setPhoneNumber(userInfo.phoneNumber);
+		newUser.setUserType(user.getUserTypeDescription());
+
+		return newUser;
 	}
 
 	public User toUser(XmlUser xmlUser) {
-		// TODO Auto-generated method stub
-		return null;
+		UserInformations userInfo = new UserInformations(xmlUser.getPseudonym(), xmlUser.getPassword(),
+				xmlUser.getFirstName(), xmlUser.getLastName(), xmlUser.getEmail(), xmlUser.getPhoneNumber());
+		UserType userType = userTypeFactory.makeUserType(xmlUser.getUserType());
+
+		User user = new User(userInfo, userType);
+		return user;
 	}
 
 }

@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "employees")
+@XmlRootElement(name = "users")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XmlUserCollection {
 
-	@XmlElement(name = "employee")
+	@XmlElement(name = "user")
 	private Map<String, XmlUser> users;
 
 	public XmlUserCollection() {
