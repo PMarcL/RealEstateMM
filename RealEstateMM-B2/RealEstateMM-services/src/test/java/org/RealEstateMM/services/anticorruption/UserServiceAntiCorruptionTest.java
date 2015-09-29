@@ -2,7 +2,7 @@ package org.RealEstateMM.services.anticorruption;
 
 import static org.mockito.Mockito.*;
 
-import org.RealEstateMM.domain.helpers.DefaultUserValue;
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
@@ -13,8 +13,7 @@ public class UserServiceAntiCorruptionTest {
 
 	private final String VALID_PSEUDO = "pseudo34";
 	private final String VALID_PASSWORD = "pw1234";
-	private final String INVALID_PSEUDO = "";
-	private final String INVALID_PASSWORD = "";
+	private final String INVALID_STRING = "";
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
 
 	private UserInformationsValidator validator;
@@ -28,36 +27,41 @@ public class UserServiceAntiCorruptionTest {
 		service = mock(UserService.class);
 		userServiceAC = new UserServiceAntiCorruption(service, validator);
 		allFieldsAreValid();
+		setupInvalidFields();
+	}
+
+	private void setupInvalidFields() {
+		when(validator.stringIsValid(INVALID_STRING)).thenReturn(false);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyFirstName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).stringIsValid(DefaultUserValue.FIRST_NAME);
+		verify(validator).stringIsValid(UserBuilder.DEFAULT_FIRST_NAME);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).stringIsValid(DefaultUserValue.LAST_NAME);
+		verify(validator).stringIsValid(UserBuilder.DEFAULT_LAST_NAME);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).emailIsValid(DefaultUserValue.EMAIL);
+		verify(validator).emailIsValid(UserBuilder.DEFAULT_EMAIL);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).phoneNumberIsValid(DefaultUserValue.PHONE_NUMBER);
+		verify(validator).phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).userTypeIsValid(DefaultUserValue.USER_TYPE_DESC);
+		verify(validator).userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC);
 	}
 
 	@Test
@@ -68,47 +72,50 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
-		when(validator.emailIsValid(DefaultUserValue.EMAIL)).thenReturn(false);
+		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL)).thenReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
 
 	@Test
-	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() {
-		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
-		verify(service).userExists(VALID_PSEUDO, VALID_PASSWORD);
+	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() throws Exception {
+		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
+		verify(service).findUserType(VALID_PSEUDO, VALID_PASSWORD);
 	}
 
 	@Test
-	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() {
-		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
+	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() throws Exception {
+		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).stringIsValid(VALID_PSEUDO);
 	}
 
 	@Test
-	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() {
-		userServiceAC.userExists(VALID_PSEUDO, VALID_PASSWORD);
+	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() throws Exception {
+		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).stringIsValid(VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
-	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() {
-		when(validator.stringIsValid(INVALID_PSEUDO)).thenReturn(false);
-		userServiceAC.userExists(INVALID_PSEUDO, VALID_PASSWORD);
+	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() throws Exception {
+		userServiceAC.findUserType(INVALID_STRING, VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
-	public void givenAnInvalidPasswordWhenCheckingUserExistanceThenThrowException() {
-		when(validator.stringIsValid(INVALID_PASSWORD)).thenReturn(false);
-		userServiceAC.userExists(INVALID_PSEUDO, INVALID_PASSWORD);
+	public void givenAnInvalidPasswordWhenCheckingUserExistanceThenThrowException() throws Exception {
+		userServiceAC.findUserType(INVALID_STRING, INVALID_STRING);
+	}
+
+	@Test(expected = InvalidUserInformationsException.class)
+	public void givenAValidPseudoAndInvalidePasswordWhenCheckinUserExistanceThenThrowException() throws Exception {
+		userServiceAC.findUserType(VALID_PSEUDO, INVALID_STRING);
 	}
 
 	private void allFieldsAreValid() {
-		when(validator.stringIsValid(DefaultUserValue.FIRST_NAME)).thenReturn(true);
-		when(validator.stringIsValid(DefaultUserValue.LAST_NAME)).thenReturn(true);
-		when(validator.phoneNumberIsValid(DefaultUserValue.PHONE_NUMBER)).thenReturn(true);
-		when(validator.emailIsValid(DefaultUserValue.EMAIL)).thenReturn(true);
+		when(validator.stringIsValid(UserBuilder.DEFAULT_FIRST_NAME)).thenReturn(true);
+		when(validator.stringIsValid(UserBuilder.DEFAULT_LAST_NAME)).thenReturn(true);
+		when(validator.phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER)).thenReturn(true);
+		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PASSWORD)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PSEUDO)).thenReturn(true);
-		when(validator.userTypeIsValid(DefaultUserValue.USER_TYPE_DESC)).thenReturn(true);
+		when(validator.userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC)).thenReturn(true);
 	}
 }

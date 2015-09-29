@@ -1,12 +1,16 @@
 package org.RealEstateMM.services.dtos.user;
 
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
-import org.RealEstateMM.domain.helpers.DefaultUserValue;
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.usertype.UserType;
+import org.RealEstateMM.domain.user.usertype.UserTypeFactory;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.servicelocator.ServiceLocator;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,24 +20,33 @@ public class UserAssemblerTest {
 
 	private User user;
 	private UserDTO userDTO;
+	private UserTypeFactory factory;
 
 	@Before
-	public void initialisation() {
+	public void setup() {
+		factory = mock(UserTypeFactory.class);
+		when(factory.makeUserType(UserBuilder.DEFAULT_USER_TYPE_DESC)).thenReturn(UserType.SELLER);
+		ServiceLocator.getInstance().registerService(UserTypeFactory.class, factory);
 		assembler = new UserAssembler();
-		user = new DefaultUserBuilder().build();
+		user = new UserBuilder().build();
+	}
+
+	@After
+	public void clean() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test
 	public void givenAUserInformationsObjectWhenBuildDTOThenReturnsDTOWithSameInformations() {
 		userDTO = assembler.toDTO(user);
 
-		assertEquals(DefaultUserValue.PSEUDO, userDTO.getPseudonym());
-		assertEquals(DefaultUserValue.EMAIL, userDTO.getEmail());
-		assertEquals(DefaultUserValue.PHONE_NUMBER, userDTO.getPhoneNumber());
-		assertEquals(DefaultUserValue.FIRST_NAME, userDTO.getFirstName());
-		assertEquals(DefaultUserValue.LAST_NAME, userDTO.getLastName());
-		assertEquals(DefaultUserValue.PASSWORD, userDTO.getPassword());
-		assertEquals(DefaultUserValue.USER_TYPE_DESC, userDTO.getUserType());
+		assertEquals(UserBuilder.DEFAULT_PSEUDO, userDTO.getPseudonym());
+		assertEquals(UserBuilder.DEFAULT_EMAIL, userDTO.getEmail());
+		assertEquals(UserBuilder.DEFAULT_PHONE_NUMBER, userDTO.getPhoneNumber());
+		assertEquals(UserBuilder.DEFAULT_FIRST_NAME, userDTO.getFirstName());
+		assertEquals(UserBuilder.DEFAULT_LAST_NAME, userDTO.getLastName());
+		assertEquals(UserBuilder.DEFAULT_PASSWORD, userDTO.getPassword());
+		assertEquals(UserBuilder.DEFAULT_USER_TYPE_DESC, userDTO.getUserType());
 	}
 
 	@Test

@@ -31,13 +31,12 @@ public class UserResource {
 	}
 
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response logInUser(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
 		try {
-			if (userServiceAC.userExists(pseudonym, password)) {
-				return Response.ok(Status.OK).build();
-			} else {
-				return Response.status(Status.BAD_REQUEST).build();
-			}
+			String userType = userServiceAC.findUserType(pseudonym, password);
+			return Response.ok(Status.OK).entity("{\"userType\":\"" + userType + "\"}").build();
+
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (Exception ex) {
@@ -52,7 +51,7 @@ public class UserResource {
 	public Response registerUser(UserDTO userDTO) {
 		try {
 			userServiceAC.createUser(userDTO);
-			return Response.ok(Status.OK).header("isLoggedIn", "true").build();
+			return Response.ok(Status.OK).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (UserWithPseudonymAlreadyStoredException exception) {

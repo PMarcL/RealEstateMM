@@ -1,10 +1,12 @@
 function postUser() {
     var formData = JSON.stringify({
         "pseudonym": $('#username').val(),
+        "password" : $('#password').val(),
         "firstName": $('#firstName').val(),
         "lastName": $('#lastName').val(),
         "email": $('#email').val(),
-        "phoneNumber": $('#phone').val()
+        "phoneNumber": $('#phone').val(),
+        "userType" : $('select').val()
     });
     if(isAFieldEmpty())
     {
@@ -46,7 +48,7 @@ function ajaxPostUser(formData)
         success: function (data, status, httpResponse) {
             document.cookie = "realestateUser=" + $('#username').val();
             document.cookie = "accountType=" + $('select').val();
-            window.location.href = '/RealEstateUI/index.html';
+            window.location.href = 'index.html';
         },
         error: function (httpRequest) {
             $('form .card').attr('style','display:block');

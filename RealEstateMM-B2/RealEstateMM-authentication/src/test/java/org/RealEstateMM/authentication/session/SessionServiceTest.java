@@ -3,29 +3,25 @@ package org.RealEstateMM.authentication.session;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.helpers.DefaultUserBuilder;
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.DefaultUserDTOBuilder;
-import org.RealEstateMM.services.roles.RightManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 public class SessionServiceTest {
 
-	private final User A_USER = new DefaultUserBuilder().build();
+	private final User A_USER = new UserBuilder().build();
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
-	private RightManager aRole;
 
 	private SessionService sessionService;
 	private SessionRepository sessionRepository;
 
 	@Before
 	public void setUp() {
-		aRole = mock(RightManager.class);
-
 		sessionRepository = mock(SessionRepository.class);
 		UserAssembler userAssembler = mock(UserAssembler.class);
 
@@ -37,7 +33,7 @@ public class SessionServiceTest {
 	@Test
 	public void whenOpenSessionThenAddOrOverwriteANewSessionForThatUserInTheSessionRepository() {
 
-		sessionService.openSessionWithRole(A_USER_DTO, aRole);
+		sessionService.openSessionWithRole(A_USER_DTO);
 
 		ArgumentCaptor<Session> captor = ArgumentCaptor.forClass(Session.class);
 		verify(sessionRepository, times(1)).saveOrOverwriteSession(captor.capture());
@@ -48,11 +44,10 @@ public class SessionServiceTest {
 
 	@Test
 	public void whenOpenSessionThenReturnTheCreatedSession() {
-		Session actual = sessionService.openSessionWithRole(A_USER_DTO, aRole);
+		Session actual = sessionService.openSessionWithRole(A_USER_DTO);
 
 		assertEquals(A_USER.getPseudonym(), actual.pseudonym);
 		assertNotNull(actual.token);
-		assertNotNull(actual.role);
 	}
 
 }

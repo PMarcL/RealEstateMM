@@ -28,12 +28,15 @@ public class UserService {
 		userRepository.addUser(newUser);
 	}
 
-	public boolean userExists(String pseudonym, String password) {
+	public String findUserType(String pseudonym, String password) throws Exception {
 		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudonym);
 		if (userOptional.isPresent()) {
-			return userOptional.get().hasPassword(password);
+			if (userOptional.get().hasPassword(password)) {
+				return userOptional.get().getUserTypeDescription();
+			}
+			throw new InvalidPasswordException();
 		}
-		return false;
+		throw new UserDoesNotExistException();
 	}
 
 }

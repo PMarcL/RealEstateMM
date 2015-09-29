@@ -1,6 +1,6 @@
 package org.RealEstateMM.services.helpers;
 
-import org.RealEstateMM.domain.helpers.DefaultUserValue;
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 
 public class DefaultUserDTOBuilder {
@@ -14,13 +14,13 @@ public class DefaultUserDTOBuilder {
 	private String userType;
 
 	public DefaultUserDTOBuilder() {
-		this.pseudonym = DefaultUserValue.PSEUDO;
-		this.password = DefaultUserValue.PASSWORD;
-		this.firstName = DefaultUserValue.FIRST_NAME;
-		this.lastName = DefaultUserValue.LAST_NAME;
-		this.email = DefaultUserValue.EMAIL;
-		this.phoneNumber = DefaultUserValue.PHONE_NUMBER;
-		this.userType = DefaultUserValue.USER_TYPE_DESC;
+		this.pseudonym = UserBuilder.DEFAULT_PSEUDO;
+		this.password = UserBuilder.DEFAULT_PASSWORD;
+		this.firstName = UserBuilder.DEFAULT_FIRST_NAME;
+		this.lastName = UserBuilder.DEFAULT_LAST_NAME;
+		this.email = UserBuilder.DEFAULT_EMAIL;
+		this.phoneNumber = UserBuilder.DEFAULT_PHONE_NUMBER;
+		this.userType = UserBuilder.DEFAULT_USER_TYPE_DESC;
 	}
 
 	public DefaultUserDTOBuilder withPseudonym(String pseudonym) {

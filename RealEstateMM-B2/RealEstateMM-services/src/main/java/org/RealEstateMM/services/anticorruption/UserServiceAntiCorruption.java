@@ -18,13 +18,13 @@ public class UserServiceAntiCorruption {
 		userService.createUser(userDTO);
 	}
 
-	public boolean userExists(String pseudonym, String password) {
+	public String findUserType(String pseudonym, String password) throws Exception {
 		if (!informationsValidator.stringIsValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
 		} else if (!informationsValidator.stringIsValid(password)) {
 			throw new InvalidUserInformationsException("Password");
 		}
-		return userService.userExists(pseudonym, password);
+		return userService.findUserType(pseudonym, password);
 	}
 
 	private void validateUserDTO(UserDTO userDTO) {

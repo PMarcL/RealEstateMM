@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.user;
+package org.RealEstateMM.domain.user.usertype;
 
 public class UserTypeDescription {
 	public final static String SELLER = "seller";

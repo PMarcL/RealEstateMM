@@ -1,5 +1,8 @@
 package org.RealEstateMM.domain.user;
 
+import org.RealEstateMM.domain.user.usertype.UserType;
+import org.RealEstateMM.domain.user.usertype.UserTypeDescription;
+
 public class User {
 
 	private UserInformation userInformation;

@@ -16,6 +16,8 @@ public class UserServiceTest {
 	private final UserDTO A_USER_DTO = new DefaultUserDTOBuilder().build();
 	private final String PSEUDO = "pseudo34";
 	private final String PASSWORD = "pw1234";
+	private final String INVALID_PASSWORD = "posdf33";
+	private static final boolean HAS_PASSWORD = true;
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
@@ -41,34 +43,51 @@ public class UserServiceTest {
 	@Test
 	public void whenCreateUserThenAddNewUserToRepository() {
 		when(userAssembler.fromDTO(A_USER_DTO)).thenReturn(user);
+		
 		accountService.createUser(A_USER_DTO);
+		
 		verify(userRepository).addUser(user);
 	}
 
 	@Test
-	public void givenAPseudonymWhenCheckingForUserExistanceThenCallsTheRepository() {
-		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.empty());
-		accountService.userExists(PSEUDO, PASSWORD);
+	public void givenAPseudonymWhenfindingUserTypeThenCallsTheRepository() throws Exception {
+		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.of(user));
+		when(user.hasPassword(PASSWORD)).thenReturn(HAS_PASSWORD);
+		
+		accountService.findUserType(PSEUDO, PASSWORD);
+		
 		verify(userRepository).getUserWithPseudonym(PSEUDO);
 	}
 
-	@Test
-	public void givenAPseudonymWhenCheckingForUserExistanceIfNoUserExistsThenReturnsFalse() {
+	@Test(expected = UserDoesNotExistException.class)
+	public void givenNoUserWhenFindingUserTypeThenThrowUserNotFoundException() throws Exception {
 		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.empty());
-		assertFalse(accountService.userExists(PSEUDO, PASSWORD));
+		
+		accountService.findUserType(PSEUDO, PASSWORD);
 	}
 
 	@Test
-	public void givenAValidPseudonymWhenCheckingForUserExistanceThenChecksIfUserHasPassword() {
+	public void givenAValidPseudonymWhenCheckingForUserExistanceThenChecksIfUserHasPassword() throws Exception {
 		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.of(user));
-		accountService.userExists(PSEUDO, PASSWORD);
+		when(user.hasPassword(PASSWORD)).thenReturn(HAS_PASSWORD);
+		
+		accountService.findUserType(PSEUDO, PASSWORD);
+		
 		verify(user).hasPassword(PASSWORD);
 	}
 
 	@Test
 	public void givenAPseudonymWhenCheckingForUserExistanceIfUserExistsThenReturnsTrue() {
 		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.of(user));
-		when(user.hasPassword(PASSWORD)).thenReturn(true);
-		assertTrue(accountService.userExists(PSEUDO, PASSWORD));
+		when(user.hasPassword(PASSWORD)).thenReturn(HAS_PASSWORD);
+	}
+	
+	@Test(expected = InvalidPasswordException.class)
+	public void givenAnInvalidPasswordWhenFindingUserTypeThrowInvalidPasswordException() throws Exception
+	{
+		when(userRepository.getUserWithPseudonym(PSEUDO)).thenReturn(Optional.of(user));
+		when(user.hasPassword(PASSWORD)).thenReturn(HAS_PASSWORD);
+		
+		accountService.findUserType(PSEUDO, INVALID_PASSWORD);
 	}
 }
