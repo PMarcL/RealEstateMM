@@ -2,8 +2,6 @@ package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.user.usertype.UserType;
-import org.RealEstateMM.domain.user.usertype.UserTypeDescription;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,16 +14,17 @@ public class UserTest {
 	private final String EMAIL = "john@email.com";
 	private final String PHONENUMBER = "819 819-3904";
 	private final String PASSWORD = "jd1234";
-	private final UserType USERTYPE = UserType.SELLER;
-	private final String USERTYPE_DESCRIPTION = UserTypeDescription.SELLER;
+	private final String USERTYPE_DESCRIPTION = UserType.SELLER;
 
 	private User user;
 	private UserInformations userInformations;
+	private UserType userType;
 
 	@Before
 	public void setup() {
 		userInformations = new UserInformations(PSEUDONYM, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONENUMBER);
-		user = new User(userInformations, USERTYPE);
+		userType = new UserType(UserType.SELLER);
+		user = new User(userInformations, userType);
 	}
 
 	@Test

@@ -1,13 +1,10 @@
 package org.RealEstateMM.services.dtos.user;
 
 import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.usertype.UserType;
-import org.RealEstateMM.domain.user.usertype.UserTypeFactory;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
@@ -21,13 +18,9 @@ public class UserAssemblerTest {
 
 	private User user;
 	private UserDTO userDTO;
-	private UserTypeFactory factory;
 
 	@Before
 	public void setup() {
-		factory = mock(UserTypeFactory.class);
-		when(factory.makeUserType(UserBuilder.DEFAULT_USER_TYPE_DESC)).thenReturn(UserType.SELLER);
-		ServiceLocator.getInstance().registerService(UserTypeFactory.class, factory);
 		assembler = new UserAssembler();
 		user = new UserBuilder().build();
 	}

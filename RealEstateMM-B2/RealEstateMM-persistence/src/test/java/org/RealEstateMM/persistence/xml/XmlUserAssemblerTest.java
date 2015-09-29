@@ -1,28 +1,22 @@
 package org.RealEstateMM.persistence.xml;
 
-import static org.mockito.BDDMockito.*;
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.usertype.UserType;
-import org.RealEstateMM.domain.user.usertype.UserTypeFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 public class XmlUserAssemblerTest {
 
 	private XmlUserAssembler assembler;
-	private UserTypeFactory factory;
 	private XmlUser xmlUser;
 
 	@Before
 	public void setup() {
-		factory = mock(UserTypeFactory.class);
-		assembler = new XmlUserAssembler(factory);
+		assembler = new XmlUserAssembler();
 		createXmlUser();
-		given(factory.makeUserType(UserBuilder.DEFAULT_USER_TYPE_DESC)).willReturn(UserType.SELLER);
 	}
 
 	@Test
@@ -36,12 +30,6 @@ public class XmlUserAssemblerTest {
 		assertEquals(UserBuilder.DEFAULT_EMAIL, result.getEmail());
 		assertEquals(UserBuilder.DEFAULT_PHONE_NUMBER, result.getPhoneNumber());
 		assertEquals(UserBuilder.DEFAULT_USER_TYPE_DESC, result.getUserType());
-	}
-
-	@Test
-	public void givenAXmlUserWhenAssemblingUserThenCallsUserTypeFactory() {
-		assembler.toUser(xmlUser);
-		verify(factory).makeUserType(xmlUser.getUserType());
 	}
 
 	@Test

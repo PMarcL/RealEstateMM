@@ -1,8 +1,5 @@
 package org.RealEstateMM.domain.user;
 
-import org.RealEstateMM.domain.user.usertype.UserType;
-import org.RealEstateMM.domain.user.usertype.UserTypeDescription;
-
 public class User {
 
 	private UserInformations userInformations;
@@ -26,13 +23,7 @@ public class User {
 	}
 
 	public String getUserTypeDescription() {
-		if (userType == UserType.BUYER) {
-			return UserTypeDescription.BUYER;
-		} else if (userType == UserType.SELLER) {
-			return UserTypeDescription.SELLER;
-		} else {
-			return UserTypeDescription.ADMIN;
-		}
+		return userType.userTypeDescription;
 	}
 
 }

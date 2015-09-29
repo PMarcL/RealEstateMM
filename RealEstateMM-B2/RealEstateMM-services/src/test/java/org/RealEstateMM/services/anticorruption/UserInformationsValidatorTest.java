@@ -2,7 +2,7 @@ package org.RealEstateMM.services.anticorruption;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.user.usertype.UserTypeDescription;
+import org.RealEstateMM.domain.user.UserType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,9 +61,9 @@ public class UserInformationsValidatorTest {
 
 	@Test
 	public void givenAValidUserTypeWhenVerifyUserTypeThenReturnsTrue() {
-		assertTrue(validator.userTypeIsValid(UserTypeDescription.ADMIN));
-		assertTrue(validator.userTypeIsValid(UserTypeDescription.SELLER));
-		assertTrue(validator.userTypeIsValid(UserTypeDescription.BUYER));
+		assertTrue(validator.userTypeIsValid(UserType.ADMIN));
+		assertTrue(validator.userTypeIsValid(UserType.SELLER));
+		assertTrue(validator.userTypeIsValid(UserType.BUYER));
 	}
 
 	@Test

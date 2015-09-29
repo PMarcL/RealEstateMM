@@ -2,16 +2,9 @@ package org.RealEstateMM.persistence.xml;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.usertype.UserType;
-import org.RealEstateMM.domain.user.usertype.UserTypeFactory;
+import org.RealEstateMM.domain.user.UserType;
 
 public class XmlUserAssembler {
-
-	private UserTypeFactory userTypeFactory;
-
-	public XmlUserAssembler(UserTypeFactory factory) {
-		userTypeFactory = factory;
-	}
 
 	public XmlUser fromUser(User user) {
 		XmlUser newUser = new XmlUser();
@@ -31,7 +24,7 @@ public class XmlUserAssembler {
 	public User toUser(XmlUser xmlUser) {
 		UserInformations userInfo = new UserInformations(xmlUser.getPseudonym(), xmlUser.getPassword(),
 				xmlUser.getFirstName(), xmlUser.getLastName(), xmlUser.getEmail(), xmlUser.getPhoneNumber());
-		UserType userType = userTypeFactory.makeUserType(xmlUser.getUserType());
+		UserType userType = new UserType(xmlUser.getUserType());
 
 		User user = new User(userInfo, userType);
 		return user;

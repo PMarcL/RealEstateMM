@@ -3,7 +3,7 @@ package org.RealEstateMM.services.anticorruption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.RealEstateMM.domain.user.usertype.UserTypeDescription;
+import org.RealEstateMM.domain.user.UserType;
 
 public class UserInformationsValidator {
 
@@ -31,8 +31,7 @@ public class UserInformationsValidator {
 	}
 
 	public boolean userTypeIsValid(String userType) {
-		if (userType.equals(UserTypeDescription.SELLER) || userType.equals(UserTypeDescription.BUYER)
-				|| userType.equals(UserTypeDescription.ADMIN)) {
+		if (userType.equals(UserType.SELLER) || userType.equals(UserType.BUYER) || userType.equals(UserType.ADMIN)) {
 			return true;
 		}
 		return false;

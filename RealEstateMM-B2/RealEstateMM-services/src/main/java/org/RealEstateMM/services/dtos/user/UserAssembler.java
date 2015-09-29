@@ -2,17 +2,9 @@ package org.RealEstateMM.services.dtos.user;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.usertype.UserType;
-import org.RealEstateMM.domain.user.usertype.UserTypeFactory;
-import org.RealEstateMM.services.servicelocator.ServiceLocator;
+import org.RealEstateMM.domain.user.UserType;
 
 public class UserAssembler {
-
-	private UserTypeFactory factory;
-
-	public UserAssembler() {
-		factory = ServiceLocator.getInstance().getService(UserTypeFactory.class);
-	}
 
 	public UserDTO toDTO(User user) {
 		UserDTO dto = new UserDTO();
@@ -30,7 +22,7 @@ public class UserAssembler {
 	public User fromDTO(UserDTO userDTO) {
 		UserInformations userInfo = new UserInformations(userDTO.getPseudonym(), userDTO.getPassword(),
 				userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getPhoneNumber());
-		UserType type = factory.makeUserType(userDTO.getUserType());
+		UserType type = new UserType(userDTO.getUserType());
 		return new User(userInfo, type);
 	}
 }
