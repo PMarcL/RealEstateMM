@@ -20,12 +20,12 @@ public class UserTest {
 	private final String USERTYPE_DESCRIPTION = UserTypeDescription.SELLER;
 
 	private User user;
-	private UserInformation userInformation;
+	private UserInformations userInformations;
 
 	@Before
 	public void setup() {
-		userInformation = new UserInformation(PSEUDONYM, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONENUMBER);
-		user = new User(userInformation, USERTYPE);
+		userInformations = new UserInformations(PSEUDONYM, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONENUMBER);
+		user = new User(userInformations, USERTYPE);
 	}
 
 	@Test
@@ -34,28 +34,8 @@ public class UserTest {
 	}
 
 	@Test
-	public void givenAUserWhenGettingUserPasswordThenReturnsHisPassword() {
-		assertEquals(PASSWORD, user.getPassword());
-	}
-
-	@Test
-	public void givenAFirstNameWhenGettingUserFirstNameThenReturnsHisFirstName() {
-		assertEquals(FIRSTNAME, user.getFirstName());
-	}
-
-	@Test
-	public void givenAUserWhenGettingUserLastNameThenReturnsHisLastName() {
-		assertEquals(LASTNAME, user.getLastName());
-	}
-
-	@Test
-	public void givenAUserWhenGettingUserEmailThenReturnsHisEmail() {
-		assertEquals(EMAIL, user.getEmail());
-	}
-
-	@Test
-	public void givenAUserWhenGettingUserPhoneNumberThenReturnsHisPhoneNumber() {
-		assertEquals(PHONENUMBER, user.getPhoneNumber());
+	public void givenAUserWhenGettingUserInformationsThenReturnsHisInformations() {
+		assertTrue(userInformations.isEquals(user.getUserInformations()));
 	}
 
 	@Test

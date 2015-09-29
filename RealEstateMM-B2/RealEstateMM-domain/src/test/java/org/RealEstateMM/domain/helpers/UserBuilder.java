@@ -3,6 +3,7 @@ package org.RealEstateMM.domain.helpers;
 import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.UserInformations;
 
 public class UserBuilder {
 	public static final String DEFAULT_PSEUDO = "JohnD90";
@@ -14,46 +15,21 @@ public class UserBuilder {
 	public static final String DEFAULT_USER_TYPE_DESC = "seller";
 
 	private User user;
+	private UserInformations userInfo;
 
 	public UserBuilder() {
 		user = mock(User.class);
+		userInfo = new UserInformations(DEFAULT_PSEUDO, DEFAULT_PASSWORD, DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME,
+				DEFAULT_EMAIL, DEFAULT_PHONE_NUMBER);
 
 		withPseudonym(DEFAULT_PSEUDO);
-		withFirstName(DEFAULT_FIRST_NAME);
-		withLastName(DEFAULT_LAST_NAME);
-		withEmail(DEFAULT_EMAIL);
-		withPhoneNumber(DEFAULT_PHONE_NUMBER);
-		withPassword(DEFAULT_PASSWORD);
 		withUserType(DEFAULT_USER_TYPE_DESC);
+
+		given(user.getUserInformations()).willReturn(userInfo);
 	}
 
 	public UserBuilder withPseudonym(String pseudonym) {
 		given(user.getPseudonym()).willReturn(pseudonym);
-		return this;
-	}
-
-	public UserBuilder withPhoneNumber(String phoneNumber) {
-		given(user.getPhoneNumber()).willReturn(phoneNumber);
-		return this;
-	}
-
-	public UserBuilder withFirstName(String firstName) {
-		given(user.getFirstName()).willReturn(firstName);
-		return this;
-	}
-
-	public UserBuilder withLastName(String lastName) {
-		given(user.getLastName()).willReturn(lastName);
-		return this;
-	}
-
-	public UserBuilder withEmail(String email) {
-		given(user.getEmail()).willReturn(email);
-		return this;
-	}
-
-	public UserBuilder withPassword(String password) {
-		given(user.getPassword()).willReturn(password);
 		return this;
 	}
 

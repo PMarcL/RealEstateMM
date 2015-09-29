@@ -5,40 +5,24 @@ import org.RealEstateMM.domain.user.usertype.UserTypeDescription;
 
 public class User {
 
-	private UserInformation userInformation;
+	private UserInformations userInformations;
 	private UserType userType;
 
-	public User(UserInformation userInfo, UserType type) {
-		this.userInformation = userInfo;
+	public User(UserInformations userInfo, UserType type) {
+		this.userInformations = userInfo;
 		this.userType = type;
 	}
 
-	public String getPhoneNumber() {
-		return userInformation.phoneNumber;
-	}
-
-	public String getEmail() {
-		return userInformation.email;
-	}
-
-	public String getLastName() {
-		return userInformation.lastName;
-	}
-
-	public String getFirstName() {
-		return userInformation.firstName;
-	}
-
-	public String getPassword() {
-		return userInformation.password;
+	public UserInformations getUserInformations() {
+		return userInformations;
 	}
 
 	public String getPseudonym() {
-		return userInformation.pseudonym;
+		return userInformations.pseudonym;
 	}
 
 	public boolean hasPassword(String password) {
-		return userInformation.password.equals(password);
+		return userInformations.password.equals(password);
 	}
 
 	public String getUserTypeDescription() {

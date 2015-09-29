@@ -1,7 +1,7 @@
 package org.RealEstateMM.context;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserInformation;
+import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.domain.user.usertype.UserType;
 import org.RealEstateMM.domain.user.usertype.UserTypeFactory;
@@ -26,7 +26,7 @@ public class DevelopmentContext extends Context {
 
 	@Override
 	protected void injectData() {
-		UserInformation adminInfo = new UserInformation("admin", "admin1234", "Olivier", "Dugas", "olivierD@admin.com",
+		UserInformations adminInfo = new UserInformations("admin", "admin1234", "Olivier", "Dugas", "olivierD@admin.com",
 				"418 892-3940");
 		User admin = new User(adminInfo, UserType.ADMIN);
 		userRepository.addUser(admin);

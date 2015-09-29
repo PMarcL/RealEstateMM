@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.usertype.UserType;
 import org.RealEstateMM.domain.user.usertype.UserTypeFactory;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
@@ -54,12 +55,13 @@ public class UserAssemblerTest {
 		UserDTO dto = assembler.toDTO(user);
 		User result = assembler.fromDTO(dto);
 
+		UserInformations userInfo = result.getUserInformations();
 		assertEquals(dto.getPseudonym(), result.getPseudonym());
-		assertEquals(dto.getEmail(), result.getEmail());
-		assertEquals(dto.getPhoneNumber(), result.getPhoneNumber());
-		assertEquals(dto.getFirstName(), result.getFirstName());
-		assertEquals(dto.getLastName(), result.getLastName());
-		assertEquals(dto.getPassword(), result.getPassword());
+		assertEquals(dto.getEmail(), userInfo.email);
+		assertEquals(dto.getPhoneNumber(), userInfo.phoneNumber);
+		assertEquals(dto.getFirstName(), userInfo.firstName);
+		assertEquals(dto.getLastName(), userInfo.lastName);
+		assertEquals(dto.getPassword(), userInfo.password);
 		assertEquals(dto.getUserType(), result.getUserTypeDescription());
 	}
 
