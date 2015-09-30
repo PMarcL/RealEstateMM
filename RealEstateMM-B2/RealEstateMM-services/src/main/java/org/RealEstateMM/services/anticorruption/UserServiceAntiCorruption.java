@@ -20,8 +20,7 @@ public class UserServiceAntiCorruption {
 		userService.create(userDTO);
 	}
 
-	public UserDTO login(String pseudonym, String password)
-			throws InvalidPasswordException, UserDoesNotExistException {
+	public UserDTO login(String pseudonym, String password) throws InvalidPasswordException, UserDoesNotExistException {
 		if (!informationsValidator.stringIsValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
 		} else if (!informationsValidator.stringIsValid(password)) {

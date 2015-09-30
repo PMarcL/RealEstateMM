@@ -26,6 +26,7 @@ public class UserService {
 	public void create(UserDTO userDTO) {
 		User newUser = userAssembler.fromDTO(userDTO);
 		userRepository.addUser(newUser);
+		userAssembler.toDTO(newUser);
 	}
 
 	public UserDTO authenticate(String pseudonym, String password)

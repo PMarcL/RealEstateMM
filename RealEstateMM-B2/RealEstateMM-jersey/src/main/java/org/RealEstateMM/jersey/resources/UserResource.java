@@ -57,8 +57,7 @@ public class UserResource {
 		try {
 			UserDTO userDTO = userServiceAC.login(pseudonym, password);
 			Session session = sessionService.open(userDTO);
-			String json = "{\"userType\":\"" + userDTO.getUserType() + "\", \"token\":" + session.token + "}";
-			return Response.ok(Status.OK).entity(json).build();
+			return generateLoginJson(userDTO, session);
 
 		} catch (InvalidPasswordException | UserDoesNotExistException exception) {
 			String errorMessage = "Authentication failed: Pseudonym or password invalid";
@@ -72,14 +71,20 @@ public class UserResource {
 	@Path("user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response registerUser(UserDTO userDTO) {
+	public Response signup(UserDTO userDTO) {
 		try {
 			userServiceAC.createUser(userDTO);
-			return Response.ok(Status.OK).build();
+			Session session = sessionService.open(userDTO);
+			return generateLoginJson(userDTO, session);
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (UserWithPseudonymAlreadyStoredException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
+	}
+
+	private Response generateLoginJson(UserDTO userDTO, Session session) {
+		String json = "{\"userType\":\"" + userDTO.getUserType() + "\", \"token\":" + session.token + "}";
+		return Response.ok(Status.OK).entity(json).build();
 	}
 }
