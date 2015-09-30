@@ -12,7 +12,7 @@ import org.RealEstateMM.services.PropertyUploadService;
 import org.RealEstateMM.services.anticorruption.InvalidZipCodeFormatException;
 import org.RealEstateMM.services.anticorruption.PropertyAddressValidator;
 import org.RealEstateMM.services.anticorruption.PropertyUploadAntiCorruption;
-import org.RealEstateMM.services.dto.PropertyInformations;
+import org.RealEstateMM.services.dtos.property.PropertyInformations;
 
 @Path("/property")
 @Consumes(MediaType.APPLICATION_JSON)

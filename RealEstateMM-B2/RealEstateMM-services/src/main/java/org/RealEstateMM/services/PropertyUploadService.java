@@ -3,10 +3,10 @@ package org.RealEstateMM.services;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.services.dto.PropertyAddressInformations;
-import org.RealEstateMM.services.dto.PropertyAddressInformationsAssembler;
-import org.RealEstateMM.services.dto.PropertyInformations;
-import org.RealEstateMM.services.dto.PropertyInformationsAssembler;
+import org.RealEstateMM.services.dtos.property.PropertyAddressInformations;
+import org.RealEstateMM.services.dtos.property.PropertyAddressInformationsAssembler;
+import org.RealEstateMM.services.dtos.property.PropertyInformations;
+import org.RealEstateMM.services.dtos.property.PropertyInformationsAssembler;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class PropertyUploadService { //TODO Change class name

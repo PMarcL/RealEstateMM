@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.dto;
+package org.RealEstateMM.services.dtos.property;
 
 public class PropertyAddressInformations {
 

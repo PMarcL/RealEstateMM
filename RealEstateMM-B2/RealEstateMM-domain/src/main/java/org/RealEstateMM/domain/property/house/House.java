@@ -1,7 +1,6 @@
 package org.RealEstateMM.domain.property.house;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class House {
@@ -9,41 +8,40 @@ public class House {
 	private int FloorNumber;
 	private List<String> equipmentList;
 	private Land land;
-	
-	public House(){
+
+	public House() {
 		this.roomList = new ArrayList<Room>();
 		this.FloorNumber = 1;
 		this.equipmentList = new ArrayList<String>();
 		this.land = new Land();
 	}
-	
-	public void addRoom(int floor, String roomType, Double surfaceArea, String floorType){
+
+	public void addRoom(int floor, String roomType, Double surfaceArea, String floorType) {
 		roomList.add(new Room(floor, roomType, surfaceArea, floorType));
 	}
-	
-	public void addFloor(int floorNumber){
+
+	public void addFloor(int floorNumber) {
 		FloorNumber = floorNumber;
 	}
-	
-	public void addEquipment(String equipmentName){
+
+	public void addEquipment(String equipmentName) {
 		equipmentList.add(equipmentName);
 	}
-	
-	public void addLand(String type, Double area){
+
+	public void addLand(String type, Double area) {
 		land.setLandArea(area);
 		land.setLandType(type);
 	}
-	
-	public boolean isEquals(House house){
+
+	public boolean isEquals(House house) {
 		boolean equality = true;
 		for (Room room : roomList) {
-			
-			if(house.containingRoom(room) == false){
+			if (house.containingRoom(room) == false) {
 				equality = false;
 			}
 		}
 		return equality;
-		
+
 	}
 
 	public List<Room> getRoomList() {
@@ -61,17 +59,15 @@ public class House {
 	public Land getLand() {
 		return land;
 	}
-	
-	private boolean containingRoom(Room room){
+
+	private boolean containingRoom(Room room) {
 		boolean containing = false;
 		for (Room roomIterator : roomList) {
-			if(roomIterator.equals(room)){
+			if (roomIterator.equals(room)) {
 				containing = true;
 			}
 		}
 		return containing;
 	}
-	
-	
 
 }
