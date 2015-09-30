@@ -33,7 +33,7 @@ public class SessionServiceTest {
 	@Test
 	public void whenOpenSessionThenAddOrOverwriteANewSessionForThatUserInTheSessionRepository() {
 
-		sessionService.openSessionWithRole(A_USER_DTO);
+		sessionService.openSession(A_USER_DTO);
 
 		ArgumentCaptor<Session> captor = ArgumentCaptor.forClass(Session.class);
 		verify(sessionRepository, times(1)).saveOrOverwriteSession(captor.capture());
@@ -44,7 +44,7 @@ public class SessionServiceTest {
 
 	@Test
 	public void whenOpenSessionThenReturnTheCreatedSession() {
-		Session actual = sessionService.openSessionWithRole(A_USER_DTO);
+		Session actual = sessionService.openSession(A_USER_DTO);
 
 		assertEquals(A_USER.getPseudonym(), actual.pseudonym);
 		assertNotNull(actual.token);

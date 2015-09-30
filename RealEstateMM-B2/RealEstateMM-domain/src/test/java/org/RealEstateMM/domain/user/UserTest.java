@@ -39,12 +39,12 @@ public class UserTest {
 
 	@Test
 	public void givenAUserWhenCheckingPasswordCompatibilityWithHisPasswordThenReturnsTrue() {
-		assertTrue(user.hasPassword(PASSWORD));
+		assertTrue(user.validPassword(PASSWORD));
 	}
 
 	@Test
 	public void givenAUserWhenCheckingPasswordCompatibilityWithAnotherPasswordThenReturnsFalse() {
-		assertFalse(user.hasPassword(ANOTHER_PASSWORD));
+		assertFalse(user.validPassword(ANOTHER_PASSWORD));
 	}
 
 	@Test

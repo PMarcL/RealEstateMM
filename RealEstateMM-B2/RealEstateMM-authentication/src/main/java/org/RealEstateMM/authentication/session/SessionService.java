@@ -16,7 +16,7 @@ public class SessionService {
 		this.userAssembler = userAssembler;
 	}
 
-	public Session openSessionWithRole(UserDTO userDTO) {
+	public Session openSession(UserDTO userDTO) {
 		User user = userAssembler.fromDTO(userDTO);
 
 		Session createdSession = createASession(user);

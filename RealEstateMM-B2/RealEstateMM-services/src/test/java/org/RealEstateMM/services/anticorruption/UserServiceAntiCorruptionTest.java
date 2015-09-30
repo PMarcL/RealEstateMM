@@ -67,7 +67,7 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenRegisterUserWithService() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(service).createUser(A_USER_DTO);
+		verify(service).create(A_USER_DTO);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
@@ -79,7 +79,7 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() throws Exception {
 		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
-		verify(service).findUserType(VALID_PSEUDO, VALID_PASSWORD);
+		verify(service).authenticate(VALID_PSEUDO, VALID_PASSWORD);
 	}
 
 	@Test

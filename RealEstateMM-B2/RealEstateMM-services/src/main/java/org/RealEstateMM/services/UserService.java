@@ -23,16 +23,18 @@ public class UserService {
 		userAssembler = new UserAssembler();
 	}
 
-	public void createUser(UserDTO userDTO) {
+	public void create(UserDTO userDTO) {
 		User newUser = userAssembler.fromDTO(userDTO);
 		userRepository.addUser(newUser);
 	}
 
-	public String findUserType(String pseudonym, String password) throws Exception {
+	public UserDTO authenticate(String pseudonym, String password)
+			throws InvalidPasswordException, UserDoesNotExistException {
+
 		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudonym);
 		if (userOptional.isPresent()) {
-			if (userOptional.get().hasPassword(password)) {
-				return userOptional.get().getUserTypeDescription();
+			if (userOptional.get().validPassword(password)) {
+				return userAssembler.toDTO(userOptional.get());
 			}
 			throw new InvalidPasswordException();
 		}
