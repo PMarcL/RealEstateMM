@@ -1,5 +1,6 @@
 package org.RealEstateMM.context;
 
+import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
@@ -13,16 +14,19 @@ public class DevelopmentContext extends Context {
 
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
+	private SessionService sessionService;
 
 	public DevelopmentContext() {
 		this.userRepository = new InMemoryUserRepository();
 		this.propertyRepository = new InMemoryPropertyRepository();
+		this.sessionService = new SessionService();
 	}
 
 	@Override
 	protected void registerServices() {
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
+		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
 	}
 
 	@Override
