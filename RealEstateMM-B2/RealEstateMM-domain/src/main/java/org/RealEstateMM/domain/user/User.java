@@ -18,7 +18,7 @@ public class User {
 		return userInformations.pseudonym;
 	}
 
-	public boolean validPassword(String password) {
+	public boolean hasPassword(String password) {
 		return userInformations.password.equals(password);
 	}
 

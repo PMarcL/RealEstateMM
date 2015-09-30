@@ -42,7 +42,7 @@ public class UserServiceTest {
 	@Test
 	public void givenAPseudonymWithRightPassWordWhenAuthenticateThenReturnTheUserDTO() throws Exception {
 		when(userRepository.getUserWithPseudonym(A_PSEUDO)).thenReturn(Optional.of(A_USER));
-		when(A_USER.validPassword(A_PASSWORD)).thenReturn(true);
+		when(A_USER.hasPassword(A_PASSWORD)).thenReturn(true);
 		when(userAssembler.toDTO(A_USER)).thenReturn(A_USER_DTO);
 
 		UserDTO actual = userService.authenticate(A_PSEUDO, A_PASSWORD);
@@ -59,7 +59,7 @@ public class UserServiceTest {
 	@Test(expected = InvalidPasswordException.class)
 	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() throws Exception {
 		when(userRepository.getUserWithPseudonym(A_PSEUDO)).thenReturn(Optional.of(A_USER));
-		when(A_USER.validPassword(A_PASSWORD)).thenReturn(true);
+		when(A_USER.hasPassword(A_PASSWORD)).thenReturn(true);
 
 		userService.authenticate(A_PSEUDO, INVALID_PASSWORD);
 	}

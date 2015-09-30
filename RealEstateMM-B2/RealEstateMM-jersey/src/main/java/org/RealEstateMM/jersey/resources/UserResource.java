@@ -38,7 +38,6 @@ public class UserResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response logInUser(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
-
 		try {
 			UserDTO userDTO = userServiceAC.findUserType(pseudonym, password);
 			sessionService.open(userDTO);
@@ -50,7 +49,6 @@ public class UserResource {
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
-
 	}
 
 	@POST

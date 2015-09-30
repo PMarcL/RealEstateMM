@@ -33,7 +33,7 @@ public class UserService {
 
 		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudonym);
 		if (userOptional.isPresent()) {
-			if (userOptional.get().validPassword(password)) {
+			if (userOptional.get().hasPassword(password)) {
 				return userAssembler.toDTO(userOptional.get());
 			}
 			throw new InvalidPasswordException();
