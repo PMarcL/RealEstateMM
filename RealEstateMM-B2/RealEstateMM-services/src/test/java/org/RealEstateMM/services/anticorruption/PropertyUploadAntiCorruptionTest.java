@@ -2,7 +2,7 @@ package org.RealEstateMM.services.anticorruption;
 
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.services.PropertyUploadService;
+import org.RealEstateMM.services.PropertyService;
 import org.RealEstateMM.services.dtos.property.PropertyAddressInformations;
 import org.RealEstateMM.services.dtos.property.PropertyInformations;
 import org.junit.Before;
@@ -12,14 +12,14 @@ public class PropertyUploadAntiCorruptionTest {
 	private final String ZIPCODE = "G6P7H7";
 
 	private PropertyUploadAntiCorruption propertyAntiCorruption;
-	private PropertyUploadService service;
+	private PropertyService service;
 	private PropertyAddressValidator validator;
 	private PropertyAddressInformations addressInfos;
 	private PropertyInformations propertyInfos;
 
 	@Before
 	public void setup() {
-		service = mock(PropertyUploadService.class);
+		service = mock(PropertyService.class);
 		validator = mock(PropertyAddressValidator.class);
 		propertyInfos = mock(PropertyInformations.class);
 		addressInfos = mock(PropertyAddressInformations.class);

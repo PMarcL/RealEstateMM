@@ -3,7 +3,7 @@ package org.RealEstateMM.services.dtos.property;
 public class PropertyInformations {
 
 	private String propertyType;
-	private PropertyAddressInformations propertyAddress;
+	private PropertyAddressInformations propertyAddressInformations;
 	private double propertyPrice;
 	private String propertyOwner;
 	private String propertyStatus;
@@ -30,11 +30,11 @@ public class PropertyInformations {
 	}
 
 	public PropertyAddressInformations getPropertyAddressInformations() {
-		return propertyAddress;
+		return propertyAddressInformations;
 	}
 
 	public void setPropertyAddressInformations(PropertyAddressInformations propertyAddress) {
-		this.propertyAddress = propertyAddress;
+		this.propertyAddressInformations = propertyAddress;
 	}
 
 	public double getPropertyPrice() {

@@ -8,32 +8,32 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.services.PropertyUploadService;
+import org.RealEstateMM.services.PropertyService;
 import org.RealEstateMM.services.anticorruption.InvalidZipCodeFormatException;
 import org.RealEstateMM.services.anticorruption.PropertyAddressValidator;
 import org.RealEstateMM.services.anticorruption.PropertyUploadAntiCorruption;
 import org.RealEstateMM.services.dtos.property.PropertyInformations;
 
 @Path("/property")
-@Consumes(MediaType.APPLICATION_JSON)
 public class PropertyUploadResource {
-	
+
 	private PropertyUploadAntiCorruption uploadAC;
-	
-	public PropertyUploadResource(){
-		PropertyUploadService uploadService = new PropertyUploadService();
+
+	public PropertyUploadResource() {
+		PropertyService uploadService = new PropertyService();
 		uploadAC = new PropertyUploadAntiCorruption(uploadService, new PropertyAddressValidator());
 	}
-	
+
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response uploadProperty(PropertyInformations propertyInfos){
-		try{
+	public Response uploadProperty(PropertyInformations propertyInfos) {
+		try {
 			uploadAC.upload(propertyInfos);
 			return Response.ok(Status.OK).build();
-		} catch(InvalidZipCodeFormatException exception){
+		} catch (InvalidZipCodeFormatException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch(Exception ex){
+		} catch (Exception ex) {
 			return Response.serverError().build();
 		}
 	}

@@ -1,15 +1,15 @@
 package org.RealEstateMM.services.anticorruption;
 
-import org.RealEstateMM.services.PropertyUploadService;
+import org.RealEstateMM.services.PropertyService;
 import org.RealEstateMM.services.dtos.property.PropertyAddressInformations;
 import org.RealEstateMM.services.dtos.property.PropertyInformations;
 
 public class PropertyUploadAntiCorruption {
 
 	private PropertyAddressValidator informationValidator;
-	private PropertyUploadService uploadService;
+	private PropertyService uploadService;
 
-	public PropertyUploadAntiCorruption(PropertyUploadService service, PropertyAddressValidator validator) {
+	public PropertyUploadAntiCorruption(PropertyService service, PropertyAddressValidator validator) {
 		this.informationValidator = validator;
 		this.uploadService = service;
 	}
