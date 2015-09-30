@@ -21,7 +21,6 @@ import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException
 import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 @Path("/")
 public class UserResource {
@@ -32,7 +31,7 @@ public class UserResource {
 
 	public UserResource() {
 		this.userServiceAC = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
-		this.sessionService = ServiceLocator.getInstance().getService(SessionService.class);
+		this.sessionService = new SessionService();
 	}
 
 	public UserResource(UserServiceAntiCorruption userServiceAC, SessionService sessionService) {

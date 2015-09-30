@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class SessionService {
 
@@ -13,27 +14,7 @@ public class SessionService {
 	private UserAssembler userAssembler;
 
 	public SessionService() {
-		this.sessionRepository = new SessionRepository() {
-
-			@Override
-			public void saveOrOverwriteSession(Session session) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void removeSesionWithToken(String aToken) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public Optional<Session> getByToken(String token) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-
+		this.sessionRepository = ServiceLocator.getInstance().getService(SessionRepository.class);
 		this.userAssembler = new UserAssembler();
 	}
 

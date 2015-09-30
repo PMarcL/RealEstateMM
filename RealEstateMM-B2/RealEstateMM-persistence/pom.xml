@@ -26,5 +26,10 @@
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
+    <dependency>
+    	<groupId>ca.ulaval.glo4003</groupId>
+    	<artifactId>RealEstateMM-authentication</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

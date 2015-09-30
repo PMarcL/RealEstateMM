@@ -6,7 +6,7 @@ public interface SessionRepository {
 
 	public void saveOrOverwriteSession(Session session);
 
-	public void removeSesionWithToken(String aToken);
+	public void removeSesionWithToken(String token);
 
 	public Optional<Session> getByToken(String token);
 
