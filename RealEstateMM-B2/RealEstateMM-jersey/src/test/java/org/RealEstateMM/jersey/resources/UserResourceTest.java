@@ -23,10 +23,8 @@ public class UserResourceTest {
 
 	private static final String A_PSEUDONYM = "Joe90";
 	private static final String A_VALID_PASSWORD = "right";
-
 	private static final String AN_INVALID_PASSWORD = "wrong";
 	private static final String UNEXISTING_PSEUDONYM = "IDoNotExist";
-
 	private static final String A_VALID_TOKEN = "valid123";
 
 	private static final UserDTO A_USER_DTO = new UserDTOBuilder().build();

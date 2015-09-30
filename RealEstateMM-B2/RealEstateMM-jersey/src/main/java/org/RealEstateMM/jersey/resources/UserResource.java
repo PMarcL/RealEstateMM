@@ -53,7 +53,6 @@ public class UserResource {
 	@Path("user")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
-
 		try {
 			UserDTO userDTO = userServiceAC.login(pseudonym, password);
 			Session session = sessionService.open(userDTO);
@@ -66,7 +65,6 @@ public class UserResource {
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
-
 	}
 
 	@POST
