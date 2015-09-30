@@ -41,7 +41,7 @@ public class UserResource {
 
 		try {
 			UserDTO userDTO = userServiceAC.findUserType(pseudonym, password);
-			sessionService.openSession(userDTO);
+			sessionService.open(userDTO);
 			return Response.ok(Status.OK).entity("{\"userType\":\"" + userDTO.getUserType() + "\"}").build();
 
 		} catch (InvalidPasswordException | UserDoesNotExistException exception) {

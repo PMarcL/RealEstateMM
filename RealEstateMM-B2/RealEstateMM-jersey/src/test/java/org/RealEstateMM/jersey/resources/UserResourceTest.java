@@ -96,7 +96,7 @@ public class UserResourceTest {
 	@Test
 	public void givenValidCredentialsWhenLoginThenCreateASession() {
 		userConnectionResource.logInUser(A_PSEUDONYM, A_VALID_PASSWORD);
-		verify(sessionService, times(1)).openSession(A_USER_DTO);
+		verify(sessionService, times(1)).open(A_USER_DTO);
 	}
 
 	@Test
