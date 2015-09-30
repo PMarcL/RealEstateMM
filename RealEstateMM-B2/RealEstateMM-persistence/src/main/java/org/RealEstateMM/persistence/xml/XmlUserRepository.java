@@ -14,7 +14,7 @@ public class XmlUserRepository extends UserRepository {
 	public XmlUserRepository(XmlMarshaller marshaller, XmlUserAssembler userAssembler) {
 		this.marshaller = marshaller;
 		this.userAssembler = userAssembler;
-		this.usersCache = this.marshaller.unmarshall();
+		this.usersCache = this.marshaller.unmarshal(XmlUserCollection.class);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class XmlUserRepository extends UserRepository {
 	protected void add(User newUser) {
 		XmlUser xmlUser = userAssembler.fromUser(newUser);
 		usersCache.add(xmlUser);
-		marshaller.marshall(usersCache);
+		marshaller.marshal(XmlUserCollection.class, usersCache);
 	}
 
 }

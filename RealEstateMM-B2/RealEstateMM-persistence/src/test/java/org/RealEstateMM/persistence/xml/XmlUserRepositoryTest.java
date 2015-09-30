@@ -40,7 +40,7 @@ public class XmlUserRepositoryTest {
 
 		InOrder inOrder = inOrder(userCollection, marshaller);
 		inOrder.verify(userCollection).add(xmlUser);
-		inOrder.verify(marshaller).marshall(userCollection);
+		inOrder.verify(marshaller).marshal(XmlUserCollection.class, userCollection);
 	}
 
 	@Test
@@ -71,6 +71,6 @@ public class XmlUserRepositoryTest {
 		given(assembler.fromUser(any(User.class))).willReturn(xmlUser);
 		userCollection = mock(XmlUserCollection.class);
 		marshaller = mock(XmlMarshaller.class);
-		given(marshaller.unmarshall()).willReturn(userCollection);
+		given(marshaller.unmarshal(XmlUserCollection.class)).willReturn(userCollection);
 	}
 }
