@@ -34,7 +34,7 @@ public class UserServiceTest {
 
 	@Test
 	public void whenCreateUserThenAddNewUserToRepository() {
-		when(userAssembler.fromDTO(A_USER_DTO)).thenReturn(A_USER);
+		given(userAssembler.fromDTO(A_USER_DTO)).willReturn(A_USER);
 		userService.create(A_USER_DTO);
 		verify(userRepository).addUser(A_USER);
 	}

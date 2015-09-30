@@ -48,27 +48,27 @@ public class UserResourceTest {
 
 	@Test
 	public void givenAUserWhenRegisterUserThenShouldCallServiceLayer() {
-		userConnectionResource.registerUser(A_USER_DTO).getStatusInfo();
+		userConnectionResource.signup(A_USER_DTO).getStatusInfo();
 		verify(userServiceAC).createUser(A_USER_DTO);
 	}
 
 	@Test
 	public void givenAValidUserWhenAUserIsRegisteredThenTheServerShouldReturnResponseStatusOK() {
-		StatusType statusType = userConnectionResource.registerUser(A_USER_DTO).getStatusInfo();
+		StatusType statusType = userConnectionResource.signup(A_USER_DTO).getStatusInfo();
 		assertEquals(Status.OK, statusType);
 	}
 
 	@Test
 	public void givenAUserWithInvalidInformationWhenCreateUserThenReturnsResponseBadRequest() {
 		doThrow(InvalidUserInformationsException.class).when(userServiceAC).createUser(A_USER_DTO);
-		StatusType statusType = userConnectionResource.registerUser(A_USER_DTO).getStatusInfo();
+		StatusType statusType = userConnectionResource.signup(A_USER_DTO).getStatusInfo();
 		assertEquals(Status.BAD_REQUEST, statusType);
 	}
 
 	@Test
 	public void givenAUserWithValidInformationWhenUserWithSamePseudoAlreadyExistsThenReturnsResponseBadRequest() {
 		doThrow(UserWithPseudonymAlreadyStoredException.class).when(userServiceAC).createUser(A_USER_DTO);
-		StatusType statusType = userConnectionResource.registerUser(A_USER_DTO).getStatusInfo();
+		StatusType statusType = userConnectionResource.signup(A_USER_DTO).getStatusInfo();
 		assertEquals(Status.BAD_REQUEST, statusType);
 	}
 
