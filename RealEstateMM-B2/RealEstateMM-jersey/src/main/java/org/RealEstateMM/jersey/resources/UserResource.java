@@ -2,6 +2,7 @@ package org.RealEstateMM.jersey.resources;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -10,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.InvalidPasswordException;
@@ -20,9 +22,10 @@ import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 
-@Path("/user")
+@Path("/")
 public class UserResource {
 
+	private static final String AUTHORIZATION_HEADER_MISSING = "Authorization header missing";
 	private UserServiceAntiCorruption userServiceAC;
 	private SessionService sessionService;
 
@@ -35,14 +38,27 @@ public class UserResource {
 		this.sessionService = sessionService;
 	}
 
+	@POST
+	@Path("logout")
+	public Response logout(@HeaderParam("Authorization") String token) {
+		if (token == null) {
+			return Response.status(Status.BAD_REQUEST).entity(AUTHORIZATION_HEADER_MISSING).build();
+		}
+		sessionService.close(token);
+		return Response.ok(Status.OK).build();
+
+	}
+
 	@GET
+	@Path("user")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response logInUser(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
+	public Response login(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
 
 		try {
-			UserDTO userDTO = userServiceAC.findUserType(pseudonym, password);
-			sessionService.open(userDTO);
-			return Response.ok(Status.OK).entity("{\"userType\":\"" + userDTO.getUserType() + "\"}").build();
+			UserDTO userDTO = userServiceAC.login(pseudonym, password);
+			Session session = sessionService.open(userDTO);
+			String json = "{\"userType\":\"" + userDTO.getUserType() + "\", \"token\":" + session.token + "}";
+			return Response.ok(Status.OK).entity(json).build();
 
 		} catch (InvalidPasswordException | UserDoesNotExistException exception) {
 			String errorMessage = "Authentication failed: Pseudonym or password invalid";
@@ -54,6 +70,7 @@ public class UserResource {
 	}
 
 	@POST
+	@Path("user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response registerUser(UserDTO userDTO) {

@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.StatusType;
 
+import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.InvalidPasswordException;
@@ -26,7 +27,10 @@ public class UserResourceTest {
 	private static final String AN_INVALID_PASSWORD = "wrong";
 	private static final String UNEXISTING_PSEUDONYM = "IDoNotExist";
 
-	private final UserDTO A_USER_DTO = new UserDTOBuilder().build();
+	private static final String A_VALID_TOKEN = "valid123";
+
+	private static final UserDTO A_USER_DTO = new UserDTOBuilder().build();
+	private static final Session A_SESSION = new Session(A_USER_DTO.getPseudonym(), A_VALID_TOKEN);
 
 	private UserResource userConnectionResource;
 
@@ -38,7 +42,8 @@ public class UserResourceTest {
 		userServiceAC = mock(UserServiceAntiCorruption.class);
 		sessionService = mock(SessionService.class);
 
-		given(userServiceAC.findUserType(A_PSEUDONYM, A_VALID_PASSWORD)).willReturn(A_USER_DTO);
+		given(userServiceAC.login(A_PSEUDONYM, A_VALID_PASSWORD)).willReturn(A_USER_DTO);
+		given(sessionService.open(A_USER_DTO)).willReturn(A_SESSION);
 
 		userConnectionResource = new UserResource(userServiceAC, sessionService);
 	}
@@ -71,38 +76,56 @@ public class UserResourceTest {
 
 	@Test
 	public void givenInvalidPasswordWhenLoginThenReturnResponseUnauthorizedError() throws Exception {
-		doThrow(InvalidPasswordException.class).when(userServiceAC).findUserType(A_PSEUDONYM, AN_INVALID_PASSWORD);
-		Response response = userConnectionResource.logInUser(A_PSEUDONYM, AN_INVALID_PASSWORD);
+		doThrow(InvalidPasswordException.class).when(userServiceAC).login(A_PSEUDONYM, AN_INVALID_PASSWORD);
+		Response response = userConnectionResource.login(A_PSEUDONYM, AN_INVALID_PASSWORD);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
 	@Test
 	public void givenInvalidPseudonymWhenLoginThenReturnResponseUnauthorizedError() throws Exception {
-		doThrow(UserDoesNotExistException.class).when(userServiceAC).findUserType(UNEXISTING_PSEUDONYM,
-				AN_INVALID_PASSWORD);
-		Response response = userConnectionResource.logInUser(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
+		doThrow(UserDoesNotExistException.class).when(userServiceAC).login(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
+		Response response = userConnectionResource.login(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenValidCredentialsWhenLoginThenReturnUserType() throws Exception {
-		Response response = userConnectionResource.logInUser(A_PSEUDONYM, A_VALID_PASSWORD);
+	public void givenValidCredentialsWhenLoginThenReturnUserTypeAndToken() throws Exception {
+		Response response = userConnectionResource.login(A_PSEUDONYM, A_VALID_PASSWORD);
 
 		String actualJson = (String) response.getEntity();
-		String expectedJson = "{\"userType\":\"" + A_USER_DTO.getUserType() + "\"}";
+		String expectedJson = "{\"userType\":\"" + A_USER_DTO.getUserType() + "\", \"token\":" + A_VALID_TOKEN + "}";
 		assertEquals(expectedJson, actualJson);
 	}
 
 	@Test
 	public void givenValidCredentialsWhenLoginThenCreateASession() {
-		userConnectionResource.logInUser(A_PSEUDONYM, A_VALID_PASSWORD);
+		userConnectionResource.login(A_PSEUDONYM, A_VALID_PASSWORD);
 		verify(sessionService, times(1)).open(A_USER_DTO);
 	}
 
 	@Test
-	public void givenCredentialsWIthInvalidInformationWhenloginThenReturnsResponseBadRequest() throws Exception {
-		doThrow(InvalidUserInformationsException.class).when(userServiceAC).findUserType(null, null);
-		Response response = userConnectionResource.logInUser(null, null);
+	public void givenCredentialsWithInvalidInformationWhenloginThenReturnsResponseBadRequest() throws Exception {
+		doThrow(InvalidUserInformationsException.class).when(userServiceAC).login(null, null);
+		Response response = userConnectionResource.login(null, null);
+		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
+	}
+
+	@Test
+	public void givenATokenWhenLogoutThenCloseSession() {
+		userConnectionResource.logout(A_VALID_TOKEN);
+		verify(sessionService, times(1)).close(A_VALID_TOKEN);
+	}
+
+	@Test
+	public void givenATokenWhenLogoutThenReturnStatusOK() {
+		Response response = userConnectionResource.logout(A_VALID_TOKEN);
+		assertEquals(Status.OK, response.getStatusInfo());
+	}
+
+	@Test
+	public void givenNoTokenWhenLogoutThenReturnStatusBadRequest() {
+		String noToken = null;
+		Response response = userConnectionResource.logout(noToken);
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
 	}
 }
