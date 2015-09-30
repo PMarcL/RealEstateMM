@@ -67,7 +67,7 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenRegisterUserWithService() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(service).createUser(A_USER_DTO);
+		verify(service).create(A_USER_DTO);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
@@ -78,35 +78,35 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test
 	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() throws Exception {
-		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
-		verify(service).findUserType(VALID_PSEUDO, VALID_PASSWORD);
+		userServiceAC.login(VALID_PSEUDO, VALID_PASSWORD);
+		verify(service).authenticate(VALID_PSEUDO, VALID_PASSWORD);
 	}
 
 	@Test
 	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() throws Exception {
-		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
+		userServiceAC.login(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).stringIsValid(VALID_PSEUDO);
 	}
 
 	@Test
 	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() throws Exception {
-		userServiceAC.findUserType(VALID_PSEUDO, VALID_PASSWORD);
+		userServiceAC.login(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).stringIsValid(VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() throws Exception {
-		userServiceAC.findUserType(INVALID_STRING, VALID_PASSWORD);
+		userServiceAC.login(INVALID_STRING, VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAnInvalidPasswordWhenCheckingUserExistanceThenThrowException() throws Exception {
-		userServiceAC.findUserType(INVALID_STRING, INVALID_STRING);
+		userServiceAC.login(INVALID_STRING, INVALID_STRING);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAValidPseudoAndInvalidePasswordWhenCheckinUserExistanceThenThrowException() throws Exception {
-		userServiceAC.findUserType(VALID_PSEUDO, INVALID_STRING);
+		userServiceAC.login(VALID_PSEUDO, INVALID_STRING);
 	}
 
 	private void allFieldsAreValid() {
