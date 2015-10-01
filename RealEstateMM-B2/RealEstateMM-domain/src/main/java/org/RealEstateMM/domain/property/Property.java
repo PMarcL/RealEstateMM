@@ -8,14 +8,14 @@ public class Property {
 	public final String propertyType;
 	public final PropertyAddress propertyAddress;
 	public final double propertyPrice;
-	public final User propertyOwner;
+	public final String propertyOwner;
 	public final String propertyStatus;
 
-	public Property(String type, PropertyAddress address, double price, User owner, String status) {
+	public Property(String type, PropertyAddress address, double price, String ownerUsername, String status) {
 		this.propertyType = type;
 		this.propertyAddress = address;
 		this.propertyPrice = price;
-		this.propertyOwner = owner;
+		this.propertyOwner = ownerUsername;
 		this.propertyStatus = status;
 	}
 
@@ -29,4 +29,12 @@ public class Property {
 		areEquals &= this.propertyOwner.equals(property.propertyOwner);
 		return areEquals;
 	}
+
+	@Override
+	public String toString() {
+		return "Property [propertyType=" + propertyType + ", propertyAddress=" + propertyAddress + ", propertyPrice="
+				+ propertyPrice + ", propertyOwner=" + propertyOwner + ", propertyStatus=" + propertyStatus + "]";
+	}
+	
+	
 }

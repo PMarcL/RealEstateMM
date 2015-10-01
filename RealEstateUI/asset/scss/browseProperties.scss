@@ -1,0 +1,19 @@
+@import '../../jeet/index';
+
+
+#propertylist
+{
+
+}
+
+.propertylist-item
+{
+  @include j-column(8/10,$offset:1/10);
+  height:200px;
+}
+
+
+.propertylist-item div
+{
+  @include j-column(3/10);
+}

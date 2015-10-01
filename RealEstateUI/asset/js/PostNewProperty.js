@@ -17,16 +17,15 @@ function postNewProperty() {
 function ajaxPostProperty()
 {
     var propertyAddress = {
-        "streetNumber": "25",
-        "streetName": "bobbt",
-        "city": "Quebec",
-        "province": "Quebec",
-        "zipCode": "G1C7K7"
+        "streetAddress": $('#streetAddress').val(),
+        "city": $('#city').val(),
+        "province": $('#province').val(),
+        "zipCode": $('#zipCode').val()
     };
     var formData = JSON.stringify({
-        "propertyType": "House",
+        "propertyType": $('#propertyType').val(),
         "propertyAddressInformations": propertyAddress,
-        "propertyPrice": "20",
+        "propertyPrice": $('#price').val(),
         "propertyOwner": loginCookie.cookie(),
         "propertyStatus": "On Sale"
     });

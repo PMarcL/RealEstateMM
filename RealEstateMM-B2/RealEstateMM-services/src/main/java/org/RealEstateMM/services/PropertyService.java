@@ -7,6 +7,8 @@ import org.RealEstateMM.services.dtos.property.PropertyInformations;
 import org.RealEstateMM.services.dtos.property.PropertyInformationsAssembler;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
+import com.google.gson.Gson;
+
 public class PropertyService {
 
 	private PropertyRepository propertyRepository;
@@ -30,5 +32,13 @@ public class PropertyService {
 
 	public void editPropertyInfos(Property property) {
 		// TODO Implement
+	}
+	
+	public String getAllProperties()
+	{
+		Gson gson = new Gson();
+
+		String json = gson.toJson(propertyRepository.getAllProperties());
+		return json;
 	}
 }

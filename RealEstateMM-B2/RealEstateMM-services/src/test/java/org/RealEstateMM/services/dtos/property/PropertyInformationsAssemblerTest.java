@@ -1,15 +1,16 @@
 package org.RealEstateMM.services.dtos.property;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
-import org.RealEstateMM.services.dtos.property.PropertyInformations;
-import org.RealEstateMM.services.dtos.property.PropertyInformationsAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,24 +23,27 @@ public class PropertyInformationsAssemblerTest {
 
 	private PropertyAddress propertyAddress;
 	private PropertyAddressInformations addressInformations;
-	private User owner;
 	private Property property;
 	private PropertyAddressInformationsAssembler addressAssembler;
 	private UserRepository userRepository;
-
+	private User owner;
 	private PropertyInformationsAssembler assembler;
+	
+	
 
 	@Before
 	public void setup() {
 		addressAssembler = mock(PropertyAddressInformationsAssembler.class);
 		userRepository = mock(UserRepository.class);
-		owner = mock(User.class);
+		
 		assembler = new PropertyInformationsAssembler(addressAssembler, userRepository);
-		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PRICE, owner, A_PROPERTY_STATUS);
+		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PRICE, OWNER_PSEUDO, A_PROPERTY_STATUS);
 		addressInformations = new PropertyAddressInformations();
-
+		
+		owner = mock(User.class);
 		when(owner.getPseudonym()).thenReturn(OWNER_PSEUDO);
 		when(userRepository.getUserWithPseudonym(OWNER_PSEUDO)).thenReturn(Optional.of(owner));
+
 	}
 
 	@Test

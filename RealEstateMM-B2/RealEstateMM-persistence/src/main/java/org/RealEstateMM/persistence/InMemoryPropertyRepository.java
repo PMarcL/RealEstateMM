@@ -1,5 +1,6 @@
 package org.RealEstateMM.persistence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -34,5 +35,10 @@ public class InMemoryPropertyRepository implements org.RealEstateMM.domain.prope
 
 	public int getSize() {
 		return properties.size();
+	}
+
+	@Override
+	public ArrayList<Property> getAllProperties() {
+		return new ArrayList<Property>(properties.values());
 	}
 }

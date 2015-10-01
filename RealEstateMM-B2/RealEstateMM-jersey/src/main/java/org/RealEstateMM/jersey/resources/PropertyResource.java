@@ -19,15 +19,29 @@ import org.RealEstateMM.services.dtos.property.PropertyInformations;
 @Path("/property")
 public class PropertyResource {
 
-	private PropertyServiceAntiCorruption propertyServiceAC;
-
-	public PropertyResource(PropertyServiceAntiCorruption propertyServiceAC) {
-		this.propertyServiceAC = propertyServiceAC;
-	}
+	private PropertyServiceAntiCorruption uploadAC;
+	private PropertyService propertyService;
 
 	public PropertyResource() {
-		PropertyService uploadService = new PropertyService();
-		propertyServiceAC = new PropertyServiceAntiCorruption(uploadService, new PropertyAddressValidator());
+		propertyService = new PropertyService();
+		uploadAC = new PropertyServiceAntiCorruption(propertyService, new PropertyAddressValidator());
+	}
+
+	public PropertyResource(PropertyServiceAntiCorruption serviceAC) {
+		uploadAC = serviceAC;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllProperties() {
+		try {
+			String propertyJSON = propertyService.getAllProperties();
+			return Response.ok(Status.OK).entity(propertyJSON).build();
+
+		} catch (Exception ex) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+
 	}
 
 	@GET
@@ -48,10 +62,12 @@ public class PropertyResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadProperty(PropertyInformations propertyInfos) {
 		try {
-			propertyServiceAC.upload(propertyInfos);
+			uploadAC.upload(propertyInfos);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		} catch (Exception ex) {
+			return Response.serverError().build();
 		}
 	}
 
