@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence.xml;
+package org.RealEstateMM.persistence.xml.property;
 
 import java.util.ArrayList;
 import java.util.List;

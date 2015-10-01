@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence.xml;
+package org.RealEstateMM.persistence.xml.property;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
+import org.RealEstateMM.persistence.xml.XmlMarshaller;
 
 public class XmlPropertyRepository extends PropertyRepository {
 
@@ -50,7 +52,7 @@ public class XmlPropertyRepository extends PropertyRepository {
 	}
 
 	@Override
-	public ArrayList<Property> getAllProperties() {
+	public List<Property> getAllProperties() {
 		ArrayList<Property> properties = new ArrayList<Property>();
 		List<XmlProperty> xmlProperties = propertyCache.getProperties();
 

@@ -8,16 +8,18 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserType;
 import org.RealEstateMM.domain.user.repository.UserRepository;
-import org.RealEstateMM.persistence.memory.InMemoryPropertyRepository;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
-import org.RealEstateMM.persistence.xml.XmlUserAssembler;
-import org.RealEstateMM.persistence.xml.XmlUserRepository;
+import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
+import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
+import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
+import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class DemoContext extends Context {
 	private static final String XML_FILES_LOCATION = "c:/data/";
 	private static final String USER_REPOSITORY_FILE = "users.xml";
+	private static final String PROPERTY_REPOSITORY_FILE = "properties.xml";
 
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
@@ -26,8 +28,16 @@ public class DemoContext extends Context {
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
 		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
-		this.propertyRepository = new InMemoryPropertyRepository();
+
+		File xmlProperties = new File(propertiesFilePath());
+		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperties),
+				new XmlPropertyAssembler());
+
 		this.sessionRepository = new InMemorySessionRepository();
+	}
+
+	private String propertiesFilePath() {
+		return XML_FILES_LOCATION + PROPERTY_REPOSITORY_FILE;
 	}
 
 	private String usersFilePath() {

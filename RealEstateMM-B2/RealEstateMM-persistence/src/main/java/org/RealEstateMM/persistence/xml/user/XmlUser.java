@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence.xml;
+package org.RealEstateMM.persistence.xml.user;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

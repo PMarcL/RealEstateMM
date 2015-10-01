@@ -1,9 +1,11 @@
-package org.RealEstateMM.persistence.xml;
+package org.RealEstateMM.persistence.xml.property;
 
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyAddress;
+import org.RealEstateMM.persistence.xml.property.XmlProperty;
+import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +14,7 @@ public class XmlPropertyAssemblerTest {
 	private XmlPropertyAssembler assembler;
 	private XmlProperty xmlProperty;
 	private Property property;
-	
+
 	private static final String A_TYPE = "type1";
 	private static final String A_PRICE = "200000.0";
 	private static final String A_OWNER_NAME = "Joe";
@@ -20,20 +22,18 @@ public class XmlPropertyAssemblerTest {
 	private static final String A_STREETADDRESS = "123, FakeStreet";
 	private static final String A_CITY = "Gotham";
 	private static final String A_PROVINCE = "Quebec";
-	private static final String A_ZIPCODE = "G6V0A9"; 
-	
-	
+	private static final String A_ZIPCODE = "G6V0A9";
+
 	@Before
-	public void init(){
+	public void init() {
 		assembler = new XmlPropertyAssembler();
 	}
-	
+
 	@Test
-	public void givenAPropertyWhenAssemblingXmlPropertyThenXmlPropertyHasIdenticalFields(){
+	public void givenAPropertyWhenAssemblingXmlPropertyThenXmlPropertyHasIdenticalFields() {
 		createProperty();
-		
+
 		XmlProperty result = assembler.fromProperty(property);
-		
 
 		assertEquals(A_TYPE, result.getType());
 		assertEquals(A_PRICE, result.getPrice());
@@ -44,13 +44,13 @@ public class XmlPropertyAssemblerTest {
 		assertEquals(A_PROVINCE, result.getProvinceAddress());
 		assertEquals(A_ZIPCODE, result.getZipCodeAddress());
 	}
-	
+
 	@Test
-	public void givenAXmlPropertyWhenAssemblingPropertyFromXmlPropertyThenPropertyHasIdenticalFields(){
+	public void givenAXmlPropertyWhenAssemblingPropertyFromXmlPropertyThenPropertyHasIdenticalFields() {
 		createXmlProperty();
 		Property result = assembler.toProperty(xmlProperty);
 		PropertyAddress resultAddress = result.propertyAddress;
-		
+
 		assertEquals(A_TYPE, result.propertyType);
 		assertEquals(A_PRICE, String.valueOf(result.propertyPrice));
 		assertEquals(A_OWNER_NAME, result.propertyOwner);
@@ -61,11 +61,11 @@ public class XmlPropertyAssemblerTest {
 		assertEquals(A_ZIPCODE, resultAddress.zipCode);
 	}
 
-	private void createProperty(){
+	private void createProperty() {
 		PropertyAddress address = new PropertyAddress(A_STREETADDRESS, A_CITY, A_PROVINCE, A_ZIPCODE);
 		property = new Property(A_TYPE, address, Double.parseDouble(A_PRICE), A_OWNER_NAME, A_STATUS);
 	}
-	
+
 	private void createXmlProperty() {
 		xmlProperty = new XmlProperty();
 		xmlProperty.setType(A_TYPE);

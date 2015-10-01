@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence.xml;
+package org.RealEstateMM.persistence.xml.user;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
@@ -6,6 +6,12 @@ import static org.mockito.BDDMockito.*;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
+import org.RealEstateMM.persistence.xml.XmlMarshaller;
+import org.RealEstateMM.persistence.xml.user.XmlUser;
+import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
+import org.RealEstateMM.persistence.xml.user.XmlUserCollection;
+import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;

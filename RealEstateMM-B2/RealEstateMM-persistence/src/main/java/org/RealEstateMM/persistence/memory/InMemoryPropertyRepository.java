@@ -2,6 +2,7 @@ package org.RealEstateMM.persistence.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -19,14 +20,14 @@ public class InMemoryPropertyRepository extends PropertyRepository {
 
 	@Override
 	public Optional<Property> getPropertyAtAddress(String streetAddress, String cityAddress) {
-//		if (!propertyExist(propertyAddress)) {
-//			return Optional.empty();
-//		}
-//		return Optional.of(properties.get(propertyAddress.toString()));
-//		
+		// if (!propertyExist(propertyAddress)) {
+		// return Optional.empty();
+		// }
+		// return Optional.of(properties.get(propertyAddress.toString()));
+		//
 		return null;
 	}
-	//TODO Fix
+	// TODO Fix
 
 	private boolean propertyExist(PropertyAddress propertyAddress) {
 		return properties.containsKey(propertyAddress.toString());
@@ -41,7 +42,7 @@ public class InMemoryPropertyRepository extends PropertyRepository {
 		return properties.size();
 	}
 
-	public ArrayList<Property> getAllProperties() {
+	public List<Property> getAllProperties() {
 		return new ArrayList<Property>(properties.values());
 	}
 

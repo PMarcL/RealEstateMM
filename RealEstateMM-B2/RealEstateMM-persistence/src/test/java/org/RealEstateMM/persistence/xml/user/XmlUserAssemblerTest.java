@@ -1,10 +1,12 @@
-package org.RealEstateMM.persistence.xml;
+package org.RealEstateMM.persistence.xml.user;
 
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.persistence.xml.user.XmlUser;
+import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
