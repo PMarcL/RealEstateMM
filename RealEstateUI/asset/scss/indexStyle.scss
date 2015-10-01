@@ -1,8 +1,6 @@
 @import '../../jeet/index';
 
 
-@include j-edit();
-
 .toolbar
 {
   @include j-cf();
@@ -49,18 +47,6 @@ h5
   left:27%;
   top:225px;
   color:#D32F2F;
-}
-
-
-
-@media screen and (max-width: 800px)
-{
-  aside
-  {
-    text-align: left;
-    @include j-column(1);
-
-  }
 }
 
 .accountActions
