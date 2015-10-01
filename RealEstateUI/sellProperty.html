@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Sale</title>
+
+    <link rel="stylesheet" href="asset/css/sellProperty.css"/>
+    <link rel="stylesheet" href="asset/css/signupStyle.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+</head>
+<body>
+
+<div class="form">
+    <form>
+
+
+        <div class="input-field">
+            <input id="price" type="text" class="validate">
+            <label for="price">price</label>
+        </div>
+
+
+        <div class="input-field">
+            <input id="propertyType" type="text" class="validate">
+            <label for="propertyType">Type</label>
+        </div>
+
+        <div class="input-field">
+            <input id="streetAddress" type="text" class="validate">
+            <label for="streetAddress">Address</label>
+        </div>
+
+        <div class="input-field">
+            <input id="city" type="text" class="validate">
+            <label for="city">City</label>
+        </div>
+
+        <div class="input-field">
+            <input id="province" type="text" class="validate">
+            <label for="province">Province</label>
+        </div>
+
+        <div class="input-field">
+            <input id="zipCode" type="text" class="validate">
+            <label for="zipCode">Zip Code</label>
+        </div>
+
+
+
+        <div class="card red darken-2">You must fill all fields</div>
+        <div class="confirm-sale"><a onclick="postNewProperty()" class="waves-effect waves-light btn" >Confirm</a></div>
+
+    </form>
+
+</div>
+
+<script src="jquery/jquery-2.1.4.js"></script>
+<script src="materialize/materialize.js"></script>
+<script src="asset/js/FormValidator.js"></script>
+<script src="asset/js/LoginCookie.js"></script>
+<script src="asset/js/PostNewProperty.js"></script>
+</body>
+</html>

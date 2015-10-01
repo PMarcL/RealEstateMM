@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="asset/css/signupStyle.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+
+</head>
+<body>
+
+
+<div class="form">
+    <form>
+
+
+        <div class="input-field">
+            <input id="username" type="text" class="validate">
+            <label for="username">Username</label>
+        </div>
+
+
+        <div class="input-field">
+            <input id="password" type="password" class="validate">
+            <label for="password">Password</label>
+        </div>
+
+        <div class="input-field">
+            <input id="firstName" type="text" class="validate">
+            <label>First Name</label>
+        </div>
+
+        <div class="input-field">
+            <input id="lastName" type="text" class="validate">
+            <label>Last Name</label>
+        </div>
+
+        <div class="input-field">
+            <input id="email" type="text" class="validate">
+            <label>Email</label>
+        </div>
+
+        <div class="input-field">
+            <input id="phone" type="text" class="validate">
+            <label>Phone Number</label>
+        </div>
+        <div class="input-field select">
+            <select style="display:block">
+                <option value="" disabled selected>Choose your account type</option>
+                <option value="buyer">Buyer</option>
+                <option value="seller">Seller</option>
+            </select>
+        </div>
+
+
+        <div class="card red darken-2">You must fill all fields</div>
+        <div class="signup"><a class="waves-effect waves-light btn" onclick="postUser()">Sign Up</a></div>
+
+    </form>
+
+</div>
+
+
+<script src="jquery/jquery-2.1.4.js"></script>
+<script src="materialize/materialize.js"></script>
+<script src="asset/js/FormValidator.js"></script>
+<script src="asset/js/PostUser.js"></script>
+<script src = 'asset/js/AccountTypeCookie.js'></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+.propertylist-item {
+  float: left;
+  clear: none;
+  width: 79.4%;
+  margin-left: 10.3%;
+  margin-right: 3%;
+  height: 200px; }
+  .propertylist-item:last-child {
+    margin-right: 0; }
+
+.propertylist-item div {
+  float: left;
+  clear: none;
+  width: 27.9%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .propertylist-item div:last-child {
+    margin-right: 0; }
+
+/*# sourceMappingURL=browseProperties.css.map */

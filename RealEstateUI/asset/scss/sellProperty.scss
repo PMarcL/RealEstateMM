@@ -1,0 +1,7 @@
+@import '../../jeet/index';
+
+
+.confirm-sale
+{
+  @include j-stack();
+}

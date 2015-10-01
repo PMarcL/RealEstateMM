@@ -1,0 +1,42 @@
+function postUser() {
+    var formData = JSON.stringify({
+        "pseudonym": $('#username').val(),
+        "password" : $('#password').val(),
+        "firstName": $('#firstName').val(),
+        "lastName": $('#lastName').val(),
+        "email": $('#email').val(),
+        "phoneNumber": $('#phone').val(),
+        "userType" : $('select').val()
+    });
+    if(isAFieldEmpty())
+    {
+        $('form .card').attr('style','display:block');
+        $('form .card').html("You must fill all fields");
+    }
+    else
+    {
+        ajaxPostUser(formData);
+        $('form .card').attr('style','display:none');
+    }
+}
+
+function ajaxPostUser(formData)
+{
+    $.ajax({
+        url: "http://localhost:8080/user",
+        type: "POST",
+        contentType: "application/json",
+        data: formData,
+        dataType: "json",
+        success: function (data, status, httpResponse) {
+            document.cookie = "realestateUser=" + $('#username').val();
+            document.cookie = "accountType=" + $('select').val();
+            window.location.href = 'index.html';
+        },
+        error: function (httpRequest) {
+            $('form .card').attr('style','display:block');
+            $('form .card').html("Invalid user information");
+        }
+    });
+}
+

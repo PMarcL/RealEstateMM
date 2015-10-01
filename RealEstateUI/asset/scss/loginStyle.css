@@ -1,0 +1,79 @@
+form div {
+  display: block;
+  clear: both;
+  float: none;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  float: left;
+  clear: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 3%; }
+  form div:first-child {
+    margin-left: auto; }
+  form div:last-child {
+    margin-right: auto; }
+  form div:last-child {
+    margin-right: 0; }
+
+body {
+  background-color: #DBDBDB; }
+
+.header-text {
+  margin-left: 5%; }
+
+.form-header {
+  background-color: #232838;
+  margin-top: 5%;
+  float: left;
+  clear: none;
+  width: 48.5%;
+  margin-left: 20.6%;
+  margin-right: 3%;
+  height: 50px;
+  font-size: 2em; }
+  .form-header:last-child {
+    margin-right: 0; }
+
+.form {
+  float: left;
+  clear: none;
+  width: 48.5%;
+  margin-left: 20.6%;
+  margin-right: 3%;
+  border-color: #232838;
+  border-style: solid;
+  padding-bottom: 100px;
+  padding-left: 5%;
+  padding-right: 5%; }
+  .form:last-child {
+    margin-right: 0; }
+
+.account-type {
+  display: block;
+  margin-bottom: 20px;
+  float: left;
+  clear: none;
+  width: 65.66667%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .account-type:last-child {
+    margin-right: 0; }
+
+.card {
+  display: none;
+  opacity: 0.7;
+  float: left;
+  clear: none;
+  width: 65.66667%;
+  margin-left: 0;
+  margin-right: 3%;
+  color: white; }
+  .card:last-child {
+    margin-right: 0; }
+
+.card:hover {
+  opacity: 1; }
+
+/*# sourceMappingURL=loginStyle.css.map */
