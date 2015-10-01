@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+<link rel="stylesheet" href="asset/css/mainMenu.css"/>
+
+<ul id="dropdown2" class="dropdown-content">
+    <li><a class="seller-option" href="sellProperty.html">Sell property</a></li>
+    <li><a class="seller-option" href="#!">My properties</a></li>
+    <li><a class="buyer-option" href="onSaleProperties.html">Browse properties</a></li>
+</ul>
+
+
+<nav>
+    <div class="nav-wrapper">
+        <a href="index.html" class="brand-logo"><img src="asset/image/lovehouse.png" alt="House Match"/></a>
+        <ul id="nav-mobile" class="right">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Options<i
+                    class="mdi-navigation-arrow-drop-down right"></i></a></li>
+            <li><a href="login.html" class="login">Log in</a></li>
+            <li><a href="signup.html" class="signup">Sign up</a></li>
+            <li><a onclick="signout()" class="signout" style="display:none">Sign
+                out</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<script src="jquery/jquery-2.1.4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+<script src="asset/js/LoginCookie.js"></script>
+<script src="asset/js/AccountTypeCookie.js"></script>
+<script src="asset/js/DisplayAccountOptions.js"></script>

@@ -21,9 +21,6 @@ aside {
   aside:last-child {
     margin-right: 0; }
 
-.login {
-  margin-right: 5%; }
-
 section a {
   margin-top: 1%; }
 
@@ -65,6 +62,15 @@ h5 {
   margin-left: 0;
   margin-right: 3%; }
   .accountActions:last-child {
+    margin-right: 0; }
+
+iframe {
+  float: left;
+  clear: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 3%; }
+  iframe:last-child {
     margin-right: 0; }
 
 /*# sourceMappingURL=indexStyle.css.map */
