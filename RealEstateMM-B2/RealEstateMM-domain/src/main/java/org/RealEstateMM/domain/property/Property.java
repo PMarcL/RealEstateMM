@@ -1,7 +1,6 @@
 package org.RealEstateMM.domain.property;
 
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.user.User;
 
 public class Property {
 
@@ -35,6 +34,5 @@ public class Property {
 		return "Property [propertyType=" + propertyType + ", propertyAddress=" + propertyAddress + ", propertyPrice="
 				+ propertyPrice + ", propertyOwner=" + propertyOwner + ", propertyStatus=" + propertyStatus + "]";
 	}
-	
-	
+
 }
