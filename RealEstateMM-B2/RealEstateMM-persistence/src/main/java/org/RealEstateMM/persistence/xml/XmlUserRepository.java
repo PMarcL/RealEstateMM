@@ -14,7 +14,16 @@ public class XmlUserRepository extends UserRepository {
 	public XmlUserRepository(XmlMarshaller marshaller, XmlUserAssembler userAssembler) {
 		this.marshaller = marshaller;
 		this.userAssembler = userAssembler;
-		this.usersCache = this.marshaller.unmarshal(XmlUserCollection.class);
+
+		loadUsers();
+	}
+
+	private void loadUsers() {
+		try {
+			usersCache = marshaller.unmarshal(XmlUserCollection.class);
+		} catch (EmptyXmlFileException e) {
+			usersCache = new XmlUserCollection();
+		}
 	}
 
 	@Override
