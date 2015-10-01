@@ -1,7 +1,21 @@
 var loginCookie = new LoginCookie();
 
 function postNewProperty() {
+    if(isAFieldEmpty())
+    {
+        $('form .card').attr('style','display:block');
+        $('form .card').html("You must fill all fields");
+    }
+    else
+    {
+        ajaxPostProperty();
+        $('form .card').attr('style','display:none');
+    }
+}
 
+
+function ajaxPostProperty()
+{
     var propertyAddress = {
         "streetNumber": "25",
         "streetName": "bobbt",
@@ -17,7 +31,6 @@ function postNewProperty() {
         "propertyStatus": "On Sale"
     });
 
-
     $.ajax({
         url: "http://localhost:8080/property",
         type: "POST",
@@ -25,7 +38,7 @@ function postNewProperty() {
         data: formData,
         dataType: "json",
         success: function () {
-            alert("yay");
+            window.location.href = "editProperty.html";
         },
         error: function (httpRequest, textStatus, errorThrown) {
             alert(errorThrown + " fuck");
