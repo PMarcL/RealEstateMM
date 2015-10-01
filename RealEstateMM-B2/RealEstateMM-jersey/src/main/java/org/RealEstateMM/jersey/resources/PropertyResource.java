@@ -1,6 +1,7 @@
 package org.RealEstateMM.jersey.resources;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -29,6 +30,19 @@ public class PropertyResource {
 		propertyServiceAC = new PropertyServiceAntiCorruption(uploadService, new PropertyAddressValidator());
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getProperty() {
+		return Response.ok(Status.OK).build();
+	}
+
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response editProperty() {
+		return Response.ok(Status.OK).build();
+	}
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -39,13 +53,6 @@ public class PropertyResource {
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
-	}
-
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response editProperty() {
-		return Response.ok(Status.OK).build();
 	}
 
 }
