@@ -44,12 +44,6 @@ public class PropertyResource {
 
 	}
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProperty() {
-		return Response.ok(Status.OK).build();
-	}
-
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
