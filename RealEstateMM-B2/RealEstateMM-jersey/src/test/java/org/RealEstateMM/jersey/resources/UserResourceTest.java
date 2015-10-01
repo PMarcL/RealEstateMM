@@ -91,7 +91,8 @@ public class UserResourceTest {
 		Response response = userConnectionResource.login(A_PSEUDONYM, A_VALID_PASSWORD);
 
 		String actualJson = (String) response.getEntity();
-		String expectedJson = "{\"userType\":\"" + A_USER_DTO.getUserType() + "\", \"token\":" + A_VALID_TOKEN + "}";
+		String expectedJson = "{\"userType\":\"" + A_USER_DTO.getUserType() + "\", \"token\":\"" + A_VALID_TOKEN
+				+ "\"}";
 		assertEquals(expectedJson, actualJson);
 	}
 

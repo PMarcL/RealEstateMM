@@ -84,7 +84,7 @@ public class UserResource {
 	}
 
 	private Response generateLoginJson(UserDTO userDTO, Session session) {
-		String json = "{\"userType\":\"" + userDTO.getUserType() + "\", \"token\":" + session.token + "}";
+		String json = "{\"userType\":\"" + userDTO.getUserType() + "\", \"token\":\"" + session.token + "\"}";
 		return Response.ok(Status.OK).entity(json).build();
 	}
 }
