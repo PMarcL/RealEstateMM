@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence;
+package org.RealEstateMM.persistence.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.informations.PropertyAddress;
+import org.RealEstateMM.domain.property.PropertyAddress;
+import org.RealEstateMM.domain.property.PropertyRepository;
 
-public class InMemoryPropertyRepository implements org.RealEstateMM.domain.property.PropertyRepository {
+public class InMemoryPropertyRepository extends PropertyRepository {
 
 	private Map<String, Property> properties;
 
@@ -17,12 +18,15 @@ public class InMemoryPropertyRepository implements org.RealEstateMM.domain.prope
 	}
 
 	@Override
-	public Optional<Property> getPropertyAtAddress(PropertyAddress propertyAddress) {
-		if (!propertyExist(propertyAddress)) {
-			return Optional.empty();
-		}
-		return Optional.of(properties.get(propertyAddress.toString()));
+	public Optional<Property> getPropertyAtAddress(String streetAddress, String cityAddress) {
+//		if (!propertyExist(propertyAddress)) {
+//			return Optional.empty();
+//		}
+//		return Optional.of(properties.get(propertyAddress.toString()));
+//		
+		return null;
 	}
+	//TODO Fix
 
 	private boolean propertyExist(PropertyAddress propertyAddress) {
 		return properties.containsKey(propertyAddress.toString());
@@ -37,8 +41,13 @@ public class InMemoryPropertyRepository implements org.RealEstateMM.domain.prope
 		return properties.size();
 	}
 
-	@Override
 	public ArrayList<Property> getAllProperties() {
 		return new ArrayList<Property>(properties.values());
+	}
+
+	@Override
+	protected boolean contains(String streetAddress, String cityAddress) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

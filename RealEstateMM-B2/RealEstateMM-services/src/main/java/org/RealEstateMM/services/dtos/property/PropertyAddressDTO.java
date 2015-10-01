@@ -1,17 +1,17 @@
 package org.RealEstateMM.services.dtos.property;
 
-public class PropertyAddressInformations {
+public class PropertyAddressDTO {
 
 	private String streetAddress;
 	private String city;
 	private String province;
 	private String zipCode;
 
-	public PropertyAddressInformations() {
+	public PropertyAddressDTO() {
 
 	}
 
-	public PropertyAddressInformations(String streetAddress, String city, String province, String zipCode) {
+	public PropertyAddressDTO(String streetAddress, String city, String province, String zipCode) {
 		this.setStreetAddress(streetAddress);
 		this.setCity(city);
 		this.setProvince(province);

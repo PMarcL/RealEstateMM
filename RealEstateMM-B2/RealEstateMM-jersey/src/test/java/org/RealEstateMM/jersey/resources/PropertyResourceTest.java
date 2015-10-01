@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.services.anticorruption.InvalidPropertyInformationException;
 import org.RealEstateMM.services.anticorruption.PropertyServiceAntiCorruption;
-import org.RealEstateMM.services.dtos.property.PropertyInformations;
+import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,12 +17,12 @@ public class PropertyResourceTest {
 	private PropertyResource propertyResource;
 
 	private PropertyServiceAntiCorruption serviceAC;
-	private PropertyInformations propertyInfos;
+	private PropertyDTO propertyInfos;
 
 	@Before
 	public void setup() {
 		serviceAC = mock(PropertyServiceAntiCorruption.class);
-		propertyInfos = mock(PropertyInformations.class);
+		propertyInfos = mock(PropertyDTO.class);
 		propertyResource = new PropertyResource(serviceAC);
 	}
 

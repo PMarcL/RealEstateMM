@@ -3,13 +3,13 @@ package org.RealEstateMM.domain.property;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import org.RealEstateMM.domain.property.informations.PropertyAddress;
+public abstract class PropertyRepository {
 
-public interface PropertyRepository {
+	public abstract Optional<Property> getPropertyAtAddress(String streetAddress, String cityAddress);
 
-	public Optional<Property> getPropertyAtAddress(PropertyAddress propertyAddress);
-
-	public void add(Property property);
+	public abstract void add(Property property);
 	
-	public ArrayList<Property> getAllProperties();
+	public abstract ArrayList<Property> getAllProperties();
+	
+	protected abstract boolean contains(String streetAddress, String cityAddress);
 }

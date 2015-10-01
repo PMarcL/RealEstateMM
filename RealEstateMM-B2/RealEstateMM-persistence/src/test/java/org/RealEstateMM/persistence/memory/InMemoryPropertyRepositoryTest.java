@@ -1,8 +1,9 @@
-package org.RealEstateMM.persistence;
+package org.RealEstateMM.persistence.memory;
 
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.property.Property;
+import org.RealEstateMM.persistence.memory.InMemoryPropertyRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

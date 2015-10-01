@@ -1,8 +1,8 @@
 package org.RealEstateMM.services.anticorruption;
 
 import org.RealEstateMM.services.PropertyService;
-import org.RealEstateMM.services.dtos.property.PropertyAddressInformations;
-import org.RealEstateMM.services.dtos.property.PropertyInformations;
+import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
+import org.RealEstateMM.services.dtos.property.PropertyDTO;
 
 public class PropertyServiceAntiCorruption {
 
@@ -14,12 +14,12 @@ public class PropertyServiceAntiCorruption {
 		this.uploadService = service;
 	}
 
-	public void upload(PropertyInformations propertyInfos) {
+	public void upload(PropertyDTO propertyInfos) {
 		validatePropertyAddress(propertyInfos.getPropertyAddressInformations());
 		uploadService.uploadProperty(propertyInfos);
 	}
 
-	private void validatePropertyAddress(PropertyAddressInformations addressInfos) {
+	private void validatePropertyAddress(PropertyAddressDTO addressInfos) {
 		if (!informationValidator.zipCodeIsValid(addressInfos.getZipCode())) {
 			throw new InvalidPropertyInformationException(addressInfos.getZipCode());
 		}
