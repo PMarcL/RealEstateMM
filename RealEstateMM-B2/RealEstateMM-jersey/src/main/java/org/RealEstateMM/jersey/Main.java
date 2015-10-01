@@ -1,6 +1,6 @@
 package org.RealEstateMM.jersey;
 
-import org.RealEstateMM.context.DevelopmentContext;
+import org.RealEstateMM.context.DemoContext;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -11,7 +11,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		new DevelopmentContext().apply();
+		new DemoContext().apply();
 		new Main().startServer();
 	}
 

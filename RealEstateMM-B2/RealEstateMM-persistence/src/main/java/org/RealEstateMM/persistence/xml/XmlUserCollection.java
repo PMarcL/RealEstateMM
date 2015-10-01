@@ -1,34 +1,52 @@
 package org.RealEstateMM.persistence.xml;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "users")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class XmlUserCollection {
 
-	@XmlElement(name = "user")
-	private Map<String, XmlUser> users;
+	private List<XmlUser> users;
 
 	public XmlUserCollection() {
-		users = new HashMap<String, XmlUser>();
+		users = new ArrayList<XmlUser>();
 	}
 
 	public boolean contains(String pseudonym) {
-		return users.containsKey(pseudonym);
+		Optional<XmlUser> foundUser = find(pseudonym);
+		return foundUser.isPresent();
+	}
+
+	private Optional<XmlUser> find(String pseudonym) {
+		for (XmlUser user : users) {
+			if (user.getPseudonym().equals(pseudonym)) {
+				return Optional.of(user);
+			}
+		}
+
+		return Optional.empty();
 	}
 
 	public void add(XmlUser newUser) {
-		users.put(newUser.getPseudonym(), newUser);
+		users.add(newUser);
 	}
 
 	public XmlUser getUser(String pseudonym) {
-		return users.get(pseudonym);
+		Optional<XmlUser> foundUser = find(pseudonym);
+		return foundUser.get();
+	}
+
+	public List<XmlUser> getUsers() {
+		return users;
+	}
+
+	@XmlElement(name = "user")
+	public void setUsers(List<XmlUser> users) {
+		this.users = users;
 	}
 
 }

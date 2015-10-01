@@ -33,6 +33,13 @@ public class XmlUserRepositoryTest {
 	}
 
 	@Test
+	public void givenEmptyXmlFileWhenCreatedShouldInitializeEmptyUserCollection() {
+		given(marshaller.unmarshal(XmlUserCollection.class)).willThrow(new EmptyXmlFileException());
+		repository = new XmlUserRepository(marshaller, assembler);
+		assertFalse(repository.contains(PSEUDONYM));
+	}
+
+	@Test
 	public void givenNewUserWhenAddedShouldAddToUserCollectionBeforeMarshalling() {
 		User newUser = mock(User.class);
 

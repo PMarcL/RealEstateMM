@@ -4,12 +4,12 @@ import org.RealEstateMM.services.PropertyService;
 import org.RealEstateMM.services.dtos.property.PropertyAddressInformations;
 import org.RealEstateMM.services.dtos.property.PropertyInformations;
 
-public class PropertyUploadAntiCorruption {
+public class PropertyServiceAntiCorruption {
 
 	private PropertyAddressValidator informationValidator;
 	private PropertyService uploadService;
 
-	public PropertyUploadAntiCorruption(PropertyService service, PropertyAddressValidator validator) {
+	public PropertyServiceAntiCorruption(PropertyService service, PropertyAddressValidator validator) {
 		this.informationValidator = validator;
 		this.uploadService = service;
 	}
@@ -21,7 +21,7 @@ public class PropertyUploadAntiCorruption {
 
 	private void validatePropertyAddress(PropertyAddressInformations addressInfos) {
 		if (!informationValidator.zipCodeIsValid(addressInfos.getZipCode())) {
-			throw new InvalidZipCodeFormatException(addressInfos.getZipCode());
+			throw new InvalidPropertyInformationException(addressInfos.getZipCode());
 		}
 	}
 }
