@@ -2,38 +2,28 @@ package org.RealEstateMM.services.dtos.property;
 
 public class PropertyAddressInformations {
 
-	private String streetNumber;
-	private String streetName;
+	private String streetAddress;
 	private String city;
 	private String province;
 	private String zipCode;
-	
-	public PropertyAddressInformations(){
-		
+
+	public PropertyAddressInformations() {
+
 	}
-	
-	public PropertyAddressInformations(String streetNumber, String streetName, String city, String province, String zipCode){
-		this.setStreetNumber(streetNumber);
-		this.setStreetName(streetName);
+
+	public PropertyAddressInformations(String streetAddress, String city, String province, String zipCode) {
+		this.setStreetAddress(streetAddress);
 		this.setCity(city);
 		this.setProvince(province);
 		this.setZipCode(zipCode);
 	}
 
-	public String getStreetNumber() {
-		return streetNumber;
+	public String getStreetAddress() {
+		return streetAddress;
 	}
 
-	public void setStreetNumber(String streetNumber) {
-		this.streetNumber = streetNumber;
-	}
-
-	public String getStreetName() {
-		return streetName;
-	}
-
-	public void setStreetName(String streetName) {
-		this.streetName = streetName;
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
 	}
 
 	public String getCity() {

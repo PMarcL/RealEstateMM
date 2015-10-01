@@ -1,6 +1,7 @@
 package org.RealEstateMM.jersey.resources;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,10 +19,24 @@ import org.RealEstateMM.services.dtos.property.PropertyInformations;
 public class PropertyUploadResource {
 
 	private PropertyUploadAntiCorruption uploadAC;
+	private PropertyService propertyService;
 
 	public PropertyUploadResource() {
-		PropertyService uploadService = new PropertyService();
-		uploadAC = new PropertyUploadAntiCorruption(uploadService, new PropertyAddressValidator());
+		propertyService = new PropertyService();
+		uploadAC = new PropertyUploadAntiCorruption(propertyService, new PropertyAddressValidator());
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllProperties() {
+		try {
+			String propertyJSON = propertyService.getAllProperties();
+			return Response.ok(Status.OK).entity(propertyJSON).build();
+
+		} catch (Exception ex) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+
 	}
 
 	@POST

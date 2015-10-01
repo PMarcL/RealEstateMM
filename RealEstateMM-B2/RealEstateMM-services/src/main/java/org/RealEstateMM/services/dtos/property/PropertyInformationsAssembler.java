@@ -30,7 +30,7 @@ public class PropertyInformationsAssembler {
 		dto.setPropertyType(property.propertyType);
 		dto.setPropertyAddressInformations(addressDTO);
 		dto.setPropertyPrice(property.propertyPrice);
-		dto.setPropertyOwner(property.propertyOwner.getPseudonym());
+		dto.setPropertyOwner(property.propertyOwner);
 		dto.setPropertyStatus(property.propertyStatus);
 		return dto;
 	}
@@ -39,7 +39,7 @@ public class PropertyInformationsAssembler {
 		PropertyAddress address = addressAssembler.fromDTO(propertyInfos.getPropertyAddressInformations());
 		Optional<User> owner = userRepository.getUserWithPseudonym(propertyInfos.getPropertyOwner());
 
-		return new Property(propertyInfos.getPropertyType(), address, propertyInfos.getPropertyPrice(), owner.get(),
+		return new Property(propertyInfos.getPropertyType(), address, propertyInfos.getPropertyPrice(), owner.get().getPseudonym(),
 				propertyInfos.getPropertyStatus());
 	}
 }

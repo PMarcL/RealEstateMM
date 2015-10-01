@@ -16,20 +16,20 @@ public class PropertyTest {
 
 	private static double A_PROPERTY_PRICE = 200000.00;
 	private static String A_PROPERTY_STATUS = "residential";
+	private static String OWNER_USERNAME = "bob";
 	private static String A_PROPERTY_TYPE = "for sale";
 
 	@Mock
 	private PropertyAddress propertyAddress;
 	@Mock
 	private PropertyAddress propertyAddress2;
-	@Mock
-	private User owner;
+
 
 	@Before
 	public void init() {
 		MockitoAnnotations.initMocks(this);
 
-		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PROPERTY_PRICE, owner, A_PROPERTY_STATUS);
+		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PROPERTY_PRICE, OWNER_USERNAME, A_PROPERTY_STATUS);
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class PropertyTest {
 
 	@Test
 	public void comparingTwoNotEqualPropertyShouldReturnFalse() {
-		Property differentProperty = new Property(A_PROPERTY_TYPE, propertyAddress2, A_PROPERTY_PRICE, owner,
+		Property differentProperty = new Property(A_PROPERTY_TYPE, propertyAddress2, A_PROPERTY_PRICE, OWNER_USERNAME,
 				A_PROPERTY_STATUS);
 
 		when(property.propertyAddress.isEquals(differentProperty.propertyAddress)).thenReturn(false);
