@@ -21,8 +21,8 @@ function getUser()
 
         },
         error: function (data, textStatus, xhr) {
-            alert(data.responseText);
             $('.card').attr('style','display:block');
+            $('.card').html(data.responseText);
         }
     });
 }
