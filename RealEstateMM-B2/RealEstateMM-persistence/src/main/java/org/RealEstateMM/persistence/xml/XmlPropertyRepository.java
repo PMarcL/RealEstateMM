@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.PropertyAddress;
 import org.RealEstateMM.domain.property.PropertyRepository;
 
 public class XmlPropertyRepository extends PropertyRepository {
@@ -31,7 +30,7 @@ public class XmlPropertyRepository extends PropertyRepository {
 
 	@Override
 	public Optional<Property> getPropertyAtAddress(String streetAddress, String cityAddress) {
-		if (isPropertyAbsentFromCache(streetAddress, cityAddress)){
+		if (isPropertyAbsentFromCache(streetAddress, cityAddress)) {
 			return Optional.empty();
 		}
 		XmlProperty xmlProperty = propertyCache.getProperty(streetAddress, cityAddress);
@@ -60,9 +59,9 @@ public class XmlPropertyRepository extends PropertyRepository {
 		}
 		return properties;
 	}
-	
+
 	@Override
-	public boolean contains(String streetAddress, String cityAddress){
+	public boolean contains(String streetAddress, String cityAddress) {
 		return propertyCache.contains(streetAddress, cityAddress);
 	}
 
