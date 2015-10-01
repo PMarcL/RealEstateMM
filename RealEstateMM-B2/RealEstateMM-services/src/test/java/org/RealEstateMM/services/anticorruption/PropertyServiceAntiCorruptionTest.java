@@ -8,10 +8,10 @@ import org.RealEstateMM.services.dtos.property.PropertyInformations;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PropertyUploadAntiCorruptionTest {
+public class PropertyServiceAntiCorruptionTest {
 	private final String ZIPCODE = "G6P7H7";
 
-	private PropertyUploadAntiCorruption propertyAntiCorruption;
+	private PropertyServiceAntiCorruption propertyAntiCorruption;
 	private PropertyService service;
 	private PropertyAddressValidator validator;
 	private PropertyAddressInformations addressInfos;
@@ -24,7 +24,7 @@ public class PropertyUploadAntiCorruptionTest {
 		propertyInfos = mock(PropertyInformations.class);
 		addressInfos = mock(PropertyAddressInformations.class);
 
-		propertyAntiCorruption = new PropertyUploadAntiCorruption(service, validator);
+		propertyAntiCorruption = new PropertyServiceAntiCorruption(service, validator);
 
 		when(propertyInfos.getPropertyAddressInformations()).thenReturn(addressInfos);
 		when(addressInfos.getZipCode()).thenReturn(ZIPCODE);
@@ -43,7 +43,7 @@ public class PropertyUploadAntiCorruptionTest {
 		verify(service).uploadProperty(propertyInfos);
 	}
 
-	@Test(expected = InvalidZipCodeFormatException.class)
+	@Test(expected = InvalidPropertyInformationException.class)
 	public void givenPropertyInformationsWhenUploadPropertyWithInvalidZipCodeThenThrowException() {
 		when(validator.zipCodeIsValid(ZIPCODE)).thenReturn(false);
 		propertyAntiCorruption.upload(propertyInfos);
