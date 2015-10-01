@@ -17,10 +17,6 @@ aside
 
 }
 
-.login
-{
-  margin-right: 5%;
-}
 section a
 {
 
@@ -70,4 +66,9 @@ h5
 .accountActions
 {
   @include j-column(1/2);
+}
+
+iframe
+{
+  @include j-column(1);
 }
