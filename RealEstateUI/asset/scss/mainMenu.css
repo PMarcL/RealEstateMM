@@ -1,0 +1,17 @@
+nav {
+  float: left;
+  clear: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 3%;
+  background-color: #232838; }
+  nav:last-child {
+    margin-right: 0; }
+
+li > a:hover {
+  background-color: #90a4ae; }
+
+img {
+  height: 64px; }
+
+/*# sourceMappingURL=mainMenu.css.map */

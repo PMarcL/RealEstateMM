@@ -2,6 +2,9 @@
 
 [![build status](https://ci.gitlab.com/projects/7502/status.png?ref=master)](https://ci.gitlab.com/projects/7502?ref=master)
 
+Ouvrir RealEstateUI/index.html avec Firefox !
+Le site semble avoir des problèmes avec Chrome.
+
 Projet fait dans le cadre du cours GLO-4003,
 Ã‰quipe B2
 

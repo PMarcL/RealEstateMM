@@ -1,6 +1,12 @@
 @import '../../jeet/index';
 
 
+
+body
+{
+  font-weight: 150;
+  font-size: 1.25em;
+}
 #propertylist
 {
 
@@ -10,10 +16,54 @@
 {
   @include j-column(8/10,$offset:1/10);
   height:200px;
+  border-bottom: solid;
 }
 
+.propertylist-item:hover
+{
+  opacity: 0.8;
 
-.propertylist-item div
+}
+.price
+{
+  font-weight: bold;
+}
+
+.type
+{
+  @include j-column(1);
+  font-size:2em;
+}
+
+.city
+{
+  @include j-column(1/5);
+}
+
+.province
+{
+  @include j-column(1/5);
+}
+
+.streetAddress
 {
   @include j-column(3/10);
+}
+
+.zipCode
+{
+  @include j-column(1/5);
+}
+
+.owner
+{
+  font-size: 1em;
+  color:#26a69a;
+}
+
+.status
+{
+  @include j-column(1);
+  font-size: 0.75em;
+  color:#4caf50;
 }

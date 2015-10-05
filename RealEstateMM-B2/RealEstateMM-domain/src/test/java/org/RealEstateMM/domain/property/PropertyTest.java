@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -23,7 +22,6 @@ public class PropertyTest {
 	private PropertyAddress propertyAddress;
 	@Mock
 	private PropertyAddress propertyAddress2;
-
 
 	@Before
 	public void init() {
