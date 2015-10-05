@@ -1,6 +1,6 @@
 # RealEstateMM
 
-[![build status](https://ci.gitlab.com/projects/7502/status.png?ref=master)](https://ci.gitlab.com/projects/7502?ref=master)
+[![build status](https://gitlab.com/ci/projects/9934/status.png?ref=master)](https://gitlab.com/ci/projects/9934?ref=master)
 
 Projet fait dans le cadre du cours GLO-4003,
 Équipe B2
