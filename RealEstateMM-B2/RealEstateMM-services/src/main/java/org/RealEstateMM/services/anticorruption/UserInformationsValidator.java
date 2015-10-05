@@ -24,9 +24,10 @@ public class UserInformationsValidator {
 		return m.matches();
 	}
 
-	public boolean stringIsValid(String name) {
-		if (name == null || name == "")
+	public boolean stringIsValid(String string) {
+		if (string == null || string == "") {
 			return false;
+		}
 		return true;
 	}
 
@@ -35,5 +36,18 @@ public class UserInformationsValidator {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean nameIsValid(String name) {
+		if (name == null || name == "") {
+			return false;
+		} else if (containsNumbers(name)) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean containsNumbers(String name) {
+		return name.matches(".*\\d+.*");
 	}
 }

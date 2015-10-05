@@ -30,10 +30,10 @@ public class UserServiceAntiCorruption {
 	}
 
 	private void validateUserDTO(UserDTO userDTO) {
-		if (!informationsValidator.stringIsValid(userDTO.getFirstName())) {
+		if (!informationsValidator.nameIsValid(userDTO.getFirstName())) {
 			throw new InvalidUserInformationsException("FirstName");
 		}
-		if (!informationsValidator.stringIsValid(userDTO.getLastName())) {
+		if (!informationsValidator.nameIsValid(userDTO.getLastName())) {
 			throw new InvalidUserInformationsException("LastName");
 		}
 		if (!informationsValidator.emailIsValid(userDTO.getEmail())) {

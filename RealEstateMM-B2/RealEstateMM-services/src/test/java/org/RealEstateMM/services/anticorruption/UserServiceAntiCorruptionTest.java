@@ -37,13 +37,13 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyFirstName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).stringIsValid(UserBuilder.DEFAULT_FIRST_NAME);
+		verify(validator).nameIsValid(A_USER_DTO.getFirstName());
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).stringIsValid(UserBuilder.DEFAULT_LAST_NAME);
+		verify(validator).nameIsValid(UserBuilder.DEFAULT_LAST_NAME);
 	}
 
 	@Test
@@ -110,8 +110,8 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	private void allFieldsAreValid() {
-		when(validator.stringIsValid(UserBuilder.DEFAULT_FIRST_NAME)).thenReturn(true);
-		when(validator.stringIsValid(UserBuilder.DEFAULT_LAST_NAME)).thenReturn(true);
+		when(validator.nameIsValid(UserBuilder.DEFAULT_FIRST_NAME)).thenReturn(true);
+		when(validator.nameIsValid(UserBuilder.DEFAULT_LAST_NAME)).thenReturn(true);
 		when(validator.phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER)).thenReturn(true);
 		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PASSWORD)).thenReturn(true);
