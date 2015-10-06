@@ -7,36 +7,36 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
-public class PropertyInformationsAssembler {
+public class PropertyDTOAssembler {
 
-	private PropertyAddressInformationsAssembler addressAssembler;
+	private PropertyAddressDTOAssembler addressAssembler;
 	private UserRepository userRepository;
 
-	public PropertyInformationsAssembler() {
-		this.addressAssembler = new PropertyAddressInformationsAssembler();
+	public PropertyDTOAssembler() {
+		this.addressAssembler = new PropertyAddressDTOAssembler();
 		this.userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
 	}
 
-	public PropertyInformationsAssembler(PropertyAddressInformationsAssembler addressAssembler,
+	public PropertyDTOAssembler(PropertyAddressDTOAssembler addressAssembler,
 			UserRepository userRepository) {
 		this.addressAssembler = addressAssembler;
 		this.userRepository = userRepository;
 	}
 
-	public PropertyInformations toDTO(Property property) {
-		PropertyInformations dto = new PropertyInformations();
-		PropertyAddressInformations addressDTO = addressAssembler.toDTO(property.propertyAddress);
+	public PropertyDTO toDTO(Property property) {
+		PropertyDTO dto = new PropertyDTO();
+		PropertyAddressDTO addressDTO = addressAssembler.toDTO(property.propertyAddress);
 
 		dto.setPropertyType(property.propertyType);
-		dto.setPropertyAddressInformations(addressDTO);
+		dto.setPropertyAddressDTO(addressDTO);
 		dto.setPropertyPrice(property.propertyPrice);
 		dto.setPropertyOwner(property.propertyOwner);
 		dto.setPropertyStatus(property.propertyStatus);
 		return dto;
 	}
 
-	public Property fromDTO(PropertyInformations propertyInfos) {
-		PropertyAddress address = addressAssembler.fromDTO(propertyInfos.getPropertyAddressInformations());
+	public Property fromDTO(PropertyDTO propertyInfos) {
+		PropertyAddress address = addressAssembler.fromDTO(propertyInfos.getPropertyAddressDTO());
 		Optional<User> owner = userRepository.getUserWithPseudonym(propertyInfos.getPropertyOwner());
 
 		return new Property(propertyInfos.getPropertyType(), address, propertyInfos.getPropertyPrice(), owner.get().getPseudonym(),

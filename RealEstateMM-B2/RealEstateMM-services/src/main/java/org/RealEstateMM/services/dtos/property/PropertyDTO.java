@@ -1,21 +1,21 @@
 package org.RealEstateMM.services.dtos.property;
 
-public class PropertyInformations {
+public class PropertyDTO {
 
 	private String propertyType;
-	private PropertyAddressInformations propertyAddressInformations;
+	private PropertyAddressDTO propertyAddressDTO;
 	private double propertyPrice;
 	private String propertyOwner;
 	private String propertyStatus;
 
-	public PropertyInformations() {
+	public PropertyDTO() {
 	}
 
-	public PropertyInformations(String propertyType, PropertyAddressInformations propertyAddressInfos,
+	public PropertyDTO(String propertyType, PropertyAddressDTO propertyAddressDTO,
 			double propertyPrice, String ownerPseudonym, String propertyStatus) {
 
 		this.setPropertyType(propertyType);
-		this.setPropertyAddressInformations(propertyAddressInfos);
+		this.setPropertyAddressDTO(propertyAddressDTO);
 		this.setPropertyPrice(propertyPrice);
 		this.setPropertyOwner(ownerPseudonym);
 		this.setPropertyStatus(propertyStatus);
@@ -29,12 +29,12 @@ public class PropertyInformations {
 		this.propertyType = propertyType;
 	}
 
-	public PropertyAddressInformations getPropertyAddressInformations() {
-		return propertyAddressInformations;
+	public PropertyAddressDTO getPropertyAddressDTO() {
+		return propertyAddressDTO;
 	}
 
-	public void setPropertyAddressInformations(PropertyAddressInformations propertyAddress) {
-		this.propertyAddressInformations = propertyAddress;
+	public void setPropertyAddressDTO(PropertyAddressDTO propertyAddress) {
+		this.propertyAddressDTO = propertyAddress;
 	}
 
 	public double getPropertyPrice() {
