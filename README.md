@@ -1,6 +1,6 @@
 # RealEstateMM
 
-[![build status](https://ci.gitlab.com/projects/7502/status.png?ref=master)](https://ci.gitlab.com/projects/7502?ref=master)
+[![build status](https://gitlab.com/ci/projects/9934/status.png?ref=master)](https://gitlab.com/ci/projects/9934?ref=master)
 
 Ouvrir RealEstateUI/index.html avec Firefox !
 Le site semble avoir des problèmes avec Chrome.
