@@ -2,12 +2,10 @@ package org.RealEstateMM.services;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
-import org.RealEstateMM.services.dtos.property.PropertyAddressDTOAssembler;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
-
-import com.google.gson.Gson;
+import java.util.ArrayList;
 
 public class PropertyService {
 
@@ -19,8 +17,7 @@ public class PropertyService {
 		propertyAssembler = new PropertyDTOAssembler();
 	}
 
-	public PropertyService(PropertyRepository propertyRepository, PropertyDTOAssembler propertyAssembler,
-			PropertyAddressDTOAssembler addressAssembler) {
+	public PropertyService(PropertyRepository propertyRepository, PropertyDTOAssembler propertyAssembler) {
 		this.propertyRepository = propertyRepository;
 		this.propertyAssembler = propertyAssembler;
 	}
@@ -33,12 +30,18 @@ public class PropertyService {
 	public void editPropertyInfos(Property property) {
 		// TODO Implement
 	}
-	
-	public String getAllProperties()
-	{
-		Gson gson = new Gson();
 
-		String json = gson.toJson(propertyRepository.getAllProperties());
-		return json;
+	public ArrayList<PropertyDTO> getAllProperties() {
+		ArrayList<Property> properties = propertyRepository.getAllProperties();
+		return buildDTOsFromProperties(properties);
+	}
+
+	private ArrayList<PropertyDTO> buildDTOsFromProperties(ArrayList<Property> properties) {
+		ArrayList<PropertyDTO> propertiesDTO = new ArrayList<PropertyDTO>();
+		for (Property property : properties) {
+			PropertyDTO dto = propertyAssembler.toDTO(property);
+			propertiesDTO.add(dto);
+		}
+		return propertiesDTO;
 	}
 }

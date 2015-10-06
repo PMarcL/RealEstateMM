@@ -1,5 +1,7 @@
 package org.RealEstateMM.jersey.resources;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,6 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import com.google.gson.Gson;
 
 import org.RealEstateMM.services.PropertyService;
 import org.RealEstateMM.services.anticorruption.InvalidPropertyInformationException;
@@ -35,13 +39,17 @@ public class PropertyResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllProperties() {
 		try {
-			String propertyJSON = propertyService.getAllProperties();
-			return Response.ok(Status.OK).entity(propertyJSON).build();
-
+			String json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
+			return Response.ok(Status.OK).entity(json).build();
 		} catch (Exception ex) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 
+	}
+
+	private String getJsonFromPropertyDTOs(ArrayList<PropertyDTO> propertyJSON) {
+		Gson gson = new Gson();
+		return gson.toJson(propertyJSON);
 	}
 
 	@PUT

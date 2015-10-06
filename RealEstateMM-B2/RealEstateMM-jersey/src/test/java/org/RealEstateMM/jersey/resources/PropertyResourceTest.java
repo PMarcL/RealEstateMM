@@ -3,12 +3,11 @@ package org.RealEstateMM.jersey.resources;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.RealEstateMM.services.anticorruption.InvalidPropertyInformationException;
 import org.RealEstateMM.services.anticorruption.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import org.junit.Before;
 import org.junit.Test;
 
