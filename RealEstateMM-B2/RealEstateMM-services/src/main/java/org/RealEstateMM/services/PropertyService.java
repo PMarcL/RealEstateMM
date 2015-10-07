@@ -4,7 +4,9 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
+import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
+
 import java.util.ArrayList;
 
 public class PropertyService {
@@ -27,10 +29,6 @@ public class PropertyService {
 		propertyRepository.add(newProperty);
 	}
 
-	public void editPropertyInfos(Property property) {
-		// TODO Implement
-	}
-
 	public ArrayList<PropertyDTO> getAllProperties() {
 		ArrayList<Property> properties = propertyRepository.getAllProperties();
 		return buildDTOsFromProperties(properties);
@@ -43,5 +41,9 @@ public class PropertyService {
 			propertiesDTO.add(dto);
 		}
 		return propertiesDTO;
+	}
+
+	public void editPropertyFeatures(PropertyFeaturesDTO features) {
+
 	}
 }

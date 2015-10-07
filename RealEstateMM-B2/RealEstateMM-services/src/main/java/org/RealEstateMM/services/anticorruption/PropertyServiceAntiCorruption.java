@@ -7,26 +7,36 @@ import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 
 public class PropertyServiceAntiCorruption {
 
-	private PropertyAddressValidator informationValidator;
-	private PropertyService uploadService;
+	private PropertyInformationsValidator informationValidator;
+	private PropertyService service;
 
-	public PropertyServiceAntiCorruption(PropertyService service, PropertyAddressValidator validator) {
+	public PropertyServiceAntiCorruption(PropertyService service, PropertyInformationsValidator validator) {
 		this.informationValidator = validator;
-		this.uploadService = service;
+		this.service = service;
 	}
 
 	public void upload(PropertyDTO propertyInfos) {
+		validatePropertyInformations(propertyInfos);
 		validatePropertyAddress(propertyInfos.getPropertyAddressDTO());
-		uploadService.uploadProperty(propertyInfos);
+		service.uploadProperty(propertyInfos);
+	}
+
+	private void validatePropertyInformations(PropertyDTO propertyInfos) {
+		if (!informationValidator.propertyTypeIsValid(propertyInfos.getPropertyType())) {
+			throw new InvalidPropertyInformationException("Property Type");
+		}
+		if (!informationValidator.propertyStatusIsValid(propertyInfos.getPropertyStatus())) {
+			throw new InvalidPropertyInformationException("Property Status");
+		}
 	}
 
 	private void validatePropertyAddress(PropertyAddressDTO addressInfos) {
 		if (!informationValidator.zipCodeIsValid(addressInfos.getZipCode())) {
-			throw new InvalidPropertyInformationException(addressInfos.getZipCode());
+			throw new InvalidPropertyInformationException("Zip code");
 		}
 	}
 
 	public void editProperty(PropertyFeaturesDTO features) {
-
+		service.editPropertyFeatures(features);
 	}
 }

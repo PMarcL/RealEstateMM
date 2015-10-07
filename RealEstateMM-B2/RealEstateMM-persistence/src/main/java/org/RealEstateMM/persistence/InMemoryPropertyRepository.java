@@ -30,7 +30,7 @@ public class InMemoryPropertyRepository implements org.RealEstateMM.domain.prope
 
 	@Override
 	public void add(Property property) {
-		properties.put(property.propertyAddress.toString(), property);
+		properties.put(property.getPropertyAddress().toString(), property);
 	}
 
 	public int getSize() {

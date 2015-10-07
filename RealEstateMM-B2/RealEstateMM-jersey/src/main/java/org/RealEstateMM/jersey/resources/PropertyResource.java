@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 import org.RealEstateMM.services.PropertyService;
 import org.RealEstateMM.services.anticorruption.InvalidPropertyInformationException;
-import org.RealEstateMM.services.anticorruption.PropertyAddressValidator;
+import org.RealEstateMM.services.anticorruption.PropertyInformationsValidator;
 import org.RealEstateMM.services.anticorruption.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
@@ -29,7 +29,7 @@ public class PropertyResource {
 
 	public PropertyResource() {
 		propertyService = new PropertyService();
-		serviceAC = new PropertyServiceAntiCorruption(propertyService, new PropertyAddressValidator());
+		serviceAC = new PropertyServiceAntiCorruption(propertyService, new PropertyInformationsValidator());
 	}
 
 	public PropertyResource(PropertyServiceAntiCorruption serviceAC, PropertyService service) {

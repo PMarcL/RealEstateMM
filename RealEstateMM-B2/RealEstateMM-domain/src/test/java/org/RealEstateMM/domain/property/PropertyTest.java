@@ -1,52 +1,28 @@
 package org.RealEstateMM.domain.property;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
+import org.RealEstateMM.domain.property.informations.PropertyStatus;
+import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 public class PropertyTest {
 
 	private Property property;
 
 	private static double A_PROPERTY_PRICE = 200000.00;
-	private static String A_PROPERTY_STATUS = "residential";
+	private static PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
 	private static String OWNER_USERNAME = "bob";
-	private static String A_PROPERTY_TYPE = "for sale";
+	private static PropertyType A_PROPERTY_TYPE = PropertyType.HOUSE;
 
-	@Mock
 	private PropertyAddress propertyAddress;
-	@Mock
-	private PropertyAddress propertyAddress2;
 
 	@Before
 	public void init() {
-		MockitoAnnotations.initMocks(this);
+		propertyAddress = mock(PropertyAddress.class);
 
 		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PROPERTY_PRICE, OWNER_USERNAME, A_PROPERTY_STATUS);
-	}
-
-	@Test
-	public void comparingTwoEqualsPropertyShouldReturnTrue() {
-		Property sameProperty = property;
-
-		when(property.propertyAddress.isEquals(sameProperty.propertyAddress)).thenReturn(true);
-
-		assertTrue(property.isEquals(sameProperty));
-	}
-
-	@Test
-	public void comparingTwoNotEqualPropertyShouldReturnFalse() {
-		Property differentProperty = new Property(A_PROPERTY_TYPE, propertyAddress2, A_PROPERTY_PRICE, OWNER_USERNAME,
-				A_PROPERTY_STATUS);
-
-		when(property.propertyAddress.isEquals(differentProperty.propertyAddress)).thenReturn(false);
-
-		assertFalse(property.isEquals(differentProperty));
 	}
 
 }

@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
+import org.RealEstateMM.domain.property.informations.PropertyStatus;
+import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.junit.Before;
@@ -17,8 +19,10 @@ import org.junit.Test;
 public class PropertyDTOAssemblerTest {
 	private final double DELTA = 0.001;
 	private final double A_PRICE = 200000.00;
-	private final String A_PROPERTY_STATUS = "On sale";
-	private final String A_PROPERTY_TYPE = "Residential";
+	private final PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
+	private final PropertyType A_PROPERTY_TYPE = PropertyType.HOUSE;
+	private final String TYPE = "house";
+	private final String STATUS = "on sale";
 	private final String OWNER_PSEUDO = "John90";
 
 	private PropertyAddress propertyAddress;
@@ -28,18 +32,16 @@ public class PropertyDTOAssemblerTest {
 	private UserRepository userRepository;
 	private User owner;
 	private PropertyDTOAssembler assembler;
-	
-	
 
 	@Before
 	public void setup() {
 		addressAssembler = mock(PropertyAddressDTOAssembler.class);
 		userRepository = mock(UserRepository.class);
-		
+
 		assembler = new PropertyDTOAssembler(addressAssembler, userRepository);
 		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PRICE, OWNER_PSEUDO, A_PROPERTY_STATUS);
 		addressInformations = new PropertyAddressDTO();
-		
+
 		owner = mock(User.class);
 		when(owner.getPseudonym()).thenReturn(OWNER_PSEUDO);
 		when(userRepository.getUserWithPseudonym(OWNER_PSEUDO)).thenReturn(Optional.of(owner));
@@ -49,13 +51,13 @@ public class PropertyDTOAssemblerTest {
 	@Test
 	public void givenAPropertyInformationsWhenBuildToDTOThenReturnedDTOShouldHaveTheSameInformations() {
 		when(addressAssembler.toDTO(propertyAddress)).thenReturn(addressInformations);
-		PropertyDTO propertyInfos = assembler.toDTO(property);
+		PropertyDTO propertyDTO = assembler.toDTO(property);
 
-		assertEquals(A_PROPERTY_TYPE, propertyInfos.getPropertyType());
-		assertEquals(addressInformations, propertyInfos.getPropertyAddressDTO());
-		assertEquals(A_PRICE, propertyInfos.getPropertyPrice(), DELTA);
-		assertEquals(OWNER_PSEUDO, propertyInfos.getPropertyOwner());
-		assertEquals(A_PROPERTY_STATUS, propertyInfos.getPropertyStatus());
+		assertEquals(PropertyType.getStringFromType(A_PROPERTY_TYPE), propertyDTO.getPropertyType());
+		assertEquals(addressInformations, propertyDTO.getPropertyAddressDTO());
+		assertEquals(A_PRICE, propertyDTO.getPropertyPrice(), DELTA);
+		assertEquals(OWNER_PSEUDO, propertyDTO.getPropertyOwner());
+		assertEquals(PropertyStatus.getStringFromStatus(A_PROPERTY_STATUS), propertyDTO.getPropertyStatus());
 	}
 
 	@Test
@@ -81,15 +83,18 @@ public class PropertyDTOAssemblerTest {
 		PropertyDTO dto = assembler.toDTO(property);
 		Property result = assembler.fromDTO(dto);
 
-		assertEquals(dto.getPropertyType(), result.propertyType);
-		assertEquals(dto.getPropertyPrice(), result.propertyPrice, DELTA);
-		assertEquals(dto.getPropertyStatus(), result.propertyStatus);
+		assertEquals(PropertyType.getTypeFromString(dto.getPropertyType()), result.getPropertyType());
+		assertEquals(dto.getPropertyPrice(), result.getPropertyPrice(), DELTA);
+		assertEquals(PropertyStatus.getStatusFromString(dto.getPropertyStatus()), result.getPropertyStatus());
+		assertEquals(OWNER_PSEUDO, result.getPropertyOwner());
 	}
 
 	private PropertyDTO getConfiguredPropertyInformationsMock() {
 		PropertyDTO dto = mock(PropertyDTO.class);
 		when(dto.getPropertyAddressDTO()).thenReturn(addressInformations);
 		when(dto.getPropertyOwner()).thenReturn(OWNER_PSEUDO);
+		when(dto.getPropertyType()).thenReturn(TYPE);
+		when(dto.getPropertyStatus()).thenReturn(STATUS);
 		return dto;
 	}
 }
