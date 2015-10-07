@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -26,16 +27,16 @@ import org.RealEstateMM.services.dtos.user.UserDTO;
 public class UserResource {
 
 	private static final String AUTHORIZATION_HEADER_MISSING = "Authorization header missing";
-	private UserServiceAntiCorruption userServiceAC;
+	private UserServiceAntiCorruption userService;
 	private SessionService sessionService;
 
 	public UserResource() {
-		this.userServiceAC = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
+		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
 		this.sessionService = new SessionService();
 	}
 
 	public UserResource(UserServiceAntiCorruption userServiceAC, SessionService sessionService) {
-		this.userServiceAC = userServiceAC;
+		this.userService = userServiceAC;
 		this.sessionService = sessionService;
 	}
 
@@ -55,7 +56,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
 		try {
-			UserDTO userDTO = userServiceAC.login(pseudonym, password);
+			UserDTO userDTO = userService.login(pseudonym, password);
 			Session session = sessionService.open(userDTO);
 			return generateLoginJson(userDTO, session);
 
@@ -67,13 +68,21 @@ public class UserResource {
 		}
 	}
 
+	@PUT
+	@Path("user")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response editUserProfile(UserDTO userProfile) {
+		// TODO call service layer and manage exceptions
+		return null;
+	}
+
 	@POST
 	@Path("user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response signup(UserDTO userDTO) {
 		try {
-			userServiceAC.createUser(userDTO);
+			userService.createUser(userDTO);
 			Session session = sessionService.open(userDTO);
 			return generateLoginJson(userDTO, session);
 		} catch (InvalidUserInformationsException exception) {

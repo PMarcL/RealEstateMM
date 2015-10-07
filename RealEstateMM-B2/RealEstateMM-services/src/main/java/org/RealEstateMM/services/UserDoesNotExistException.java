@@ -1,6 +1,6 @@
 package org.RealEstateMM.services;
 
-public class UserDoesNotExistException extends Exception {
+public class UserDoesNotExistException extends RuntimeException {
 
 	private static final String EXCEPTION_MESSAGE = "The specified user does not exist";
 

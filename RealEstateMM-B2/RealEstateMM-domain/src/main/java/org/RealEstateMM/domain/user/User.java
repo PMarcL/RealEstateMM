@@ -26,4 +26,9 @@ public class User {
 		return userType.userTypeDescription;
 	}
 
+	public void updateUserInformations(UserInformations userInfos) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

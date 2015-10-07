@@ -19,4 +19,9 @@ public abstract class UserRepository {
 	protected abstract boolean contains(String pseudonym);
 
 	protected abstract void add(User user);
+
+	public void replaceUser(User user) {
+		// TODO Auto-generated method stub
+
+	}
 }

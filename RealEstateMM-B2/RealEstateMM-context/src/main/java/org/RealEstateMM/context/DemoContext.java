@@ -16,7 +16,7 @@ import org.RealEstateMM.persistence.xml.XmlUserRepository;
 import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class DemoContext extends Context {
-	private static final String XML_FILES_LOCATION = ".." +File.separator +"data" +File.separator;
+	private static final String XML_FILES_LOCATION = String.format("..%sdata%s", File.separator, File.separator);
 	private static final String USER_REPOSITORY_FILE = "users.xml";
 
 	private UserRepository userRepository;

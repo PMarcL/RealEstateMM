@@ -4,64 +4,103 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 import java.util.Optional;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 
 public class UserServiceTest {
 
-	private final UserDTO A_USER_DTO = new UserDTOBuilder().build();
-	private final String A_PSEUDO = "pseudo34";
-	private final String A_PASSWORD = "pw1234";
+	private final String PSEUDONYM = "pseudo34";
+	private final String PASSWORD = "pw1234";
+	private final UserDTO USER_DTO = new UserDTOBuilder().withPseudonym(PSEUDONYM).withPassword(PASSWORD).build();
 	private final String INVALID_PASSWORD = "posdf33";
-	private final User A_USER = mock(User.class);
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
+	private User user;
 
 	private UserService userService;
 
 	@Before
 	public void setup() throws Exception {
+		user = mock(User.class);
 		userRepository = mock(UserRepository.class);
 		userAssembler = mock(UserAssembler.class);
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
 
 		userService = new UserService(userRepository, userAssembler);
 	}
 
 	@Test
 	public void whenCreateUserThenAddNewUserToRepository() {
-		given(userAssembler.fromDTO(A_USER_DTO)).willReturn(A_USER);
-		userService.create(A_USER_DTO);
-		verify(userRepository).addUser(A_USER);
+		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
+		userService.create(USER_DTO);
+		verify(userRepository).addUser(user);
 	}
 
 	@Test
 	public void givenAPseudonymWithRightPassWordWhenAuthenticateThenReturnTheUserDTO() throws Exception {
-		when(userRepository.getUserWithPseudonym(A_PSEUDO)).thenReturn(Optional.of(A_USER));
-		when(A_USER.hasPassword(A_PASSWORD)).thenReturn(true);
-		when(userAssembler.toDTO(A_USER)).thenReturn(A_USER_DTO);
+		given(user.hasPassword(PASSWORD)).willReturn(true);
+		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
 
-		UserDTO actual = userService.authenticate(A_PSEUDO, A_PASSWORD);
+		UserDTO actual = userService.authenticate(PSEUDONYM, PASSWORD);
 
-		assertEquals(A_USER_DTO, actual);
+		assertEquals(USER_DTO, actual);
 	}
 
 	@Test(expected = UserDoesNotExistException.class)
 	public void givenNoUserWhenAuthenticateThenThrowUserNotFoundException() throws Exception {
-		when(userRepository.getUserWithPseudonym(A_PSEUDO)).thenReturn(Optional.empty());
-		userService.authenticate(A_PSEUDO, A_PASSWORD);
+		userDoesNotExists();
+		userService.authenticate(PSEUDONYM, PASSWORD);
 	}
 
 	@Test(expected = InvalidPasswordException.class)
 	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() throws Exception {
-		when(userRepository.getUserWithPseudonym(A_PSEUDO)).thenReturn(Optional.of(A_USER));
-		when(A_USER.hasPassword(A_PASSWORD)).thenReturn(true);
+		given(user.hasPassword(PASSWORD)).willReturn(true);
+		userService.authenticate(PSEUDONYM, INVALID_PASSWORD);
+	}
 
-		userService.authenticate(A_PSEUDO, INVALID_PASSWORD);
+	@Test
+	public void givenAnExistingUserWhenEditUserProfileShouldUpdateUserInformationsInUserWithProperInfos() {
+		userService.updateUserProfile(USER_DTO);
+
+		ArgumentCaptor<UserInformations> argument = ArgumentCaptor.forClass(UserInformations.class);
+		verify(user).updateUserInformations(argument.capture());
+		validateUserProfile(argument.getValue());
+	}
+
+	@Test
+	public void givenAnExistingUserWhenEditUserProfileShouldPersistUserAfterUpdatingUserInformations() {
+		userService.updateUserProfile(USER_DTO);
+
+		InOrder inOrder = inOrder(user, userRepository);
+		inOrder.verify(user).updateUserInformations(any(UserInformations.class));
+		inOrder.verify(userRepository).replaceUser(user);
+	}
+
+	@Test(expected = UserDoesNotExistException.class)
+	public void givenAnUnexistingUserWhenEditUserProfileShouldThrowException() {
+		userDoesNotExists();
+		userService.updateUserProfile(USER_DTO);
+	}
+
+	private void userDoesNotExists() {
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.empty());
+	}
+
+	private void validateUserProfile(UserInformations userInfos) {
+		assertEquals(USER_DTO.getPseudonym(), userInfos.pseudonym);
+		assertEquals(USER_DTO.getEmail(), userInfos.email);
+		assertEquals(USER_DTO.getFirstName(), userInfos.firstName);
+		assertEquals(USER_DTO.getLastName(), userInfos.lastName);
+		assertEquals(USER_DTO.getPassword(), userInfos.password);
+		assertEquals(USER_DTO.getPhoneNumber(), userInfos.phoneNumber);
 	}
 
 }
