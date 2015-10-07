@@ -49,13 +49,17 @@ public class XmlUserRepository extends UserRepository {
 	protected void add(User newUser) {
 		XmlUser xmlUser = userAssembler.fromUser(newUser);
 		usersCache.add(xmlUser);
+		marshalUsers();
+	}
+
+	private void marshalUsers() {
 		marshaller.marshal(XmlUserCollection.class, usersCache);
 	}
 
 	@Override
 	protected void removeUserWithPseudonym(String pseudonym) {
-		// TODO Auto-generated method stub
-
+		usersCache.removeUserWithPseudonym(pseudonym);
+		marshalUsers();
 	}
 
 }

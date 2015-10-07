@@ -50,7 +50,12 @@ public class XmlUserCollection {
 	}
 
 	public void removeUserWithPseudonym(String pseudonym) {
-		// TODO Auto-generated method stub
+		Optional<XmlUser> foundUser = find(pseudonym);
+		if (!foundUser.isPresent()) {
+			return;
+		}
+
+		users.remove(foundUser.get());
 	}
 
 }

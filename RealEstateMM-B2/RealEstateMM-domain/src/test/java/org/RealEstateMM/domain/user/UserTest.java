@@ -51,4 +51,14 @@ public class UserTest {
 	public void givenAUserWhenGettingHisUserTypeDescriptionThenReturnsTheCorrectDescription() {
 		assertEquals(USERTYPE_DESCRIPTION, user.getUserTypeDescription());
 	}
+
+	@Test
+	public void givenUserInfosWhenUpdateUserInformationsShouldReplaceExistingUserInformations() {
+		UserInformations newInfos = new UserInformations("anotherPseudonym", "anotherPassword", "anotherFirstName",
+				"anotherLastName", "anotherEmail", "anotherPhoneNb");
+
+		user.updateUserInformations(newInfos);
+
+		assertEquals(newInfos, user.getUserInformations());
+	}
 }
