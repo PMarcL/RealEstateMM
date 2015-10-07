@@ -44,7 +44,6 @@ public class PropertyResource {
 		} catch (Exception ex) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
-
 	}
 
 	private String getJsonFromPropertyDTOs(ArrayList<PropertyDTO> propertyJSON) {

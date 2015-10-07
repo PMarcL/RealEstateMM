@@ -9,4 +9,31 @@
         <pseudonym>admin</pseudonym>
         <userType>admin</userType>
     </user>
+    <user>
+        <email>paul@hotmail.com</email>
+        <firstName>paul</firstName>
+        <lastName>paul</lastName>
+        <password>paul</password>
+        <phoneNumber>8198181752</phoneNumber>
+        <pseudonym>paul</pseudonym>
+        <userType>seller</userType>
+    </user>
+    <user>
+        <email>pmleva2@gmail.com</email>
+        <firstName>Pierre-Marc</firstName>
+        <lastName>Levasseur</lastName>
+        <password>winter3110</password>
+        <phoneNumber>8198181752</phoneNumber>
+        <pseudonym>PM90</pseudonym>
+        <userType>seller</userType>
+    </user>
+    <user>
+        <email>bob@hotmail.com</email>
+        <firstName>bob</firstName>
+        <lastName>bob</lastName>
+        <password>bob</password>
+        <phoneNumber>8198181752</phoneNumber>
+        <pseudonym>bob90</pseudonym>
+        <userType>buyer</userType>
+    </user>
 </users>

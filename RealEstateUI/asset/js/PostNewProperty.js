@@ -24,7 +24,7 @@ function ajaxPostProperty()
     };
     var formData = JSON.stringify({
         "propertyType": $('#propertyType').val(),
-        "propertyAddressInformations": propertyAddress,
+        "propertyAddressDTO": propertyAddress,
         "propertyPrice": $('#price').val(),
         "propertyOwner": loginCookie.cookie(),
         "propertyStatus": "On Sale"
