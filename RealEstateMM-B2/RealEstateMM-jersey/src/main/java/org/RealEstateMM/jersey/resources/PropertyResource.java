@@ -19,20 +19,22 @@ import org.RealEstateMM.services.anticorruption.InvalidPropertyInformationExcept
 import org.RealEstateMM.services.anticorruption.PropertyAddressValidator;
 import org.RealEstateMM.services.anticorruption.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 
 @Path("/property")
 public class PropertyResource {
 
-	private PropertyServiceAntiCorruption uploadAC;
+	private PropertyServiceAntiCorruption serviceAC;
 	private PropertyService propertyService;
 
 	public PropertyResource() {
 		propertyService = new PropertyService();
-		uploadAC = new PropertyServiceAntiCorruption(propertyService, new PropertyAddressValidator());
+		serviceAC = new PropertyServiceAntiCorruption(propertyService, new PropertyAddressValidator());
 	}
 
-	public PropertyResource(PropertyServiceAntiCorruption serviceAC) {
-		uploadAC = serviceAC;
+	public PropertyResource(PropertyServiceAntiCorruption serviceAC, PropertyService service) {
+		this.serviceAC = serviceAC;
+		this.propertyService = service;
 	}
 
 	@GET
@@ -54,8 +56,13 @@ public class PropertyResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editProperty() {
-		return Response.ok(Status.OK).build();
+	public Response editProperty(PropertyFeaturesDTO features) {
+		try {
+			serviceAC.editProperty(features);
+			return Response.ok(Status.OK).build();
+		} catch (InvalidPropertyInformationException exception) {
+			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		}
 	}
 
 	@POST
@@ -63,12 +70,10 @@ public class PropertyResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadProperty(PropertyDTO propertyInfos) {
 		try {
-			uploadAC.upload(propertyInfos);
+			serviceAC.upload(propertyInfos);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (Exception ex) {
-			return Response.serverError().build();
 		}
 	}
 

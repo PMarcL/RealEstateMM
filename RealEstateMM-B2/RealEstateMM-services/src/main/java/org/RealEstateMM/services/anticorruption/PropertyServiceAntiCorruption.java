@@ -3,6 +3,7 @@ package org.RealEstateMM.services.anticorruption;
 import org.RealEstateMM.services.PropertyService;
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 
 public class PropertyServiceAntiCorruption {
 
@@ -23,5 +24,9 @@ public class PropertyServiceAntiCorruption {
 		if (!informationValidator.zipCodeIsValid(addressInfos.getZipCode())) {
 			throw new InvalidPropertyInformationException(addressInfos.getZipCode());
 		}
+	}
+
+	public void editProperty(PropertyFeaturesDTO features) {
+
 	}
 }
