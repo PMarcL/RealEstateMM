@@ -52,4 +52,10 @@ public class XmlUserRepository extends UserRepository {
 		marshaller.marshal(XmlUserCollection.class, usersCache);
 	}
 
+	@Override
+	protected void removeUserWithPseudonym(String pseudonym) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

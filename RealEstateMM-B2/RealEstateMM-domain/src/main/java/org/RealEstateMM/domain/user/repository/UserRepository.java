@@ -21,7 +21,9 @@ public abstract class UserRepository {
 	protected abstract void add(User user);
 
 	public void replaceUser(User user) {
-		// TODO Auto-generated method stub
-
+		removeUserWithPseudonym(user.getPseudonym());
+		add(user);
 	}
+
+	protected abstract void removeUserWithPseudonym(String pseudonym);
 }

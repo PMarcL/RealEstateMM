@@ -49,4 +49,8 @@ public class XmlUserCollection {
 		this.users = users;
 	}
 
+	public void removeUserWithPseudonym(String pseudonym) {
+		// TODO Auto-generated method stub
+	}
+
 }
