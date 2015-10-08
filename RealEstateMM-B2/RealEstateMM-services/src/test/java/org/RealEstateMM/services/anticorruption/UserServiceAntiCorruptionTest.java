@@ -75,6 +75,12 @@ public class UserServiceAntiCorruptionTest {
 		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL)).thenReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
+	
+	@Test
+	public void givenUpdateInformationWhenUpdateInformationThenRegisterUserUpdatedWithService() {
+		userServiceAC.updateUser(A_USER_DTO);
+		verify(service).updateUserProfile(A_USER_DTO);
+	}
 
 	@Test
 	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() throws Exception {
