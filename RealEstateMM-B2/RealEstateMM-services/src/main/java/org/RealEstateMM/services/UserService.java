@@ -28,7 +28,7 @@ public class UserService {
 	public UserService() {
 		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
 		userAssembler = new UserAssembler();
-		mailConfirmationSender = new GmailSender();
+		mailConfirmationSender = ServiceLocator.getInstance().getService(MailConfirmationSender.class);
 	}
 
 	public void create(UserDTO userDTO) throws CouldNotSendMailException {
