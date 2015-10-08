@@ -72,8 +72,14 @@ public class UserResource {
 	@Path("user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editUserProfile(UserDTO userProfile) {
-		// TODO call service layer and manage exceptions
-		return null;
+		
+		try {
+			userService.updateUser(userProfile);
+			Session session = sessionService.open(userProfile);
+			return generateLoginJson(userProfile, session);
+		} catch (InvalidUserInformationsException exception) {
+			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		}
 	}
 
 	@POST
