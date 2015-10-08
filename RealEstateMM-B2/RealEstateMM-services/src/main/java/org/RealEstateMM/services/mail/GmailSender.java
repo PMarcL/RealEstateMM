@@ -3,6 +3,7 @@ package org.RealEstateMM.services.mail;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -15,7 +16,7 @@ import javax.mail.internet.MimeMessage;
 
 import com.sun.mail.smtp.SMTPTransport;
 
-public class GmailSender implements MailSender {
+public class GmailSender implements MailConfirmationSender {
 
 	private static final String USERNAME = "housematch.teamb2";
 	private static final String PASSWORD = "awesometeam2";
@@ -24,16 +25,15 @@ public class GmailSender implements MailSender {
 	private String message = "";
 
 	@Override
-	public void sendMailConfirmation(String recipientEmail, String confirmationLink) throws CouldNotSendMailException {
+	public void send(String recipientEmail, UUID confirmationCode) throws CouldNotSendMailException {
 		Session session = createMailSession();
 		final MimeMessage msg = new MimeMessage(session);
 
 		try {
-			createMessageBody(confirmationLink);
+			createMessageBody(confirmationCode);
 			setMessageContent(recipientEmail, msg);
 			sendMessage(session, msg);
 		} catch (MessagingException e) {
-
 			throw new CouldNotSendMailException();
 		}
 	}
@@ -72,7 +72,9 @@ public class GmailSender implements MailSender {
 		return session;
 	}
 
-	private void createMessageBody(String confirmationLink) {
+	private void createMessageBody(UUID confirmationCode) {
+		// TODO
+		String confirmationLink = "baseURL that we have to figure out how to get" + "/confirmation/" + confirmationCode;
 		message = "Please click on the email confirmation link: " + confirmationLink;
 	}
 
