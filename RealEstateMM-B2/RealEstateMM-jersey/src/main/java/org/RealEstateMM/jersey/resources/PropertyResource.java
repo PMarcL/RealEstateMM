@@ -10,11 +10,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.services.PropertyService;
-import org.RealEstateMM.services.anticorruption.InvalidPropertyInformationException;
-import org.RealEstateMM.services.anticorruption.PropertyAddressValidator;
-import org.RealEstateMM.services.anticorruption.PropertyServiceAntiCorruption;
-import org.RealEstateMM.services.dtos.property.PropertyInformations;
+import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import org.RealEstateMM.services.property.InvalidPropertyInformationException;
+import org.RealEstateMM.services.property.PropertyAddressValidator;
+import org.RealEstateMM.services.property.PropertyService;
+import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
 
 @Path("/property")
 public class PropertyResource {
@@ -54,7 +54,7 @@ public class PropertyResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response uploadProperty(PropertyInformations propertyInfos) {
+	public Response uploadProperty(PropertyDTO propertyInfos) {
 		try {
 			uploadAC.upload(propertyInfos);
 			return Response.ok(Status.OK).build();

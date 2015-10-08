@@ -33,4 +33,8 @@ public class User {
 		return emailConfirmationCode;
 	}
 
+	public boolean isLocked() {
+		return true;
+	}
+
 }

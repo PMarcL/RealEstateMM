@@ -14,13 +14,13 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
-import org.RealEstateMM.services.InvalidPasswordException;
-import org.RealEstateMM.services.UserDoesNotExistException;
-import org.RealEstateMM.services.UserService;
-import org.RealEstateMM.services.anticorruption.InvalidUserInformationsException;
-import org.RealEstateMM.services.anticorruption.UserInformationsValidator;
-import org.RealEstateMM.services.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.InvalidPasswordException;
+import org.RealEstateMM.services.user.UserDoesNotExistException;
+import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
+import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
+import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 
 @Path("/")
 public class UserResource {

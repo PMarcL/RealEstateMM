@@ -9,9 +9,9 @@ import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.persistence.InMemoryPropertyRepository;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.memory.InMemoryUserRepository;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.mail.GmailSender;
 import org.RealEstateMM.services.mail.MailConfirmationSender;
-import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class DevelopmentContext extends Context {
 
