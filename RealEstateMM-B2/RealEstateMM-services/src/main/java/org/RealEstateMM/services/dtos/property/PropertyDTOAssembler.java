@@ -27,12 +27,12 @@ public class PropertyDTOAssembler {
 
 	public PropertyDTO toDTO(Property property) {
 		PropertyDTO dto = new PropertyDTO();
-		PropertyAddressDTO addressDTO = addressAssembler.toDTO(property.getPropertyAddress());
+		PropertyAddressDTO addressDTO = addressAssembler.toDTO(property.getAddress());
 
-		dto.setPropertyType(PropertyType.getStringFromType(property.getPropertyType()));
+		dto.setPropertyType(PropertyType.getStringFromType(property.getType()));
 		dto.setPropertyAddressDTO(addressDTO);
-		dto.setPropertyPrice(property.getPropertyPrice());
-		dto.setPropertyOwner(property.getPropertyOwner());
+		dto.setPropertyPrice(property.getPrice());
+		dto.setPropertyOwner(property.getOwner());
 		dto.setPropertyStatus(PropertyStatus.getStringFromStatus(property.getPropertyStatus()));
 		return dto;
 	}

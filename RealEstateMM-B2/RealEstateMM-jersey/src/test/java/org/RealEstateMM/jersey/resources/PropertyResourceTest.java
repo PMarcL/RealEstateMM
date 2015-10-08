@@ -17,6 +17,8 @@ import org.junit.Test;
 
 public class PropertyResourceTest {
 
+	private final String ZIPCODE = "G6P7H7";
+
 	private PropertyResource propertyResource;
 	private PropertyServiceAntiCorruption serviceAC;
 	private PropertyDTO propertyInfos;
@@ -67,20 +69,20 @@ public class PropertyResourceTest {
 
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenUsesPropertyServiceAntiCorruptionToEditProperty() {
-		propertyResource.editProperty(features);
-		verify(serviceAC).editProperty(features);
+		propertyResource.editProperty(features, ZIPCODE);
+		verify(serviceAC).editProperty(features, ZIPCODE);
 	}
 
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenReturnsBadRequestIfServiceACThrowsException() {
-		doThrow(InvalidPropertyInformationException.class).when(serviceAC).editProperty(features);
-		Response result = propertyResource.editProperty(features);
+		doThrow(InvalidPropertyInformationException.class).when(serviceAC).editProperty(features, ZIPCODE);
+		Response result = propertyResource.editProperty(features, ZIPCODE);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}
 
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenReturnsStatusOkIfNoExceptionThrown() {
-		Response result = propertyResource.editProperty(features);
+		Response result = propertyResource.editProperty(features, ZIPCODE);
 		assertEquals(Status.OK, result.getStatusInfo());
 	}
 }

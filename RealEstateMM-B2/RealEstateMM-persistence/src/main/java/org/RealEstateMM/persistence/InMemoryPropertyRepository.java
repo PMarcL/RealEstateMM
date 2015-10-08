@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
 import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.informations.PropertyAddress;
 
 public class InMemoryPropertyRepository implements org.RealEstateMM.domain.property.PropertyRepository {
 
@@ -17,20 +15,8 @@ public class InMemoryPropertyRepository implements org.RealEstateMM.domain.prope
 	}
 
 	@Override
-	public Optional<Property> getPropertyAtAddress(PropertyAddress propertyAddress) {
-		if (!propertyExist(propertyAddress)) {
-			return Optional.empty();
-		}
-		return Optional.of(properties.get(propertyAddress.toString()));
-	}
-
-	private boolean propertyExist(PropertyAddress propertyAddress) {
-		return properties.containsKey(propertyAddress.toString());
-	}
-
-	@Override
 	public void add(Property property) {
-		properties.put(property.getPropertyAddress().toString(), property);
+		properties.put(property.getZipCode(), property);
 	}
 
 	public int getSize() {
@@ -40,5 +26,16 @@ public class InMemoryPropertyRepository implements org.RealEstateMM.domain.prope
 	@Override
 	public ArrayList<Property> getAllProperties() {
 		return new ArrayList<Property>(properties.values());
+	}
+
+	@Override
+	public Optional<Property> getPropertyWithZipCode(String zipcode) {
+		Property property = properties.get(zipcode);
+		return Optional.of(property);
+	}
+
+	@Override
+	public void updateProperty(Property property) {
+		properties.put(property.getZipCode(), property);
 	}
 }

@@ -83,10 +83,10 @@ public class PropertyDTOAssemblerTest {
 		PropertyDTO dto = assembler.toDTO(property);
 		Property result = assembler.fromDTO(dto);
 
-		assertEquals(PropertyType.getTypeFromString(dto.getPropertyType()), result.getPropertyType());
-		assertEquals(dto.getPropertyPrice(), result.getPropertyPrice(), DELTA);
+		assertEquals(PropertyType.getTypeFromString(dto.getPropertyType()), result.getType());
+		assertEquals(dto.getPropertyPrice(), result.getPrice(), DELTA);
 		assertEquals(PropertyStatus.getStatusFromString(dto.getPropertyStatus()), result.getPropertyStatus());
-		assertEquals(OWNER_PSEUDO, result.getPropertyOwner());
+		assertEquals(OWNER_PSEUDO, result.getOwner());
 	}
 
 	private PropertyDTO getConfiguredPropertyInformationsMock() {

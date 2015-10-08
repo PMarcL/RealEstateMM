@@ -1,45 +1,55 @@
 package org.RealEstateMM.domain.property;
 
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
+import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
 
 public class Property {
 
-	private PropertyType propertyType;
-	private PropertyAddress propertyAddress;
-	private double propertyPrice;
-	private String propertyOwner;
-	private PropertyStatus propertyStatus;
+	private PropertyType type;
+	private PropertyAddress address;
+	private double price;
+	private String owner;
+	private PropertyStatus status;
+	private PropertyFeatures features;
 
 	public Property(PropertyType type, PropertyAddress address, double price, String ownerUsername,
 			PropertyStatus status) {
 
-		propertyType = type;
-		propertyAddress = address;
-		propertyPrice = price;
-		propertyOwner = ownerUsername;
-		propertyStatus = status;
+		this.type = type;
+		this.address = address;
+		this.price = price;
+		this.owner = ownerUsername;
+		this.status = status;
 	}
 
-	public PropertyType getPropertyType() {
-		return propertyType;
+	public PropertyType getType() {
+		return type;
 	}
 
-	public PropertyAddress getPropertyAddress() {
-		return propertyAddress;
+	public PropertyAddress getAddress() {
+		return address;
 	}
 
-	public double getPropertyPrice() {
-		return propertyPrice;
+	public double getPrice() {
+		return price;
 	}
 
-	public String getPropertyOwner() {
-		return propertyOwner;
+	public String getOwner() {
+		return owner;
 	}
 
 	public PropertyStatus getPropertyStatus() {
-		return propertyStatus;
+		return status;
+	}
+
+	public String getZipCode() {
+		return address.zipCode;
+	}
+
+	public void updateFeatures(PropertyFeatures newFeatures) {
+		features = newFeatures;
 	}
 
 }

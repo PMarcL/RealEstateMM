@@ -36,7 +36,7 @@ public class PropertyServiceAntiCorruption {
 		}
 	}
 
-	public void editProperty(PropertyFeaturesDTO features) {
-		service.editPropertyFeatures(features);
+	public void editProperty(PropertyFeaturesDTO features, String zipCode) {
+		service.editPropertyFeatures(features, zipCode);
 	}
 }

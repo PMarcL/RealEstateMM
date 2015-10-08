@@ -77,8 +77,8 @@ public class PropertyServiceAntiCorruptionTest {
 
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenCallsServiceToEditProperty() {
-		propertyAntiCorruption.editProperty(features);
-		verify(service).editPropertyFeatures(features);
+		propertyAntiCorruption.editProperty(features, ZIPCODE);
+		verify(service).editPropertyFeatures(features, ZIPCODE);
 	}
 
 	private void propertyDTOReturnsValidInfos() {
