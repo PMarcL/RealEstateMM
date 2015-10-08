@@ -60,8 +60,7 @@ public class UserResource {
 			return generateLoginJson(userDTO, session);
 
 		} catch (InvalidPasswordException | UserDoesNotExistException exception) {
-			String errorMessage = "Authentication failed: Pseudonym or password invalid";
-			return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
+			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
