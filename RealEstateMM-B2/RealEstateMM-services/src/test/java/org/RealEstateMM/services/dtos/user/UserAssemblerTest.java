@@ -48,7 +48,7 @@ public class UserAssemblerTest {
 
 		UserInformations userInfo = result.getUserInformations();
 		assertEquals(dto.getPseudonym(), result.getPseudonym());
-		assertEquals(dto.getEmail(), userInfo.email);
+		assertEquals(dto.getEmail(), userInfo.emailAddress);
 		assertEquals(dto.getPhoneNumber(), userInfo.phoneNumber);
 		assertEquals(dto.getFirstName(), userInfo.firstName);
 		assertEquals(dto.getLastName(), userInfo.lastName);

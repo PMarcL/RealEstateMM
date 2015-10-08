@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user;
+package org.RealEstateMM.services.user.exceptions;
 
 public class UserDoesNotExistException extends Exception {
 

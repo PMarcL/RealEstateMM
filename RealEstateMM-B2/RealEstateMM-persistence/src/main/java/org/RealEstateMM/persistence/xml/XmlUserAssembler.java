@@ -14,7 +14,7 @@ public class XmlUserAssembler {
 		newUser.setPassword(userInfo.password);
 		newUser.setFirstName(userInfo.firstName);
 		newUser.setLastName(userInfo.lastName);
-		newUser.setEmail(userInfo.email);
+		newUser.setEmail(userInfo.emailAddress);
 		newUser.setPhoneNumber(userInfo.phoneNumber);
 		newUser.setUserType(user.getUserTypeDescription());
 

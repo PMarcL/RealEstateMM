@@ -1,12 +1,9 @@
 package org.RealEstateMM.domain.user;
 
-import java.util.UUID;
-
 public class User {
 
 	private UserInformations userInformations;
 	private UserType userType;
-	private UUID emailConfirmationCode;
 
 	public User(UserInformations userInfo, UserType type) {
 		this.userInformations = userInfo;
@@ -29,8 +26,8 @@ public class User {
 		return userType.userTypeDescription;
 	}
 
-	public UUID getEmailConfirmationCode() {
-		return emailConfirmationCode;
+	public String getEmailAddress() {
+		return userInformations.emailAddress;
 	}
 
 	public boolean isLocked() {

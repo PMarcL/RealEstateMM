@@ -15,7 +15,7 @@ import org.RealEstateMM.persistence.xml.XmlUserAssembler;
 import org.RealEstateMM.persistence.xml.XmlUserRepository;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.mail.GmailSender;
-import org.RealEstateMM.services.mail.MailConfirmationSender;
+import org.RealEstateMM.services.mail.MailSender;
 
 public class DemoContext extends Context {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;
@@ -24,14 +24,14 @@ public class DemoContext extends Context {
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
-	private MailConfirmationSender mailConfirmationSender;
+	private MailSender mailSender;
 
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
 		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
 		this.propertyRepository = new InMemoryPropertyRepository();
 		this.sessionRepository = new InMemorySessionRepository();
-		this.mailConfirmationSender = new GmailSender();
+		this.mailSender = new GmailSender();
 	}
 
 	private String usersFilePath() {
@@ -43,7 +43,7 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
-		ServiceLocator.getInstance().registerService(MailConfirmationSender.class, mailConfirmationSender);
+		ServiceLocator.getInstance().registerService(MailSender.class, mailSender);
 	}
 
 	@Override

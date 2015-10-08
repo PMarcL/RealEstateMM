@@ -15,12 +15,12 @@ import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.user.InvalidPasswordException;
-import org.RealEstateMM.services.user.UserDoesNotExistException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
+import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 @Path("/")
 public class UserResource {

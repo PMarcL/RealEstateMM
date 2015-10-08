@@ -3,7 +3,6 @@ package org.RealEstateMM.services.mail;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
-import java.util.UUID;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -14,25 +13,23 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.RealEstateMM.services.mail.email.Email;
+
 import com.sun.mail.smtp.SMTPTransport;
 
-public class GmailSender implements MailConfirmationSender {
+public class GmailSender implements MailSender {
 
 	private static final String USERNAME = "housematch.teamb2";
 	private static final String PASSWORD = "awesometeam2";
-	private static final String TITLE = "House match email confirmation";
 	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
-	private String message = "";
 
-	@Override
-	public void send(String recipientEmail, UUID confirmationCode) throws CouldNotSendMailException {
+	public void sendEmail(Email email) throws CouldNotSendMailException {
 		Session session = createMailSession();
-		final MimeMessage msg = new MimeMessage(session);
+		final MimeMessage mimeMessage = new MimeMessage(session);
 
 		try {
-			createMessageBody(confirmationCode);
-			setMessageContent(recipientEmail, msg);
-			sendMessage(session, msg);
+			setMessageContent(email, mimeMessage);
+			sendMessage(session, mimeMessage);
 		} catch (MessagingException e) {
 			throw new CouldNotSendMailException();
 		}
@@ -47,12 +44,11 @@ public class GmailSender implements MailConfirmationSender {
 		t.close();
 	}
 
-	private void setMessageContent(String recipientEmail, final MimeMessage msg)
-			throws MessagingException, AddressException {
+	private void setMessageContent(Email email, final MimeMessage msg) throws MessagingException, AddressException {
 		msg.setFrom(new InternetAddress(USERNAME + "@gmail.com"));
-		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail, false));
-		msg.setSubject(TITLE);
-		msg.setText(message, "utf-8");
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email.recipientEmailAddress, false));
+		msg.setSubject(email.subject);
+		msg.setText(email.body, "utf-8");
 		msg.setSentDate(new Date());
 	}
 
@@ -70,12 +66,6 @@ public class GmailSender implements MailConfirmationSender {
 
 		Session session = Session.getInstance(props, null);
 		return session;
-	}
-
-	private void createMessageBody(UUID confirmationCode) {
-		// TODO
-		String confirmationLink = "baseURL that we have to figure out how to get" + "/confirmation/" + confirmationCode;
-		message = "Please click on the email confirmation link: " + confirmationLink;
 	}
 
 }

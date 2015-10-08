@@ -4,15 +4,15 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
-import org.RealEstateMM.services.mail.MailConfirmationSender;
+import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
+import org.RealEstateMM.services.user.mailconfirmation.MailConfirmationService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,13 +22,11 @@ public class UserServiceTest {
 	private final String A_PSEUDO = "pseudo34";
 	private final String A_PASSWORD = "pw1234";
 	private final String INVALID_PASSWORD = "posdf33";
-	private final String AN_EMAIL = "anEmail@machin.com";
-	private final UUID EMAIL_CONFIRMATION_CODE = UUID.randomUUID();
 	private final User A_USER = mock(User.class);
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
-	private MailConfirmationSender mailConfirmationSender;
+	private MailConfirmationService mailConfirmationService;
 
 	private UserService userService;
 
@@ -36,32 +34,23 @@ public class UserServiceTest {
 	public void setup() throws Exception {
 		userRepository = mock(UserRepository.class);
 		userAssembler = mock(UserAssembler.class);
-		mailConfirmationSender = mock(MailConfirmationSender.class);
+		mailConfirmationService = mock(MailConfirmationService.class);
 
 		given(userAssembler.fromDTO(A_USER_DTO)).willReturn(A_USER);
 
-		userService = new UserService(userRepository, userAssembler, mailConfirmationSender);
+		userService = new UserService(userRepository, userAssembler, mailConfirmationService);
 	}
 
 	@Test
 	public void whenCreateUserThenAddNewUserToRepository() {
-		setUpUserForEmailConfirmation();
 		userService.create(A_USER_DTO);
 		verify(userRepository).addUser(A_USER);
 	}
 
 	@Test
 	public void whenCreateUserThenSendEmailConfirmationWithCreatedUserEmailConfirmationCode() {
-		setUpUserForEmailConfirmation();
 		userService.create(A_USER_DTO);
-		verify(mailConfirmationSender, times(1)).send(AN_EMAIL, EMAIL_CONFIRMATION_CODE);
-	}
-
-	private void setUpUserForEmailConfirmation() {
-		UserInformations someUserInfo = new UserInformations(A_PSEUDO, null, null, null, AN_EMAIL, null);
-
-		given(A_USER.getUserInformations()).willReturn(someUserInfo);
-		given(A_USER.getEmailConfirmationCode()).willReturn(EMAIL_CONFIRMATION_CODE);
+		verify(mailConfirmationService, times(1)).sendEmailConfirmation(A_USER);
 	}
 
 	@Test
