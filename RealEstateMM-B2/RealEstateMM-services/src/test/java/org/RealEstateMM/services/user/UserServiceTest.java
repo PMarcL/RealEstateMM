@@ -12,7 +12,7 @@ import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
-import org.RealEstateMM.services.user.mailconfirmation.MailConfirmationService;
+import org.RealEstateMM.services.user.mailconfirmation.EmailConfirmationService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class UserServiceTest {
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
-	private MailConfirmationService mailConfirmationService;
+	private EmailConfirmationService emailConfirmationService;
 
 	private UserService userService;
 
@@ -34,11 +34,11 @@ public class UserServiceTest {
 	public void setup() throws Exception {
 		userRepository = mock(UserRepository.class);
 		userAssembler = mock(UserAssembler.class);
-		mailConfirmationService = mock(MailConfirmationService.class);
+		emailConfirmationService = mock(EmailConfirmationService.class);
 
 		given(userAssembler.fromDTO(A_USER_DTO)).willReturn(A_USER);
 
-		userService = new UserService(userRepository, userAssembler, mailConfirmationService);
+		userService = new UserService(userRepository, userAssembler, emailConfirmationService);
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class UserServiceTest {
 	@Test
 	public void whenCreateUserThenSendEmailConfirmationWithCreatedUserEmailConfirmationCode() {
 		userService.create(A_USER_DTO);
-		verify(mailConfirmationService, times(1)).sendEmailConfirmation(A_USER);
+		verify(emailConfirmationService, times(1)).sendEmailConfirmation(A_USER);
 	}
 
 	@Test
@@ -77,5 +77,15 @@ public class UserServiceTest {
 
 		userService.authenticate(A_PSEUDO, INVALID_PASSWORD);
 	}
+
+	// TODO
+	// @Test
+	// public void
+	// givenAValidConfirmationCodeWhenConfirmEmailAddressThenUnlockTheUser() {
+	// String validConfirmationCode = "valid";
+	// given(emailConfirmationService.getConfirmingUserPseudonym(validConfirmationCode)).willReturn(A_PSEUDO);
+	//
+	// userService.confirmEmailAddress(validConfirmationCode);
+	// }
 
 }

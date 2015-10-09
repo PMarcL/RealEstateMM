@@ -10,31 +10,31 @@ import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.mail.CouldNotSendMailException;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
-import org.RealEstateMM.services.user.mailconfirmation.MailConfirmationService;
+import org.RealEstateMM.services.user.mailconfirmation.EmailConfirmationService;
 
 public class UserService {
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
-	private MailConfirmationService mailConfirmationService;
+	private EmailConfirmationService emailConfirmationService;
 
 	public UserService(UserRepository userRepository, UserAssembler accountAssembler,
-			MailConfirmationService mailConfirmationService) {
+			EmailConfirmationService mailConfirmationService) {
 		this.userRepository = userRepository;
 		this.userAssembler = accountAssembler;
-		this.mailConfirmationService = mailConfirmationService;
+		this.emailConfirmationService = mailConfirmationService;
 	}
 
 	public UserService() {
 		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
 		userAssembler = new UserAssembler();
-		mailConfirmationService = new MailConfirmationService();
+		emailConfirmationService = new EmailConfirmationService();
 	}
 
 	public void create(UserDTO userDTO) throws CouldNotSendMailException {
 		User newUser = userAssembler.fromDTO(userDTO);
 		userRepository.addUser(newUser);
-		mailConfirmationService.sendEmailConfirmation(newUser);
+		emailConfirmationService.sendEmailConfirmation(newUser);
 	}
 
 	public UserDTO authenticate(String pseudonym, String password)
@@ -48,6 +48,10 @@ public class UserService {
 			throw new InvalidPasswordException();
 		}
 		throw new UserDoesNotExistException();
+	}
+
+	public void confirmEmailAddress(String confirmationCode) {
+		emailConfirmationService.getConfirmingUserPseudonym(confirmationCode);
 	}
 
 }

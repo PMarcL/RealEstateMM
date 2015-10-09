@@ -6,4 +6,6 @@ public interface EmailConfirmationEncoder {
 
 	String getConfirmationCode(User user);
 
+	String extractPseudonymFromConfirmationCode(String confirmationCode);
+
 }

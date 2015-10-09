@@ -11,13 +11,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-public class MailConfirmationServiceTest {
+public class EmailConfirmationServiceTest {
+
+	private final String A_VALID_CONFIRMATION_CODE = "aConfirmationCode";
 
 	private MailSender mailSender;
 	private EmailConfirmationEncoder emailConfirmationEncoder;
 	private EmailFactory emailFactory;
 
-	private MailConfirmationService mailConfirmationService;
+	private EmailConfirmationService emailConfirmationService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -25,23 +27,22 @@ public class MailConfirmationServiceTest {
 		emailConfirmationEncoder = mock(EmailConfirmationEncoder.class);
 		emailFactory = mock(EmailFactory.class);
 
-		mailConfirmationService = new MailConfirmationService(mailSender, emailConfirmationEncoder, emailFactory);
+		emailConfirmationService = new EmailConfirmationService(mailSender, emailConfirmationEncoder, emailFactory);
 	}
 
 	@Test
 	public void givenAUserWhenSendEmailConfirmationThenSendTheConfirmationMail() {
 		User user = mock(User.class);
 		String anEmailAddress = "someEmailAddress@machin.com";
-		String aConfirmationCode = "someConfirmationCode";
 		EmailAddressConfirmationEmail expectedEmail = new EmailAddressConfirmationEmail(anEmailAddress,
-				aConfirmationCode);
+				A_VALID_CONFIRMATION_CODE);
 
 		given(user.getEmailAddress()).willReturn(anEmailAddress);
-		given(emailConfirmationEncoder.getConfirmationCode(user)).willReturn(aConfirmationCode);
-		given(emailFactory.createEmailAddressConfirmationEmail(anEmailAddress, aConfirmationCode))
+		given(emailConfirmationEncoder.getConfirmationCode(user)).willReturn(A_VALID_CONFIRMATION_CODE);
+		given(emailFactory.createEmailAddressConfirmationEmail(anEmailAddress, A_VALID_CONFIRMATION_CODE))
 				.willReturn(expectedEmail);
 
-		mailConfirmationService.sendEmailConfirmation(user);
+		emailConfirmationService.sendEmailConfirmation(user);
 
 		ArgumentCaptor<EmailAddressConfirmationEmail> captor = ArgumentCaptor
 				.forClass(EmailAddressConfirmationEmail.class);
@@ -49,6 +50,14 @@ public class MailConfirmationServiceTest {
 		EmailAddressConfirmationEmail actual = captor.getValue();
 
 		assertEquals(expectedEmail, actual);
+	}
+
+	@Test
+	public void givenAValidConfirmationCodeWhenGetThePseudonymOutOfItThenReturnTheEncodedPseudonym() {
+		String aPseudo = "aPseudo";
+		given(emailConfirmationEncoder.extractPseudonymFromConfirmationCode(A_VALID_CONFIRMATION_CODE)).willReturn(aPseudo);
+		String actual = emailConfirmationService.getConfirmingUserPseudonym(A_VALID_CONFIRMATION_CODE);
+		assertEquals(aPseudo, actual);
 	}
 
 }
