@@ -14,8 +14,9 @@ public class EmailConfirmationService {
 
 	public EmailConfirmationService() {
 		mailSender = ServiceLocator.getInstance().getService(MailSender.class);
+		emailConfirmationEncoder = ServiceLocator.getInstance().getService(EmailConfirmationEncoder.class);
 		emailFactory = new EmailFactory();
-		// TODO emailConfirmationEncoder
+
 	}
 
 	public EmailConfirmationService(MailSender mailSender, EmailConfirmationEncoder emailConfirmationEncoder,
