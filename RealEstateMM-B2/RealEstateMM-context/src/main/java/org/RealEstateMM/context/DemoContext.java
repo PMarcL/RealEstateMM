@@ -16,6 +16,7 @@ import org.RealEstateMM.persistence.xml.XmlUserRepository;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.mail.GmailSender;
 import org.RealEstateMM.services.mail.MailSender;
+import org.RealEstateMM.services.user.mailconfirmation.Base64EmailConfirmationEncoder;
 import org.RealEstateMM.services.user.mailconfirmation.EmailConfirmationEncoder;
 
 public class DemoContext extends Context {
@@ -34,6 +35,7 @@ public class DemoContext extends Context {
 		this.propertyRepository = new InMemoryPropertyRepository();
 		this.sessionRepository = new InMemorySessionRepository();
 		this.mailSender = new GmailSender();
+		this.emailConfirmationEncoder = new Base64EmailConfirmationEncoder();
 	}
 
 	private String usersFilePath() {
