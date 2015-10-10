@@ -24,7 +24,7 @@ import org.RealEstateMM.servicelocator.ServiceLocator;
 public class DemoContext extends Context {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;
 	private static final String USER_REPOSITORY_FILE = "users.xml";
-	private static final String BASE_URL = "http://localhost:8080";
+	private static final String BASE_URL = "http://localhost:8080/";
 
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;

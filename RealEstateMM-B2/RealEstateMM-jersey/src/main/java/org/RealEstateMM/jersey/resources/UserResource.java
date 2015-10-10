@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -17,7 +18,6 @@ import org.RealEstateMM.domain.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.emailsender.CouldNotSendMailException;
-import org.RealEstateMM.jersey.requestDTO.EmailConfirmationDTO;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
@@ -93,13 +93,14 @@ public class UserResource {
 		return Response.ok(Status.OK).entity(json).build();
 	}
 
-	@POST
-	@Path("user/emailConfirmation")
+	@GET
+	@Path("user/emailConfirmation/{confirmationCode}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response confirmEmail(EmailConfirmationDTO confirmationCodeDTO) {
+	public Response confirmEmail(
+			@PathParam("confirmationCode") String confirmationCode) {
 		try {
-			userServiceAC.confirmEmailAddress(confirmationCodeDTO.getConfirmationCode());
-			return Response.status(Status.OK).build();
+			userServiceAC.confirmEmailAddress(confirmationCode);
+			return Response.status(Status.OK).entity("Email Confirmed").build();
 		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}

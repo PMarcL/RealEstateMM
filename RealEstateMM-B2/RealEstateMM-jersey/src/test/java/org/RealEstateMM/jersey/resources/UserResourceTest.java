@@ -134,8 +134,7 @@ public class UserResourceTest {
 
 	@Test
 	public void givenAValidConfirmationCodeWhenConfirmEmailAddressThenReturnStatusOK() {
-		EmailConfirmationDTO dto = new EmailConfirmationDTO(A_VALID_CONFIRMATION_CODE);
-		Response response = userConnectionResource.confirmEmail(dto);
+		Response response = userConnectionResource.confirmEmail("dsfsdfsdf");
 		assertEquals(Status.OK, response.getStatusInfo());
 	}
 
@@ -145,7 +144,7 @@ public class UserResourceTest {
 		doThrow(InvalidEmailConfirmationCodeException.class).when(userServiceAC)
 				.confirmEmailAddress(A_VALID_CONFIRMATION_CODE);
 
-		Response response = userConnectionResource.confirmEmail(dto);
+		Response response = userConnectionResource.confirmEmail(A_VALID_CONFIRMATION_CODE);
 
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
 	}
@@ -156,8 +155,8 @@ public class UserResourceTest {
 		doThrow(AlreadyConfirmedEmailAddressException.class).when(userServiceAC)
 				.confirmEmailAddress(alreadyConfirmedCode);
 
-		EmailConfirmationDTO dto = new EmailConfirmationDTO(alreadyConfirmedCode);
-		Response response = userConnectionResource.confirmEmail(dto);
+
+		Response response = userConnectionResource.confirmEmail(alreadyConfirmedCode);
 
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
 	}
