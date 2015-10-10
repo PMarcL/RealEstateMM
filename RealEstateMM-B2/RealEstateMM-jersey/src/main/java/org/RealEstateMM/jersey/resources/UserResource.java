@@ -98,7 +98,6 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response confirmEmail(
 			@PathParam("confirmationCode") String confirmationCode) {
-		try {
 			userServiceAC.confirmEmailAddress(confirmationCode);
 			return Response.status(Status.OK).entity("Email Confirmed").build();
 		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException exception) {

@@ -49,7 +49,9 @@ public class UserService {
 		throw new UserDoesNotExistException();
 	}
 
-	public void confirmEmailAddress(String confirmationCode) {
+	public void confirmEmailAddress(String confirmationCode) {// TODO catch
+																// exception and
+																// rethrow
 		emailAddressConfirmer.confirmEmailAddress(confirmationCode);
 	}
 

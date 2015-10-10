@@ -40,7 +40,7 @@ public class EmailConfirmer {
 
 		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudo);
 		if (!userOptional.isPresent()) {
-			throw new InvalidEmailConfirmationCodeException();
+			throw new UserAssociatedToConfirmationCodeDoesNotExistException(pseudo);
 		} else {
 			userOptional.get().unlock(emailAddress);
 		}
@@ -51,13 +51,22 @@ public class EmailConfirmer {
 	}
 
 	private String extractPseudonymFrom(String confirmationCode) {
-		String decodedInfo = encoder.decode(confirmationCode);
-		return decodedInfo.split(SEPARATOR)[0];
+		String[] decodedInfo = encoder.decode(confirmationCode).split(SEPARATOR);
+		checkFormat(decodedInfo);
+		return decodedInfo[0];
 	}
 
 	private String extractEmailAddressFrom(String confirmationCode) {
-		String decodedInfo = encoder.decode(confirmationCode);
-		return decodedInfo.split(SEPARATOR)[1];
+		String[] decodedInfo = encoder.decode(confirmationCode).split(SEPARATOR);
+		checkFormat(decodedInfo);
+		return decodedInfo[1];
+	}
+
+	private void checkFormat(String[] decodedInfo) {
+		if (decodedInfo.length != 2) {
+			throw new InvalidEmailConfirmationCodeException();
+		}
+
 	}
 
 }
