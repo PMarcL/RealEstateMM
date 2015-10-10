@@ -2,6 +2,7 @@ package org.RealEstateMM.services.property;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
@@ -50,11 +51,12 @@ public class PropertyService {
 		return propertiesDTO;
 	}
 
-	public void editPropertyFeatures(PropertyFeaturesDTO features, String zipCode) {
-		Optional<Property> property = propertyRepository.getPropertyWithZipCode(zipCode);
-		PropertyFeatures newFeatures = featuresAssembler.fromDTO(features);
+	public void editPropertyFeatures(PropertyFeaturesDTO featuresDTO) {
+		PropertyFeatures features = featuresAssembler.fromDTO(featuresDTO);
+		PropertyAddress address = featuresAssembler.getAddressFromDTO(featuresDTO);
+		Optional<Property> property = propertyRepository.getPropertyAtAddress(address);
 
-		property.get().updateFeatures(newFeatures);
+		property.get().updateFeatures(features);
 		propertyRepository.updateProperty(property.get());
 	}
 }

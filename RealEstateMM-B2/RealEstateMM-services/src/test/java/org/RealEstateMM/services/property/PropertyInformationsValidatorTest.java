@@ -1,7 +1,8 @@
-package org.RealEstateMM.services.anticorruption;
+package org.RealEstateMM.services.property;
 
 import static org.junit.Assert.*;
 
+import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.junit.Before;
 import org.junit.Test;
 

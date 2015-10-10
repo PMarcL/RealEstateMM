@@ -2,7 +2,6 @@ package org.RealEstateMM.services.property;
 
 import static org.mockito.Mockito.*;
 
-import org.RealEstateMM.services.anticorruption.PropertyInformationsValidator;
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
@@ -77,8 +76,8 @@ public class PropertyServiceAntiCorruptionTest {
 
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenCallsServiceToEditProperty() {
-		propertyAntiCorruption.editProperty(features, ZIPCODE);
-		verify(service).editPropertyFeatures(features, ZIPCODE);
+		propertyAntiCorruption.editProperty(features);
+		verify(service).editPropertyFeatures(features);
 	}
 
 	private void propertyDTOReturnsValidInfos() {

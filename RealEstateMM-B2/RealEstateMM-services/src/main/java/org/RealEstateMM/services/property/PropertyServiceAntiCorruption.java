@@ -1,6 +1,5 @@
 package org.RealEstateMM.services.property;
 
-import org.RealEstateMM.services.anticorruption.PropertyInformationsValidator;
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
@@ -36,7 +35,7 @@ public class PropertyServiceAntiCorruption {
 		}
 	}
 
-	public void editProperty(PropertyFeaturesDTO features, String zipCode) {
-		service.editPropertyFeatures(features, zipCode);
+	public void editProperty(PropertyFeaturesDTO features) {
+		service.editPropertyFeatures(features);
 	}
 }

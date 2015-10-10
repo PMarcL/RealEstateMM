@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.anticorruption;
+package org.RealEstateMM.services.property;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

@@ -7,23 +7,24 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.junit.Before;
 import org.junit.Test;
 
 public class InMemoryPropertyRepositoryTest {
 
-	private final String ZIPCODE = "G6P7H7";
-
 	private InMemoryPropertyRepository repository;
 
 	private Property property;
+	private PropertyAddress address;
 
 	@Before
 	public void init() {
 		property = mock(Property.class);
+		address = mock(PropertyAddress.class);
 		repository = new InMemoryPropertyRepository();
 
-		given(property.getZipCode()).willReturn(ZIPCODE);
+		given(property.getAddress()).willReturn(address);
 	}
 
 	@Test
@@ -41,7 +42,7 @@ public class InMemoryPropertyRepositoryTest {
 	@Test
 	public void givenARepositoryWhenAddPropertyThenPropertyIsInRepository() {
 		repository.add(property);
-		Optional<Property> result = repository.getPropertyWithZipCode(ZIPCODE);
+		Optional<Property> result = repository.getPropertyAtAddress(address);
 		assertEquals(property, result.get());
 	}
 
@@ -66,10 +67,10 @@ public class InMemoryPropertyRepositoryTest {
 	public void givenARepositoryContainingAPropertyWhenUpdatePropertyThenUpdatedPropertyIsInRepository() {
 		repository.add(property);
 		Property updatedProperty = mock(Property.class);
-		given(updatedProperty.getZipCode()).willReturn(ZIPCODE);
+		given(updatedProperty.getAddress()).willReturn(address);
 
 		repository.updateProperty(updatedProperty);
 
-		assertEquals(updatedProperty, repository.getPropertyWithZipCode(ZIPCODE).get());
+		assertEquals(updatedProperty, repository.getPropertyAtAddress(address).get());
 	}
 }

@@ -7,7 +7,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -15,10 +14,10 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
-import org.RealEstateMM.services.anticorruption.PropertyInformationsValidator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
+import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
 
@@ -55,12 +54,11 @@ public class PropertyResource {
 	}
 
 	@PUT
-	@Path("/{zipCode}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editProperty(PropertyFeaturesDTO features, @PathParam(value = "zipCode") String zipCode) {
+	public Response editProperty(PropertyFeaturesDTO features) {
 		try {
-			serviceAC.editProperty(features, zipCode);
+			serviceAC.editProperty(features);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
@@ -19,12 +20,11 @@ import org.junit.Test;
 
 public class PropertyServiceTest {
 
-	private final String ZIPCODE = "G6P7H7";
-
 	private PropertyDTOAssembler assembler;
 	private PropertyRepository repository;
 	private PropertyDTO propertyDTO;
 	private Property property;
+	private PropertyAddress address;
 	private PropertyFeaturesDTO featuresDTO;
 	private PropertyFeaturesDTOAssembler featuresAssembler;
 	private PropertyFeatures features;
@@ -42,7 +42,9 @@ public class PropertyServiceTest {
 		property = mock(Property.class);
 		featuresDTO = mock(PropertyFeaturesDTO.class);
 		features = mock(PropertyFeatures.class);
-		given(repository.getPropertyWithZipCode(ZIPCODE)).willReturn(Optional.of(property));
+		address = mock(PropertyAddress.class);
+		given(repository.getPropertyAtAddress(address)).willReturn(Optional.of(property));
+		configureFeaturesAssembler();
 	}
 
 	@Test
@@ -84,28 +86,38 @@ public class PropertyServiceTest {
 	}
 
 	@Test
-	public void givenPropertyFeaturesAndZipCodeWhenEditPropertyThenGetsPropertyWithZipCode() {
-		propertyService.editPropertyFeatures(featuresDTO, ZIPCODE);
-		verify(repository).getPropertyWithZipCode(ZIPCODE);
-	}
-
-	@Test
-	public void givenPropertyFeaturesAndZipCodeWhenEditPropertyThenAssemblesPropertyFeatures() {
-		propertyService.editPropertyFeatures(featuresDTO, ZIPCODE);
+	public void givenPropertyFeaturesWhenEditPropertyThenAssemblesPropertyFeatures() {
+		propertyService.editPropertyFeatures(featuresDTO);
 		verify(featuresAssembler).fromDTO(featuresDTO);
 	}
 
 	@Test
-	public void givenPropertyFeaturesAndZipCodeWhenEditPropertyThenUpdatesPropertyWithNewFeatures() {
-		given(featuresAssembler.fromDTO(featuresDTO)).willReturn(features);
-		propertyService.editPropertyFeatures(featuresDTO, ZIPCODE);
+	public void givenPropertyFeaturesWhenEditPropertyThenAssemblesPropertyAddress() {
+		propertyService.editPropertyFeatures(featuresDTO);
+		verify(featuresAssembler).getAddressFromDTO(featuresDTO);
+	}
+
+	@Test
+	public void givenPropertyFeaturesWhenEditPropertyThenGetsPropertyWithZipCode() {
+		propertyService.editPropertyFeatures(featuresDTO);
+		verify(repository).getPropertyAtAddress(address);
+	}
+
+	@Test
+	public void givenPropertyFeaturesWhenEditPropertyThenUpdatesPropertyWithNewFeatures() {
+		propertyService.editPropertyFeatures(featuresDTO);
 		verify(property).updateFeatures(features);
 	}
 
 	@Test
-	public void givenPropertyFeaturesAndZipCodeWhenEditPropertyThenUpdatesPropertyInRepository() {
-		propertyService.editPropertyFeatures(featuresDTO, ZIPCODE);
+	public void givenPropertyFeaturesWhenEditPropertyThenUpdatesPropertyInRepository() {
+		propertyService.editPropertyFeatures(featuresDTO);
 		verify(repository).updateProperty(property);
+	}
+
+	private void configureFeaturesAssembler() {
+		given(featuresAssembler.fromDTO(featuresDTO)).willReturn(features);
+		given(featuresAssembler.getAddressFromDTO(featuresDTO)).willReturn(address);
 	}
 
 	private ArrayList<Property> buildPropertiesList() {
