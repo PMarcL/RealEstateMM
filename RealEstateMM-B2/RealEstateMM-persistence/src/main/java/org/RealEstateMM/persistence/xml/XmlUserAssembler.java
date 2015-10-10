@@ -27,7 +27,7 @@ public class XmlUserAssembler {
 				xmlUser.getFirstName(), xmlUser.getLastName(), xmlUser.getEmail(), xmlUser.getPhoneNumber());
 		UserType userType = new UserType(xmlUser.getUserType());
 
-		User user = new User(userInfo, userType);
+		User user = new User(userInfo, userType, xmlUser.getLock());
 		return user;
 	}
 
