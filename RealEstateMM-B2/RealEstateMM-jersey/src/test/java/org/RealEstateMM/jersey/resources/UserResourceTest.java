@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response.StatusType;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.domain.AlreadyConfirmedEmailAddressException;
+import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.jersey.requestDTO.EmailConfirmationDTO;

@@ -1,32 +1,63 @@
 package org.RealEstateMM.domain.user.emailconfirmation;
 
+import java.util.Optional;
+
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.EmailSender;
 import org.RealEstateMM.emailsender.email.Email;
 import org.RealEstateMM.emailsender.email.EmailFactory;
+import org.RealEstateMM.encoder.Encoder;
 
 public class EmailConfirmer {
 
+	public static final String SEPARATOR = "WITH";
+
+	private UserRepository userRepository;
 	private EmailSender mailSender;
-	private EmailConfirmationEncoder emailConfirmationEncoder;
+	private Encoder encoder;
 	private EmailFactory emailFactory;
 
-	public EmailConfirmer(EmailSender mailSender, EmailConfirmationEncoder emailConfirmationEncoder,
+	public EmailConfirmer(UserRepository userRepo, EmailSender mailSender, Encoder emailConfirmationEncoder,
 			EmailFactory emailFactory) {
+		this.userRepository = userRepo;
 		this.mailSender = mailSender;
-		this.emailConfirmationEncoder = emailConfirmationEncoder;
+		this.encoder = emailConfirmationEncoder;
 		this.emailFactory = emailFactory;
 	}
 
 	public void sendEmailConfirmation(User user) {
-		String confirmationCode = emailConfirmationEncoder.getConfirmationCode(user);
+		String infoToEncode = buildSecretToEncodeInConfirmationCode(user);
+		String confirmationCode = encoder.encode(infoToEncode);
 		String recipientEmailAddress = user.getEmailAddress();
 		Email email = emailFactory.createEmailAddressConfirmationEmail(recipientEmailAddress, confirmationCode);
 		mailSender.sendEmail(email);
 	}
 
-	public String extractPseudonymFrom(String confirmationCode) {
-		return emailConfirmationEncoder.extractPseudonymFromConfirmationCode(confirmationCode);
+	public void confirmEmailAddress(String confirmationCode) {
+		String pseudo = extractPseudonymFrom(confirmationCode);
+		String emailAddress = extractEmailAddressFrom(confirmationCode);
+
+		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudo);
+		if (!userOptional.isPresent()) {
+			throw new InvalidEmailConfirmationCodeException();
+		} else {
+			userOptional.get().unlock(emailAddress);
+		}
+	}
+
+	private String buildSecretToEncodeInConfirmationCode(User user) {
+		return user.getPseudonym() + SEPARATOR + user.getEmailAddress();
+	}
+
+	private String extractPseudonymFrom(String confirmationCode) {
+		String decodedInfo = encoder.decode(confirmationCode);
+		return decodedInfo.split(SEPARATOR)[0];
+	}
+
+	private String extractEmailAddressFrom(String confirmationCode) {
+		String decodedInfo = encoder.decode(confirmationCode);
+		return decodedInfo.split(SEPARATOR)[1];
 	}
 
 }

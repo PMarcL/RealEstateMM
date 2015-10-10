@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain;
+package org.RealEstateMM.domain.user.emailconfirmation;
 
 public class AlreadyConfirmedEmailAddressException extends RuntimeException {
 

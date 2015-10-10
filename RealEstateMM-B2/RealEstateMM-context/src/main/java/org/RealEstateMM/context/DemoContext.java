@@ -7,13 +7,13 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserType;
-import org.RealEstateMM.domain.user.emailconfirmation.Base64EmailConfirmationEncoder;
-import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmationEncoder;
 import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.EmailSender;
 import org.RealEstateMM.emailsender.GmailSender;
 import org.RealEstateMM.emailsender.email.EmailFactory;
+import org.RealEstateMM.encoder.Base64Encoder;
+import org.RealEstateMM.encoder.Encoder;
 import org.RealEstateMM.persistence.InMemoryPropertyRepository;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
@@ -36,19 +36,19 @@ public class DemoContext extends Context {
 		super(BASE_URL);
 		File xmlUsers = new File(usersFilePath());
 		initializeRepositories(xmlUsers);
-		initializeMisc();
-	}
-
-	private void initializeMisc() {
-		EmailSender emailSender = new GmailSender();
-		EmailConfirmationEncoder emailConfirmationEncoder = new Base64EmailConfirmationEncoder();
-		emailConfirmer = new EmailConfirmer(emailSender, emailConfirmationEncoder, new EmailFactory(BASE_URL));
+		initializeMisc(userRepository);
 	}
 
 	private void initializeRepositories(File xmlUsers) {
 		userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
 		propertyRepository = new InMemoryPropertyRepository();
 		sessionRepository = new InMemorySessionRepository();
+	}
+
+	private void initializeMisc(UserRepository userRepository) {
+		EmailSender emailSender = new GmailSender();
+		Encoder encoder = new Base64Encoder();
+		emailConfirmer = new EmailConfirmer(userRepository, emailSender, encoder, new EmailFactory(BASE_URL));
 	}
 
 	private String usersFilePath() {

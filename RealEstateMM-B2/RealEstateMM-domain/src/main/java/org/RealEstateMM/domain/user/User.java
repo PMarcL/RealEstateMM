@@ -47,8 +47,8 @@ public class User {
 		isLocked = true;
 	}
 
-	public void unlock() {
-		isLocked = false;
+	public void unlock(String anEmailAddress) {
+		isLocked = false; // TODO throw alreadyConfirmed or wrongEmailInCode
 	}
 
 }
