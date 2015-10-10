@@ -13,7 +13,11 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.AlreadyConfirmedEmailAddressException;
+import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.emailsender.CouldNotSendMailException;
+import org.RealEstateMM.jersey.requestDTO.EmailConfirmationDTO;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
@@ -57,7 +61,7 @@ public class UserResource {
 		try {
 			UserDTO userDTO = userServiceAC.login(pseudonym, password);
 			Session session = sessionService.open(userDTO);
-			return generateLoginJson(userDTO, session);
+			return generateLoginResponse(userDTO, session);
 
 		} catch (InvalidPasswordException | UserDoesNotExistException exception) {
 			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
@@ -74,16 +78,30 @@ public class UserResource {
 		try {
 			userServiceAC.createUser(userDTO);
 			Session session = sessionService.open(userDTO);
-			return generateLoginJson(userDTO, session);
+			return generateLoginResponse(userDTO, session);
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (UserWithPseudonymAlreadyStoredException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		} catch (CouldNotSendMailException exception) {
+			return Response.status(Status.CREATED).build();
 		}
 	}
 
-	private Response generateLoginJson(UserDTO userDTO, Session session) {
+	private Response generateLoginResponse(UserDTO userDTO, Session session) {
 		String json = "{\"userType\":\"" + userDTO.getUserType() + "\", \"token\":\"" + session.token + "\"}";
 		return Response.ok(Status.OK).entity(json).build();
+	}
+
+	@POST
+	@Path("user/emailConfirmation")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response confirmEmail(EmailConfirmationDTO confirmationCodeDTO) {
+		try {
+			userServiceAC.confirmEmailAddress(confirmationCodeDTO.getConfirmationCode());
+			return Response.status(Status.OK).build();
+		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException exception) {
+			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		}
 	}
 }

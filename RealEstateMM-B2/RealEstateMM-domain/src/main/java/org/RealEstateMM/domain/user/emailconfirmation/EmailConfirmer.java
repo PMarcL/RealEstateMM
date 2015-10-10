@@ -1,24 +1,17 @@
-package org.RealEstateMM.services.user.mailconfirmation;
+package org.RealEstateMM.domain.user.emailconfirmation;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.mail.MailSender;
-import org.RealEstateMM.services.mail.email.Email;
-import org.RealEstateMM.services.mail.email.EmailFactory;
+import org.RealEstateMM.emailsender.EmailSender;
+import org.RealEstateMM.emailsender.email.Email;
+import org.RealEstateMM.emailsender.email.EmailFactory;
 
-public class MailConfirmationService {
+public class EmailConfirmer {
 
-	private MailSender mailSender;
+	private EmailSender mailSender;
 	private EmailConfirmationEncoder emailConfirmationEncoder;
 	private EmailFactory emailFactory;
 
-	public MailConfirmationService() {
-		mailSender = ServiceLocator.getInstance().getService(MailSender.class);
-		emailFactory = new EmailFactory();
-		// TODO emailConfirmationEncoder
-	}
-
-	public MailConfirmationService(MailSender mailSender, EmailConfirmationEncoder emailConfirmationEncoder,
+	public EmailConfirmer(EmailSender mailSender, EmailConfirmationEncoder emailConfirmationEncoder,
 			EmailFactory emailFactory) {
 		this.mailSender = mailSender;
 		this.emailConfirmationEncoder = emailConfirmationEncoder;
@@ -30,6 +23,10 @@ public class MailConfirmationService {
 		String recipientEmailAddress = user.getEmailAddress();
 		Email email = emailFactory.createEmailAddressConfirmationEmail(recipientEmailAddress, confirmationCode);
 		mailSender.sendEmail(email);
+	}
+
+	public String extractPseudonymFrom(String confirmationCode) {
+		return emailConfirmationEncoder.extractPseudonymFromConfirmationCode(confirmationCode);
 	}
 
 }

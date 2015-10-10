@@ -47,4 +47,8 @@ public class UserServiceAntiCorruption {
 		}
 	}
 
+	public void confirmEmailAddress(String confirmationCode) {
+		userService.confirmEmailAddress(confirmationCode);
+	}
+
 }

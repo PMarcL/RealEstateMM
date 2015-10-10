@@ -1,6 +1,7 @@
 package org.RealEstateMM.services.dtos.property;
 
 import java.util.Optional;
+
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.user.User;

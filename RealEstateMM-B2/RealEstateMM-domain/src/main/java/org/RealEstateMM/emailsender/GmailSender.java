@@ -1,23 +1,23 @@
-package org.RealEstateMM.services.mail;
+package org.RealEstateMM.emailsender;
 
+import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.RealEstateMM.services.mail.email.Email;
+import org.RealEstateMM.emailsender.email.Email;
 
 import com.sun.mail.smtp.SMTPTransport;
 
-public class GmailSender implements MailSender {
+public class GmailSender implements EmailSender {
 
 	private static final String USERNAME = "housematch.teamb2";
 	private static final String PASSWORD = "awesometeam2";
@@ -25,12 +25,11 @@ public class GmailSender implements MailSender {
 
 	public void sendEmail(Email email) throws CouldNotSendMailException {
 		Session session = createMailSession();
-		final MimeMessage mimeMessage = new MimeMessage(session);
 
 		try {
-			setMessageContent(email, mimeMessage);
-			sendMessage(session, mimeMessage);
-		} catch (MessagingException e) {
+			MimeMessage message = setMessageContent(email, session);
+			sendMessage(session, message);
+		} catch (MessagingException | NoSuchProviderException e) {
 			throw new CouldNotSendMailException();
 		}
 	}
@@ -44,12 +43,16 @@ public class GmailSender implements MailSender {
 		t.close();
 	}
 
-	private void setMessageContent(Email email, final MimeMessage msg) throws MessagingException, AddressException {
-		msg.setFrom(new InternetAddress(USERNAME + "@gmail.com"));
-		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email.recipientEmailAddress, false));
-		msg.setSubject(email.subject);
-		msg.setText(email.body, "utf-8");
-		msg.setSentDate(new Date());
+	private MimeMessage setMessageContent(Email email, Session session) throws MessagingException, AddressException {
+		MimeMessage message = new MimeMessage(session);
+
+		message.setFrom(new InternetAddress(USERNAME + "@gmail.com"));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email.recipientEmailAddress, false));
+		message.setSubject(email.subject);
+		message.setText(email.body, "utf-8");
+		message.setSentDate(new Date());
+
+		return message;
 	}
 
 	@SuppressWarnings("restriction")

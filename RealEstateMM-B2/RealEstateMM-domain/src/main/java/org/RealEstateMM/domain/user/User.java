@@ -4,10 +4,19 @@ public class User {
 
 	private UserInformations userInformations;
 	private UserType userType;
+	private boolean isLocked;
 
 	public User(UserInformations userInfo, UserType type) {
 		this.userInformations = userInfo;
 		this.userType = type;
+		this.lock();
+	}
+
+	public User(UserInformations userInformations, UserType userType, boolean isLocked) {
+		super();
+		this.userInformations = userInformations;
+		this.userType = userType;
+		this.isLocked = isLocked;
 	}
 
 	public UserInformations getUserInformations() {
@@ -31,7 +40,15 @@ public class User {
 	}
 
 	public boolean isLocked() {
-		return true;
+		return isLocked;
+	}
+
+	private void lock() {
+		isLocked = true;
+	}
+
+	public void unlock() {
+		isLocked = false;
 	}
 
 }
