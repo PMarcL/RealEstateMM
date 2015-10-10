@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
-import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
@@ -79,23 +78,4 @@ public class UserServiceTest {
 		userService.authenticate(A_PSEUDO, INVALID_PASSWORD);
 	}
 
-	@Test
-	public void givenAValidConfirmationCodeWhenConfirmEmailAddressThenUnlockTheUser() {
-		String validConfirmationCode = "valid";
-		given(emailConfirmer.extractPseudonymFrom(validConfirmationCode)).willReturn(A_PSEUDO);
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.of(A_USER));
-
-		userService.confirmEmailAddress(validConfirmationCode);
-
-		verify(A_USER, times(1)).unlock();
-	}
-
-	@Test(expected = InvalidEmailConfirmationCodeException.class)
-	public void givenACodeAssociatedToUnexistingUserWhenConfirmEmailAddressThenThrowInvalidException() {
-		String aCodeWithUnexistingUser = "someInvalidConfirmationCode";
-		given(emailConfirmer.extractPseudonymFrom(aCodeWithUnexistingUser)).willReturn(A_PSEUDO);
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.empty());
-
-		userService.confirmEmailAddress(aCodeWithUnexistingUser);
-	}
 }
