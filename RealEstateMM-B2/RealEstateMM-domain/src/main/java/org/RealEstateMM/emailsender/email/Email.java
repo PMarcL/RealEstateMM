@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.mail.email;
+package org.RealEstateMM.emailsender.email;
 
 public abstract class Email {
 

@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response.StatusType;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.AlreadyConfirmedEmailAddressException;
+import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.jersey.requestDTO.EmailConfirmationDTO;
 import org.RealEstateMM.services.dtos.user.UserDTO;
@@ -18,7 +19,6 @@ import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsExce
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
-import org.RealEstateMM.services.user.mailconfirmation.InvalidEmailConfirmationCodeException;
 import org.junit.Before;
 import org.junit.Test;
 

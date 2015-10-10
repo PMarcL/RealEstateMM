@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user.mailconfirmation;
+package org.RealEstateMM.domain.user.emailconfirmation;
 
 import org.RealEstateMM.domain.user.User;
 

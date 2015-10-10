@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user.mailconfirmation;
+package org.RealEstateMM.domain.user.emailconfirmation;
 
 import java.nio.charset.Charset;
 import java.util.Base64;

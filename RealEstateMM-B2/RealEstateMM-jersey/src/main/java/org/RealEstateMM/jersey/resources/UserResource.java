@@ -14,17 +14,17 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.AlreadyConfirmedEmailAddressException;
+import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.jersey.requestDTO.EmailConfirmationDTO;
 import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.mail.CouldNotSendMailException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
-import org.RealEstateMM.services.user.mailconfirmation.InvalidEmailConfirmationCodeException;
 
 @Path("/")
 public class UserResource {
