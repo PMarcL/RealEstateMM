@@ -13,7 +13,7 @@ import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTOAssembler;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class PropertyService {
+public class PropertyService implements PropertyServiceHandler {
 
 	private PropertyRepository propertyRepository;
 	private PropertyDTOAssembler propertyAssembler;
@@ -32,11 +32,13 @@ public class PropertyService {
 		this.featuresAssembler = featuresAssembler;
 	}
 
+	@Override
 	public void uploadProperty(PropertyDTO propertyInfos) {
 		Property newProperty = propertyAssembler.fromDTO(propertyInfos);
 		propertyRepository.add(newProperty);
 	}
 
+	@Override
 	public ArrayList<PropertyDTO> getAllProperties() {
 		ArrayList<Property> properties = propertyRepository.getAllProperties();
 		return buildDTOsFromProperties(properties);
@@ -51,12 +53,17 @@ public class PropertyService {
 		return propertiesDTO;
 	}
 
+	@Override
 	public void editPropertyFeatures(PropertyFeaturesDTO featuresDTO) {
 		PropertyFeatures features = featuresAssembler.fromDTO(featuresDTO);
-		PropertyAddress address = featuresAssembler.getAddressFromDTO(featuresDTO);
-		Optional<Property> property = propertyRepository.getPropertyAtAddress(address);
+		Optional<Property> property = getPropertyFromPropertyFeatures(featuresDTO);
 
 		property.get().updateFeatures(features);
 		propertyRepository.updateProperty(property.get());
+	}
+
+	private Optional<Property> getPropertyFromPropertyFeatures(PropertyFeaturesDTO featuresDTO) {
+		PropertyAddress address = featuresAssembler.getAddressFromDTO(featuresDTO);
+		return propertyRepository.getPropertyAtAddress(address);
 	}
 }

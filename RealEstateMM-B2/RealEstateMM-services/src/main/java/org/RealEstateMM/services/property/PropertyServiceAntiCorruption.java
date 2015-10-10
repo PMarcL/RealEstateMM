@@ -1,10 +1,12 @@
 package org.RealEstateMM.services.property;
 
+import java.util.ArrayList;
+
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 
-public class PropertyServiceAntiCorruption {
+public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
 	private PropertyInformationsValidator informationValidator;
 	private PropertyService service;
@@ -14,7 +16,8 @@ public class PropertyServiceAntiCorruption {
 		this.service = service;
 	}
 
-	public void upload(PropertyDTO propertyInfos) {
+	@Override
+	public void uploadProperty(PropertyDTO propertyInfos) {
 		validatePropertyInformations(propertyInfos);
 		validatePropertyAddress(propertyInfos.getPropertyAddressDTO());
 		service.uploadProperty(propertyInfos);
@@ -35,7 +38,14 @@ public class PropertyServiceAntiCorruption {
 		}
 	}
 
-	public void editProperty(PropertyFeaturesDTO features) {
+	@Override
+	public void editPropertyFeatures(PropertyFeaturesDTO features) {
+		// TODO check property features validity here
 		service.editPropertyFeatures(features);
+	}
+
+	@Override
+	public ArrayList<PropertyDTO> getAllProperties() {
+		return service.getAllProperties();
 	}
 }

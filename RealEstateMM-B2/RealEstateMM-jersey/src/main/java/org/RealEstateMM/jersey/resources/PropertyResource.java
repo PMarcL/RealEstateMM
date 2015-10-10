@@ -14,26 +14,22 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
-import org.RealEstateMM.services.property.PropertyInformationsValidator;
-import org.RealEstateMM.services.property.PropertyService;
-import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
+import org.RealEstateMM.services.property.PropertyServiceHandler;
 
 @Path("/property")
 public class PropertyResource {
 
-	private PropertyServiceAntiCorruption serviceAC;
-	private PropertyService propertyService;
+	private PropertyServiceHandler propertyService;
 
 	public PropertyResource() {
-		propertyService = new PropertyService();
-		serviceAC = new PropertyServiceAntiCorruption(propertyService, new PropertyInformationsValidator());
+		propertyService = ServiceLocator.getInstance().getService(PropertyServiceHandler.class);
 	}
 
-	public PropertyResource(PropertyServiceAntiCorruption serviceAC, PropertyService service) {
-		this.serviceAC = serviceAC;
+	public PropertyResource(PropertyServiceHandler service) {
 		this.propertyService = service;
 	}
 
@@ -58,7 +54,7 @@ public class PropertyResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response editProperty(PropertyFeaturesDTO features) {
 		try {
-			serviceAC.editProperty(features);
+			propertyService.editPropertyFeatures(features);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
@@ -70,7 +66,7 @@ public class PropertyResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadProperty(PropertyDTO propertyInfos) {
 		try {
-			serviceAC.upload(propertyInfos);
+			propertyService.uploadProperty(propertyInfos);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();

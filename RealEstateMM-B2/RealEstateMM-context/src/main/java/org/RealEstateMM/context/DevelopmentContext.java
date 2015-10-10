@@ -12,6 +12,10 @@ import org.RealEstateMM.persistence.memory.InMemoryUserRepository;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.mail.GmailSender;
 import org.RealEstateMM.services.mail.MailSender;
+import org.RealEstateMM.services.property.PropertyInformationsValidator;
+import org.RealEstateMM.services.property.PropertyService;
+import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
+import org.RealEstateMM.services.property.PropertyServiceHandler;
 
 public class DevelopmentContext extends Context {
 
@@ -19,12 +23,15 @@ public class DevelopmentContext extends Context {
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
 	private MailSender mailSender;
+	private PropertyServiceHandler propertyService;
 
 	public DevelopmentContext() {
 		this.userRepository = new InMemoryUserRepository();
 		this.propertyRepository = new InMemoryPropertyRepository();
 		this.sessionRepository = new InMemorySessionRepository();
 		this.mailSender = new GmailSender();
+		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
+				new PropertyInformationsValidator());
 	}
 
 	@Override
@@ -33,6 +40,7 @@ public class DevelopmentContext extends Context {
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
 		ServiceLocator.getInstance().registerService(MailSender.class, mailSender);
+		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
 	}
 
 	@Override

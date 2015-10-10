@@ -2,11 +2,12 @@ package org.RealEstateMM.jersey.resources;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
-import org.RealEstateMM.services.property.PropertyService;
-import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
+import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.junit.Before;
@@ -15,16 +16,14 @@ import org.junit.Test;
 public class PropertyResourceTest {
 
 	private PropertyResource propertyResource;
-	private PropertyServiceAntiCorruption serviceAC;
 	private PropertyDTO propertyInfos;
 	private PropertyFeaturesDTO features;
-	private PropertyService service;
+	private PropertyServiceHandler service;
 
 	@Before
 	public void setup() {
-		serviceAC = mock(PropertyServiceAntiCorruption.class);
-		service = mock(PropertyService.class);
-		propertyResource = new PropertyResource(serviceAC, service);
+		service = mock(PropertyServiceHandler.class);
+		propertyResource = new PropertyResource(service);
 
 		propertyInfos = mock(PropertyDTO.class);
 		features = mock(PropertyFeaturesDTO.class);
@@ -33,7 +32,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenPropertyInformationsWhenUploadPropertyThenCallsServiceAntiCorruption() {
 		propertyResource.uploadProperty(propertyInfos);
-		verify(serviceAC).upload(propertyInfos);
+		verify(service).uploadProperty(propertyInfos);
 	}
 
 	@Test
@@ -44,7 +43,7 @@ public class PropertyResourceTest {
 
 	@Test
 	public void givenInvalidInformationsWhenUploadPropertyThenResponseIsBadRequest() {
-		doThrow(InvalidPropertyInformationException.class).when(serviceAC).upload(propertyInfos);
+		doThrow(InvalidPropertyInformationException.class).when(service).uploadProperty(propertyInfos);
 		Response result = propertyResource.uploadProperty(propertyInfos);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}
@@ -64,12 +63,12 @@ public class PropertyResourceTest {
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenUsesPropertyServiceAntiCorruptionToEditProperty() {
 		propertyResource.editProperty(features);
-		verify(serviceAC).editProperty(features);
+		verify(service).editPropertyFeatures(features);
 	}
 
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenReturnsBadRequestIfServiceACThrowsException() {
-		doThrow(InvalidPropertyInformationException.class).when(serviceAC).editProperty(features);
+		doThrow(InvalidPropertyInformationException.class).when(service).editPropertyFeatures(features);
 		Response result = propertyResource.editProperty(features);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}

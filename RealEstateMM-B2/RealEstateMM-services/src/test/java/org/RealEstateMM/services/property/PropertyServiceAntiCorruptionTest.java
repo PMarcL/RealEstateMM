@@ -34,50 +34,56 @@ public class PropertyServiceAntiCorruptionTest {
 
 	@Test
 	public void givenPropertyInformationsWhenUploadPropertyThenChecksAddressValidity() {
-		propertyAntiCorruption.upload(propertyDTO);
+		propertyAntiCorruption.uploadProperty(propertyDTO);
 		verify(validator).zipCodeIsValid(ZIPCODE);
 	}
 
 	@Test
 	public void givenPropertyInformationsWhenUploadPropertyThenCallsTheService() {
-		propertyAntiCorruption.upload(propertyDTO);
+		propertyAntiCorruption.uploadProperty(propertyDTO);
 		verify(service).uploadProperty(propertyDTO);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
 	public void givenPropertyInformationsWhenUploadPropertyWithInvalidZipCodeThenThrowException() {
 		when(validator.zipCodeIsValid(ZIPCODE)).thenReturn(false);
-		propertyAntiCorruption.upload(propertyDTO);
+		propertyAntiCorruption.uploadProperty(propertyDTO);
 	}
 
 	@Test
 	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyTypeValidity() {
-		propertyAntiCorruption.upload(propertyDTO);
+		propertyAntiCorruption.uploadProperty(propertyDTO);
 		verify(validator).propertyTypeIsValid(TYPE);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
 	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyTypeNotValidThrowException() {
 		when(validator.propertyTypeIsValid(TYPE)).thenReturn(false);
-		propertyAntiCorruption.upload(propertyDTO);
+		propertyAntiCorruption.uploadProperty(propertyDTO);
 	}
 
 	@Test
 	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyStatusValidity() {
-		propertyAntiCorruption.upload(propertyDTO);
+		propertyAntiCorruption.uploadProperty(propertyDTO);
 		verify(validator).propertyStatusIsValid(STATUS);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
 	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyStatusNotValidThrowException() {
 		when(validator.propertyStatusIsValid(STATUS)).thenReturn(false);
-		propertyAntiCorruption.upload(propertyDTO);
+		propertyAntiCorruption.uploadProperty(propertyDTO);
 	}
 
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenCallsServiceToEditProperty() {
-		propertyAntiCorruption.editProperty(features);
+		propertyAntiCorruption.editPropertyFeatures(features);
 		verify(service).editPropertyFeatures(features);
+	}
+
+	@Test
+	public void whenGetAllPropertiesThenCallsPropertyService() {
+		propertyAntiCorruption.getAllProperties();
+		verify(service).getAllProperties();
 	}
 
 	private void propertyDTOReturnsValidInfos() {
