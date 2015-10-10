@@ -10,6 +10,7 @@ import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 public class UserService {
@@ -37,10 +38,14 @@ public class UserService {
 	}
 
 	public UserDTO authenticate(String pseudonym, String password)
-			throws InvalidPasswordException, UserDoesNotExistException {
+			throws InvalidPasswordException, UserDoesNotExistException, UnconfirmedEmailException {
 
 		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudonym);
 		if (userOptional.isPresent()) {
+			if(userOptional.get().isLocked())
+			{
+				throw new UnconfirmedEmailException();
+			}
 			if (userOptional.get().hasPassword(password)) {
 				return userAssembler.toDTO(userOptional.get());
 			}

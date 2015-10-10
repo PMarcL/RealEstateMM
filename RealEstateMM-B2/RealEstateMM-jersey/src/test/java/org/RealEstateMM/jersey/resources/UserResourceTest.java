@@ -12,7 +12,6 @@ import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
-import org.RealEstateMM.jersey.requestDTO.EmailConfirmationDTO;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
@@ -140,7 +139,6 @@ public class UserResourceTest {
 
 	@Test
 	public void givenAnInvalidConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() {
-		EmailConfirmationDTO dto = new EmailConfirmationDTO(A_VALID_CONFIRMATION_CODE);
 		doThrow(InvalidEmailConfirmationCodeException.class).when(userServiceAC)
 				.confirmEmailAddress(A_VALID_CONFIRMATION_CODE);
 

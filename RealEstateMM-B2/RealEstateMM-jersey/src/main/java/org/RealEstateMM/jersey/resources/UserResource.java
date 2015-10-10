@@ -24,6 +24,7 @@ import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsExce
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 @Path("/")
@@ -63,7 +64,7 @@ public class UserResource {
 			Session session = sessionService.open(userDTO);
 			return generateLoginResponse(userDTO, session);
 
-		} catch (InvalidPasswordException | UserDoesNotExistException exception) {
+		} catch (InvalidPasswordException | UserDoesNotExistException |UnconfirmedEmailException exception) {
 			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
@@ -96,8 +97,7 @@ public class UserResource {
 	@GET
 	@Path("user/emailConfirmation/{confirmationCode}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response confirmEmail(
-			@PathParam("confirmationCode") String confirmationCode) {
+	public Response confirmEmail(@PathParam("confirmationCode") String confirmationCode) {
 		try {
 			userServiceAC.confirmEmailAddress(confirmationCode);
 			return Response.status(Status.OK).entity("Email Confirmed").build();
