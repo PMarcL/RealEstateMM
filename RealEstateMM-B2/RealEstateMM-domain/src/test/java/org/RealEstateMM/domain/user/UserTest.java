@@ -56,10 +56,4 @@ public class UserTest {
 	public void whenNewUserThenTheUserIsLocked() {
 		assertTrue(user.isLocked());
 	}
-
-	// @Test
-	// public void
-	// givenAUserWithAnEmailConfirmationCodeWhenGetIsBlockedReturnTrue(){
-	// assert
-	// }
 }
