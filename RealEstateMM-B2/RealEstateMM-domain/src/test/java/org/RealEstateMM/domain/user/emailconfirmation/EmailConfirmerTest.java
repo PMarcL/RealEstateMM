@@ -62,7 +62,7 @@ public class EmailConfirmerTest {
 
 		emailAddressConfirmer.confirmEmailAddress(A_VALID_CONFIRMATION_CODE);
 
-		verify(A_USER, times(1)).unlock(AN_EMAIL_ADDRESS);
+		verify(A_USER, times(1)).confirmEmailAddress(AN_EMAIL_ADDRESS);
 	}
 
 	@Test(expected = UserAssociatedToConfirmationCodeDoesNotExistException.class)

@@ -42,7 +42,7 @@ public class EmailConfirmer {
 		if (!userOptional.isPresent()) {
 			throw new UserAssociatedToConfirmationCodeDoesNotExistException(pseudo);
 		} else {
-			userOptional.get().unlock(emailAddress);
+			userOptional.get().confirmEmailAddress(emailAddress);
 		}
 	}
 
