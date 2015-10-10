@@ -2,6 +2,7 @@ package org.RealEstateMM.services.user;
 
 import java.util.Optional;
 
+import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddress;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
@@ -44,8 +45,7 @@ public class UserService {
 
 		Optional<User> userOptional = userRepository.getUserWithPseudonym(pseudonym);
 		if (userOptional.isPresent()) {
-			if(userOptional.get().isLocked())
-			{
+			if (userOptional.get().isLocked()) {
 				throw new UnconfirmedEmailException();
 			}
 			if (userOptional.get().hasPassword(password)) {
@@ -59,7 +59,8 @@ public class UserService {
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
 		try {
 			emailAddressConfirmer.confirmEmailAddress(confirmationCode);
-		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException exception) {
+		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException
+				| TryingToConfirmTheWrongEmailAddress exception) {
 			throw new ImpossibleToConfirmEmailAddressException(exception);
 		}
 	}
