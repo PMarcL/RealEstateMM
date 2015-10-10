@@ -14,11 +14,10 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
-import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
@@ -100,7 +99,7 @@ public class UserResource {
 		try {
 			userServiceAC.confirmEmailAddress(confirmationCode);
 			return Response.status(Status.OK).entity("Email Confirmed").build();
-		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException exception) {
+		} catch (ImpossibleToConfirmEmailAddressException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
 	}

@@ -1,6 +1,7 @@
 package org.RealEstateMM.services.user.anticorruption;
 
 import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
@@ -47,7 +48,7 @@ public class UserServiceAntiCorruption {
 		}
 	}
 
-	public void confirmEmailAddress(String confirmationCode) {
+	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
 		userService.confirmEmailAddress(confirmationCode);
 	}
 

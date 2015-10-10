@@ -3,7 +3,9 @@ package org.RealEstateMM.services.user;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
+import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -49,10 +51,12 @@ public class UserService {
 		throw new UserDoesNotExistException();
 	}
 
-	public void confirmEmailAddress(String confirmationCode) {// TODO catch
-																// exception and
-																// rethrow
-		emailAddressConfirmer.confirmEmailAddress(confirmationCode);
+	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
+		try {
+			emailAddressConfirmer.confirmEmailAddress(confirmationCode);
+		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException exception) {
+			throw new ImpossibleToConfirmEmailAddressException(exception);
+		}
 	}
 
 }

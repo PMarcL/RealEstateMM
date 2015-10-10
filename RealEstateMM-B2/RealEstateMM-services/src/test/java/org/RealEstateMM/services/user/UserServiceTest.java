@@ -6,7 +6,9 @@ import static org.mockito.BDDMockito.*;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
+import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
@@ -18,6 +20,7 @@ import org.junit.Test;
 
 public class UserServiceTest {
 
+	private static final String AN_INVALID_CONFIRMATION_CODE = "anInvalidCode";
 	private final UserDTO A_USER_DTO = new UserDTOBuilder().build();
 	private final String A_PSEUDO = "pseudo34";
 	private final String A_PASSWORD = "pw1234";
@@ -76,6 +79,24 @@ public class UserServiceTest {
 		given(A_USER.hasPassword(A_PASSWORD)).willReturn(true);
 
 		userService.authenticate(A_PSEUDO, INVALID_PASSWORD);
+	}
+
+	@Test(expected = ImpossibleToConfirmEmailAddressException.class)
+	public void givenAnInvalidConfirmationCodeWhenConfirmEmailThenThrowAnImpossibleToConfirmEmailAddressException()
+			throws ImpossibleToConfirmEmailAddressException {
+
+		doThrow(InvalidEmailConfirmationCodeException.class).when(emailConfirmer)
+				.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
+		userService.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
+	}
+
+	@Test(expected = ImpossibleToConfirmEmailAddressException.class)
+	public void givenAnAlreadyExistingExceptionWhenConfirmEmailThenThrowAnImpossibleToConfirmEmailAddressException()
+			throws ImpossibleToConfirmEmailAddressException {
+
+		doThrow(AlreadyConfirmedEmailAddressException.class).when(emailConfirmer)
+				.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
+		userService.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
 	}
 
 }
