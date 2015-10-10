@@ -17,6 +17,7 @@ public class XmlUserAssembler {
 		newUser.setEmail(userInfo.emailAddress);
 		newUser.setPhoneNumber(userInfo.phoneNumber);
 		newUser.setUserType(user.getUserTypeDescription());
+		newUser.setLock(user.isLocked());
 
 		return newUser;
 	}

@@ -13,6 +13,7 @@ public class XmlUser {
 	private String email;
 	private String phoneNumber;
 	private String userType;
+	private boolean lock;
 
 	@XmlElement(name = "pseudonym")
 	public void setPseudonym(String pseudonym) {
@@ -75,6 +76,15 @@ public class XmlUser {
 
 	public String getUserType() {
 		return this.userType;
+	}
+
+	public boolean getLock() {
+		return lock;
+	}
+
+	@XmlElement(name = "lock")
+	public void setLock(boolean isLocked) {
+		this.lock = isLocked;
 	}
 
 }

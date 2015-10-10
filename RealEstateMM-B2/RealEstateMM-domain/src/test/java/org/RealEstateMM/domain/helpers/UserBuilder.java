@@ -13,6 +13,7 @@ public class UserBuilder {
 	public static final String DEFAULT_PHONE_NUMBER = "(819) 418-5739";
 	public static final String DEFAULT_PASSWORD = "JD1234";
 	public static final String DEFAULT_USER_TYPE_DESC = "seller";
+	public static final boolean DEFAULT_LOCK_STATE = true;
 
 	private User user;
 	private UserInformations userInfo;
@@ -24,8 +25,14 @@ public class UserBuilder {
 
 		withPseudonym(DEFAULT_PSEUDO);
 		withUserType(DEFAULT_USER_TYPE_DESC);
+		withLock(DEFAULT_LOCK_STATE);
 
 		given(user.getUserInformations()).willReturn(userInfo);
+	}
+
+	private UserBuilder withLock(boolean defaultLockState) {
+		given(user.isLocked()).willReturn(defaultLockState);
+		return this;
 	}
 
 	public UserBuilder withPseudonym(String pseudonym) {

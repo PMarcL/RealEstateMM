@@ -44,6 +44,7 @@ public class XmlUserAssemblerTest {
 		assertEquals(xmlUser.getPhoneNumber(), userInfo.phoneNumber);
 		assertEquals(xmlUser.getPseudonym(), userInfo.pseudonym);
 		assertEquals(xmlUser.getUserType(), result.getUserTypeDescription());
+		assertEquals(xmlUser.getLock(), result.isLocked());
 	}
 
 	private void createXmlUser() {
@@ -55,5 +56,6 @@ public class XmlUserAssemblerTest {
 		xmlUser.setPhoneNumber(UserBuilder.DEFAULT_PHONE_NUMBER);
 		xmlUser.setPseudonym(UserBuilder.DEFAULT_PSEUDO);
 		xmlUser.setUserType(UserBuilder.DEFAULT_USER_TYPE_DESC);
+		xmlUser.setLock(UserBuilder.DEFAULT_LOCK_STATE);
 	}
 }
