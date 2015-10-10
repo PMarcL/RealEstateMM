@@ -1,0 +1,12 @@
+.info {
+  color: white;
+  font-size: 2em;
+  float: left;
+  clear: none;
+  width: 79.4%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .info:last-child {
+    margin-right: 0; }
+
+/*# sourceMappingURL=emailConfirmation.css.map */
