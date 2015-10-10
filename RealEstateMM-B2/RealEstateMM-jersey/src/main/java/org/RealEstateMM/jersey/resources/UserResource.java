@@ -13,7 +13,9 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.jersey.requestDTO.EmailConfirmationDTO;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.mail.CouldNotSendMailException;
 import org.RealEstateMM.services.user.UserService;
@@ -22,6 +24,7 @@ import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
+import org.RealEstateMM.services.user.mailconfirmation.InvalidEmailConfirmationCodeException;
 
 @Path("/")
 public class UserResource {
@@ -88,5 +91,17 @@ public class UserResource {
 	private Response generateLoginResponse(UserDTO userDTO, Session session) {
 		String json = "{\"userType\":\"" + userDTO.getUserType() + "\", \"token\":\"" + session.token + "\"}";
 		return Response.ok(Status.OK).entity(json).build();
+	}
+
+	@POST
+	@Path("user/emailConfirmation")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response confirmEmail(EmailConfirmationDTO confirmationCodeDTO) {
+		try {
+			userServiceAC.confirmEmailAddress(confirmationCodeDTO.getConfirmationCode());
+			return Response.status(Status.OK).build();
+		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException exception) {
+			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		}
 	}
 }

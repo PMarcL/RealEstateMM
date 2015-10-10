@@ -9,13 +9,16 @@ import javax.ws.rs.core.Response.StatusType;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.jersey.requestDTO.EmailConfirmationDTO;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
+import org.RealEstateMM.services.user.mailconfirmation.InvalidEmailConfirmationCodeException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,6 +29,7 @@ public class UserResourceTest {
 	private static final String AN_INVALID_PASSWORD = "wrong";
 	private static final String UNEXISTING_PSEUDONYM = "IDoNotExist";
 	private static final String A_VALID_TOKEN = "valid123";
+	private static final String A_VALID_CONFIRMATION_CODE = "aValidConfirmationCode";
 
 	private static final UserDTO A_USER_DTO = new UserDTOBuilder().build();
 	private static final Session A_SESSION = new Session(A_USER_DTO.getPseudonym(), A_VALID_TOKEN);
@@ -127,4 +131,35 @@ public class UserResourceTest {
 		Response response = userConnectionResource.logout(noToken);
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
 	}
+
+	@Test
+	public void givenAValidConfirmationCodeWhenConfirmEmailAddressThenReturnStatusOK() {
+		EmailConfirmationDTO dto = new EmailConfirmationDTO(A_VALID_CONFIRMATION_CODE);
+		Response response = userConnectionResource.confirmEmail(dto);
+		assertEquals(Status.OK, response.getStatusInfo());
+	}
+
+	@Test
+	public void givenAnInvalidConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() {
+		EmailConfirmationDTO dto = new EmailConfirmationDTO(A_VALID_CONFIRMATION_CODE);
+		doThrow(InvalidEmailConfirmationCodeException.class).when(userServiceAC)
+				.confirmEmailAddress(A_VALID_CONFIRMATION_CODE);
+
+		Response response = userConnectionResource.confirmEmail(dto);
+
+		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
+	}
+
+	@Test
+	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() {
+		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
+		doThrow(AlreadyConfirmedEmailAddressException.class).when(userServiceAC)
+				.confirmEmailAddress(alreadyConfirmedCode);
+
+		EmailConfirmationDTO dto = new EmailConfirmationDTO(alreadyConfirmedCode);
+		Response response = userConnectionResource.confirmEmail(dto);
+
+		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
+	}
+
 }
