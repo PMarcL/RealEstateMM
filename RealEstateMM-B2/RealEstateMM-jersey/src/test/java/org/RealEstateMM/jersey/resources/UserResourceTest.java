@@ -141,15 +141,6 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenAnImpossibleToConfirmEmailAddressExceptionWhenConfirmEmailAddressThenReturnStatusBadRequest()
-			throws ImpossibleToConfirmEmailAddressException {
-
-		Response response = userConnectionResource.confirmEmail(A_VALID_CONFIRMATION_CODE);
-
-		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
-	}
-
-	@Test
 	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() throws ImpossibleToConfirmEmailAddressException {
 		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
 		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userServiceAC)
