@@ -2,6 +2,7 @@ package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
 
+import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,4 +57,23 @@ public class UserTest {
 	public void whenNewUserThenTheUserIsLocked() {
 		assertTrue(user.isLocked());
 	}
+
+	@Test
+	public void givenTheRightEmailAddressWhenConfirmEmailAddressThenUnlockTheUser() {
+		user.confirmEmailAddress(EMAIL);
+		assertFalse(user.isLocked());
+	}
+
+	@Test(expected = TryingToConfirmTheWrongEmailAddress.class)
+	public void givenADifferentEmailAddressWhenConfirmEmailAddressThenThrowATryingToConfirmTheWrongEmailAddress() {
+		String differentEmailAddress = "different@emailAddress.com";
+		user.confirmEmailAddress(differentEmailAddress);
+	}
+
+	@Test(expected = AlreadyConfirmedEmailAddressException.class)
+	public void givenAnAlreadyConfirmedEmailAddressWhenConfirmEmailAddressThenThrowAlreadyConfirmedEmailAddress() {
+		user.confirmEmailAddress(EMAIL);
+		user.confirmEmailAddress(EMAIL);
+	}
+
 }

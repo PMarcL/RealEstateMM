@@ -1,5 +1,7 @@
 package org.RealEstateMM.domain.user;
 
+import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
+
 public class User {
 
 	private UserInformations userInformations;
@@ -47,8 +49,14 @@ public class User {
 		isLocked = true;
 	}
 
-	public void unlock(String anEmailAddress) {
-		isLocked = false; // TODO throw alreadyConfirmed or wrongEmailInCode
+	public void confirmEmailAddress(String emailToConfirm) {
+		if (emailToConfirm != getEmailAddress()) {
+			throw new TryingToConfirmTheWrongEmailAddress(emailToConfirm, getEmailAddress());
+		} else if (isLocked) {
+			isLocked = false;
+		} else {
+			throw new AlreadyConfirmedEmailAddressException();
+		}
 	}
 
 }

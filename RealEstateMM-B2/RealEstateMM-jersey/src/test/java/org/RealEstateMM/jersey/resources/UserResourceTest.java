@@ -1,7 +1,11 @@
 package org.RealEstateMM.jersey.resources;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -9,11 +13,10 @@ import javax.ws.rs.core.Response.StatusType;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
-import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
+import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
@@ -133,14 +136,13 @@ public class UserResourceTest {
 
 	@Test
 	public void givenAValidConfirmationCodeWhenConfirmEmailAddressThenReturnStatusOK() {
-		Response response = userConnectionResource.confirmEmail("dsfsdfsdf");
+		Response response = userConnectionResource.confirmEmail(A_VALID_CONFIRMATION_CODE);
 		assertEquals(Status.OK, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenAnInvalidConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() {
-		doThrow(InvalidEmailConfirmationCodeException.class).when(userServiceAC)
-				.confirmEmailAddress(A_VALID_CONFIRMATION_CODE);
+	public void givenAnImpossibleToConfirmEmailAddressExceptionWhenConfirmEmailAddressThenReturnStatusBadRequest()
+			throws ImpossibleToConfirmEmailAddressException {
 
 		Response response = userConnectionResource.confirmEmail(A_VALID_CONFIRMATION_CODE);
 
@@ -148,9 +150,9 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() {
+	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() throws ImpossibleToConfirmEmailAddressException {
 		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
-		doThrow(AlreadyConfirmedEmailAddressException.class).when(userServiceAC)
+		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userServiceAC)
 				.confirmEmailAddress(alreadyConfirmedCode);
 
 
