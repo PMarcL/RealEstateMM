@@ -37,7 +37,7 @@ public class XmlUserAssemblerTest {
 		User result = assembler.toUser(xmlUser);
 		UserInformations userInfo = result.getUserInformations();
 
-		assertEquals(xmlUser.getEmail(), userInfo.email);
+		assertEquals(xmlUser.getEmail(), userInfo.emailAddress);
 		assertEquals(xmlUser.getFirstName(), userInfo.firstName);
 		assertEquals(xmlUser.getLastName(), userInfo.lastName);
 		assertEquals(xmlUser.getPassword(), userInfo.password);

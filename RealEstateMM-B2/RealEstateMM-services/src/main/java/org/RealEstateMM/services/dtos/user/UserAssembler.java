@@ -9,7 +9,7 @@ public class UserAssembler {
 	public UserDTO toDTO(User user) {
 		UserDTO dto = new UserDTO();
 		UserInformations userInfo = user.getUserInformations();
-		dto.setEmail(userInfo.email);
+		dto.setEmail(userInfo.emailAddress);
 		dto.setFirstName(userInfo.firstName);
 		dto.setLastName(userInfo.lastName);
 		dto.setPhoneNumber(userInfo.phoneNumber);

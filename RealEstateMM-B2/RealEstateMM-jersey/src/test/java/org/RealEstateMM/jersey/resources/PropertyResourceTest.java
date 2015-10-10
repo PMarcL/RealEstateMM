@@ -2,16 +2,13 @@ package org.RealEstateMM.jersey.resources;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
-
-import org.RealEstateMM.services.PropertyService;
-import org.RealEstateMM.services.anticorruption.InvalidPropertyInformationException;
-import org.RealEstateMM.services.anticorruption.PropertyServiceAntiCorruption;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
+import org.RealEstateMM.services.property.InvalidPropertyInformationException;
+import org.RealEstateMM.services.property.PropertyService;
+import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
+import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +20,6 @@ public class PropertyResourceTest {
 	private PropertyServiceAntiCorruption serviceAC;
 	private PropertyDTO propertyInfos;
 	private PropertyFeaturesDTO features;
-
 	private PropertyService service;
 
 	@Before

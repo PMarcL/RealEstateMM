@@ -1,11 +1,11 @@
-package org.RealEstateMM.services.anticorruption;
+package org.RealEstateMM.services.user.anticorruption;
 
 import static org.mockito.Mockito.*;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
-import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
+import org.RealEstateMM.services.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
 

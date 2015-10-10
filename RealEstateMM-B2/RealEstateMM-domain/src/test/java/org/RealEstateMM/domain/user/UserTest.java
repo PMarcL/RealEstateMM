@@ -51,4 +51,15 @@ public class UserTest {
 	public void givenAUserWhenGettingHisUserTypeDescriptionThenReturnsTheCorrectDescription() {
 		assertEquals(USERTYPE_DESCRIPTION, user.getUserTypeDescription());
 	}
+
+	@Test
+	public void whenNewUserThenTheUserIsLocked() {
+		assertTrue(user.isLocked());
+	}
+
+	// @Test
+	// public void
+	// givenAUserWithAnEmailConfirmationCodeWhenGetIsBlockedReturnTrue(){
+	// assert
+	// }
 }

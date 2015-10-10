@@ -11,8 +11,8 @@ public class PropertyDTO {
 	public PropertyDTO() {
 	}
 
-	public PropertyDTO(String propertyType, PropertyAddressDTO propertyAddressDTO,
-			double propertyPrice, String ownerPseudonym, String propertyStatus) {
+	public PropertyDTO(String propertyType, PropertyAddressDTO propertyAddressDTO, double propertyPrice,
+			String ownerPseudonym, String propertyStatus) {
 
 		this.setPropertyType(propertyType);
 		this.setPropertyAddressDTO(propertyAddressDTO);

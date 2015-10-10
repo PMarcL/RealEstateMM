@@ -13,6 +13,7 @@ import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTOAssembler;
+import org.RealEstateMM.services.property.PropertyService;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -4,9 +4,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 public class SessionService {
 

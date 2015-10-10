@@ -15,12 +15,12 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
-import org.RealEstateMM.services.PropertyService;
-import org.RealEstateMM.services.anticorruption.InvalidPropertyInformationException;
 import org.RealEstateMM.services.anticorruption.PropertyInformationsValidator;
-import org.RealEstateMM.services.anticorruption.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
+import org.RealEstateMM.services.property.InvalidPropertyInformationException;
+import org.RealEstateMM.services.property.PropertyService;
+import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
 
 @Path("/property")
 public class PropertyResource {

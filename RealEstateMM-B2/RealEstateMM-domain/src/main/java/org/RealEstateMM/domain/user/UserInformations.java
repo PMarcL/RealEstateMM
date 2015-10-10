@@ -5,7 +5,7 @@ public class UserInformations {
 	public final String pseudonym;
 	public final String firstName;
 	public final String lastName;
-	public final String email;
+	public final String emailAddress;
 	public final String phoneNumber;
 	public final String password;
 
@@ -15,7 +15,7 @@ public class UserInformations {
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.email = email;
+		this.emailAddress = email;
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -25,7 +25,7 @@ public class UserInformations {
 		areEquals &= password.equals(userInformations.password);
 		areEquals &= firstName.equals(userInformations.firstName);
 		areEquals &= lastName.equals(userInformations.lastName);
-		areEquals &= email.equals(userInformations.email);
+		areEquals &= emailAddress.equals(userInformations.emailAddress);
 		areEquals &= phoneNumber.equals(userInformations.phoneNumber);
 		return areEquals;
 	}

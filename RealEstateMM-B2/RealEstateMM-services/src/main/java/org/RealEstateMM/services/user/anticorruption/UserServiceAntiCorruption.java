@@ -1,9 +1,9 @@
-package org.RealEstateMM.services.anticorruption;
+package org.RealEstateMM.services.user.anticorruption;
 
-import org.RealEstateMM.services.InvalidPasswordException;
-import org.RealEstateMM.services.UserDoesNotExistException;
-import org.RealEstateMM.services.UserService;
 import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 public class UserServiceAntiCorruption {
 

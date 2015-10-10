@@ -5,9 +5,7 @@ import static org.junit.Assert.*;
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.services.dtos.user.UserAssembler;
-import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.servicelocator.ServiceLocator;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +48,7 @@ public class UserAssemblerTest {
 
 		UserInformations userInfo = result.getUserInformations();
 		assertEquals(dto.getPseudonym(), result.getPseudonym());
-		assertEquals(dto.getEmail(), userInfo.email);
+		assertEquals(dto.getEmail(), userInfo.emailAddress);
 		assertEquals(dto.getPhoneNumber(), userInfo.phoneNumber);
 		assertEquals(dto.getFirstName(), userInfo.firstName);
 		assertEquals(dto.getLastName(), userInfo.lastName);

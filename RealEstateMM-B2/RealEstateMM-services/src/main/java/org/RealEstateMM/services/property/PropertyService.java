@@ -1,13 +1,13 @@
-package org.RealEstateMM.services;
+package org.RealEstateMM.services.property;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTOAssembler;
-import org.RealEstateMM.services.servicelocator.ServiceLocator;
 
 import java.util.ArrayList;
 import java.util.Optional;

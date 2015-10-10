@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.anticorruption;
+package org.RealEstateMM.services.property;
 
 @SuppressWarnings("serial")
 public class InvalidPropertyInformationException extends RuntimeException {

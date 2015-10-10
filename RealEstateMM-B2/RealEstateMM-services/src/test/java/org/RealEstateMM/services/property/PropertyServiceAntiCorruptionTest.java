@@ -1,8 +1,8 @@
-package org.RealEstateMM.services.anticorruption;
+package org.RealEstateMM.services.property;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
-import org.RealEstateMM.services.PropertyService;
+import org.RealEstateMM.services.anticorruption.PropertyInformationsValidator;
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;

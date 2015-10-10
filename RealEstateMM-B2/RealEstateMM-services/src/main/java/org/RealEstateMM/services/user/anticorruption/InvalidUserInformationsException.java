@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.anticorruption;
+package org.RealEstateMM.services.user.anticorruption;
 
 @SuppressWarnings("serial")
 public class InvalidUserInformationsException extends RuntimeException {

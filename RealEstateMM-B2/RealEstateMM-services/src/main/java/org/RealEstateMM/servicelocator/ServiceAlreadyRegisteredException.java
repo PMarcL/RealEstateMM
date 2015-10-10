@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.servicelocator;
+package org.RealEstateMM.servicelocator;
 
 @SuppressWarnings("serial")
 public class ServiceAlreadyRegisteredException extends RuntimeException {

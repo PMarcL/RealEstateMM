@@ -8,7 +8,7 @@ import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
-import org.RealEstateMM.services.servicelocator.ServiceLocator;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 
 public class PropertyDTOAssembler {
 

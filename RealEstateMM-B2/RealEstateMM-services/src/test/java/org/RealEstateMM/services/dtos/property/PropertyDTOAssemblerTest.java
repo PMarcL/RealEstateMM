@@ -1,9 +1,7 @@
 package org.RealEstateMM.services.dtos.property;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
@@ -21,12 +19,10 @@ public class PropertyDTOAssemblerTest {
 	private final double A_PRICE = 200000.00;
 	private final PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
 	private final PropertyType A_PROPERTY_TYPE = PropertyType.HOUSE;
-	private final String TYPE = "house";
-	private final String STATUS = "on sale";
 	private final String OWNER_PSEUDO = "John90";
 
 	private PropertyAddress propertyAddress;
-	private PropertyAddressDTO addressInformations;
+	private PropertyAddressDTO addressDTO;
 	private Property property;
 	private PropertyAddressDTOAssembler addressAssembler;
 	private UserRepository userRepository;
@@ -40,7 +36,7 @@ public class PropertyDTOAssemblerTest {
 
 		assembler = new PropertyDTOAssembler(addressAssembler, userRepository);
 		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PRICE, OWNER_PSEUDO, A_PROPERTY_STATUS);
-		addressInformations = new PropertyAddressDTO();
+		addressDTO = new PropertyAddressDTO();
 
 		owner = mock(User.class);
 		when(owner.getPseudonym()).thenReturn(OWNER_PSEUDO);
@@ -50,14 +46,14 @@ public class PropertyDTOAssemblerTest {
 
 	@Test
 	public void givenAPropertyInformationsWhenBuildToDTOThenReturnedDTOShouldHaveTheSameInformations() {
-		when(addressAssembler.toDTO(propertyAddress)).thenReturn(addressInformations);
-		PropertyDTO propertyDTO = assembler.toDTO(property);
+		when(addressAssembler.toDTO(propertyAddress)).thenReturn(addressDTO);
+		PropertyDTO propertyInfos = assembler.toDTO(property);
 
-		assertEquals(PropertyType.getStringFromType(A_PROPERTY_TYPE), propertyDTO.getPropertyType());
-		assertEquals(addressInformations, propertyDTO.getPropertyAddressDTO());
-		assertEquals(A_PRICE, propertyDTO.getPropertyPrice(), DELTA);
-		assertEquals(OWNER_PSEUDO, propertyDTO.getPropertyOwner());
-		assertEquals(PropertyStatus.getStringFromStatus(A_PROPERTY_STATUS), propertyDTO.getPropertyStatus());
+		assertEquals(PropertyType.getStringFromType(A_PROPERTY_TYPE), propertyInfos.getPropertyType());
+		assertEquals(addressDTO, propertyInfos.getPropertyAddressDTO());
+		assertEquals(A_PRICE, propertyInfos.getPropertyPrice(), DELTA);
+		assertEquals(OWNER_PSEUDO, propertyInfos.getPropertyOwner());
+		assertEquals(PropertyStatus.getStringFromStatus(A_PROPERTY_STATUS), propertyInfos.getPropertyStatus());
 	}
 
 	@Test
@@ -66,7 +62,7 @@ public class PropertyDTOAssemblerTest {
 
 		assembler.fromDTO(dto);
 
-		verify(addressAssembler).fromDTO(addressInformations);
+		verify(addressAssembler).fromDTO(addressDTO);
 	}
 
 	@Test
@@ -83,18 +79,18 @@ public class PropertyDTOAssemblerTest {
 		PropertyDTO dto = assembler.toDTO(property);
 		Property result = assembler.fromDTO(dto);
 
-		assertEquals(PropertyType.getTypeFromString(dto.getPropertyType()), result.getType());
+		assertEquals(A_PROPERTY_TYPE, result.getType());
 		assertEquals(dto.getPropertyPrice(), result.getPrice(), DELTA);
-		assertEquals(PropertyStatus.getStatusFromString(dto.getPropertyStatus()), result.getPropertyStatus());
-		assertEquals(OWNER_PSEUDO, result.getOwner());
+		assertEquals(A_PROPERTY_STATUS, result.getPropertyStatus());
+		assertEquals(propertyAddress, result.getAddress());
 	}
 
 	private PropertyDTO getConfiguredPropertyInformationsMock() {
 		PropertyDTO dto = mock(PropertyDTO.class);
-		when(dto.getPropertyAddressDTO()).thenReturn(addressInformations);
+		when(dto.getPropertyAddressDTO()).thenReturn(addressDTO);
 		when(dto.getPropertyOwner()).thenReturn(OWNER_PSEUDO);
-		when(dto.getPropertyType()).thenReturn(TYPE);
-		when(dto.getPropertyStatus()).thenReturn(STATUS);
+		when(dto.getPropertyType()).thenReturn(PropertyType.getStringFromType(A_PROPERTY_TYPE));
+		when(dto.getPropertyStatus()).thenReturn(PropertyStatus.getStringFromStatus(A_PROPERTY_STATUS));
 		return dto;
 	}
 }
