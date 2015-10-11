@@ -14,17 +14,9 @@
 
 <div class="form">
     <form>
-
-
         <div class="input-field">
             <input id="price" type="text" class="validate">
             <label for="price">price</label>
-        </div>
-
-
-        <div class="input-field">
-            <input id="propertyType" type="text" class="validate">
-            <label for="propertyType">Type</label>
         </div>
 
         <div class="input-field">
@@ -47,13 +39,20 @@
             <label for="zipCode">Zip Code</label>
         </div>
 
-
+        <div class="input-field select">
+            <select style="display:block" id="propertyType">
+                <option value="" disabled selected>Choose your property type</option>
+                <option value="house">House</option>
+                <option value="multiplex">Multiplex</option>
+                <option value="commercial">Commercial</option>
+                <option value="land">Land</option>
+                <option value="farm">Farm</option>
+            </select>
+        </div>
 
         <div class="card red darken-2">You must fill all fields</div>
         <div class="confirm-sale"><a onclick="postNewProperty()" class="waves-effect waves-light btn" >Confirm</a></div>
-
     </form>
-
 </div>
 
 <script src="jquery/jquery-2.1.4.js"></script>
