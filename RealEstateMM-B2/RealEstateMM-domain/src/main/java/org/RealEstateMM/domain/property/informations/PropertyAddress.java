@@ -14,12 +14,6 @@ public class PropertyAddress {
 		this.zipCode = zipCode;
 	}
 
-	@Override
-	public String toString() {
-		String formattedAddress = this.streetAddress + ", " + this.city + ", " + this.province + ", " + this.zipCode;
-		return formattedAddress;
-	}
-
 	public boolean isEquals(PropertyAddress propertyAddress) {
 		if (propertyAddress == null) {
 			return false;

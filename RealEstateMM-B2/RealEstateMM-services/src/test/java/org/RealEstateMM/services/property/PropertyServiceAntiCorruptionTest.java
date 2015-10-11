@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +17,6 @@ public class PropertyServiceAntiCorruptionTest {
 	private PropertyInformationsValidator validator;
 	private PropertyAddressDTO addressInfos;
 	private PropertyDTO propertyDTO;
-	private PropertyFeaturesDTO features;
 
 	@Before
 	public void setup() {
@@ -76,8 +74,8 @@ public class PropertyServiceAntiCorruptionTest {
 
 	@Test
 	public void givenPropertyFeaturesWhenEditPropertyThenCallsServiceToEditProperty() {
-		propertyAntiCorruption.editPropertyFeatures(features);
-		verify(service).editPropertyFeatures(features);
+		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+		verify(service).editPropertyFeatures(propertyDTO);
 	}
 
 	@Test
@@ -87,7 +85,7 @@ public class PropertyServiceAntiCorruptionTest {
 	}
 
 	private void propertyDTOReturnsValidInfos() {
-		when(propertyDTO.getPropertyAddressDTO()).thenReturn(addressInfos);
+		when(propertyDTO.getPropertyAddress()).thenReturn(addressInfos);
 		when(propertyDTO.getPropertyType()).thenReturn(TYPE);
 		when(propertyDTO.getPropertyStatus()).thenReturn(STATUS);
 		when(addressInfos.getZipCode()).thenReturn(ZIPCODE);

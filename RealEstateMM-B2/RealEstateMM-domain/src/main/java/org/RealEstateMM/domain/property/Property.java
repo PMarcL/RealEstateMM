@@ -52,4 +52,8 @@ public class Property {
 		features = newFeatures;
 	}
 
+	public PropertyFeatures getFeatures() {
+		return features;
+	}
+
 }

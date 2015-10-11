@@ -12,8 +12,6 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTOAssembler;
 import org.RealEstateMM.services.property.PropertyService;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +23,6 @@ public class PropertyServiceTest {
 	private PropertyDTO propertyDTO;
 	private Property property;
 	private PropertyAddress address;
-	private PropertyFeaturesDTO featuresDTO;
-	private PropertyFeaturesDTOAssembler featuresAssembler;
 	private PropertyFeatures features;
 
 	private PropertyService propertyService;
@@ -35,16 +31,14 @@ public class PropertyServiceTest {
 	public void setup() {
 		assembler = mock(PropertyDTOAssembler.class);
 		repository = mock(PropertyRepository.class);
-		featuresAssembler = mock(PropertyFeaturesDTOAssembler.class);
-		propertyService = new PropertyService(repository, assembler, featuresAssembler);
+		propertyService = new PropertyService(repository, assembler);
 
 		propertyDTO = mock(PropertyDTO.class);
 		property = mock(Property.class);
-		featuresDTO = mock(PropertyFeaturesDTO.class);
-		features = mock(PropertyFeatures.class);
 		address = mock(PropertyAddress.class);
+		features = mock(PropertyFeatures.class);
 		given(repository.getPropertyAtAddress(address)).willReturn(Optional.of(property));
-		configureFeaturesAssembler();
+		assemblerHappyPath();
 	}
 
 	@Test
@@ -69,9 +63,7 @@ public class PropertyServiceTest {
 	@Test
 	public void whenGetAllPropertiesThenBuildDTOsFromPropertiesWithAssembler() {
 		given(repository.getAllProperties()).willReturn(buildPropertiesList());
-
 		propertyService.getAllProperties();
-
 		verify(assembler).toDTO(property);
 	}
 
@@ -86,38 +78,39 @@ public class PropertyServiceTest {
 	}
 
 	@Test
-	public void givenPropertyFeaturesWhenEditPropertyThenAssemblesPropertyFeatures() {
-		propertyService.editPropertyFeatures(featuresDTO);
-		verify(featuresAssembler).fromDTO(featuresDTO);
+	public void givenPropertyDTOWhenEditPropertyThenAssemblesPropertyAddress() {
+		propertyService.editPropertyFeatures(propertyDTO);
+		verify(assembler).getPropertyAddressFromDTO(propertyDTO);
 	}
 
 	@Test
-	public void givenPropertyFeaturesWhenEditPropertyThenAssemblesPropertyAddress() {
-		propertyService.editPropertyFeatures(featuresDTO);
-		verify(featuresAssembler).getAddressFromDTO(featuresDTO);
+	public void givenPropertyDTOWhenEditPropertyThenAssemblesPropertyFeatures() {
+		propertyService.editPropertyFeatures(propertyDTO);
+		verify(assembler).getFeaturesFromDTO(propertyDTO);
 	}
 
 	@Test
-	public void givenPropertyFeaturesWhenEditPropertyThenGetsPropertyWithZipCode() {
-		propertyService.editPropertyFeatures(featuresDTO);
+	public void givenPropertyDTOWhenEditPropertyThenGetsPropertyWithAddress() {
+		given(assembler.getPropertyAddressFromDTO(propertyDTO)).willReturn(address);
+		propertyService.editPropertyFeatures(propertyDTO);
 		verify(repository).getPropertyAtAddress(address);
 	}
 
 	@Test
-	public void givenPropertyFeaturesWhenEditPropertyThenUpdatesPropertyWithNewFeatures() {
-		propertyService.editPropertyFeatures(featuresDTO);
+	public void givenPropertyDTOWhenEditPropertyThenUpdatesPropertyWithNewFeatures() {
+		propertyService.editPropertyFeatures(propertyDTO);
 		verify(property).updateFeatures(features);
 	}
 
 	@Test
-	public void givenPropertyFeaturesWhenEditPropertyThenUpdatesPropertyInRepository() {
-		propertyService.editPropertyFeatures(featuresDTO);
+	public void givenPropertyDTOWhenEditPropertyThenUpdatesPropertyInRepository() {
+		propertyService.editPropertyFeatures(propertyDTO);
 		verify(repository).updateProperty(property);
 	}
 
-	private void configureFeaturesAssembler() {
-		given(featuresAssembler.fromDTO(featuresDTO)).willReturn(features);
-		given(featuresAssembler.getAddressFromDTO(featuresDTO)).willReturn(address);
+	private void assemblerHappyPath() {
+		given(assembler.getFeaturesFromDTO(propertyDTO)).willReturn(features);
+		given(assembler.getPropertyAddressFromDTO(propertyDTO)).willReturn(address);
 	}
 
 	private ArrayList<Property> buildPropertiesList() {

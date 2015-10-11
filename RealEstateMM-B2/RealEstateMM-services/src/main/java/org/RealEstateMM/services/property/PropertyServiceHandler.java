@@ -3,7 +3,6 @@ package org.RealEstateMM.services.property;
 import java.util.ArrayList;
 
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 
 public interface PropertyServiceHandler {
 
@@ -11,5 +10,5 @@ public interface PropertyServiceHandler {
 
 	public ArrayList<PropertyDTO> getAllProperties();
 
-	public void editPropertyFeatures(PropertyFeaturesDTO featuresDTO);
+	public void editPropertyFeatures(PropertyDTO propertyDTO);
 }

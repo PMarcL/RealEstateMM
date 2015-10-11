@@ -38,12 +38,4 @@ public class PropertyAddressTest {
 
 		assertFalse(address.isEquals(address2));
 	}
-
-	@Test
-	public void givenAPropertyAddressWhenGettingTheFullAddressThenTheAddressShouldBeReturnedInTheCorrectFormat() {
-		String returnedAddress = address.toString();
-		String expectedAddressFormat = "123 FakeStreet, Pleasant Town, Québec, H0H0H0";
-
-		assertEquals(expectedAddressFormat, returnedAddress);
-	}
 }

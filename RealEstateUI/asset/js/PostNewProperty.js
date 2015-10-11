@@ -24,10 +24,11 @@ function ajaxPostProperty()
     };
     var formData = JSON.stringify({
         "propertyType": $('#propertyType').val(),
-        "propertyAddressDTO": propertyAddress,
+        "propertyAddress": propertyAddress,
         "propertyPrice": $('#price').val(),
         "propertyOwner": loginCookie.cookie(),
-        "propertyStatus": "on sale"
+        "propertyStatus": "on sale",
+        "propertyFeatures" : null
     });
 
     $.ajax({

@@ -7,8 +7,6 @@ import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTOAssembler;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -17,19 +15,15 @@ public class PropertyService implements PropertyServiceHandler {
 
 	private PropertyRepository propertyRepository;
 	private PropertyDTOAssembler propertyAssembler;
-	private PropertyFeaturesDTOAssembler featuresAssembler;
 
 	public PropertyService() {
 		propertyRepository = ServiceLocator.getInstance().getService(PropertyRepository.class);
 		propertyAssembler = new PropertyDTOAssembler();
-		featuresAssembler = new PropertyFeaturesDTOAssembler();
 	}
 
-	public PropertyService(PropertyRepository propertyRepository, PropertyDTOAssembler propertyAssembler,
-			PropertyFeaturesDTOAssembler featuresAssembler) {
+	public PropertyService(PropertyRepository propertyRepository, PropertyDTOAssembler propertyAssembler) {
 		this.propertyRepository = propertyRepository;
 		this.propertyAssembler = propertyAssembler;
-		this.featuresAssembler = featuresAssembler;
 	}
 
 	@Override
@@ -54,16 +48,17 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void editPropertyFeatures(PropertyFeaturesDTO featuresDTO) {
-		PropertyFeatures features = featuresAssembler.fromDTO(featuresDTO);
-		Optional<Property> property = getPropertyFromPropertyFeatures(featuresDTO);
+	public void editPropertyFeatures(PropertyDTO propertyDTO) {
+		Property property = getPropertyWithDTO(propertyDTO);
+		PropertyFeatures features = propertyAssembler.getFeaturesFromDTO(propertyDTO);
 
-		property.get().updateFeatures(features);
-		propertyRepository.updateProperty(property.get());
+		property.updateFeatures(features);
+		propertyRepository.updateProperty(property);
 	}
 
-	private Optional<Property> getPropertyFromPropertyFeatures(PropertyFeaturesDTO featuresDTO) {
-		PropertyAddress address = featuresAssembler.getAddressFromDTO(featuresDTO);
-		return propertyRepository.getPropertyAtAddress(address);
+	private Property getPropertyWithDTO(PropertyDTO propertyDTO) {
+		PropertyAddress address = propertyAssembler.getPropertyAddressFromDTO(propertyDTO);
+		Optional<Property> property = propertyRepository.getPropertyAtAddress(address);
+		return property.get();
 	}
 }

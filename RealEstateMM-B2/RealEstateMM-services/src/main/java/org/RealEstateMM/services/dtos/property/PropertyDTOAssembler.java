@@ -1,36 +1,36 @@
 package org.RealEstateMM.services.dtos.property;
 
-import java.util.Optional;
-
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
+import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
-import org.RealEstateMM.servicelocator.ServiceLocator;
 
 public class PropertyDTOAssembler {
 
 	private PropertyAddressDTOAssembler addressAssembler;
-	private UserRepository userRepository;
+	private PropertyFeaturesDTOAssembler featuresAssembler;
 
 	public PropertyDTOAssembler() {
 		this.addressAssembler = new PropertyAddressDTOAssembler();
-		this.userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
+		this.featuresAssembler = new PropertyFeaturesDTOAssembler();
 	}
 
-	public PropertyDTOAssembler(PropertyAddressDTOAssembler addressAssembler, UserRepository userRepository) {
+	public PropertyDTOAssembler(PropertyAddressDTOAssembler addressAssembler, UserRepository userRepository,
+			PropertyFeaturesDTOAssembler featuresAssembler) {
 		this.addressAssembler = addressAssembler;
-		this.userRepository = userRepository;
+		this.featuresAssembler = featuresAssembler;
 	}
 
 	public PropertyDTO toDTO(Property property) {
 		PropertyDTO dto = new PropertyDTO();
 		PropertyAddressDTO addressDTO = addressAssembler.toDTO(property.getAddress());
+		PropertyFeaturesDTO featuresDTO = featuresAssembler.toDTO(property.getFeatures());
 
 		dto.setPropertyType(PropertyType.getStringFromType(property.getType()));
-		dto.setPropertyAddressDTO(addressDTO);
+		dto.setPropertyAddress(addressDTO);
+		dto.setPropertyFeatures(featuresDTO);
 		dto.setPropertyPrice(property.getPrice());
 		dto.setPropertyOwner(property.getOwner());
 		dto.setPropertyStatus(PropertyStatus.getStringFromStatus(property.getPropertyStatus()));
@@ -38,11 +38,18 @@ public class PropertyDTOAssembler {
 	}
 
 	public Property fromDTO(PropertyDTO propertyDTO) {
-		PropertyAddress address = addressAssembler.fromDTO(propertyDTO.getPropertyAddressDTO());
-		Optional<User> owner = userRepository.getUserWithPseudonym(propertyDTO.getPropertyOwner());
+		PropertyAddress address = addressAssembler.fromDTO(propertyDTO.getPropertyAddress());
 		PropertyType type = PropertyType.getTypeFromString(propertyDTO.getPropertyType());
 		PropertyStatus status = PropertyStatus.getStatusFromString(propertyDTO.getPropertyStatus());
 
-		return new Property(type, address, propertyDTO.getPropertyPrice(), owner.get().getPseudonym(), status);
+		return new Property(type, address, propertyDTO.getPropertyPrice(), propertyDTO.getPropertyOwner(), status);
+	}
+
+	public PropertyAddress getPropertyAddressFromDTO(PropertyDTO propertyDTO) {
+		return addressAssembler.fromDTO(propertyDTO.getPropertyAddress());
+	}
+
+	public PropertyFeatures getFeaturesFromDTO(PropertyDTO propertyDTO) {
+		return featuresAssembler.fromDTO(propertyDTO.getPropertyFeatures());
 	}
 }

@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 
@@ -52,9 +51,9 @@ public class PropertyResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editProperty(PropertyFeaturesDTO features) {
+	public Response editProperty(PropertyDTO propertyDTO) {
 		try {
-			propertyService.editPropertyFeatures(features);
+			propertyService.editPropertyFeatures(propertyDTO);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();

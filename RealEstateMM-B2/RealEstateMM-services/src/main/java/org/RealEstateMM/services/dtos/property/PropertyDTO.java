@@ -3,7 +3,8 @@ package org.RealEstateMM.services.dtos.property;
 public class PropertyDTO {
 
 	private String propertyType;
-	private PropertyAddressDTO propertyAddressDTO;
+	private PropertyAddressDTO propertyAddress;
+	private PropertyFeaturesDTO propertyFeatures;
 	private double propertyPrice;
 	private String propertyOwner;
 	private String propertyStatus;
@@ -11,11 +12,12 @@ public class PropertyDTO {
 	public PropertyDTO() {
 	}
 
-	public PropertyDTO(String propertyType, PropertyAddressDTO propertyAddressDTO, double propertyPrice,
-			String ownerPseudonym, String propertyStatus) {
+	public PropertyDTO(String propertyType, PropertyAddressDTO propertyAddressDTO,
+			PropertyFeaturesDTO propertyFeaturesDTO, double propertyPrice, String ownerPseudonym, String propertyStatus) {
 
 		this.setPropertyType(propertyType);
-		this.setPropertyAddressDTO(propertyAddressDTO);
+		this.setPropertyAddress(propertyAddressDTO);
+		this.setPropertyFeatures(propertyFeaturesDTO);
 		this.setPropertyPrice(propertyPrice);
 		this.setPropertyOwner(ownerPseudonym);
 		this.setPropertyStatus(propertyStatus);
@@ -29,12 +31,12 @@ public class PropertyDTO {
 		this.propertyType = propertyType;
 	}
 
-	public PropertyAddressDTO getPropertyAddressDTO() {
-		return propertyAddressDTO;
+	public PropertyAddressDTO getPropertyAddress() {
+		return propertyAddress;
 	}
 
-	public void setPropertyAddressDTO(PropertyAddressDTO propertyAddress) {
-		this.propertyAddressDTO = propertyAddress;
+	public void setPropertyAddress(PropertyAddressDTO propertyAddress) {
+		this.propertyAddress = propertyAddress;
 	}
 
 	public double getPropertyPrice() {
@@ -61,4 +63,11 @@ public class PropertyDTO {
 		this.propertyStatus = propertyStatus;
 	}
 
+	public PropertyFeaturesDTO getPropertyFeatures() {
+		return propertyFeatures;
+	}
+
+	public void setPropertyFeatures(PropertyFeaturesDTO propertyFeaturesDTO) {
+		this.propertyFeatures = propertyFeaturesDTO;
+	}
 }
