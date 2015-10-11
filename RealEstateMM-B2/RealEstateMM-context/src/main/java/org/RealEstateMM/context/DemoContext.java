@@ -37,8 +37,6 @@ public class DemoContext extends Context {
 		this.propertyRepository = new InMemoryPropertyRepository();
 		this.sessionRepository = new InMemorySessionRepository();
 		this.mailSender = new GmailSender();
-		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
-				new PropertyInformationsValidator());
 	}
 
 	private String usersFilePath() {
@@ -51,6 +49,8 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
 		ServiceLocator.getInstance().registerService(MailSender.class, mailSender);
+		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
+				new PropertyInformationsValidator());
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
 	}
 

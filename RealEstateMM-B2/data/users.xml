@@ -19,15 +19,6 @@
         <userType>seller</userType>
     </user>
     <user>
-        <email>pmleva2@gmail.com</email>
-        <firstName>Pierre-Marc</firstName>
-        <lastName>Levasseur</lastName>
-        <password>winter3110</password>
-        <phoneNumber>8198181752</phoneNumber>
-        <pseudonym>PM90</pseudonym>
-        <userType>seller</userType>
-    </user>
-    <user>
         <email>bob@hotmail.com</email>
         <firstName>bob</firstName>
         <lastName>bob</lastName>

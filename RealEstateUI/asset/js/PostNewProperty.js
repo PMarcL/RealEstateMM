@@ -27,7 +27,7 @@ function ajaxPostProperty()
         "propertyAddressDTO": propertyAddress,
         "propertyPrice": $('#price').val(),
         "propertyOwner": loginCookie.cookie(),
-        "propertyStatus": "On Sale"
+        "propertyStatus": "on sale"
     });
 
     $.ajax({
