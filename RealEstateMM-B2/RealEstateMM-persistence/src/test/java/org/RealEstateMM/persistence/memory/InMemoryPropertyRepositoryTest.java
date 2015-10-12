@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence;
+package org.RealEstateMM.persistence.memory;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;

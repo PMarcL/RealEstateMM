@@ -1,9 +1,11 @@
-package org.RealEstateMM.persistence.xml;
+package org.RealEstateMM.persistence.xml.user;
 
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
+import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
+import org.RealEstateMM.persistence.xml.XmlMarshaller;
 
 public class XmlUserRepository extends UserRepository {
 

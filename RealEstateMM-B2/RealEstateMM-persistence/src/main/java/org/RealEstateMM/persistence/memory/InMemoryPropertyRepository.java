@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence;
+package org.RealEstateMM.persistence.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
+import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 
-public class InMemoryPropertyRepository implements org.RealEstateMM.domain.property.PropertyRepository {
+public class InMemoryPropertyRepository implements PropertyRepository {
 
 	private Map<PropertyAddress, Property> properties;
 

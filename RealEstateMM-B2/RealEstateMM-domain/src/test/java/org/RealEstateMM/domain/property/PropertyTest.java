@@ -19,7 +19,7 @@ public class PropertyTest {
 	private PropertyAddress propertyAddress;
 
 	@Before
-	public void init() {
+	public void setup() {
 		propertyAddress = mock(PropertyAddress.class);
 
 		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PROPERTY_PRICE, OWNER_USERNAME, A_PROPERTY_STATUS);

@@ -14,7 +14,6 @@ public class PropertyDTO {
 
 	public PropertyDTO(String propertyType, PropertyAddressDTO propertyAddressDTO,
 			PropertyFeaturesDTO propertyFeaturesDTO, double propertyPrice, String ownerPseudonym, String propertyStatus) {
-
 		this.setPropertyType(propertyType);
 		this.setPropertyAddress(propertyAddressDTO);
 		this.setPropertyFeatures(propertyFeaturesDTO);

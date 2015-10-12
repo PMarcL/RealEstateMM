@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence.xml;
+package org.RealEstateMM.persistence.xml.user;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;

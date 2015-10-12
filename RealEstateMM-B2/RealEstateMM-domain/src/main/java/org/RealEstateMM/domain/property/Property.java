@@ -59,5 +59,4 @@ public class Property {
 	public boolean isOwnedBy(String owner) {
 		return this.owner.equals(owner);
 	}
-
 }

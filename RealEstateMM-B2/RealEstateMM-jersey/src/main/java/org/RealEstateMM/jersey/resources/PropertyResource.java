@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
-
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
