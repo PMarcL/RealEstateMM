@@ -25,4 +25,6 @@ public class PropertyTest {
 		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PROPERTY_PRICE, OWNER_USERNAME, A_PROPERTY_STATUS);
 	}
 
+	// TODO Test all methods
+
 }
