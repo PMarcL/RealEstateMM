@@ -38,15 +38,6 @@ public class PropertyService implements PropertyServiceHandler {
 		return buildDTOsFromProperties(properties);
 	}
 
-	private ArrayList<PropertyDTO> buildDTOsFromProperties(ArrayList<Property> properties) {
-		ArrayList<PropertyDTO> propertiesDTO = new ArrayList<PropertyDTO>();
-		for (Property property : properties) {
-			PropertyDTO dto = propertyAssembler.toDTO(property);
-			propertiesDTO.add(dto);
-		}
-		return propertiesDTO;
-	}
-
 	@Override
 	public void editPropertyFeatures(PropertyDTO propertyDTO) {
 		Property property = getPropertyWithDTO(propertyDTO);
@@ -60,5 +51,20 @@ public class PropertyService implements PropertyServiceHandler {
 		PropertyAddress address = propertyAssembler.getPropertyAddressFromDTO(propertyDTO);
 		Optional<Property> property = propertyRepository.getPropertyAtAddress(address);
 		return property.get();
+	}
+
+	@Override
+	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner) {
+		ArrayList<Property> properties = propertyRepository.getPropertiesFromOwner(owner);
+		return buildDTOsFromProperties(properties);
+	}
+
+	private ArrayList<PropertyDTO> buildDTOsFromProperties(ArrayList<Property> properties) {
+		ArrayList<PropertyDTO> propertiesDTO = new ArrayList<PropertyDTO>();
+		for (Property property : properties) {
+			PropertyDTO dto = propertyAssembler.toDTO(property);
+			propertiesDTO.add(dto);
+		}
+		return propertiesDTO;
 	}
 }

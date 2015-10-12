@@ -13,6 +13,8 @@ import org.junit.Test;
 
 public class InMemoryPropertyRepositoryTest {
 
+	private final String OWNER = "owner90";
+
 	private InMemoryPropertyRepository repository;
 
 	private Property property;
@@ -72,5 +74,15 @@ public class InMemoryPropertyRepositoryTest {
 		repository.updateProperty(updatedProperty);
 
 		assertEquals(updatedProperty, repository.getPropertyAtAddress(address).get());
+	}
+
+	@Test
+	public void givenAnOwnerWhenGetPropertiesFromOwnerThenReturnsListOfPropertiesOwnedByOwner() {
+		given(property.isOwnedBy(OWNER)).willReturn(true);
+		repository.add(property);
+
+		ArrayList<Property> returnedProperties = repository.getPropertiesFromOwner(OWNER);
+
+		assertTrue(returnedProperties.contains(property));
 	}
 }

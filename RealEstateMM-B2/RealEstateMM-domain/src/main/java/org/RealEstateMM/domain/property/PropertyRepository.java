@@ -14,4 +14,6 @@ public interface PropertyRepository {
 	public Optional<Property> getPropertyAtAddress(PropertyAddress address);
 
 	public void updateProperty(Property property);
+
+	public ArrayList<Property> getPropertiesFromOwner(String owner);
 }

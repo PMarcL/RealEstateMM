@@ -1,7 +1,6 @@
 package org.RealEstateMM.services.property;
 
 import static org.mockito.Mockito.*;
-
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.junit.Before;
@@ -11,16 +10,17 @@ public class PropertyServiceAntiCorruptionTest {
 	private final String ZIPCODE = "G6P7H7";
 	private final String TYPE = "house";
 	private final String STATUS = "on sale";
+	private final String OWNER = "owner90";
 
 	private PropertyServiceAntiCorruption propertyAntiCorruption;
-	private PropertyService service;
+	private PropertyServiceHandler service;
 	private PropertyInformationsValidator validator;
 	private PropertyAddressDTO addressInfos;
 	private PropertyDTO propertyDTO;
 
 	@Before
 	public void setup() {
-		service = mock(PropertyService.class);
+		service = mock(PropertyServiceHandler.class);
 		validator = mock(PropertyInformationsValidator.class);
 		propertyDTO = mock(PropertyDTO.class);
 		addressInfos = mock(PropertyAddressDTO.class);
@@ -82,6 +82,12 @@ public class PropertyServiceAntiCorruptionTest {
 	public void whenGetAllPropertiesThenCallsPropertyService() {
 		propertyAntiCorruption.getAllProperties();
 		verify(service).getAllProperties();
+	}
+
+	@Test
+	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenCallsService() {
+		propertyAntiCorruption.getPropertiesFromOwner(OWNER);
+		verify(service).getPropertiesFromOwner(OWNER);
 	}
 
 	private void propertyDTOReturnsValidInfos() {

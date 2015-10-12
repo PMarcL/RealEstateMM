@@ -8,9 +8,9 @@ import org.RealEstateMM.services.dtos.property.PropertyDTO;
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
 	private PropertyInformationsValidator informationValidator;
-	private PropertyService service;
+	private PropertyServiceHandler service;
 
-	public PropertyServiceAntiCorruption(PropertyService service, PropertyInformationsValidator validator) {
+	public PropertyServiceAntiCorruption(PropertyServiceHandler service, PropertyInformationsValidator validator) {
 		this.informationValidator = validator;
 		this.service = service;
 	}
@@ -46,5 +46,10 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	@Override
 	public ArrayList<PropertyDTO> getAllProperties() {
 		return service.getAllProperties();
+	}
+
+	@Override
+	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner) {
+		return service.getPropertiesFromOwner(owner);
 	}
 }

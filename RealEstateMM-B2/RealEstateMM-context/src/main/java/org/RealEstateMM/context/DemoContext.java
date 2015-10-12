@@ -45,13 +45,17 @@ public class DemoContext extends Context {
 
 	@Override
 	protected void registerServices() {
+		registerServiceDependencies();
+		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
+				new PropertyInformationsValidator());
+		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
+	}
+
+	private void registerServiceDependencies() {
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
 		ServiceLocator.getInstance().registerService(MailSender.class, mailSender);
-		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
-				new PropertyInformationsValidator());
-		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
 	}
 
 	@Override

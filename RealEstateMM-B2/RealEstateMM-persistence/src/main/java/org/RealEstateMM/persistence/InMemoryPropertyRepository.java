@@ -40,4 +40,16 @@ public class InMemoryPropertyRepository implements org.RealEstateMM.domain.prope
 	public void updateProperty(Property property) {
 		properties.put(property.getAddress(), property);
 	}
+
+	@Override
+	public ArrayList<Property> getPropertiesFromOwner(String owner) {
+		ArrayList<Property> propertiesFromOwner = new ArrayList<Property>();
+		for (Property property : properties.values()) {
+			if (property.isOwnedBy(owner)) {
+				propertiesFromOwner.add(property);
+			}
+		}
+
+		return propertiesFromOwner;
+	}
 }

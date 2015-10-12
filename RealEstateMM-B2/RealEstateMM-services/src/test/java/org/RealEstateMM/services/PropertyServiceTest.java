@@ -18,6 +18,8 @@ import org.junit.Test;
 
 public class PropertyServiceTest {
 
+	private final String OWNER = "owner90";
+
 	private PropertyDTOAssembler assembler;
 	private PropertyRepository repository;
 	private PropertyDTO propertyDTO;
@@ -38,7 +40,7 @@ public class PropertyServiceTest {
 		address = mock(PropertyAddress.class);
 		features = mock(PropertyFeatures.class);
 		given(repository.getPropertyAtAddress(address)).willReturn(Optional.of(property));
-		assemblerHappyPath();
+		assemblerReturnsFeaturesAndAddress();
 	}
 
 	@Test
@@ -108,7 +110,32 @@ public class PropertyServiceTest {
 		verify(repository).updateProperty(property);
 	}
 
-	private void assemblerHappyPath() {
+	@Test
+	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenGetsPropertyWithRepository() {
+		propertyService.getPropertiesFromOwner(OWNER);
+		verify(repository).getPropertiesFromOwner(OWNER);
+	}
+
+	@Test
+	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenConvertPropertiesWithAssembler() {
+		given(assembler.toDTO(property)).willReturn(propertyDTO);
+		given(repository.getPropertiesFromOwner(OWNER)).willReturn(buildPropertiesList());
+
+		ArrayList<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
+
+		assertTrue(returnedDTOs.contains(propertyDTO));
+	}
+
+	@Test
+	public void givenPropertyOwnerWhenGetPropertiesFromOwnerWithoutPropertiesThenReturnsEmptyPropertiesList() {
+		given(repository.getPropertiesFromOwner(OWNER)).willReturn(new ArrayList<Property>());
+
+		ArrayList<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
+
+		assertTrue(returnedDTOs.isEmpty());
+	}
+
+	private void assemblerReturnsFeaturesAndAddress() {
 		given(assembler.getFeaturesFromDTO(propertyDTO)).willReturn(features);
 		given(assembler.getPropertyAddressFromDTO(propertyDTO)).willReturn(address);
 	}

@@ -56,4 +56,8 @@ public class Property {
 		return features;
 	}
 
+	public boolean isOwnedBy(String owner) {
+		return this.owner.equals(owner);
+	}
+
 }

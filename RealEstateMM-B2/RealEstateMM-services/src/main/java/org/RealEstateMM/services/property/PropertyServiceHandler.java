@@ -11,4 +11,6 @@ public interface PropertyServiceHandler {
 	public ArrayList<PropertyDTO> getAllProperties();
 
 	public void editPropertyFeatures(PropertyDTO propertyDTO);
+
+	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner);
 }

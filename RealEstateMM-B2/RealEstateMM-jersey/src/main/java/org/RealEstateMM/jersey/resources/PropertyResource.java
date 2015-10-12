@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -35,12 +36,15 @@ public class PropertyResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllProperties() {
-		try {
-			String json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
-			return Response.ok(Status.OK).entity(json).build();
-		} catch (Exception ex) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-		}
+		String json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
+		return Response.ok(Status.OK).entity(json).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getPropertiesFromOwner(@QueryParam("owner") String owner) {
+		String json = getJsonFromPropertyDTOs(propertyService.getPropertiesFromOwner(owner));
+		return Response.ok(Status.OK).entity(json).build();
 	}
 
 	private String getJsonFromPropertyDTOs(ArrayList<PropertyDTO> propertyJSON) {
@@ -71,5 +75,4 @@ public class PropertyResource {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
 	}
-
 }
