@@ -51,7 +51,7 @@ public class User {
 
 	public void confirmEmailAddress(String emailToConfirm) {
 		if (!emailToConfirm.equals(getEmailAddress())) {
-			throw new TryingToConfirmTheWrongEmailAddress(emailToConfirm, getEmailAddress());
+			throw new TryingToConfirmTheWrongEmailAddressException(emailToConfirm, getEmailAddress());
 		} else if (isLocked) {
 			isLocked = false;
 		} else {

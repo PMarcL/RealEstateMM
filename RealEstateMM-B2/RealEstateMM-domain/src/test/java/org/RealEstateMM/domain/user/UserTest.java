@@ -64,7 +64,7 @@ public class UserTest {
 		assertFalse(user.isLocked());
 	}
 
-	@Test(expected = TryingToConfirmTheWrongEmailAddress.class)
+	@Test(expected = TryingToConfirmTheWrongEmailAddressException.class)
 	public void givenADifferentEmailAddressWhenConfirmEmailAddressThenThrowATryingToConfirmTheWrongEmailAddress() {
 		String differentEmailAddress = "different@emailAddress.com";
 		user.confirmEmailAddress(differentEmailAddress);

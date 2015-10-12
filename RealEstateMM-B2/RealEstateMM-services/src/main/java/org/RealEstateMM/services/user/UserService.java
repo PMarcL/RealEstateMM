@@ -2,7 +2,7 @@ package org.RealEstateMM.services.user;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddress;
+import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddressException;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
@@ -60,7 +60,7 @@ public class UserService {
 		try {
 			emailAddressConfirmer.confirmEmailAddress(confirmationCode);
 		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException
-				| TryingToConfirmTheWrongEmailAddress exception) {
+				| TryingToConfirmTheWrongEmailAddressException exception) {
 			throw new ImpossibleToConfirmEmailAddressException(exception);
 		}
 	}

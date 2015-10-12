@@ -5,7 +5,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddress;
+import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddressException;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
@@ -104,7 +104,7 @@ public class UserServiceTest {
 	public void givenAWrongEmailExceptionWhenConfirmEmailThenThrowAnImpossibleToConfirmEmailAddressException()
 			throws ImpossibleToConfirmEmailAddressException {
 
-		doThrow(TryingToConfirmTheWrongEmailAddress.class).when(emailConfirmer)
+		doThrow(TryingToConfirmTheWrongEmailAddressException.class).when(emailConfirmer)
 				.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
 		userService.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
 	}

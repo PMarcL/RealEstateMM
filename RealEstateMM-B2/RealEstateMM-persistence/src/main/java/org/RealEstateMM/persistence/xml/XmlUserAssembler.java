@@ -17,7 +17,7 @@ public class XmlUserAssembler {
 		newUser.setEmail(userInfo.emailAddress);
 		newUser.setPhoneNumber(userInfo.phoneNumber);
 		newUser.setUserType(user.getUserTypeDescription());
-		newUser.setLock(user.isLocked());
+		newUser.setLocked(user.isLocked());
 
 		return newUser;
 	}
@@ -27,7 +27,7 @@ public class XmlUserAssembler {
 				xmlUser.getFirstName(), xmlUser.getLastName(), xmlUser.getEmail(), xmlUser.getPhoneNumber());
 		UserType userType = new UserType(xmlUser.getUserType());
 
-		User user = new User(userInfo, userType, xmlUser.getLock());
+		User user = new User(userInfo, userType, xmlUser.getLocked());
 		return user;
 	}
 
