@@ -8,6 +8,7 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserType;
 import org.RealEstateMM.domain.user.repository.UserRepository;
+import org.RealEstateMM.persistence.memory.InMemoryPropertyRepository;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -36,11 +37,7 @@ public class DemoContext extends Context {
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
 		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
-
-		File xmlProperties = new File(propertiesFilePath());
-		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperties),
-				new XmlPropertyAssembler());
-
+		this.propertyRepository = new InMemoryPropertyRepository();
 		this.sessionRepository = new InMemorySessionRepository();
 		this.mailSender = new GmailSender();
 	}
