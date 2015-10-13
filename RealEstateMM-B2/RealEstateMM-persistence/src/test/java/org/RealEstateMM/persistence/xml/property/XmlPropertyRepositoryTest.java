@@ -3,6 +3,7 @@ package org.RealEstateMM.persistence.xml.property;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
@@ -28,6 +29,7 @@ public class XmlPropertyRepositoryTest {
 	private XmlPropertyAssembler assembler;
 	private XmlProperty xmlProperty;
 	private PropertyAddress address;
+	private Property property;
 
 	@Before
 	public void setup() {
@@ -53,22 +55,22 @@ public class XmlPropertyRepositoryTest {
 		inOrder.verify(propertyCollection).add(xmlProperty);
 		inOrder.verify(marshaller).marshal(XmlPropertyCollection.class, propertyCollection);
 	}
-
+	
 	@Test
 	public void givenExistingPropertyAddressWhenRetreivingItWithAddressShouldReturnCorrespondingProperty() {
 		Property assembledProperty = mock(Property.class);
 		given(assembler.toProperty(xmlProperty)).willReturn(assembledProperty);
-
+		
 		Optional<Property> returnedProperty = repository.getPropertyAtAddress(address);
-
-		// assertEquals(assembledProperty, returnedProperty.get());
+		
+		// TODO assertEquals(assembledProperty, returnedProperty.get());
 	}
 
 	@Test
 	public void givenNonExistingPropertyAddressWhenRetreivingItWhithAddressShouldReturnEmptyResult() {
 		Optional<Property> returnedProperty = repository.getPropertyAtAddress(address);
 
-		// assertFalse(returnedProperty.isPresent());
+		assertFalse(returnedProperty.isPresent());
 	}
 
 	private void addPropertyWithAddress(String streetAddress, String cityAddress) {
@@ -83,5 +85,6 @@ public class XmlPropertyRepositoryTest {
 		propertyCollection = mock(XmlPropertyCollection.class);
 		marshaller = mock(XmlMarshaller.class);
 		given(marshaller.unmarshal(XmlPropertyCollection.class)).willReturn(propertyCollection);
+		property = mock(Property.class);
 	}
 }
