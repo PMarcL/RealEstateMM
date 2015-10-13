@@ -1,8 +1,10 @@
 package org.RealEstateMM.services.property;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.*;
+
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,12 +13,16 @@ public class PropertyServiceAntiCorruptionTest {
 	private final String TYPE = "house";
 	private final String STATUS = "on sale";
 	private final String OWNER = "owner90";
+	private final int NUMBER_OF_BEDROOMS = 2;
+	private final int NUMBER_OF_BATHROOMS = 2;
+	private final int TOTAL_NUMBER_OF_ROOMS = 2;
 
 	private PropertyServiceAntiCorruption propertyAntiCorruption;
 	private PropertyServiceHandler service;
 	private PropertyInformationsValidator validator;
 	private PropertyAddressDTO addressInfos;
 	private PropertyDTO propertyDTO;
+	private PropertyFeaturesDTO featuresDTO;
 
 	@Before
 	public void setup() {
@@ -24,10 +30,22 @@ public class PropertyServiceAntiCorruptionTest {
 		validator = mock(PropertyInformationsValidator.class);
 		propertyDTO = mock(PropertyDTO.class);
 		addressInfos = mock(PropertyAddressDTO.class);
+		featuresDTO = mock(PropertyFeaturesDTO.class);
 
 		propertyAntiCorruption = new PropertyServiceAntiCorruption(service, validator);
 
+		given(propertyDTO.getPropertyFeatures()).willReturn(featuresDTO);
+		featuresDTOReturnsValidInfos();
 		propertyDTOReturnsValidInfos();
+	}
+
+	private void featuresDTOReturnsValidInfos() {
+		given(featuresDTO.getNumberOfBedrooms()).willReturn(NUMBER_OF_BEDROOMS);
+		given(featuresDTO.getNumberOfBathrooms()).willReturn(NUMBER_OF_BATHROOMS);
+		given(featuresDTO.getTotalNumberOfRooms()).willReturn(TOTAL_NUMBER_OF_ROOMS);
+		given(validator.numberOfRoomsIsValid(NUMBER_OF_BATHROOMS)).willReturn(true);
+		given(validator.numberOfRoomsIsValid(NUMBER_OF_BEDROOMS)).willReturn(true);
+		given(validator.numberOfRoomsIsValid(TOTAL_NUMBER_OF_ROOMS)).willReturn(true);
 	}
 
 	@Test
@@ -88,6 +106,30 @@ public class PropertyServiceAntiCorruptionTest {
 	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenCallsService() {
 		propertyAntiCorruption.getPropertiesFromOwner(OWNER);
 		verify(service).getPropertiesFromOwner(OWNER);
+	}
+
+	@Test
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBedRoomsValidity() {
+		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+		verify(validator, times(3)).numberOfRoomsIsValid(NUMBER_OF_BEDROOMS);
+	}
+
+	@Test
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBathRoomsValidity() {
+		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+		verify(validator, times(3)).numberOfRoomsIsValid(NUMBER_OF_BATHROOMS);
+	}
+
+	@Test
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksTotalNumberOfRoomsValidity() {
+		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+		verify(validator, times(3)).numberOfRoomsIsValid(TOTAL_NUMBER_OF_ROOMS);
+	}
+
+	@Test(expected = InvalidPropertyInformationException.class)
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenThrowExceptionIfNumberOfRoomsIsInvalid() {
+		given(validator.numberOfRoomsIsValid(NUMBER_OF_BATHROOMS)).willReturn(false);
+		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
 	}
 
 	private void propertyDTOReturnsValidInfos() {

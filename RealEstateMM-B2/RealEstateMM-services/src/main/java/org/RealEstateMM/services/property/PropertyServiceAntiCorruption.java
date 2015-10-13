@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
 
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
@@ -39,8 +40,21 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
 	@Override
 	public void editPropertyFeatures(PropertyDTO propertyDTO) {
-		// TODO check property features validity here
+		PropertyFeaturesDTO features = propertyDTO.getPropertyFeatures();
+		verifyNumberOfRoomsValidity(features);
 		service.editPropertyFeatures(propertyDTO);
+	}
+
+	private void verifyNumberOfRoomsValidity(PropertyFeaturesDTO features) {
+		if (!informationValidator.numberOfRoomsIsValid(features.getNumberOfBathrooms())) {
+			throw new InvalidPropertyInformationException("Number of Bathrooms");
+		}
+		if (!informationValidator.numberOfRoomsIsValid(features.getNumberOfBedrooms())) {
+			throw new InvalidPropertyInformationException("Number of Bedrooms");
+		}
+		if (!informationValidator.numberOfRoomsIsValid(features.getTotalNumberOfRooms())) {
+			throw new InvalidPropertyInformationException("Total number of Rooms");
+		}
 	}
 
 	@Override

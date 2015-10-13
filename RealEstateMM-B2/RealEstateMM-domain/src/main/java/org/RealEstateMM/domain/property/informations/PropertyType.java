@@ -37,4 +37,12 @@ public enum PropertyType {
 			return MULTIPLEX_DESC;
 		}
 	}
+
+	public static boolean isValidPropertyTypeDescription(String description) {
+		if (description.equals(COMMERCIAL_DESC) || description.equals(HOUSE_DESC) || description.equals(FARM_DESC)
+				|| description.equals(LAND_DESC) || description.equals(MULTIPLEX_DESC)) {
+			return true;
+		}
+		return false;
+	}
 }

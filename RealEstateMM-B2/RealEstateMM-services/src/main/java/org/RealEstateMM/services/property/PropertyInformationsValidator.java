@@ -1,31 +1,14 @@
 package org.RealEstateMM.services.property;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.RealEstateMM.domain.property.informations.PropertyStatus;
+import org.RealEstateMM.domain.property.informations.PropertyType;
 
 public class PropertyInformationsValidator {
 
 	private final Pattern ZIP_CODE_PATTERN = Pattern.compile("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$");
-
-	@SuppressWarnings("serial")
-	private final ArrayList<String> VALID_PROPERTY_TYPES = new ArrayList<String>() {
-		{
-			add("house");
-			add("multiplex");
-			add("commercial");
-			add("farm");
-			add("land");
-		}
-	};
-
-	@SuppressWarnings("serial")
-	private final ArrayList<String> VALID_PROPERTY_STATUS = new ArrayList<String>() {
-		{
-			add("on sale");
-			add("sold");
-		}
-	};
 
 	public PropertyInformationsValidator() {
 
@@ -37,10 +20,18 @@ public class PropertyInformationsValidator {
 	}
 
 	public boolean propertyTypeIsValid(String type) {
-		return VALID_PROPERTY_TYPES.contains(type);
+		return PropertyType.isValidPropertyTypeDescription(type);
 	}
 
 	public boolean propertyStatusIsValid(String status) {
-		return VALID_PROPERTY_STATUS.contains(status);
+		return PropertyStatus.isValidStatusDescription(status);
 	}
+
+	public boolean numberOfRoomsIsValid(int numberOfRooms) {
+		if (numberOfRooms >= 0) {
+			return true;
+		}
+		return false;
+	}
+
 }

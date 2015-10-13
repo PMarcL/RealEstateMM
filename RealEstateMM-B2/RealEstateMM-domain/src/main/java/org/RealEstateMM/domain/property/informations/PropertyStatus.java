@@ -21,4 +21,11 @@ public enum PropertyStatus {
 			return SOLD_DESC;
 		}
 	}
+
+	public static boolean isValidStatusDescription(String description) {
+		if (description.equals(ONSALE_DESC) || description.equals(SOLD_DESC)) {
+			return true;
+		}
+		return false;
+	}
 }

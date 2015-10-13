@@ -10,6 +10,7 @@ public class PropertyTypeTest {
 	private final String COMMERCIAL = "commercial";
 	private final String LAND = "land";
 	private final String FARM = "farm";
+	private final String INVALID_TYPE = "bob";
 
 	@Test
 	public void givenAValidPropertyTypeDescriptionWhenConvertToEnumThenReturnsTheGoodEnum() {
@@ -45,5 +46,19 @@ public class PropertyTypeTest {
 
 		description = PropertyType.getStringFromType(PropertyType.MULTIPLEX);
 		assertEquals(MULTIPLEX, description);
+	}
+
+	@Test
+	public void givenAValidPropertyTypeDescriptionWhenCheckTypeValidityReturnsTrue() {
+		assertTrue(PropertyType.isValidPropertyTypeDescription(COMMERCIAL));
+		assertTrue(PropertyType.isValidPropertyTypeDescription(HOUSE));
+		assertTrue(PropertyType.isValidPropertyTypeDescription(MULTIPLEX));
+		assertTrue(PropertyType.isValidPropertyTypeDescription(FARM));
+		assertTrue(PropertyType.isValidPropertyTypeDescription(LAND));
+	}
+
+	@Test
+	public void givenAnInvalidPropertyTypeDescriptionWhenCheckTypeValidityReturnsFalse() {
+		assertFalse(PropertyType.isValidPropertyTypeDescription(INVALID_TYPE));
 	}
 }

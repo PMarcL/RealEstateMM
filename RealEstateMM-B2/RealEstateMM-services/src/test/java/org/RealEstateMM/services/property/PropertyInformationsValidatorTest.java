@@ -18,6 +18,8 @@ public class PropertyInformationsValidatorTest {
 	private final String LAND = "land";
 	private final String ONSALE = "on sale";
 	private final String SOLD = "sold";
+	private final int VALID_NUMBER_OF_ROOMS = 5;
+	private int INVALID_NUMBER_OF_ROOMS = -1;
 
 	@Before
 	public void init() {
@@ -57,5 +59,15 @@ public class PropertyInformationsValidatorTest {
 	@Test
 	public void givenAnInvalidPropertyStatusWhenValidatingStatusThenReturnsFalse() {
 		assertFalse(validator.propertyStatusIsValid(AN_INVALID_INFO));
+	}
+
+	@Test
+	public void givenAValidNumberOfRoomsWhenCheckNumberOfRoomsValidityThenReturnsTrue() {
+		assertTrue(validator.numberOfRoomsIsValid(VALID_NUMBER_OF_ROOMS));
+	}
+
+	@Test
+	public void givenAnInvalidNumberOfRoomsWhenCheckNumberOfRoomsValidityThenReturnsFalse() {
+		assertFalse(validator.numberOfRoomsIsValid(INVALID_NUMBER_OF_ROOMS));
 	}
 }

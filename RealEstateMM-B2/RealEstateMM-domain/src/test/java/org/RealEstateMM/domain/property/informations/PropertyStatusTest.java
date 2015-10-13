@@ -8,6 +8,7 @@ public class PropertyStatusTest {
 
 	private final String ONSALE = "on sale";
 	private final String SOLD = "sold";
+	private final String INVALID_STATUS = "invalid";
 
 	@Test
 	public void givenAStatusDescriptionWhenConvertToEnumReturnsGoodEnum() {
@@ -25,5 +26,16 @@ public class PropertyStatusTest {
 
 		description = PropertyStatus.getStringFromStatus(PropertyStatus.SOLD);
 		assertEquals(SOLD, description);
+	}
+
+	@Test
+	public void givenAValidStatusDescriptionWhenCheckStatusValidityReturnsTrue() {
+		assertTrue(PropertyStatus.isValidStatusDescription(ONSALE));
+		assertTrue(PropertyStatus.isValidStatusDescription(SOLD));
+	}
+
+	@Test
+	public void givenAnInvalidStatusDescriptionWhenCheckStatusValidityReturnsFalse() {
+		assertFalse(PropertyStatus.isValidStatusDescription(INVALID_STATUS));
 	}
 }
