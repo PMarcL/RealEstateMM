@@ -11,11 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class XmlPropertyCollection {
 
 	private List<XmlProperty> properties;
-	
-	public XmlPropertyCollection(){
+
+	public XmlPropertyCollection() {
 		properties = new ArrayList<XmlProperty>();
 	}
-	
+
 	public boolean contains(String streetAddress, String cityAddress) {
 		Optional<XmlProperty> foundProperty = find(streetAddress, cityAddress);
 		return foundProperty.isPresent();
@@ -34,6 +34,11 @@ public class XmlPropertyCollection {
 		properties.add(newProperty);
 	}
 
+	public void removePropertyAtAddress(String streetAddress, String cityAddress) {
+		Optional<XmlProperty> property = find(streetAddress, cityAddress);
+		properties.remove(property.get());
+	}
+
 	public XmlProperty getProperty(String streetAddress, String cityAddress) {
 		Optional<XmlProperty> foundProperty = find(streetAddress, cityAddress);
 		return foundProperty.get();
@@ -48,25 +53,4 @@ public class XmlPropertyCollection {
 		this.properties = properties;
 	}
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

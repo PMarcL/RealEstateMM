@@ -52,37 +52,31 @@ public class XmlPropertyRepository implements PropertyRepository {
 	@Override
 	public Optional<Property> getPropertyAtAddress(PropertyAddress address) {
 		ArrayList<Property> properties = this.getAllProperties();
-		
-		for (Property property : properties){
-			if (property.getAddress().isEquals(address)){
+
+		for (Property property : properties) {
+			if (property.getAddress().isEquals(address)) {
 				return Optional.of(property);
 			}
 		}
 		return Optional.empty();
 	}
 
-	private boolean isPropertyAbsentFromCache(String streetAddress, String cityAddress) {
-		return !propertyCache.contains(streetAddress, cityAddress);
-	}
-
 	@Override
 	public void updateProperty(Property property) {
-		// TODO Auto-generated method stub
-		if (getPropertyAtAddress(property.getAddress()).isPresent()){
-			Property propertyFromRepository = getPropertyAtAddress(property.getAddress()).get();
-			propertyFromRepository.updateFeatures(property.getFeatures());
-			//TODO finish
-			//Probably need to modify assembler and the marshaller to rewrite XML tags.
-		}
+		// TODO test this method
+		propertyCache.removePropertyAtAddress(property.getAddress().streetAddress, property.getAddress().city);
+		XmlProperty xmlProperty = propertyAssembler.fromProperty(property);
+		propertyCache.add(xmlProperty);
+		marshaller.marshal(XmlPropertyCollection.class, propertyCache);
 	}
 
 	@Override
 	public ArrayList<Property> getPropertiesFromOwner(String owner) {
 		ArrayList<Property> properties = this.getAllProperties();
 		ArrayList<Property> propertiesOfOwner = new ArrayList<Property>();
-		
-		for (Property property : properties){
-			if (property.getOwner().equals(owner)){
+
+		for (Property property : properties) {
+			if (property.getOwner().equals(owner)) {
 				propertiesOfOwner.add(property);
 			}
 		}
