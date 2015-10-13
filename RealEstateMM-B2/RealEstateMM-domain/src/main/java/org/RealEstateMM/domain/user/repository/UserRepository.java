@@ -8,7 +8,7 @@ public abstract class UserRepository {
 
 	public abstract Optional<User> getUserWithPseudonym(String pseudonym);
 
-	public void addUser(User user) {
+	public void persistUser(User user) {
 		if (contains(user.getPseudonym())) {
 			throw new UserWithPseudonymAlreadyStoredException(user.getPseudonym());
 		}

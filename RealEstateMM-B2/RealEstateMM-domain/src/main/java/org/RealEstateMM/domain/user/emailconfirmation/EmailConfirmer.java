@@ -43,8 +43,10 @@ public class EmailConfirmer {
 			throw new UserAssociatedToConfirmationCodeDoesNotExistException(pseudo);
 		} else {
 			User user = userOptional.get();
-			user.confirmEmailAddress(emailAddress);
-			// TODO userRepository.save(user);
+			if (user.hasEmailAddress(emailAddress)) {
+				user.unlock();
+				userRepository.persistUser(user);
+			}
 		}
 	}
 

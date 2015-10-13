@@ -78,7 +78,7 @@ public class DemoContext extends Context {
 		UserInformations adminInfo = new UserInformations("admin", "admin1234", "Olivier", "Dugas",
 				"olivierD@admin.com", "418 892-3940");
 		User admin = new User(adminInfo, new UserType("admin"));
-		userRepository.addUser(admin);
+		userRepository.persistUser(admin);
 	}
 
 	private boolean isAdminExisting(String adminPseudonym) {

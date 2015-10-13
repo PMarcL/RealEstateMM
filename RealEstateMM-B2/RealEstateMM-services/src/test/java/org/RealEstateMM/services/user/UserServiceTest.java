@@ -48,7 +48,7 @@ public class UserServiceTest {
 	@Test
 	public void whenCreateUserThenAddNewUserToRepository() {
 		userService.create(A_USER_DTO);
-		verify(userRepository).addUser(A_USER);
+		verify(userRepository).persistUser(A_USER);
 	}
 
 	@Test
