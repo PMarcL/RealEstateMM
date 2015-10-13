@@ -21,7 +21,7 @@ public class XmlUserAssemblerTest {
 
 	@Test
 	public void givenAUserWhenAssemblingXmlUserFromUserThenXmlUserHasIdenticalFields() {
-		XmlUser result = assembler.fromUser(new UserBuilder().build());
+		XmlUser result = assembler.fromUser(aUser().build());
 
 		assertEquals(UserBuilder.DEFAULT_PSEUDO, result.getPseudonym());
 		assertEquals(UserBuilder.DEFAULT_PASSWORD, result.getPassword());
@@ -30,6 +30,7 @@ public class XmlUserAssemblerTest {
 		assertEquals(UserBuilder.DEFAULT_EMAIL, result.getEmail());
 		assertEquals(UserBuilder.DEFAULT_PHONE_NUMBER, result.getPhoneNumber());
 		assertEquals(UserBuilder.DEFAULT_USER_TYPE_DESC, result.getUserType());
+		assertEquals(UserBuilder.DEFAULT_LOCK_STATE, result.getLocked());
 	}
 
 	@Test
@@ -44,7 +45,23 @@ public class XmlUserAssemblerTest {
 		assertEquals(xmlUser.getPhoneNumber(), userInfo.phoneNumber);
 		assertEquals(xmlUser.getPseudonym(), userInfo.pseudonym);
 		assertEquals(xmlUser.getUserType(), result.getUserTypeDescription());
-		assertEquals(xmlUser.getLocked(), result.isLocked());
+	}
+
+	@Test
+	public void givenLockedXmlUserWhenAssemblingUserFromXmlUserThenUserShouldBeLocked() {
+		User result = assembler.toUser(xmlUser);
+		assertTrue(result.isLocked());
+	}
+
+	@Test
+	public void givenUnlockedXmlUserWhenAssemblingUserFromXmlUserThenUserShouldBeUnlocked() {
+		xmlUser.setLocked(false);
+		User result = assembler.toUser(xmlUser);
+		assertFalse(result.isLocked());
+	}
+
+	private UserBuilder aUser() {
+		return new UserBuilder();
 	}
 
 	private void createXmlUser() {

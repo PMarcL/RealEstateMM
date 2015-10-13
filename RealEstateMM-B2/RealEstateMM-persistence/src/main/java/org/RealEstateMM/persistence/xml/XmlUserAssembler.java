@@ -23,12 +23,25 @@ public class XmlUserAssembler {
 	}
 
 	public User toUser(XmlUser xmlUser) {
-		UserInformations userInfo = new UserInformations(xmlUser.getPseudonym(), xmlUser.getPassword(),
-				xmlUser.getFirstName(), xmlUser.getLastName(), xmlUser.getEmail(), xmlUser.getPhoneNumber());
+		UserInformations userInfo = buildUserInformations(xmlUser);
 		UserType userType = new UserType(xmlUser.getUserType());
 
-		User user = new User(userInfo, userType, xmlUser.getLocked());
+		User user = new User(userInfo, userType);
+		if (userIsUnlocked(xmlUser)) {
+			user.unlock();
+		}
+
 		return user;
+	}
+
+	private UserInformations buildUserInformations(XmlUser xmlUser) {
+		UserInformations userInfo = new UserInformations(xmlUser.getPseudonym(), xmlUser.getPassword(),
+				xmlUser.getFirstName(), xmlUser.getLastName(), xmlUser.getEmail(), xmlUser.getPhoneNumber());
+		return userInfo;
+	}
+
+	private boolean userIsUnlocked(XmlUser xmlUser) {
+		return !xmlUser.getLocked();
 	}
 
 }

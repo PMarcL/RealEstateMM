@@ -12,12 +12,6 @@ public class User {
 		this.isLocked = true;
 	}
 
-	public User(UserInformations userInformations, UserType userType, boolean isLocked) {
-		this.userInformations = userInformations;
-		this.userType = userType;
-		this.isLocked = isLocked;
-	}
-
 	public UserInformations getUserInformations() {
 		return userInformations;
 	}

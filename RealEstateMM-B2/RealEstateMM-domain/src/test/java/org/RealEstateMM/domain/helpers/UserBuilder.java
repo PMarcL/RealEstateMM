@@ -25,13 +25,13 @@ public class UserBuilder {
 
 		withPseudonym(DEFAULT_PSEUDO);
 		withUserType(DEFAULT_USER_TYPE_DESC);
-		withLock(DEFAULT_LOCK_STATE);
+		withLockState(DEFAULT_LOCK_STATE);
 
 		given(user.getUserInformations()).willReturn(userInfo);
 	}
 
-	private UserBuilder withLock(boolean defaultLockState) {
-		given(user.isLocked()).willReturn(defaultLockState);
+	public UserBuilder withLockState(boolean lockState) {
+		given(user.isLocked()).willReturn(lockState);
 		return this;
 	}
 
