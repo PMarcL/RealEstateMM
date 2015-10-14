@@ -1,15 +1,21 @@
 package org.RealEstateMM.domain.user.emailconfirmation;
 
+import org.RealEstateMM.encoder.Encoder;
+
 public class ConfirmationCodeFactory {
 
+	private Encoder encoder;
+
+	public ConfirmationCodeFactory(Encoder encoder) {
+		this.encoder = encoder;
+	}
+
 	public ConfirmationCode createConfirmationCode(String pseudonym, String emailAddress) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ConfirmationCode(encoder, pseudonym, emailAddress);
 	}
 
 	public ConfirmationCode createConfirmationCode(String confirmationCodeValue) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ConfirmationCode(encoder, confirmationCodeValue);
 	}
 
 }
