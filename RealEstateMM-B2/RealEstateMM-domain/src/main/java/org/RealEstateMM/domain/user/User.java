@@ -28,10 +28,6 @@ public class User {
 		return userType.userTypeDescription;
 	}
 
-	public String getEmailAddress() {
-		return userInformations.emailAddress;
-	}
-
 	public boolean isLocked() {
 		return isLocked;
 	}

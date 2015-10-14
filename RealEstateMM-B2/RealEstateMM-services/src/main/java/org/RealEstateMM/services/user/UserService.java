@@ -36,7 +36,7 @@ public class UserService {
 
 	public void create(UserDTO userDTO) throws CouldNotSendMailException {
 		User newUser = userAssembler.fromDTO(userDTO);
-		userRepository.persistUser(newUser);
+		userRepository.addUser(newUser);
 		emailAddressConfirmer.sendEmailConfirmationMessage(newUser);
 	}
 

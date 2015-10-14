@@ -49,7 +49,7 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).emailIsValid(UserBuilder.DEFAULT_EMAIL);
+		verify(validator).emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS);
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
-		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL)).thenReturn(false);
+		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).thenReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
 
@@ -113,7 +113,7 @@ public class UserServiceAntiCorruptionTest {
 		when(validator.nameIsValid(UserBuilder.DEFAULT_FIRST_NAME)).thenReturn(true);
 		when(validator.nameIsValid(UserBuilder.DEFAULT_LAST_NAME)).thenReturn(true);
 		when(validator.phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER)).thenReturn(true);
-		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL)).thenReturn(true);
+		when(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PASSWORD)).thenReturn(true);
 		when(validator.stringIsValid(VALID_PSEUDO)).thenReturn(true);
 		when(validator.userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC)).thenReturn(true);

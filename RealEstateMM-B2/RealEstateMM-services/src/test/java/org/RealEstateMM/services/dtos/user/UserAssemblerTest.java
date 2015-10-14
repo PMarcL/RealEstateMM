@@ -32,8 +32,8 @@ public class UserAssemblerTest {
 	public void givenAUserInformationsObjectWhenBuildDTOThenReturnsDTOWithSameInformations() {
 		userDTO = assembler.toDTO(user);
 
-		assertEquals(UserBuilder.DEFAULT_PSEUDO, userDTO.getPseudonym());
-		assertEquals(UserBuilder.DEFAULT_EMAIL, userDTO.getEmail());
+		assertEquals(UserBuilder.DEFAULT_PSEUDONYM, userDTO.getPseudonym());
+		assertEquals(UserBuilder.DEFAULT_EMAIL_ADDRESS, userDTO.getEmail());
 		assertEquals(UserBuilder.DEFAULT_PHONE_NUMBER, userDTO.getPhoneNumber());
 		assertEquals(UserBuilder.DEFAULT_FIRST_NAME, userDTO.getFirstName());
 		assertEquals(UserBuilder.DEFAULT_LAST_NAME, userDTO.getLastName());

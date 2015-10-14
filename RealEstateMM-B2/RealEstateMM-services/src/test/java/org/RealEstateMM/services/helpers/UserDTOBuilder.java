@@ -14,11 +14,11 @@ public class UserDTOBuilder {
 	private String userType;
 
 	public UserDTOBuilder() {
-		this.pseudonym = UserBuilder.DEFAULT_PSEUDO;
+		this.pseudonym = UserBuilder.DEFAULT_PSEUDONYM;
 		this.password = UserBuilder.DEFAULT_PASSWORD;
 		this.firstName = UserBuilder.DEFAULT_FIRST_NAME;
 		this.lastName = UserBuilder.DEFAULT_LAST_NAME;
-		this.email = UserBuilder.DEFAULT_EMAIL;
+		this.email = UserBuilder.DEFAULT_EMAIL_ADDRESS;
 		this.phoneNumber = UserBuilder.DEFAULT_PHONE_NUMBER;
 		this.userType = UserBuilder.DEFAULT_USER_TYPE_DESC;
 	}

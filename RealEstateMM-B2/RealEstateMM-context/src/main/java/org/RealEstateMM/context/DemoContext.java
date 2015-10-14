@@ -11,7 +11,7 @@ import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.EmailSender;
 import org.RealEstateMM.emailsender.GmailSender;
-import org.RealEstateMM.emailsender.email.EmailAddressConfirmationMessageGenerator;
+import org.RealEstateMM.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.encoder.Base64Encoder;
 import org.RealEstateMM.encoder.Encoder;
 import org.RealEstateMM.persistence.InMemoryPropertyRepository;
@@ -47,7 +47,7 @@ public class DemoContext extends Context {
 	private void initializeMisc(UserRepository userRepository) {
 		EmailSender emailSender = new GmailSender();
 		Encoder encoder = new Base64Encoder();
-		emailConfirmer = new UserEmailAddressValidator(userRepository, emailSender, encoder, new EmailAddressConfirmationMessageGenerator(BASE_URL));
+		emailConfirmer = new UserEmailAddressValidator(userRepository, emailSender, encoder, new EmailMessageFactory(BASE_URL));
 	}
 
 	private String usersFilePath() {
@@ -78,7 +78,7 @@ public class DemoContext extends Context {
 		UserInformations adminInfo = new UserInformations("admin", "admin1234", "Olivier", "Dugas",
 				"olivierD@admin.com", "418 892-3940");
 		User admin = new User(adminInfo, new UserType("admin"));
-		userRepository.persistUser(admin);
+		userRepository.addUser(admin);
 	}
 
 	private boolean isAdminExisting(String adminPseudonym) {

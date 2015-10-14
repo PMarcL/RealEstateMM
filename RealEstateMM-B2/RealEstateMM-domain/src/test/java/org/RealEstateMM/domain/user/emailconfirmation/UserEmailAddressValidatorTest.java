@@ -5,100 +5,102 @@ import static org.mockito.BDDMockito.*;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.EmailSender;
 import org.RealEstateMM.emailsender.email.EmailAddressConfirmationMessage;
-import org.RealEstateMM.emailsender.email.EmailAddressConfirmationMessageGenerator;
-import org.RealEstateMM.encoder.Encoder;
+import org.RealEstateMM.emailsender.email.EmailMessageFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
 public class UserEmailAddressValidatorTest {
+	private final String EMAIL_ADDRESS = "bob134@qqc.net";
+	private final String PSEUDONYM = "bob134";
+	private final UserInformations USER_INFOS = createUserInformations();
+	private final String CONFIRMATION_CODE_VALUE = "confirmationCode";
 
-	private static final String A_PSEUDO = "Josh120";
-	private static final String AN_EMAIL_ADDRESS = "someEmailAddress@machin.com";
-	private static final String A_SECRET = A_PSEUDO + UserEmailAddressValidator.SEPARATOR + AN_EMAIL_ADDRESS;
-	private static final String A_VALID_CONFIRMATION_CODE = "aConfirmationCode";
-	private static final String A_CODE_WITH_UNEXISTING_USER = "someInvalidConfirmationCode";
+	private ConfirmationCodeFactory confirmCodeFactory;
+	private EmailMessageFactory messageFactory;
+	private ConfirmationCode confirmationCode;
+	private EmailSender emailSender;
 
+	private UserEmailAddressValidator validator;
 	private UserRepository userRepository;
-	private EmailSender mailSender;
-	private Encoder encoder;
-	private EmailAddressConfirmationMessageGenerator emailFactory;
 	private User user;
 
-	private UserEmailAddressValidator emailAddressConfirmer;
-
 	@Before
-	public void setUp() {
-		userRepository = mock(UserRepository.class);
-		mailSender = mock(EmailSender.class);
-		encoder = mock(Encoder.class);
-		emailFactory = mock(EmailAddressConfirmationMessageGenerator.class);
+	public void setup() {
+		emailSender = mock(EmailSender.class);
+		confirmCodeFactory = mock(ConfirmationCodeFactory.class);
 		user = mock(User.class);
+		userRepository = mock(UserRepository.class);
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
+		messageFactory = mock(EmailMessageFactory.class);
+		confirmationCode = mock(ConfirmationCode.class);
+		given(confirmationCode.getPseudonym()).willReturn(PSEUDONYM);
+		given(confirmationCode.getEmailAddress()).willReturn(EMAIL_ADDRESS);
+		given(confirmCodeFactory.createConfirmationCode(PSEUDONYM, EMAIL_ADDRESS)).willReturn(confirmationCode);
+		given(confirmCodeFactory.createConfirmationCode(CONFIRMATION_CODE_VALUE)).willReturn(confirmationCode);
 
-		given(user.getEmailAddress()).willReturn(AN_EMAIL_ADDRESS);
-		given(user.getPseudonym()).willReturn(A_PSEUDO);
-
-		emailAddressConfirmer = new UserEmailAddressValidator(userRepository, mailSender, encoder, emailFactory);
+		validator = new UserEmailAddressValidator(confirmCodeFactory, messageFactory, emailSender);
 	}
 
 	@Test
-	public void givenAUserWhenSendEmailConfirmationThenSendTheConfirmationMail() {
-		EmailAddressConfirmationMessage email = new EmailAddressConfirmationMessage(AN_EMAIL_ADDRESS,
-				A_VALID_CONFIRMATION_CODE, null);
-		given(encoder.encode(A_SECRET)).willReturn(A_VALID_CONFIRMATION_CODE);
-		given(emailFactory.createEmailAddressConfirmationMessage(AN_EMAIL_ADDRESS, A_VALID_CONFIRMATION_CODE))
-				.willReturn(email);
-
-		emailAddressConfirmer.sendEmailConfirmationMessage(user);
-
-		verify(mailSender).sendEmail(email);
+	public void givenAUserWhenSendEmailConfirmationMessageShouldCreateConfirmationCode() {
+		validator.sendEmailConfirmationMessage(USER_INFOS);
+		verify(confirmCodeFactory).createConfirmationCode(PSEUDONYM, EMAIL_ADDRESS);
 	}
 
 	@Test
-	public void givenAValidConfirmationCodeWhenConfirmEmailAddressThenUnlockTheRightUser() {
-		given(encoder.decode(A_VALID_CONFIRMATION_CODE)).willReturn(A_SECRET);
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.of(user));
-		given(user.hasEmailAddress(AN_EMAIL_ADDRESS)).willReturn(true);
-
-		emailAddressConfirmer.confirmEmailAddress(A_VALID_CONFIRMATION_CODE);
-
-		verify(user).unlock();
+	public void givenAUserWhenSendEmailConfirmationMessageShouldCreateEmailMessage() {
+		validator.sendEmailConfirmationMessage(USER_INFOS);
+		verify(messageFactory).createEmailAddressConfirmationMessage(EMAIL_ADDRESS, confirmationCode);
 	}
 
 	@Test
-	public void givenAValidConfirmationCodeWhenConfirmEmailAddressShouldPersistUnlockedUser() {
-		given(encoder.decode(A_VALID_CONFIRMATION_CODE)).willReturn(A_SECRET);
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.of(user));
-		given(user.hasEmailAddress(AN_EMAIL_ADDRESS)).willReturn(true);
+	public void givenAUserWhenSendEmailConfirmationMessageShouldSendEmailMessage() {
+		EmailAddressConfirmationMessage message = mock(EmailAddressConfirmationMessage.class);
+		given(messageFactory.createEmailAddressConfirmationMessage(EMAIL_ADDRESS, confirmationCode))
+				.willReturn(message);
 
-		emailAddressConfirmer.confirmEmailAddress(A_VALID_CONFIRMATION_CODE);
+		validator.sendEmailConfirmationMessage(USER_INFOS);
+
+		verify(emailSender).sendEmail(message);
+	}
+
+	@Test
+	public void givenAConfirmationCodeValueWhenConfirmEmailAddressShouldCreateConfirmationCode() {
+		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
+		verify(confirmCodeFactory).createConfirmationCode(CONFIRMATION_CODE_VALUE);
+	}
+
+	@Test
+	public void givenUserExistsAndHasSameEmailAddressAsConfirmationCodeWhenConfirmEmailAddressShouldUnlockUserAndPersistItBackToRepository() {
+		given(user.hasEmailAddress(EMAIL_ADDRESS)).willReturn(true);
+
+		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
 
 		InOrder inOrder = inOrder(user, userRepository);
 		inOrder.verify(user).unlock();
-		inOrder.verify(userRepository).persistUser(user);
+		inOrder.verify(userRepository).replaceUser(user);
 	}
 
 	@Test
-	public void givenUserDoesNotHaveSameEmailAddressAsConfirmationCodeWhenConfirmEmailAddressShouldNotUnlockNorPersistUser() {
-		given(encoder.decode(A_VALID_CONFIRMATION_CODE)).willReturn(A_SECRET);
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.of(user));
-		given(user.hasEmailAddress(AN_EMAIL_ADDRESS)).willReturn(false);
-
-		emailAddressConfirmer.confirmEmailAddress(A_VALID_CONFIRMATION_CODE);
-
+	public void givenUserDoesNotExistWhenConfirmEmailAddressShouldNotUnlockAnyUser() {
+		given(userRepository.getUserWithPseudonym(anyString())).willReturn(Optional.empty());
+		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
 		verify(user, never()).unlock();
-		verify(userRepository, never()).persistUser(user);
 	}
 
-	@Test(expected = UserAssociatedToConfirmationCodeDoesNotExistException.class)
-	public void givenACodeAssociatedToUnexistingUserWhenConfirmEmailAddressThenThrowInvalidException() {
-		given(encoder.decode(A_CODE_WITH_UNEXISTING_USER)).willReturn(A_SECRET);
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.empty());
-
-		emailAddressConfirmer.confirmEmailAddress(A_CODE_WITH_UNEXISTING_USER);
+	@Test
+	public void givenUserExistsButDoesNotHaveSameEmailAddressWhenConfirmEmailAddressShouldNotUnlockUser() {
+		given(user.hasEmailAddress(EMAIL_ADDRESS)).willReturn(false);
+		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
+		verify(user, never()).unlock();
 	}
 
+	private UserInformations createUserInformations() {
+		return new UserInformations(PSEUDONYM, null, null, null, EMAIL_ADDRESS, null);
+	}
 }

@@ -21,7 +21,7 @@ public class UserRepositoryTest {
 	@Test
 	public void givenANonExistingUserWhenAddUserShouldAddToRepository() {
 		User newUser = mock(User.class);
-		repository.persistUser(newUser);
+		repository.addUser(newUser);
 		repository.verifyAddCalledWithUser(newUser);
 	}
 
@@ -30,7 +30,7 @@ public class UserRepositoryTest {
 		User newUser = new UserBuilder().build();
 		repository.addExistingUser(newUser);
 
-		repository.persistUser(newUser);
+		repository.addUser(newUser);
 	}
 
 	private class UserRepositoryFake extends UserRepository {
