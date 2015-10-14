@@ -1,5 +1,6 @@
 package org.RealEstateMM.services.property;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,8 @@ import org.RealEstateMM.domain.property.informations.PropertyType;
 public class PropertyInformationsValidator {
 
 	private final Pattern ZIP_CODE_PATTERN = Pattern.compile("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$");
+	private int YEAR_OF_CONSTRUCTION_OF_OLDEST_BUILDING_IN_CANADA = 1637; //According to wikipedia.org
+	private int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
 	public PropertyInformationsValidator() {
 
@@ -33,5 +36,24 @@ public class PropertyInformationsValidator {
 		}
 		return false;
 	}
+	
+	public boolean totalNumberOfRoomsIsValid(int numberOfBathrooms, int numberOfBedrooms, int totalNumberOfRooms){
+		numberOfRoomsIsValid(numberOfBathrooms);
+		numberOfRoomsIsValid(numberOfBedrooms);
+		numberOfRoomsIsValid(totalNumberOfRooms);
+		if (totalNumberOfRooms > (numberOfBathrooms + numberOfBedrooms)){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean yearOfConstructionIsValid(int yearOfConstruction) {
+		if(yearOfConstruction < YEAR_OF_CONSTRUCTION_OF_OLDEST_BUILDING_IN_CANADA || yearOfConstruction > currentYear){
+			return false;
+		}
+		return true;
+	}
+	
+	
 
 }

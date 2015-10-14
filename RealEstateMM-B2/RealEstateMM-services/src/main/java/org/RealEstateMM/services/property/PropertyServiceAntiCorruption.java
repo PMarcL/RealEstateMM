@@ -42,6 +42,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	public void editPropertyFeatures(PropertyDTO propertyDTO) {
 		PropertyFeaturesDTO features = propertyDTO.getPropertyFeatures();
 		verifyNumberOfRoomsValidity(features);
+		verifyYearOfConstructionValidity(features);
 		service.editPropertyFeatures(propertyDTO);
 	}
 
@@ -52,8 +53,14 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 		if (!informationValidator.numberOfRoomsIsValid(features.getNumberOfBedrooms())) {
 			throw new InvalidPropertyInformationException("Number of Bedrooms");
 		}
-		if (!informationValidator.numberOfRoomsIsValid(features.getTotalNumberOfRooms())) {
+		if (!informationValidator.totalNumberOfRoomsIsValid(features.getNumberOfBathrooms(), features.getNumberOfBedrooms(), features.getTotalNumberOfRooms())) {
 			throw new InvalidPropertyInformationException("Total number of Rooms");
+		}
+	}
+	
+	private void verifyYearOfConstructionValidity(PropertyFeaturesDTO features){
+		if (!informationValidator.yearOfConstructionIsValid(features.getYearOfConstruction())){
+			throw new InvalidPropertyInformationException("Year of Construction");
 		}
 	}
 

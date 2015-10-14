@@ -6,7 +6,7 @@ public class PropertyFeaturesDTO {
 	private int totalNumberOfRooms;
 	private int numberOfLevels;
 	private double lotDimensions;
-	private String yearOfConstruction;
+	private int yearOfConstruction;
 	private double livingSpaceArea;
 	private String backyardDirection;
 	private String description;
@@ -15,7 +15,7 @@ public class PropertyFeaturesDTO {
 	}
 
 	public PropertyFeaturesDTO(int numberOfBathrooms, int numberOfBedrooms, int totalNumberOfRooms, int numberOfLevels,
-			double lotDimension, String yearOfConstruction, double livingSpaceArea, String backyardDirection,
+			double lotDimension, int yearOfConstruction, double livingSpaceArea, String backyardDirection,
 			String description) {
 		setNumberOfBathrooms(numberOfBathrooms);
 		setNumberOfBedrooms(numberOfBedrooms);
@@ -68,11 +68,11 @@ public class PropertyFeaturesDTO {
 		this.lotDimensions = lotDimensions;
 	}
 
-	public String getYearOfConstruction() {
+	public int getYearOfConstruction() {
 		return yearOfConstruction;
 	}
 
-	public void setYearOfConstruction(String yearOfConstruction) {
+	public void setYearOfConstruction(int yearOfConstruction) {
 		this.yearOfConstruction = yearOfConstruction;
 	}
 

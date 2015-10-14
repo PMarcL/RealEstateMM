@@ -15,7 +15,8 @@ public class PropertyServiceAntiCorruptionTest {
 	private final String OWNER = "owner90";
 	private final int NUMBER_OF_BEDROOMS = 2;
 	private final int NUMBER_OF_BATHROOMS = 2;
-	private final int TOTAL_NUMBER_OF_ROOMS = 2;
+	private final int VALID_TOTAL_NUMBER_OF_ROOMS = 4;
+	private final int A_VALID_YEAR_OF_CONSTRUCTION = 1999;
 
 	private PropertyServiceAntiCorruption propertyAntiCorruption;
 	private PropertyServiceHandler service;
@@ -42,10 +43,12 @@ public class PropertyServiceAntiCorruptionTest {
 	private void featuresDTOReturnsValidInfos() {
 		given(featuresDTO.getNumberOfBedrooms()).willReturn(NUMBER_OF_BEDROOMS);
 		given(featuresDTO.getNumberOfBathrooms()).willReturn(NUMBER_OF_BATHROOMS);
-		given(featuresDTO.getTotalNumberOfRooms()).willReturn(TOTAL_NUMBER_OF_ROOMS);
+		given(featuresDTO.getTotalNumberOfRooms()).willReturn(VALID_TOTAL_NUMBER_OF_ROOMS);
+		given(featuresDTO.getYearOfConstruction()).willReturn(A_VALID_YEAR_OF_CONSTRUCTION);
 		given(validator.numberOfRoomsIsValid(NUMBER_OF_BATHROOMS)).willReturn(true);
 		given(validator.numberOfRoomsIsValid(NUMBER_OF_BEDROOMS)).willReturn(true);
-		given(validator.numberOfRoomsIsValid(TOTAL_NUMBER_OF_ROOMS)).willReturn(true);
+		given(validator.totalNumberOfRoomsIsValid(NUMBER_OF_BATHROOMS, NUMBER_OF_BEDROOMS, VALID_TOTAL_NUMBER_OF_ROOMS)).willReturn(true);
+		given(validator.yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION)).willReturn(true);
 	}
 
 	@Test
@@ -111,19 +114,25 @@ public class PropertyServiceAntiCorruptionTest {
 	@Test
 	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBedRoomsValidity() {
 		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
-		verify(validator, times(3)).numberOfRoomsIsValid(NUMBER_OF_BEDROOMS);
+		verify(validator, times(2)).numberOfRoomsIsValid(NUMBER_OF_BEDROOMS);
 	}
 
 	@Test
 	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBathRoomsValidity() {
 		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
-		verify(validator, times(3)).numberOfRoomsIsValid(NUMBER_OF_BATHROOMS);
+		verify(validator, times(2)).numberOfRoomsIsValid(NUMBER_OF_BATHROOMS);
 	}
 
 	@Test
 	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksTotalNumberOfRoomsValidity() {
 		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
-		verify(validator, times(3)).numberOfRoomsIsValid(TOTAL_NUMBER_OF_ROOMS);
+		verify(validator, times(1)).totalNumberOfRoomsIsValid(NUMBER_OF_BATHROOMS, NUMBER_OF_BEDROOMS, VALID_TOTAL_NUMBER_OF_ROOMS);
+	}
+	
+	@Test
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenCheckYearOfConstructionValidity(){
+		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+		verify(validator, times(1)).yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
@@ -133,13 +142,14 @@ public class PropertyServiceAntiCorruptionTest {
 	}
 
 	private void propertyDTOReturnsValidInfos() {
-		when(propertyDTO.getPropertyAddress()).thenReturn(addressInfos);
-		when(propertyDTO.getPropertyType()).thenReturn(TYPE);
-		when(propertyDTO.getPropertyStatus()).thenReturn(STATUS);
-		when(addressInfos.getZipCode()).thenReturn(ZIPCODE);
-		when(validator.zipCodeIsValid(ZIPCODE)).thenReturn(true);
-		when(validator.propertyTypeIsValid(TYPE)).thenReturn(true);
-		when(validator.propertyStatusIsValid(STATUS)).thenReturn(true);
+		given(propertyDTO.getPropertyAddress()).willReturn(addressInfos);
+		given(propertyDTO.getPropertyType()).willReturn(TYPE);
+		given(propertyDTO.getPropertyStatus()).willReturn(STATUS);
+		given(addressInfos.getZipCode()).willReturn(ZIPCODE);
+		given(validator.zipCodeIsValid(ZIPCODE)).willReturn(true);
+		given(validator.propertyTypeIsValid(TYPE)).willReturn(true);
+		given(validator.propertyStatusIsValid(STATUS)).willReturn(true);
+		given(validator.yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION)).willReturn(true);
 	}
 
 }
