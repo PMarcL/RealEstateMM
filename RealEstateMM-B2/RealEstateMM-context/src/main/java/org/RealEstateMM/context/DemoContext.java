@@ -36,8 +36,9 @@ public class DemoContext extends Context {
 
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
+		File xmlProperty = new File(propertiesFilePath());
 		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
-		this.propertyRepository = new InMemoryPropertyRepository();
+		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
 		this.mailSender = new GmailSender();
 	}

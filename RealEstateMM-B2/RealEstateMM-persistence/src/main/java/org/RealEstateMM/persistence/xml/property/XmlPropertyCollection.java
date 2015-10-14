@@ -23,7 +23,7 @@ public class XmlPropertyCollection {
 
 	private Optional<XmlProperty> find(String streetAddress, String cityAddress) {
 		for (XmlProperty property : properties) {
-			if ((property.getSteetAddress().equals(streetAddress) && property.getCityAddress().equals(cityAddress))) {
+			if ((property.getStreetAddress().equals(streetAddress) && property.getCityAddress().equals(cityAddress))) {
 				return Optional.of(property);
 			}
 		}

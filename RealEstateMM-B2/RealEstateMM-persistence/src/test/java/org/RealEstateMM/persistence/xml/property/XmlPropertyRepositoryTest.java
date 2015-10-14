@@ -3,11 +3,14 @@ package org.RealEstateMM.persistence.xml.property;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
+import org.RealEstateMM.domain.property.informations.PropertyStatus;
+import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.persistence.xml.property.XmlProperty;
