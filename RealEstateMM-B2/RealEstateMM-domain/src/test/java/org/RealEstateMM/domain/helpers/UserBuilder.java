@@ -6,8 +6,8 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 
 public class UserBuilder {
-	public static final String DEFAULT_PSEUDO = "JohnD90";
-	public static final String DEFAULT_EMAIL = "example@hotmail.com";
+	public static final String DEFAULT_PSEUDONYM = "JohnD90";
+	public static final String DEFAULT_EMAIL_ADDRESS = "example@hotmail.com";
 	public static final String DEFAULT_FIRST_NAME = "John";
 	public static final String DEFAULT_LAST_NAME = "Doe";
 	public static final String DEFAULT_PHONE_NUMBER = "(819) 418-5739";
@@ -16,18 +16,16 @@ public class UserBuilder {
 	public static final boolean DEFAULT_LOCK_STATE = true;
 
 	private User user;
-	private UserInformations userInfo;
+	private String pseudonym;
 
 	public UserBuilder() {
 		user = mock(User.class);
-		userInfo = new UserInformations(DEFAULT_PSEUDO, DEFAULT_PASSWORD, DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME,
-				DEFAULT_EMAIL, DEFAULT_PHONE_NUMBER);
 
-		withPseudonym(DEFAULT_PSEUDO);
+		pseudonym = DEFAULT_PSEUDONYM;
+
+		withPseudonym(DEFAULT_PSEUDONYM);
 		withUserType(DEFAULT_USER_TYPE_DESC);
 		withLockState(DEFAULT_LOCK_STATE);
-
-		given(user.getUserInformations()).willReturn(userInfo);
 	}
 
 	public UserBuilder withLockState(boolean lockState) {
@@ -36,6 +34,7 @@ public class UserBuilder {
 	}
 
 	public UserBuilder withPseudonym(String pseudonym) {
+		this.pseudonym = pseudonym;
 		given(user.getPseudonym()).willReturn(pseudonym);
 		return this;
 	}
@@ -46,6 +45,10 @@ public class UserBuilder {
 	}
 
 	public User build() {
+		UserInformations userInfos = new UserInformations(pseudonym, DEFAULT_PASSWORD, DEFAULT_FIRST_NAME,
+				DEFAULT_LAST_NAME, DEFAULT_EMAIL_ADDRESS, DEFAULT_PHONE_NUMBER);
+		given(user.getUserInformations()).willReturn(userInfos);
+
 		return user;
 	}
 }

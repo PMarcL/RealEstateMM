@@ -1,14 +1,16 @@
 package org.RealEstateMM.emailsender.email;
 
-public class EmailAddressConfirmationMessageGenerator {
+import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCode;
+
+public class EmailMessageFactory {
 	private final String BASE_URL;
 
-	public EmailAddressConfirmationMessageGenerator(String baseUrl) {
+	public EmailMessageFactory(String baseUrl) {
 		BASE_URL = baseUrl;
 	}
 
 	public EmailAddressConfirmationMessage createEmailAddressConfirmationMessage(String recipientEmailAddress,
-			String confirmationCode) {
+			ConfirmationCode confirmationCode) {
 		return new EmailAddressConfirmationMessage(recipientEmailAddress, confirmationCode, BASE_URL);
 	}
 
