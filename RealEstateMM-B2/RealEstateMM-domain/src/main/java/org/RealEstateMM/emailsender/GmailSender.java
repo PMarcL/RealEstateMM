@@ -13,7 +13,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.RealEstateMM.emailsender.email.Email;
+import org.RealEstateMM.emailsender.email.EmailMessage;
 
 import com.sun.mail.smtp.SMTPTransport;
 
@@ -23,7 +23,7 @@ public class GmailSender implements EmailSender {
 	private static final String PASSWORD = "awesometeam2";
 	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
-	public void sendEmail(Email email) throws CouldNotSendMailException {
+	public void sendEmail(EmailMessage email) throws CouldNotSendMailException {
 		Session session = createMailSession();
 
 		try {
@@ -43,7 +43,7 @@ public class GmailSender implements EmailSender {
 		t.close();
 	}
 
-	private MimeMessage setMessageContent(Email email, Session session) throws MessagingException, AddressException {
+	private MimeMessage setMessageContent(EmailMessage email, Session session) throws MessagingException, AddressException {
 		MimeMessage message = new MimeMessage(session);
 
 		message.setFrom(new InternetAddress(USERNAME + "@gmail.com"));

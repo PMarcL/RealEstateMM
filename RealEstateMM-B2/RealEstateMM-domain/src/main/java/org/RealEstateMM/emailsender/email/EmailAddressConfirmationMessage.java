@@ -1,11 +1,11 @@
 package org.RealEstateMM.emailsender.email;
 
-public class EmailAddressConfirmationEmail extends Email {
+public class EmailAddressConfirmationMessage extends EmailMessage {
 
 	private static final String SUBJECT = "House match email confirmation";
 	private static final String RESOURCE_PATH = "user/emailConfirmation/";
 
-	public EmailAddressConfirmationEmail(String recipientEmailAddress, String confirmationCode, String baseUrl) {
+	public EmailAddressConfirmationMessage(String recipientEmailAddress, String confirmationCode, String baseUrl) {
 		super(recipientEmailAddress, SUBJECT, createBody(confirmationCode, baseUrl));
 	}
 

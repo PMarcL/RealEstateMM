@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddressException;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
-import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
+import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.CouldNotSendMailException;
@@ -20,9 +20,9 @@ public class UserService {
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
-	private EmailConfirmer emailAddressConfirmer;
+	private UserEmailAddressValidator emailAddressConfirmer;
 
-	public UserService(UserRepository userRepository, UserAssembler accountAssembler, EmailConfirmer emailConfirmer) {
+	public UserService(UserRepository userRepository, UserAssembler accountAssembler, UserEmailAddressValidator emailConfirmer) {
 		this.userRepository = userRepository;
 		this.userAssembler = accountAssembler;
 		this.emailAddressConfirmer = emailConfirmer;
@@ -31,13 +31,13 @@ public class UserService {
 	public UserService() {
 		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
 		userAssembler = new UserAssembler();
-		emailAddressConfirmer = ServiceLocator.getInstance().getService(EmailConfirmer.class);
+		emailAddressConfirmer = ServiceLocator.getInstance().getService(UserEmailAddressValidator.class);
 	}
 
 	public void create(UserDTO userDTO) throws CouldNotSendMailException {
 		User newUser = userAssembler.fromDTO(userDTO);
 		userRepository.persistUser(newUser);
-		emailAddressConfirmer.sendEmailConfirmation(newUser);
+		emailAddressConfirmer.sendEmailConfirmationMessage(newUser);
 	}
 
 	public UserDTO authenticate(String pseudonym, String password)

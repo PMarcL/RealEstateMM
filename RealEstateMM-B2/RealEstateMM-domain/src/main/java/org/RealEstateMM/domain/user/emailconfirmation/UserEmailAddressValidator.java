@@ -5,33 +5,37 @@ import java.util.Optional;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.EmailSender;
-import org.RealEstateMM.emailsender.email.Email;
-import org.RealEstateMM.emailsender.email.EmailFactory;
+import org.RealEstateMM.emailsender.email.EmailMessage;
+import org.RealEstateMM.emailsender.email.EmailAddressConfirmationMessageGenerator;
 import org.RealEstateMM.encoder.Encoder;
 
-public class EmailConfirmer {
+public class UserEmailAddressValidator {
 
 	public static final String SEPARATOR = "WITH";
 
 	private UserRepository userRepository;
 	private EmailSender mailSender;
 	private Encoder encoder;
-	private EmailFactory emailFactory;
+	private EmailAddressConfirmationMessageGenerator messageGenerator;
 
-	public EmailConfirmer(UserRepository userRepo, EmailSender mailSender, Encoder emailConfirmationEncoder,
-			EmailFactory emailFactory) {
+	public UserEmailAddressValidator(UserRepository userRepo, EmailSender mailSender, Encoder encoder,
+			EmailAddressConfirmationMessageGenerator messageGenerator) {
 		this.userRepository = userRepo;
 		this.mailSender = mailSender;
-		this.encoder = emailConfirmationEncoder;
-		this.emailFactory = emailFactory;
+		this.encoder = encoder;
+		this.messageGenerator = messageGenerator;
 	}
 
-	public void sendEmailConfirmation(User user) {
+	public void sendEmailConfirmationMessage(User user) {
 		String infoToEncode = buildSecretToEncodeInConfirmationCode(user);
 		String confirmationCode = encoder.encode(infoToEncode);
-		String recipientEmailAddress = user.getEmailAddress();
-		Email email = emailFactory.createEmailAddressConfirmationEmail(recipientEmailAddress, confirmationCode);
+		EmailMessage email = messageGenerator.createEmailAddressConfirmationMessage(user.getEmailAddress(),
+				confirmationCode);
 		mailSender.sendEmail(email);
+	}
+
+	private String buildSecretToEncodeInConfirmationCode(User user) {
+		return user.getPseudonym() + SEPARATOR + user.getEmailAddress();
 	}
 
 	public void confirmEmailAddress(String confirmationCode) {
@@ -48,10 +52,6 @@ public class EmailConfirmer {
 				userRepository.persistUser(user);
 			}
 		}
-	}
-
-	private String buildSecretToEncodeInConfirmationCode(User user) {
-		return user.getPseudonym() + SEPARATOR + user.getEmailAddress();
 	}
 
 	private String extractPseudonymFrom(String confirmationCode) {

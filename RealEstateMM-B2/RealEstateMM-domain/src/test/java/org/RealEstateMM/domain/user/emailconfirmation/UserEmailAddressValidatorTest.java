@@ -7,52 +7,52 @@ import java.util.Optional;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.EmailSender;
-import org.RealEstateMM.emailsender.email.EmailAddressConfirmationEmail;
-import org.RealEstateMM.emailsender.email.EmailFactory;
+import org.RealEstateMM.emailsender.email.EmailAddressConfirmationMessage;
+import org.RealEstateMM.emailsender.email.EmailAddressConfirmationMessageGenerator;
 import org.RealEstateMM.encoder.Encoder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-public class EmailConfirmerTest {
+public class UserEmailAddressValidatorTest {
 
 	private static final String A_PSEUDO = "Josh120";
 	private static final String AN_EMAIL_ADDRESS = "someEmailAddress@machin.com";
-	private static final String A_SECRET = A_PSEUDO + EmailConfirmer.SEPARATOR + AN_EMAIL_ADDRESS;
+	private static final String A_SECRET = A_PSEUDO + UserEmailAddressValidator.SEPARATOR + AN_EMAIL_ADDRESS;
 	private static final String A_VALID_CONFIRMATION_CODE = "aConfirmationCode";
 	private static final String A_CODE_WITH_UNEXISTING_USER = "someInvalidConfirmationCode";
 
 	private UserRepository userRepository;
 	private EmailSender mailSender;
 	private Encoder encoder;
-	private EmailFactory emailFactory;
+	private EmailAddressConfirmationMessageGenerator emailFactory;
 	private User user;
 
-	private EmailConfirmer emailAddressConfirmer;
+	private UserEmailAddressValidator emailAddressConfirmer;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		userRepository = mock(UserRepository.class);
 		mailSender = mock(EmailSender.class);
 		encoder = mock(Encoder.class);
-		emailFactory = mock(EmailFactory.class);
+		emailFactory = mock(EmailAddressConfirmationMessageGenerator.class);
 		user = mock(User.class);
 
 		given(user.getEmailAddress()).willReturn(AN_EMAIL_ADDRESS);
 		given(user.getPseudonym()).willReturn(A_PSEUDO);
 
-		emailAddressConfirmer = new EmailConfirmer(userRepository, mailSender, encoder, emailFactory);
+		emailAddressConfirmer = new UserEmailAddressValidator(userRepository, mailSender, encoder, emailFactory);
 	}
 
 	@Test
 	public void givenAUserWhenSendEmailConfirmationThenSendTheConfirmationMail() {
-		EmailAddressConfirmationEmail email = new EmailAddressConfirmationEmail(AN_EMAIL_ADDRESS,
+		EmailAddressConfirmationMessage email = new EmailAddressConfirmationMessage(AN_EMAIL_ADDRESS,
 				A_VALID_CONFIRMATION_CODE, null);
 		given(encoder.encode(A_SECRET)).willReturn(A_VALID_CONFIRMATION_CODE);
-		given(emailFactory.createEmailAddressConfirmationEmail(AN_EMAIL_ADDRESS, A_VALID_CONFIRMATION_CODE))
+		given(emailFactory.createEmailAddressConfirmationMessage(AN_EMAIL_ADDRESS, A_VALID_CONFIRMATION_CODE))
 				.willReturn(email);
 
-		emailAddressConfirmer.sendEmailConfirmation(user);
+		emailAddressConfirmer.sendEmailConfirmationMessage(user);
 
 		verify(mailSender).sendEmail(email);
 	}

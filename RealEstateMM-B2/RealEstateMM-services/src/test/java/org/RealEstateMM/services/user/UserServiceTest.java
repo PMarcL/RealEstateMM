@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddressException;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
-import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
+import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
@@ -30,7 +30,7 @@ public class UserServiceTest {
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
-	private EmailConfirmer emailConfirmer;
+	private UserEmailAddressValidator emailConfirmer;
 
 	private UserService userService;
 
@@ -38,7 +38,7 @@ public class UserServiceTest {
 	public void setup() throws Exception {
 		userRepository = mock(UserRepository.class);
 		userAssembler = mock(UserAssembler.class);
-		emailConfirmer = mock(EmailConfirmer.class);
+		emailConfirmer = mock(UserEmailAddressValidator.class);
 
 		given(userAssembler.fromDTO(A_USER_DTO)).willReturn(A_USER);
 
@@ -54,7 +54,7 @@ public class UserServiceTest {
 	@Test
 	public void whenCreateUserThenSendEmailConfirmationWithCreatedUserEmailConfirmationCode() {
 		userService.create(A_USER_DTO);
-		verify(emailConfirmer, times(1)).sendEmailConfirmation(A_USER);
+		verify(emailConfirmer, times(1)).sendEmailConfirmationMessage(A_USER);
 	}
 
 	@Test

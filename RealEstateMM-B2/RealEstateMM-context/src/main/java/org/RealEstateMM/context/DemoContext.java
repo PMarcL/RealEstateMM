@@ -7,11 +7,11 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserType;
-import org.RealEstateMM.domain.user.emailconfirmation.EmailConfirmer;
+import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.EmailSender;
 import org.RealEstateMM.emailsender.GmailSender;
-import org.RealEstateMM.emailsender.email.EmailFactory;
+import org.RealEstateMM.emailsender.email.EmailAddressConfirmationMessageGenerator;
 import org.RealEstateMM.encoder.Base64Encoder;
 import org.RealEstateMM.encoder.Encoder;
 import org.RealEstateMM.persistence.InMemoryPropertyRepository;
@@ -30,7 +30,7 @@ public class DemoContext extends Context {
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
 
-	private EmailConfirmer emailConfirmer;
+	private UserEmailAddressValidator emailConfirmer;
 
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
@@ -47,7 +47,7 @@ public class DemoContext extends Context {
 	private void initializeMisc(UserRepository userRepository) {
 		EmailSender emailSender = new GmailSender();
 		Encoder encoder = new Base64Encoder();
-		emailConfirmer = new EmailConfirmer(userRepository, emailSender, encoder, new EmailFactory(BASE_URL));
+		emailConfirmer = new UserEmailAddressValidator(userRepository, emailSender, encoder, new EmailAddressConfirmationMessageGenerator(BASE_URL));
 	}
 
 	private String usersFilePath() {
@@ -67,7 +67,7 @@ public class DemoContext extends Context {
 	}
 
 	private void registerMisc() {
-		ServiceLocator.getInstance().registerService(EmailConfirmer.class, emailConfirmer);
+		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, emailConfirmer);
 	}
 
 	@Override

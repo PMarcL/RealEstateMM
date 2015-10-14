@@ -1,9 +1,9 @@
 package org.RealEstateMM.emailsender;
 
-import org.RealEstateMM.emailsender.email.Email;
+import org.RealEstateMM.emailsender.email.EmailMessage;
 
 public interface EmailSender {
 
-	public void sendEmail(Email email);
+	public void sendEmail(EmailMessage email);
 
 }
