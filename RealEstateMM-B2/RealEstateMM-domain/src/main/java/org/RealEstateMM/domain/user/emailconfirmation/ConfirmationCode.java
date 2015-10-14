@@ -3,29 +3,49 @@ package org.RealEstateMM.domain.user.emailconfirmation;
 import org.RealEstateMM.encoder.Encoder;
 
 public class ConfirmationCode {
+	private final String SEPARATOR = ";";
+
+	private String pseudonym;
+	private String emailAddress;
+	private String confirmationCodeValue;
 
 	public ConfirmationCode(Encoder encoder, String pseudonym, String emailAddress) {
-		// TODO Auto-generated constructor stub
+		this.pseudonym = pseudonym;
+		this.emailAddress = emailAddress;
+		this.confirmationCodeValue = encoder.encode(assembleStringToEncode());
 	}
 
 	public ConfirmationCode(Encoder encoder, String confirmationCodeValue) {
-		// TODO Auto-generated constructor stub
+		this.confirmationCodeValue = confirmationCodeValue;
+		decodeConfirmationCodeValue(encoder, confirmationCodeValue);
+	}
+
+	private void decodeConfirmationCodeValue(Encoder encoder, String confirmationCodeValue) {
+		String decodedCode = encoder.decode(confirmationCodeValue);
+		String[] codeParts = decodedCode.split(SEPARATOR);
+		if (codeParts.length != 2) {
+			throw new InvalidEmailConfirmationCodeException();
+		}
+
+		this.pseudonym = codeParts[0];
+		this.emailAddress = codeParts[1];
+	}
+
+	private String assembleStringToEncode() {
+		return pseudonym + SEPARATOR + emailAddress;
 	}
 
 	public String getPseudonym() {
-		// TODO Auto-generated method stub
-		return null;
+		return pseudonym;
 	}
 
 	public String getEmailAddress() {
-		// TODO Auto-generated method stub
-		return null;
+		return emailAddress;
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return confirmationCodeValue;
 	}
 
 }
