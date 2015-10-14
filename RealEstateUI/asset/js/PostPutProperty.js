@@ -1,5 +1,8 @@
 var loginCookie = new LoginCookie();
 
+var propertyAddress;
+var propertyDetails;
+
 var Property = Backbone.Model.extend({
     url: 'http://localhost:8080/property'
 })
@@ -12,7 +15,31 @@ var EditPropertyView = Backbone.View.extend({
     },
 
     editProperty: function(){
-        console.log("hello");
+        propertyDetails.propertyFeatures = {
+            "numberOfBathrooms" : $('#bathrooms').val(),
+            "numberOfBedrooms" : $('#bedrooms').val(),
+            "totalNumberOfRooms" : $('#totalNumberRooms').val(),
+            "numberOfLevels" : $('#levels').val(),
+            "lotDimensions" : $('#lotDimensions').val(),
+            "yearOfConstruction": $('#yearOfConstruction').val(),
+            "livingSpaceArea": $('#livingSpaceArea').val(),
+            "backyardDirection": $('#backyardFaces').val(),
+            "description" : $('#description').val()
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/property",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(propertyDetails),
+            dataType: "json",
+            success: function () {
+                window.location.href = 'index.html';
+            },
+            error: function (httpRequest, textStatus, errorThrown) {
+                console.log("put error");
+            }
+        });
     },
 
     render: function() {
@@ -34,13 +61,13 @@ var NewPropertyView = Backbone.View.extend({
             $('form .card').html("You must fill all fields");
         }
         else {
-            var propertyAddress = {
+            propertyAddress = {
                 "streetAddress": $('#streetAddress').val(),
                 "city": $('#city').val(),
                 "province": $('#province').val(),
                 "zipCode": $('#zipCode').val()
             };
-            var propertyDetails = {
+            propertyDetails = {
                 "propertyType": $('#propertyType').val(),
                 "propertyAddress": propertyAddress,
                 "propertyPrice": $('#price').val(),
@@ -73,8 +100,8 @@ var Router = Backbone.Router.extend({
    }
 });
 
-var newPropertyView = new NewPropertyView({el:$("#new_property_container")});
-var editPropertyView = new EditPropertyView({el:$("#edit_property_container")});
+var newPropertyView = new NewPropertyView({el:$("#property_container")});
+var editPropertyView = new EditPropertyView({el:$("#property_container")});
 var router = new Router;
 
 router.on('route:home', function(){
@@ -83,62 +110,6 @@ router.on('route:home', function(){
 
 router.on('route:edit', function(){
     editPropertyView.render();
-})
+});
 
 Backbone.history.start();
-
-
-
-
-
-
-
-
-
-function postNewProperty() {
-    if(isAFieldEmpty())
-    {
-        $('form .card').attr('style','display:block');
-        $('form .card').html("You must fill all fields");
-    }
-    else
-    {
-        ajaxPostProperty();
-        $('form .card').attr('style','display:none');
-    }
-}
-
-function ajaxPostProperty()
-{
-    var propertyAddress = {
-        "streetAddress": $('#streetAddress').val(),
-        "city": $('#city').val(),
-        "province": $('#province').val(),
-        "zipCode": $('#zipCode').val()
-    };
-    var formData = JSON.stringify({
-        "propertyType": $('#propertyType').val(),
-        "propertyAddress": propertyAddress,
-        "propertyPrice": $('#price').val(),
-        "propertyOwner": loginCookie.cookie(),
-        "propertyStatus": "on sale",
-        "propertyFeatures" : null
-    });
-
-    $.ajax({
-        url: "http://localhost:8080/property",
-        type: "POST",
-        contentType: "application/json",
-        data: formData,
-        dataType: "json",
-        success: function () {
-            var editView = new EditView({el:$("#edit_property_container")});
-            var property = new Property({id: propertyAddress});
-            editView.initialize();
-        },
-        error: function (httpRequest, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-    });
-}
-

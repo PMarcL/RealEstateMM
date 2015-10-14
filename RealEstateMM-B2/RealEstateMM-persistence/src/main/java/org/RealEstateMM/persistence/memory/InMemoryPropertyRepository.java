@@ -1,8 +1,6 @@
 package org.RealEstateMM.persistence.memory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
@@ -11,41 +9,54 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 
 public class InMemoryPropertyRepository implements PropertyRepository {
 
-	private Map<PropertyAddress, Property> properties;
+	private ArrayList<Property> properties;
 
 	public InMemoryPropertyRepository() {
-		properties = new HashMap<PropertyAddress, Property>();
+		properties = new ArrayList<Property>();
 	}
 
 	@Override
 	public void add(Property property) {
-		properties.put(property.getAddress(), property);
+		properties.add(property);
 	}
 
 	public int getSize() {
 		return properties.size();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Property> getAllProperties() {
-		return new ArrayList<Property>(properties.values());
+		return (ArrayList<Property>) properties.clone();
 	}
 
 	@Override
 	public Optional<Property> getPropertyAtAddress(PropertyAddress address) {
-		Property property = properties.get(address);
-		return Optional.of(property);
+		Optional<Property> property = Optional.empty();
+		for (Property p : properties) {
+			if (p.getAddress().isEquals(address)) {
+				property = Optional.of(p);
+				break;
+			}
+		}
+		return property;
 	}
 
 	@Override
 	public void updateProperty(Property property) {
-		properties.put(property.getAddress(), property);
+		for (Property p : properties) {
+			if (p.getAddress().isEquals(property.getAddress())) {
+				properties.remove(p);
+				break;
+			}
+		}
+		properties.add(property);
 	}
 
 	@Override
 	public ArrayList<Property> getPropertiesFromOwner(String owner) {
 		ArrayList<Property> propertiesFromOwner = new ArrayList<Property>();
-		for (Property property : properties.values()) {
+		for (Property property : properties) {
 			if (property.isOwnedBy(owner)) {
 				propertiesFromOwner.add(property);
 			}

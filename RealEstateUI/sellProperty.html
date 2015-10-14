@@ -15,11 +15,10 @@
 
 <header></header>
 
-<div id="new_property_container" class="form"></div>
-<div id="edit_property_container" class="form"></div>
+<div id="property_container" class="form"></div>
 
 <script type="text/template" id="edit_property">
-    <h4>Property Features</h4>
+    <h4 style="margin:0;">Property Features</h4>
     <form>
         <div class="input-field">
             <input id="bathrooms" type="text" class="validate">
@@ -72,7 +71,7 @@
         </div>
 
         <div class="card red darken-2">You must fill all fields</div>
-        <div class="confirm-sale"><a class="waves-effect waves-light btn editProperty" >Confirm</a></div>
+        <div class="confirm-sale"><a class="waves-effect waves-light btn editProperty" >Save features</a></div>
     </form>
 </script>
 
@@ -116,7 +115,7 @@
             </div>
 
             <div class="card red darken-2">You must fill all fields</div>
-            <div class="confirm-sale"><a class="waves-effect waves-light btn addProperty" >Confirm</a></div>
+            <div class="confirm-sale"><a class="waves-effect waves-light btn addProperty" >Add property</a></div>
         </form>
     </div>
 </script>
@@ -125,7 +124,7 @@
 <script src="materialize/materialize.js"></script>
 <script src="asset/js/FormValidator.js"></script>
 <script src="asset/js/LoginCookie.js"></script>
-<script src="asset/js/PostNewProperty.js"></script>
+<script src="asset/js/PostPutProperty.js"></script>
 <script src="asset/js/LoadMainMenu.js"></script>
 </body>
 </html>

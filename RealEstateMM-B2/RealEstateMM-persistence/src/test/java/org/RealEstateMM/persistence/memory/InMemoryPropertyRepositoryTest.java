@@ -27,6 +27,7 @@ public class InMemoryPropertyRepositoryTest {
 		repository = new InMemoryPropertyRepository();
 
 		given(property.getAddress()).willReturn(address);
+		given(address.isEquals(address)).willReturn(true);
 	}
 
 	@Test
