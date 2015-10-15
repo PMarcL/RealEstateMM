@@ -15,3 +15,12 @@ Fait par:
 * Alexandre Gagnon
 * Guillaume Lambert (111 040 923)
 * Léandre Noël
+
+
+
+
+
+Pour écrire du css dans le projet:
+1. Installer Sass
+2. Aller au path de base du projet client dans le terminal (../RealEstateUI)
+3. Lancer la commande sass -w asset/scss:asset/css
