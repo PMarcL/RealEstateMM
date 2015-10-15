@@ -2,7 +2,7 @@ $(document).ready(getProperties());
 
 function getProperties() {
     $.ajax({
-        url: "http://localhost:8080/property",
+        url: "http://localhost:8080/property/" + new LoginCookie().cookie(),
         type: "GET",
         contentType: "application/json",
 
@@ -15,7 +15,6 @@ function getProperties() {
         }
     });
 }
-
 
 function createHtmlPropertyList(propertiesJSON) {
     var buffer = "";
@@ -30,6 +29,6 @@ function createHtmlPropertyList(propertiesJSON) {
             + "<div class='status'>" + this.propertyStatus + "</div>"
             + "<div class='owner'>" + this.propertyOwner + "</div>"
             + "<li>";
-        $('#propertylist').html(buffer);
+        $('#properties-container').html(buffer);
     });
 }

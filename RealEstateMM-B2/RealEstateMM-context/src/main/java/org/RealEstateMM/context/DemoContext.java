@@ -8,7 +8,6 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserType;
 import org.RealEstateMM.domain.user.repository.UserRepository;
-import org.RealEstateMM.persistence.memory.InMemoryPropertyRepository;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.servicelocator.ServiceLocator;
