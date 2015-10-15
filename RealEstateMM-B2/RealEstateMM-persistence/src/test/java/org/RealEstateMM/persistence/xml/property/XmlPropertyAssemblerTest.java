@@ -41,7 +41,7 @@ public class XmlPropertyAssemblerTest {
 		assertEquals(A_PRICE, Double.parseDouble(result.getPrice()), DELTA);
 		assertEquals(A_OWNER_NAME, result.getOwnerUserName());
 		assertEquals(A_STATUS, PropertyStatus.getStatusFromString(result.getStatus()));
-		assertEquals(A_STREETADDRESS, result.getSteetAddress());
+		assertEquals(A_STREETADDRESS, result.getStreetAddress());
 		assertEquals(A_CITY, result.getCityAddress());
 		assertEquals(A_PROVINCE, result.getProvinceAddress());
 		assertEquals(A_ZIPCODE, result.getZipCodeAddress());

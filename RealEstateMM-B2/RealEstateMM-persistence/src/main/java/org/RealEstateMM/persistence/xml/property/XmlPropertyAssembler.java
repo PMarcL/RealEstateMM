@@ -24,7 +24,7 @@ public class XmlPropertyAssembler {
 	}
 
 	public Property toProperty(XmlProperty xmlProperty) {
-		PropertyAddress propertyAddress = new PropertyAddress(xmlProperty.getSteetAddress(),
+		PropertyAddress propertyAddress = new PropertyAddress(xmlProperty.getStreetAddress(),
 				xmlProperty.getCityAddress(), xmlProperty.getProvinceAddress(), xmlProperty.getZipCodeAddress());
 		PropertyType type = PropertyType.getTypeFromString(xmlProperty.getType());
 		PropertyStatus status = PropertyStatus.getStatusFromString(xmlProperty.getStatus());

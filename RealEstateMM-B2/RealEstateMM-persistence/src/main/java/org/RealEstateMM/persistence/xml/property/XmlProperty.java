@@ -52,7 +52,7 @@ public class XmlProperty {
 		this.status = status;
 	}
 
-	public String getSteetAddress() {
+	public String getStreetAddress() {
 		return streetAddress;
 	}
 
