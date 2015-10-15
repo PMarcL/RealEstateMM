@@ -28,6 +28,7 @@ function createHtmlPropertyList(propertiesJSON) {
             + "<div class='zipCode'>" + this.propertyAddress.zipCode + "</div>"
             + "<div class='status'>" + this.propertyStatus + "</div>"
             + "<div class='owner'>" + this.propertyOwner + "</div>"
+            + "<div class='confirm-sale'><a class='waves-effect waves-light btn editProperty' >Edit property</a></div>"
             + "<li>";
         $('#properties-container').html(buffer);
     });
