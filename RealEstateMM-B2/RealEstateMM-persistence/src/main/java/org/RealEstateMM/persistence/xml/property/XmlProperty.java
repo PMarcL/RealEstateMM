@@ -15,6 +15,15 @@ public class XmlProperty {
 	private String cityAddress;
 	private String provinceAddress;
 	private String zipCodeAddress;
+	
+	private String numberOfBathrooms;
+	private String numberOfBedrooms;
+	private String totalNumberOfRooms;
+	private String numberOfLevel;
+	private String lotDimension;
+	private String yearOfConstruction;
+	private String livingSpaceArea;
+	private String backyardDirection;
 
 	public String getType() {
 		return type;
@@ -88,4 +97,75 @@ public class XmlProperty {
 		this.zipCodeAddress = zipCodeAddress;
 	}
 
+	public String getNumberOfBathrooms() {
+		return numberOfBathrooms;
+	}
+
+	@XmlElement(name = "numberOfBathrooms")
+	public void setNumberOfBathrooms(String numberOfBathrooms) {
+		this.numberOfBathrooms = numberOfBathrooms;
+	}
+
+	public String getNumberOfBedrooms() {
+		return numberOfBedrooms;
+	}
+
+	@XmlElement(name = "numberOfBedrooms")
+	public void setNumberOfBedrooms(String numberOfBedrooms) {
+		this.numberOfBedrooms = numberOfBedrooms;
+	}
+
+	public String getTotalNumberOfRooms() {
+		return totalNumberOfRooms;
+	}
+
+	@XmlElement(name = "totalNumberOfRooms")
+	public void setTotalNumberOfRooms(String totalNumberOfRooms) {
+		this.totalNumberOfRooms = totalNumberOfRooms;
+	}
+
+	public String getNumberOfLevel() {
+		return numberOfLevel;
+	}
+
+	@XmlElement(name = "numberOfLevel")
+	public void setNumberOfLevel(String numberOfLevel) {
+		this.numberOfLevel = numberOfLevel;
+	}
+
+	public String getLotDimension() {
+		return lotDimension;
+	}
+
+	@XmlElement(name = "lotDimension")
+	public void setLotDimension(String lotDimension) {
+		this.lotDimension = lotDimension;
+	}
+
+	public String getYearOfConstruction() {
+		return yearOfConstruction;
+	}
+
+	@XmlElement(name = "yearOfConstruction")
+	public void setYearOfConstruction(String yearOfConstruction) {
+		this.yearOfConstruction = yearOfConstruction;
+	}
+
+	public String getLivingSpaceArea() {
+		return livingSpaceArea;
+	}
+
+	@XmlElement(name = "livingSpaceArea")
+	public void setLivingSpaceArea(String livingSpaceArea) {
+		this.livingSpaceArea = livingSpaceArea;
+	}
+
+	public String getBackyardDirection() {
+		return backyardDirection;
+	}
+
+	@XmlElement(name = "backyardDirection")
+	public void setBackyardDirection(String backyardDirection) {
+		this.backyardDirection = backyardDirection;
+	}
 }

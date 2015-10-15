@@ -26,10 +26,10 @@ public class MailConfirmationService {
 	}
 
 	public void sendEmailConfirmation(User user) {
-		String confirmationCode = emailConfirmationEncoder.getConfirmationCode(user);
-		String recipientEmailAddress = user.getEmailAddress();
-		Email email = emailFactory.createEmailAddressConfirmationEmail(recipientEmailAddress, confirmationCode);
-		mailSender.sendEmail(email);
+//		String confirmationCode = emailConfirmationEncoder.getConfirmationCode(user);
+//		String recipientEmailAddress = user.getEmailAddress();
+//		Email email = emailFactory.createEmailAddressConfirmationEmail(recipientEmailAddress, confirmationCode);
+//		mailSender.sendEmail(email);
 	}
 
 }

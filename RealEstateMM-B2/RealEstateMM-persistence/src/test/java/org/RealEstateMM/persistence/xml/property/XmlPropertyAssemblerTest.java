@@ -13,15 +13,24 @@ import org.junit.Test;
 
 public class XmlPropertyAssemblerTest {
 
-	private final PropertyType A_TYPE = PropertyType.HOUSE;
-	private final Double A_PRICE = 200000.0;
-	private final Double DELTA = 0.001;
-	private final String A_OWNER_NAME = "Joe";
-	private final PropertyStatus A_STATUS = PropertyStatus.ONSALE;
-	private final String A_STREETADDRESS = "123, FakeStreet";
-	private final String A_CITY = "Gotham";
-	private final String A_PROVINCE = "Quebec";
-	private final String A_ZIPCODE = "G6V0A9";
+	private static final int A_NUMBER_OF_ROOMS = 2;
+	private static final int A_NUMBER_OF_DEBROOMS = 3;
+	private static final int A_TOTAL_NUMBER_OF_ROOMS = 7;
+	private static final int A_NUMBER_OF_LEVEL = 2;
+	private static final double A_LOT_DIMENSION = 2000.00;
+	private static final int A_YEAR_OF_CONSTRUCTION = 2000;
+	private static final double A_LIVING_SPACE_AREA = 1000.00;
+	private static final String A_BACKYARD_DIRECTION = "WEST";
+	
+	private static final PropertyType A_TYPE = PropertyType.HOUSE;
+	private static final Double A_PRICE = 200000.0;
+	private static final Double DELTA = 0.001;
+	private static final String A_OWNER_NAME = "Joe";
+	private static final PropertyStatus A_STATUS = PropertyStatus.ONSALE;
+	private static final String A_STREETADDRESS = "123, FakeStreet";
+	private static final String A_CITY = "Gotham";
+	private static final String A_PROVINCE = "Quebec";
+	private static final String A_ZIPCODE = "G6V0A9";
 
 	private XmlPropertyAssembler assembler;
 	private XmlProperty xmlProperty;
@@ -78,5 +87,14 @@ public class XmlPropertyAssemblerTest {
 		xmlProperty.setCityAddress(A_CITY);
 		xmlProperty.setProvinceAddress(A_PROVINCE);
 		xmlProperty.setZipCodeAddress(A_ZIPCODE);
+		
+		xmlProperty.setNumberOfBathrooms(Integer.toString(A_NUMBER_OF_ROOMS));
+		xmlProperty.setNumberOfBedrooms(Integer.toString(A_NUMBER_OF_DEBROOMS));
+		xmlProperty.setTotalNumberOfRooms(Integer.toString(A_TOTAL_NUMBER_OF_ROOMS));
+		xmlProperty.setNumberOfLevel(Integer.toString(A_NUMBER_OF_LEVEL));
+		xmlProperty.setLotDimension(Double.toString(A_LOT_DIMENSION));
+		xmlProperty.setYearOfConstruction(Integer.toString(A_YEAR_OF_CONSTRUCTION));
+		xmlProperty.setLivingSpaceArea(Double.toString(A_LIVING_SPACE_AREA));
+		xmlProperty.setBackyardDirection(A_BACKYARD_DIRECTION);
 	}
 }

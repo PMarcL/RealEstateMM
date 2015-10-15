@@ -63,7 +63,6 @@ public class XmlPropertyRepository implements PropertyRepository {
 
 	@Override
 	public void updateProperty(Property property) {
-		// TODO test this method
 		propertyCache.removePropertyAtAddress(property.getAddress().streetAddress, property.getAddress().city);
 		XmlProperty xmlProperty = propertyAssembler.fromProperty(property);
 		propertyCache.add(xmlProperty);
