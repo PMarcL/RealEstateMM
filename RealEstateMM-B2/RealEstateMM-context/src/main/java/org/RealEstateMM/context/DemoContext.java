@@ -7,13 +7,13 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserType;
+import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.EmailSender;
 import org.RealEstateMM.emailsender.GmailSender;
 import org.RealEstateMM.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.encoder.Base64Encoder;
-import org.RealEstateMM.encoder.Encoder;
 import org.RealEstateMM.persistence.InMemoryPropertyRepository;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
@@ -27,27 +27,10 @@ public class DemoContext extends Context {
 	private static final String BASE_URL = "http://localhost:8080/";
 
 	private UserRepository userRepository;
-	private PropertyRepository propertyRepository;
-	private SessionRepository sessionRepository;
-
-	private UserEmailAddressValidator emailConfirmer;
 
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
-		initializeRepositories(xmlUsers);
-		initializeMisc(userRepository);
-	}
-
-	private void initializeRepositories(File xmlUsers) {
 		userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
-		propertyRepository = new InMemoryPropertyRepository();
-		sessionRepository = new InMemorySessionRepository();
-	}
-
-	private void initializeMisc(UserRepository userRepository) {
-		EmailSender emailSender = new GmailSender();
-		Encoder encoder = new Base64Encoder();
-		emailConfirmer = new UserEmailAddressValidator(userRepository, emailSender, encoder, new EmailMessageFactory(BASE_URL));
 	}
 
 	private String usersFilePath() {
@@ -57,17 +40,23 @@ public class DemoContext extends Context {
 	@Override
 	protected void registerServices() {
 		registerRepositories();
-		registerMisc();
+		registerUserEmailValidator();
 	}
 
 	private void registerRepositories() {
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
-		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
-		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
+		ServiceLocator.getInstance().registerService(PropertyRepository.class, new InMemoryPropertyRepository());
+		ServiceLocator.getInstance().registerService(SessionRepository.class, new InMemorySessionRepository());
 	}
 
-	private void registerMisc() {
-		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, emailConfirmer);
+	private void registerUserEmailValidator() {
+		ConfirmationCodeFactory confirmCodeFactory = new ConfirmationCodeFactory(new Base64Encoder());
+		EmailMessageFactory messageFactory = new EmailMessageFactory(BASE_URL);
+		EmailSender emailSender = new GmailSender();
+		UserEmailAddressValidator validator = new UserEmailAddressValidator(confirmCodeFactory, messageFactory,
+				emailSender);
+
+		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, validator);
 	}
 
 	@Override
