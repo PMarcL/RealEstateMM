@@ -2,7 +2,6 @@ package org.RealEstateMM.services.user;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
-
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
@@ -17,6 +16,8 @@ import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 
 public class UserServiceTest {
 
@@ -94,9 +95,46 @@ public class UserServiceTest {
 		userService.confirmEmailAddress(INVALID_CONFIRMATION_CODE);
 	}
 
+	@Test
+	public void givenAnExistingUserWhenEditUserProfileShouldUpdateUserInformationsInUserWithProperInfos() {
+		userService.updateUserProfile(USER_DTO);
+
+		ArgumentCaptor<UserInformations> argument = ArgumentCaptor.forClass(UserInformations.class);
+		verify(user).updateUserInformations(argument.capture());
+		validateUserProfile(argument.getValue());
+	}
+
+	@Test
+	public void givenAnExistingUserWhenEditUserProfileShouldPersistUserAfterUpdatingUserInformations() {
+		userService.updateUserProfile(USER_DTO);
+
+		InOrder inOrder = inOrder(user, userRepository);
+		inOrder.verify(user).updateUserInformations(any(UserInformations.class));
+		inOrder.verify(userRepository).replaceUser(user);
+	}
+
+	@Test(expected = UserDoesNotExistException.class)
+	public void givenAnUnexistingUserWhenEditUserProfileShouldThrowException() {
+		userDoesNotExists();
+		userService.updateUserProfile(USER_DTO);
+	}
+
 	private void confirmationCodeIsInvalid() {
 		doThrow(InvalidEmailConfirmationCodeException.class).when(emailConfirmer).confirmEmailAddress(anyString(),
 				any(UserRepository.class));
+	}
+
+	private void userDoesNotExists() {
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.empty());
+	}
+
+	private void validateUserProfile(UserInformations userInfos) {
+		assertEquals(USER_DTO.getPseudonym(), userInfos.pseudonym);
+		assertEquals(USER_DTO.getEmail(), userInfos.emailAddress);
+		assertEquals(USER_DTO.getFirstName(), userInfos.firstName);
+		assertEquals(USER_DTO.getLastName(), userInfos.lastName);
+		assertEquals(USER_DTO.getPassword(), userInfos.password);
+		assertEquals(USER_DTO.getPhoneNumber(), userInfos.phoneNumber);
 	}
 
 }

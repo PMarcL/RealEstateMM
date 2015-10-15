@@ -42,4 +42,9 @@ public class InMemoryUserRepository extends UserRepository {
 		users.put(user.getPseudonym(), user);
 	}
 
+	@Override
+	protected void removeUserWithPseudonym(String pseudonym) {
+		users.remove(pseudonym);
+	}
+
 }

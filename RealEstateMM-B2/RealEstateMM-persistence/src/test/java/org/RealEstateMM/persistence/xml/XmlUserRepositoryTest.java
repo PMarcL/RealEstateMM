@@ -67,6 +67,17 @@ public class XmlUserRepositoryTest {
 		assertFalse(returnedUser.isPresent());
 	}
 
+	@Test
+	public void givenExistingUserWhenRemoveWithPseudonymShouldRemoveFromUserCacheBeforeMarshalling() {
+		addUserWithPseudonym(PSEUDONYM);
+
+		repository.removeUserWithPseudonym(PSEUDONYM);
+
+		InOrder inOrder = inOrder(userCollection, marshaller);
+		inOrder.verify(userCollection).removeUserWithPseudonym(PSEUDONYM);
+		inOrder.verify(marshaller).marshal(XmlUserCollection.class, userCollection);
+	}
+
 	private void addUserWithPseudonym(String pseudonym) {
 		given(userCollection.contains(pseudonym)).willReturn(true);
 		given(userCollection.getUser(pseudonym)).willReturn(xmlUser);

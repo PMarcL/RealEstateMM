@@ -21,6 +21,11 @@ public class UserServiceAntiCorruption {
 		validateUserDTO(userDTO);
 		userService.createUser(userDTO);
 	}
+	
+	public void updateUser(UserDTO userDTO){
+		validateUserDTO(userDTO);
+		userService.updateUserProfile(userDTO);
+	}
 
 	public UserDTO login(String pseudonym, String password)
 			throws InvalidPasswordException, UserDoesNotExistException, UnconfirmedEmailException {

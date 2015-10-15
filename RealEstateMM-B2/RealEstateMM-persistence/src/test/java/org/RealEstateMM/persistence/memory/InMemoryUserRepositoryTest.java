@@ -67,6 +67,20 @@ public class InMemoryUserRepositoryTest {
 		assertFalse(returnedUser.isPresent());
 	}
 
+	@Test
+	public void givenExistingUserWhenRemoveUserWithPseudonymShouldNotContainsUser() {
+		repository.add(aUser().withPseudonym(PSEUDONYM).build());
+		repository.removeUserWithPseudonym(PSEUDONYM);
+		assertFalse(repository.contains(PSEUDONYM));
+	}
+
+	@Test
+	public void givenUnexistingUserWhenRemoveUserWithPseudonymShouldNotRemoveAnyUser() {
+		repository.add(aUser().withPseudonym("anotherPseudonym").build());
+		repository.removeUserWithPseudonym(PSEUDONYM);
+		assertEquals(1, repository.size());
+	}
+
 	private UserBuilder aUser() {
 		return new UserBuilder();
 	}

@@ -101,6 +101,19 @@ public class UserResourceTest {
 				+ "\"}";
 		assertEquals(expectedJson, actualJson);
 	}
+	
+	@Test
+	public void givenValidCredentialsWhenEditUserProfileThenReturnStatusOK() throws Exception {
+		StatusType statusType = userConnectionResource.editUserProfile(A_USER_DTO).getStatusInfo();
+		assertEquals(Status.OK, statusType);
+	}
+	
+	@Test
+	public void givenInvalidCredentialsWhenEditUserProfileThenReturnResponseBadRequest() throws Exception {
+		doThrow(InvalidUserInformationsException.class).when(userServiceAC).updateUser(A_USER_DTO);
+		StatusType statusType = userConnectionResource.editUserProfile(A_USER_DTO).getStatusInfo();
+		assertEquals(Status.BAD_REQUEST, statusType);
+	}
 
 	@Test
 	public void givenValidCredentialsWhenLoginThenCreateASession() {

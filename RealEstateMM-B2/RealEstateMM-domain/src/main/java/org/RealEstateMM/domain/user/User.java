@@ -40,4 +40,8 @@ public class User {
 		return userInformations.emailAddress.equals(emailAddress);
 	}
 
+	public void updateUserInformations(UserInformations userInformations) {
+		this.userInformations = userInformations;
+	}
+
 }

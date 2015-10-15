@@ -72,4 +72,14 @@ public class UserTest {
 	public void givenEmailAddressDifferentFromUserEmailAddressWhenVerifyingIfUserHasEmailAddressShouldReturnFalse() {
 		assertFalse(user.hasEmailAddress("anotherEmailAddress@gmail.com"));
 	}
+
+	@Test
+	public void givenUserInfosWhenUpdateUserInformationsShouldReplaceExistingUserInformations() {
+		UserInformations newInfos = new UserInformations("anotherPseudonym", "anotherPassword", "anotherFirstName",
+				"anotherLastName", "anotherEmail", "anotherPhoneNb");
+
+		user.updateUserInformations(newInfos);
+
+		assertEquals(newInfos, user.getUserInformations());
+	}
 }
