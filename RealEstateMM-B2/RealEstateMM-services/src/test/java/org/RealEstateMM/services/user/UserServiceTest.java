@@ -22,9 +22,9 @@ import org.mockito.InOrder;
 public class UserServiceTest {
 
 	private final String INVALID_CONFIRMATION_CODE = "anInvalidCode";
-	private final UserDTO USER_DTO = new UserDTOBuilder().build();
 	private final String PSEUDONYM = "pseudo34";
 	private final String PASSWORD = "pw1234";
+	private final UserDTO USER_DTO = new UserDTOBuilder().withPseudonym(PSEUDONYM).withPassword(PASSWORD).build();
 	private final String INVALID_PASSWORD = "posdf33";
 
 	private User user;
@@ -42,6 +42,7 @@ public class UserServiceTest {
 		emailConfirmer = mock(UserEmailAddressValidator.class);
 
 		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
 
 		userService = new UserService(userRepository, userAssembler, emailConfirmer);
 	}
@@ -64,7 +65,6 @@ public class UserServiceTest {
 
 	@Test
 	public void givenAPseudonymWithRightPassWordWhenAuthenticateThenReturnTheUserDTO() throws Exception {
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
 		given(user.hasPassword(PASSWORD)).willReturn(true);
 		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
 
@@ -75,13 +75,12 @@ public class UserServiceTest {
 
 	@Test(expected = UserDoesNotExistException.class)
 	public void givenNoUserWhenAuthenticateThenThrowUserNotFoundException() throws Exception {
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.empty());
+		userDoesNotExists();
 		userService.authenticate(PSEUDONYM, PASSWORD);
 	}
 
 	@Test(expected = InvalidPasswordException.class)
 	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() throws Exception {
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
 		given(user.hasPassword(PASSWORD)).willReturn(true);
 
 		userService.authenticate(PSEUDONYM, INVALID_PASSWORD);

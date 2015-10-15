@@ -64,7 +64,7 @@ public class UserResource {
 			Session session = sessionService.open(userDTO);
 			return generateLoginResponse(userDTO, session);
 
-		} catch (InvalidPasswordException | UserDoesNotExistException |UnconfirmedEmailException exception) {
+		} catch (InvalidPasswordException | UserDoesNotExistException | UnconfirmedEmailException exception) {
 			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
@@ -75,11 +75,11 @@ public class UserResource {
 	@Path("user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editUserProfile(UserDTO userProfile) {
-		
+
 		try {
 			userService.updateUser(userProfile);
 			Session session = sessionService.open(userProfile);
-			return generateLoginJson(userProfile, session);
+			return generateLoginResponse(userProfile, session);
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
@@ -113,7 +113,7 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response confirmEmail(@PathParam("confirmationCode") String confirmationCode) {
 		try {
-			userServiceAC.confirmEmailAddress(confirmationCode);
+			userService.confirmEmailAddress(confirmationCode);
 			return Response.status(Status.OK).entity("Email Confirmed").build();
 		} catch (ImpossibleToConfirmEmailAddressException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
