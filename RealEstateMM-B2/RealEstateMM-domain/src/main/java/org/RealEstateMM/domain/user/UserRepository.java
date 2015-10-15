@@ -1,8 +1,6 @@
-package org.RealEstateMM.domain.user.repository;
+package org.RealEstateMM.domain.user;
 
 import java.util.Optional;
-
-import org.RealEstateMM.domain.user.User;
 
 public abstract class UserRepository {
 

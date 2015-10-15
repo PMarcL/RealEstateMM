@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.repository.UserRepository;
+import org.RealEstateMM.domain.user.UserRepository;
 
 public class InMemoryUserRepository extends UserRepository {
 

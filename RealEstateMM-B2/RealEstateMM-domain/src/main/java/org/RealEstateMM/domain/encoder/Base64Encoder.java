@@ -1,4 +1,4 @@
-package org.RealEstateMM.encoder;
+package org.RealEstateMM.domain.encoder;
 
 import java.nio.charset.Charset;
 import java.util.Base64;

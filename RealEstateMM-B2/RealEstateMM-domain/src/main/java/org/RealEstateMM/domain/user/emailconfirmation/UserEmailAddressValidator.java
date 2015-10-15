@@ -2,12 +2,12 @@ package org.RealEstateMM.domain.user.emailconfirmation;
 
 import java.util.Optional;
 
+import org.RealEstateMM.domain.emailsender.EmailSender;
+import org.RealEstateMM.domain.emailsender.email.EmailMessage;
+import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.repository.UserRepository;
-import org.RealEstateMM.emailsender.EmailSender;
-import org.RealEstateMM.emailsender.email.EmailMessage;
-import org.RealEstateMM.emailsender.email.EmailMessageFactory;
+import org.RealEstateMM.domain.user.UserRepository;
 
 public class UserEmailAddressValidator {
 

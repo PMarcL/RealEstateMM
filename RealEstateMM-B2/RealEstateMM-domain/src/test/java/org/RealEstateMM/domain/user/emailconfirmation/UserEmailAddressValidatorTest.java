@@ -4,12 +4,12 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
 
+import org.RealEstateMM.domain.emailsender.EmailSender;
+import org.RealEstateMM.domain.emailsender.email.EmailAddressConfirmationMessage;
+import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.repository.UserRepository;
-import org.RealEstateMM.emailsender.EmailSender;
-import org.RealEstateMM.emailsender.email.EmailAddressConfirmationMessage;
-import org.RealEstateMM.emailsender.email.EmailMessageFactory;
+import org.RealEstateMM.domain.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;

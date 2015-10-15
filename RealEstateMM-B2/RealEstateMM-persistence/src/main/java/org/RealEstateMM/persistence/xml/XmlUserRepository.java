@@ -3,7 +3,7 @@ package org.RealEstateMM.persistence.xml;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.repository.UserRepository;
+import org.RealEstateMM.domain.user.UserRepository;
 
 public class XmlUserRepository extends UserRepository {
 

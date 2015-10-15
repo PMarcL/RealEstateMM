@@ -1,6 +1,6 @@
 package org.RealEstateMM.domain.user.emailconfirmation;
 
-import org.RealEstateMM.encoder.Encoder;
+import org.RealEstateMM.domain.encoder.Encoder;
 
 public class ConfirmationCode {
 	private final String SEPARATOR = ";";

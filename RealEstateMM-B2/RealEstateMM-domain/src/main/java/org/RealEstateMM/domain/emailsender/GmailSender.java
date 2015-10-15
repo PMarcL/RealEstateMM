@@ -1,4 +1,4 @@
-package org.RealEstateMM.emailsender;
+package org.RealEstateMM.domain.emailsender;
 
 import java.security.NoSuchProviderException;
 import java.security.Security;
@@ -13,7 +13,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.RealEstateMM.emailsender.email.EmailMessage;
+import org.RealEstateMM.domain.emailsender.email.EmailMessage;
 
 import com.sun.mail.smtp.SMTPTransport;
 

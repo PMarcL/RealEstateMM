@@ -3,7 +3,7 @@ package org.RealEstateMM.domain.user.emailconfirmation;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.encoder.Encoder;
+import org.RealEstateMM.domain.encoder.Encoder;
 import org.junit.Before;
 import org.junit.Test;
 

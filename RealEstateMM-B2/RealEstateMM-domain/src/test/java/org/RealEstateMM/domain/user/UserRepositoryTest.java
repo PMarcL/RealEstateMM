@@ -1,11 +1,11 @@
-package org.RealEstateMM.domain.user.repository;
+package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
+
 import org.RealEstateMM.domain.helpers.UserBuilder;
-import org.RealEstateMM.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
 

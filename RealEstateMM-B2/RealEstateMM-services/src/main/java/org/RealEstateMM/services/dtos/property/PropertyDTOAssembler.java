@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.repository.UserRepository;
+import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 
 public class PropertyDTOAssembler {

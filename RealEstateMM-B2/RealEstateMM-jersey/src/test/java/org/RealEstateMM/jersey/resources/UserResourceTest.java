@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response.StatusType;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.domain.user.repository.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;

@@ -7,9 +7,9 @@ import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
-import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;

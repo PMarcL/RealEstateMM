@@ -1,4 +1,4 @@
-package org.RealEstateMM.encoder;
+package org.RealEstateMM.domain.encoder;
 
 public interface Encoder {
 
