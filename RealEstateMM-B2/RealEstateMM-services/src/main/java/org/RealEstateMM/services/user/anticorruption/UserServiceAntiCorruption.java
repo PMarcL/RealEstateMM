@@ -19,7 +19,7 @@ public class UserServiceAntiCorruption {
 
 	public void createUser(UserDTO userDTO) {
 		validateUserDTO(userDTO);
-		userService.create(userDTO);
+		userService.createUser(userDTO);
 	}
 
 	public UserDTO login(String pseudonym, String password)

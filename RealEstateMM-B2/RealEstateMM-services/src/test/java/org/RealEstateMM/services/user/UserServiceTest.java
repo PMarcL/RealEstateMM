@@ -5,9 +5,8 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddressException;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
+import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.repository.UserRepository;
@@ -21,13 +20,13 @@ import org.junit.Test;
 
 public class UserServiceTest {
 
-	private static final String AN_INVALID_CONFIRMATION_CODE = "anInvalidCode";
-	private final UserDTO A_USER_DTO = new UserDTOBuilder().build();
-	private final String A_PSEUDO = "pseudo34";
-	private final String A_PASSWORD = "pw1234";
+	private final String INVALID_CONFIRMATION_CODE = "anInvalidCode";
+	private final UserDTO USER_DTO = new UserDTOBuilder().build();
+	private final String PSEUDONYM = "pseudo34";
+	private final String PASSWORD = "pw1234";
 	private final String INVALID_PASSWORD = "posdf33";
-	private final User A_USER = mock(User.class);
 
+	private User user;
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
 	private UserEmailAddressValidator emailConfirmer;
@@ -35,78 +34,69 @@ public class UserServiceTest {
 	private UserService userService;
 
 	@Before
-	public void setup() throws Exception {
+	public void setup() {
+		user = mock(User.class);
 		userRepository = mock(UserRepository.class);
 		userAssembler = mock(UserAssembler.class);
 		emailConfirmer = mock(UserEmailAddressValidator.class);
 
-		given(userAssembler.fromDTO(A_USER_DTO)).willReturn(A_USER);
+		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
 
 		userService = new UserService(userRepository, userAssembler, emailConfirmer);
 	}
 
 	@Test
 	public void whenCreateUserThenAddNewUserToRepository() {
-		userService.create(A_USER_DTO);
-		verify(userRepository).addUser(A_USER);
+		userService.createUser(USER_DTO);
+		verify(userRepository).addUser(user);
 	}
 
 	@Test
 	public void whenCreateUserThenSendEmailConfirmationWithCreatedUserEmailConfirmationCode() {
-		userService.create(A_USER_DTO);
-		verify(emailConfirmer, times(1)).sendEmailConfirmationMessage(A_USER);
+		UserInformations userInfos = mock(UserInformations.class);
+		given(user.getUserInformations()).willReturn(userInfos);
+
+		userService.createUser(USER_DTO);
+
+		verify(emailConfirmer).sendEmailConfirmationMessage(userInfos);
 	}
 
 	@Test
 	public void givenAPseudonymWithRightPassWordWhenAuthenticateThenReturnTheUserDTO() throws Exception {
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.of(A_USER));
-		given(A_USER.hasPassword(A_PASSWORD)).willReturn(true);
-		given(userAssembler.toDTO(A_USER)).willReturn(A_USER_DTO);
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
+		given(user.hasPassword(PASSWORD)).willReturn(true);
+		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
 
-		UserDTO actual = userService.authenticate(A_PSEUDO, A_PASSWORD);
+		UserDTO actual = userService.authenticate(PSEUDONYM, PASSWORD);
 
-		assertEquals(A_USER_DTO, actual);
+		assertEquals(USER_DTO, actual);
 	}
 
 	@Test(expected = UserDoesNotExistException.class)
 	public void givenNoUserWhenAuthenticateThenThrowUserNotFoundException() throws Exception {
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.empty());
-		userService.authenticate(A_PSEUDO, A_PASSWORD);
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.empty());
+		userService.authenticate(PSEUDONYM, PASSWORD);
 	}
 
 	@Test(expected = InvalidPasswordException.class)
 	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() throws Exception {
-		given(userRepository.getUserWithPseudonym(A_PSEUDO)).willReturn(Optional.of(A_USER));
-		given(A_USER.hasPassword(A_PASSWORD)).willReturn(true);
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
+		given(user.hasPassword(PASSWORD)).willReturn(true);
 
-		userService.authenticate(A_PSEUDO, INVALID_PASSWORD);
+		userService.authenticate(PSEUDONYM, INVALID_PASSWORD);
 	}
 
 	@Test(expected = ImpossibleToConfirmEmailAddressException.class)
 	public void givenAnInvalidConfirmationCodeWhenConfirmEmailThenThrowAnImpossibleToConfirmEmailAddressException()
-			throws ImpossibleToConfirmEmailAddressException {
+			throws Exception {
 
-		doThrow(InvalidEmailConfirmationCodeException.class).when(emailConfirmer)
-				.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
-		userService.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
+		confirmationCodeIsInvalid();
+		userService.confirmEmailAddress(INVALID_CONFIRMATION_CODE);
 	}
 
-	@Test(expected = ImpossibleToConfirmEmailAddressException.class)
-	public void givenAnAlreadyExistingExceptionWhenConfirmEmailThenThrowAnImpossibleToConfirmEmailAddressException()
-			throws ImpossibleToConfirmEmailAddressException {
-
-		doThrow(AlreadyConfirmedEmailAddressException.class).when(emailConfirmer)
-				.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
-		userService.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
-	}
-
-	@Test(expected = ImpossibleToConfirmEmailAddressException.class)
-	public void givenAWrongEmailExceptionWhenConfirmEmailThenThrowAnImpossibleToConfirmEmailAddressException()
-			throws ImpossibleToConfirmEmailAddressException {
-
-		doThrow(TryingToConfirmTheWrongEmailAddressException.class).when(emailConfirmer)
-				.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
-		userService.confirmEmailAddress(AN_INVALID_CONFIRMATION_CODE);
+	private void confirmationCodeIsInvalid() {
+		doThrow(InvalidEmailConfirmationCodeException.class).when(emailConfirmer).confirmEmailAddress(anyString(),
+				any(UserRepository.class));
 	}
 
 }

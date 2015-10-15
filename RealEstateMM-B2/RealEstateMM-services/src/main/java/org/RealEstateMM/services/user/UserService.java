@@ -2,11 +2,9 @@ package org.RealEstateMM.services.user;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.user.TryingToConfirmTheWrongEmailAddressException;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.emailconfirmation.AlreadyConfirmedEmailAddressException;
-import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
+import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.repository.UserRepository;
 import org.RealEstateMM.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -20,24 +18,25 @@ public class UserService {
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
-	private UserEmailAddressValidator emailAddressConfirmer;
+	private UserEmailAddressValidator emailAddressValidator;
 
-	public UserService(UserRepository userRepository, UserAssembler accountAssembler, UserEmailAddressValidator emailConfirmer) {
+	public UserService(UserRepository userRepository, UserAssembler accountAssembler,
+			UserEmailAddressValidator emailConfirmer) {
 		this.userRepository = userRepository;
 		this.userAssembler = accountAssembler;
-		this.emailAddressConfirmer = emailConfirmer;
+		this.emailAddressValidator = emailConfirmer;
 	}
 
 	public UserService() {
 		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
 		userAssembler = new UserAssembler();
-		emailAddressConfirmer = ServiceLocator.getInstance().getService(UserEmailAddressValidator.class);
+		emailAddressValidator = ServiceLocator.getInstance().getService(UserEmailAddressValidator.class);
 	}
 
-	public void create(UserDTO userDTO) throws CouldNotSendMailException {
+	public void createUser(UserDTO userDTO) throws CouldNotSendMailException {
 		User newUser = userAssembler.fromDTO(userDTO);
 		userRepository.addUser(newUser);
-		emailAddressConfirmer.sendEmailConfirmationMessage(newUser);
+		emailAddressValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
 	}
 
 	public UserDTO authenticate(String pseudonym, String password)
@@ -58,10 +57,9 @@ public class UserService {
 
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
 		try {
-			emailAddressConfirmer.confirmEmailAddress(confirmationCode);
-		} catch (InvalidEmailConfirmationCodeException | AlreadyConfirmedEmailAddressException
-				| TryingToConfirmTheWrongEmailAddressException exception) {
-			throw new ImpossibleToConfirmEmailAddressException(exception);
+			emailAddressValidator.confirmEmailAddress(confirmationCode, userRepository);
+		} catch (InvalidEmailConfirmationCodeException e) {
+			throw new ImpossibleToConfirmEmailAddressException(e);
 		}
 	}
 
