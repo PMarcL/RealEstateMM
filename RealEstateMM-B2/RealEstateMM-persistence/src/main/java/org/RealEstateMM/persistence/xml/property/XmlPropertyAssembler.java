@@ -29,7 +29,8 @@ public class XmlPropertyAssembler {
 		newProperty.setLotDimension(String.valueOf(propertyFeatures.lotDimension));
 		newProperty.setYearOfConstruction(String.valueOf(propertyFeatures.yearOfConstruction));
 		newProperty.setLivingSpaceArea(String.valueOf(propertyFeatures.livingSpaceArea));
-		newProperty.setBackyardDirection(String.valueOf(propertyFeatures.backyardDirection));
+		newProperty.setBackyardDirection(propertyFeatures.backyardDirection);
+		newProperty.setDescription(propertyFeatures.description);
 
 		return newProperty;
 	}
@@ -47,7 +48,8 @@ public class XmlPropertyAssembler {
 																 Double.parseDouble(xmlProperty.getLotDimension()),
 																 Integer.parseInt(xmlProperty.getYearOfConstruction()), 
 																 Double.parseDouble(xmlProperty.getLivingSpaceArea()), 
-																 xmlProperty.getBackyardDirection());
+																 xmlProperty.getBackyardDirection(),
+																 xmlProperty.getDescription());
 
 		Property property = new Property(type, propertyAddress, Double.parseDouble(xmlProperty.getPrice()),
 				xmlProperty.getOwnerUserName(), status);

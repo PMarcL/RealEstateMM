@@ -37,7 +37,8 @@ var EditPropertyView = Backbone.View.extend({
                 window.location.href = 'index.html';
             },
             error: function (httpRequest, textStatus, errorThrown) {
-                console.log("put error");
+                $('form .card').attr('style','display:block');
+                $('form .card').html("Invalid property information");
             }
         });
     },
@@ -81,8 +82,9 @@ var NewPropertyView = Backbone.View.extend({
                 success: function(){
                     router.navigate('edit', {trigger:true});
                 },
-                error: function() {
-                    console.log("Add property error");
+                error: function(httpRequest, textStatus, errorThrown) {
+                    $('form .card').attr('style','display:block');
+                    $('form .card').html(textStatus.responseText);
                 }
             })
         }

@@ -8,12 +8,26 @@ body {
   width: 79.4%;
   margin-left: 10.3%;
   margin-right: 3%;
-  height: 200px;
+  height: 425px;
   border-bottom: solid; }
   .propertylist-item:last-child {
     margin-right: 0; }
 
 .propertylist-item:hover {
+  opacity: 0.8; }
+
+.ownerpropertylist-item {
+  float: left;
+  clear: none;
+  width: 79.4%;
+  margin-left: 10.3%;
+  margin-right: 3%;
+  height: 500px;
+  border-bottom: solid; }
+  .ownerpropertylist-item:last-child {
+    margin-right: 0; }
+
+.ownerpropertylist-item:hover {
   opacity: 0.8; }
 
 .price {
@@ -79,5 +93,8 @@ body {
   color: #4caf50; }
   .status:last-child {
     margin-right: 0; }
+
+.featuresAttribute {
+  padding-left:3em; }
 
 /*# sourceMappingURL=browseProperties.css.map */

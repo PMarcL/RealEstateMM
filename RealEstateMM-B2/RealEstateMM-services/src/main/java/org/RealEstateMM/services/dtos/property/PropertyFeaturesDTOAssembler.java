@@ -6,7 +6,7 @@ public class PropertyFeaturesDTOAssembler {
 
 	public PropertyFeatures fromDTO(PropertyFeaturesDTO dto) {
 		return new PropertyFeatures(dto.getNumberOfBathrooms(),dto.getNumberOfBedrooms(), dto.getTotalNumberOfRooms(),
-				dto.getNumberOfLevels(),dto.getLotDimensions(), dto.getYearOfConstruction(),dto.getLivingSpaceArea(), dto.getBackyardDirection());
+				dto.getNumberOfLevels(),dto.getLotDimensions(), dto.getYearOfConstruction(),dto.getLivingSpaceArea(), dto.getBackyardDirection(), dto.getDescription());
 	}
 
 	public PropertyFeaturesDTO toDTO(PropertyFeatures features) {
@@ -20,6 +20,7 @@ public class PropertyFeaturesDTOAssembler {
 		dto.setYearOfConstruction(features.yearOfConstruction);
 		dto.setLivingSpaceArea(features.livingSpaceArea);
 		dto.setBackyardDirection(features.backyardDirection);
+		dto.setDescription(features.description);
 		
 		return dto;
 	}

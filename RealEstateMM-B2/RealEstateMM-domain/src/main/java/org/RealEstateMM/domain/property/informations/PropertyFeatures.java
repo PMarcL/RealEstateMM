@@ -10,9 +10,10 @@ public class PropertyFeatures {
 	public int yearOfConstruction;
 	public double livingSpaceArea;
 	public String backyardDirection;
+	public String description;
 	
 	public PropertyFeatures(int numberOfBathroom, int numberOfBedroom, int totalNumberOfRooms,  int numberOfLevel,
-			double lotDimension, int yearOfConstruction, double livingSpaceArea, String backYardDirection){
+			double lotDimension, int yearOfConstruction, double livingSpaceArea, String backYardDirection, String description){
 		this.numberOfBathrooms = numberOfBathroom;
 		this.numberOfBedrooms = numberOfBedroom;
 		this.totalNumberOfRooms = totalNumberOfRooms;
@@ -21,5 +22,6 @@ public class PropertyFeatures {
 		this.yearOfConstruction = yearOfConstruction;
 		this.livingSpaceArea = livingSpaceArea;
 		this.backyardDirection = backYardDirection;
+		this.description = description;
 	}
 }

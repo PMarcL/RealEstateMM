@@ -24,6 +24,7 @@ public class XmlProperty {
 	private String yearOfConstruction;
 	private String livingSpaceArea;
 	private String backyardDirection;
+	private String description;
 
 	public String getType() {
 		return type;
@@ -168,4 +169,16 @@ public class XmlProperty {
 	public void setBackyardDirection(String backyardDirection) {
 		this.backyardDirection = backyardDirection;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	@XmlElement(name = "description")
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+
+	
 }

@@ -20,14 +20,28 @@ public class PropertyTest {
 	private static final int EMPTY_YEAR_OF_CONSTRUCTION = 0;
 	private static final double EMPTY_LIVING_SPACE_AREA = 0.00;
 	private static final String EMPTY_BACKYARD_DIRECTION = "";
+	private static final String EMPTY_DESCRIPTION = "";
+	
+	private static final int A_NUMBER_OF_BATHROOMS = 1;
+	private static final int A_TOTAL_NUMBER_OF_ROOMS = 3;
+	private static final int A_NUMBER_OF_BEDROOMS = 1;
+	private static final int A_NUMBER_OF_LEVEL = 2;
+	private static final double A_LOT_DIMENSION = 120.00;
+	private static final int A_YEAR_OF_CONSTRUCTION = 2000;
+	private static final double A_LIVING_SPACE_AREA = 50.00;
+	private static final String A_BACKYARD_DIRECTION = "WEST";
+	private static final String A_DESCRIPTION = "Good property";
+	
 	private static final double DELTA = 0.001;
+	
+	
 
 	private Property property;
 
 	private static final double A_PROPERTY_PRICE = 200000.00;
 	private static final PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
 	private static final String OWNER_USERNAME = "Bob";
-	private static final String AN_OTHER_OWNER = "NotBob";
+	private static final String NOT_THE_OWNER_USERNAME = "NotBob";
 	private static final PropertyType A_PROPERTY_TYPE = PropertyType.HOUSE;
 
 	private PropertyAddress propertyAddress;
@@ -41,7 +55,7 @@ public class PropertyTest {
 
 	@Test
 	public void givenAPropertyWhenVerifyingItsOwnerWithAnInvalidOwnerThenItShouldReturnFalse(){
-		assertFalse(property.isOwnedBy(AN_OTHER_OWNER));
+		assertFalse(property.isOwnedBy(NOT_THE_OWNER_USERNAME));
 	}
 	
 	@Test
@@ -61,11 +75,24 @@ public class PropertyTest {
 		assertEquals(EMPTY_YEAR_OF_CONSTRUCTION, returnedFeatures.yearOfConstruction);
 		assertEquals(EMPTY_LIVING_SPACE_AREA, returnedFeatures.livingSpaceArea, DELTA);
 		assertEquals(EMPTY_BACKYARD_DIRECTION, returnedFeatures.backyardDirection);
+		assertEquals(EMPTY_DESCRIPTION, returnedFeatures.description);
 	}
 	
 	@Test
 	public void givenANewPropertyUpdatingItsFeaturesShouldModifyItsFeatures(){
-		//TODO finish
+		PropertyFeatures newFeatures = new PropertyFeatures(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS, A_TOTAL_NUMBER_OF_ROOMS, A_NUMBER_OF_LEVEL, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION, A_LIVING_SPACE_AREA, A_BACKYARD_DIRECTION, A_DESCRIPTION);
+		property.updateFeatures(newFeatures);
+		PropertyFeatures returnedFeatures = property.getFeatures();
+		
+		assertEquals(A_NUMBER_OF_BATHROOMS, returnedFeatures.numberOfBathrooms);
+		assertEquals(A_NUMBER_OF_BEDROOMS, returnedFeatures.numberOfBedrooms);
+		assertEquals(A_TOTAL_NUMBER_OF_ROOMS, returnedFeatures.totalNumberOfRooms);
+		assertEquals(A_NUMBER_OF_LEVEL, returnedFeatures.numberOfLevel);
+		assertEquals(A_LOT_DIMENSION, returnedFeatures.lotDimension, DELTA);
+		assertEquals(A_YEAR_OF_CONSTRUCTION, returnedFeatures.yearOfConstruction);
+		assertEquals(A_LIVING_SPACE_AREA, returnedFeatures.livingSpaceArea, DELTA);
+		assertEquals(A_BACKYARD_DIRECTION, returnedFeatures.backyardDirection);
+		assertEquals(A_DESCRIPTION, returnedFeatures.description);
 	}
 
 }

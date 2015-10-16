@@ -21,6 +21,7 @@ public class PropertyFeaturesDTOAssemblerTest {
 	private int A_YEAR_OF_CONSTRUCTION = 1999;
 	private double A_LIVING_SPACE_AREA = 100.00;
 	private String A_BACKYARD_DIRECTION = "West";
+	private String A_DESCRIPTION = "Not a good place to live";
 	
 	private double DELTA = 0.001;
 	
@@ -28,7 +29,7 @@ public class PropertyFeaturesDTOAssemblerTest {
 	public void setup(){
 		assembler = new PropertyFeaturesDTOAssembler();
 		features = new PropertyFeatures(A_NUMBER_OF_BATHROOM, A_NUMBER_OF_BEDROOMS, A_TOTAL_NUMBER_OF_ROOMS, 
-				A_NUMBER_OF_LEVELS, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION, A_LIVING_SPACE_AREA, A_BACKYARD_DIRECTION);
+				A_NUMBER_OF_LEVELS, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION, A_LIVING_SPACE_AREA, A_BACKYARD_DIRECTION, A_DESCRIPTION);
 	}
 	
 	@Test
