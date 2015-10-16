@@ -18,4 +18,22 @@
         <pseudonym>aa</pseudonym>
         <userType>seller</userType>
     </user>
+    <user>
+        <email>paul@hotmail.com</email>
+        <firstName>paul</firstName>
+        <lastName>paul</lastName>
+        <password>paul</password>
+        <phoneNumber>8198181752</phoneNumber>
+        <pseudonym>paul</pseudonym>
+        <userType>seller</userType>
+    </user>
+    <user>
+        <email>bob@hotmail.com</email>
+        <firstName>bob</firstName>
+        <lastName>bob</lastName>
+        <password>bob</password>
+        <phoneNumber>8198181752</phoneNumber>
+        <pseudonym>bob</pseudonym>
+        <userType>buyer</userType>
+    </user>
 </users>

@@ -38,7 +38,7 @@ var EditPropertyView = Backbone.View.extend({
             },
             error: function (httpRequest, textStatus, errorThrown) {
                 $('form .card').attr('style','display:block');
-                $('form .card').html("Invalid property information");
+                $('form .card').html(textStatus.responseText);
             }
         });
     },
