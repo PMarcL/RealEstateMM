@@ -16,6 +16,7 @@ public class PropertyServiceAntiCorruptionTest {
 	private final int NUMBER_OF_BEDROOMS = 2;
 	private final int NUMBER_OF_BATHROOMS = 2;
 	private final int VALID_TOTAL_NUMBER_OF_ROOMS = 4;
+	private final double VALID_PRICE = 200000.0;
 	private final int A_VALID_YEAR_OF_CONSTRUCTION = 1999;
 
 	private PropertyServiceAntiCorruption propertyAntiCorruption;
@@ -40,32 +41,33 @@ public class PropertyServiceAntiCorruptionTest {
 		propertyDTOReturnsValidInfos();
 	}
 
-	private void featuresDTOReturnsValidInfos() {
-		given(featuresDTO.getNumberOfBedrooms()).willReturn(NUMBER_OF_BEDROOMS);
-		given(featuresDTO.getNumberOfBathrooms()).willReturn(NUMBER_OF_BATHROOMS);
-		given(featuresDTO.getTotalNumberOfRooms()).willReturn(VALID_TOTAL_NUMBER_OF_ROOMS);
-		given(featuresDTO.getYearOfConstruction()).willReturn(A_VALID_YEAR_OF_CONSTRUCTION);
-		given(validator.numberOfRoomsIsValid(NUMBER_OF_BATHROOMS)).willReturn(true);
-		given(validator.numberOfRoomsIsValid(NUMBER_OF_BEDROOMS)).willReturn(true);
-		given(validator.totalNumberOfRoomsIsValid(NUMBER_OF_BATHROOMS, NUMBER_OF_BEDROOMS, VALID_TOTAL_NUMBER_OF_ROOMS)).willReturn(true);
-		given(validator.yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION)).willReturn(true);
-	}
-
 	@Test
-	public void givenPropertyInformationsWhenUploadPropertyThenChecksAddressValidity() {
+	public void givenPropertyDTOWhenUploadPropertyThenChecksAddressValidity() {
 		propertyAntiCorruption.uploadProperty(propertyDTO);
 		verify(validator).zipCodeIsValid(ZIPCODE);
 	}
 
 	@Test
-	public void givenPropertyInformationsWhenUploadPropertyThenCallsTheService() {
+	public void givenPropertyDTOWhenUploadPropertyThenCallsTheService() {
 		propertyAntiCorruption.uploadProperty(propertyDTO);
 		verify(service).uploadProperty(propertyDTO);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenPropertyInformationsWhenUploadPropertyWithInvalidZipCodeThenThrowException() {
+	public void givenPropertyDTOWhenUploadPropertyWithInvalidZipCodeThenThrowException() {
 		when(validator.zipCodeIsValid(ZIPCODE)).thenReturn(false);
+		propertyAntiCorruption.uploadProperty(propertyDTO);
+	}
+
+	@Test
+	public void givenAPropertyDTOWhenUploadPropertyThenChecksPriceValidity() {
+		propertyAntiCorruption.uploadProperty(propertyDTO);
+		verify(validator).priceIsValid(VALID_PRICE);
+	}
+
+	@Test(expected = InvalidPropertyInformationException.class)
+	public void givenAPropertyDTOWhenUploadPropertyThenIfPriceIsInvalidThrowsException() {
+		given(validator.priceIsValid(VALID_PRICE)).willReturn(false);
 		propertyAntiCorruption.uploadProperty(propertyDTO);
 	}
 
@@ -126,11 +128,12 @@ public class PropertyServiceAntiCorruptionTest {
 	@Test
 	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksTotalNumberOfRoomsValidity() {
 		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
-		verify(validator, times(1)).totalNumberOfRoomsIsValid(NUMBER_OF_BATHROOMS, NUMBER_OF_BEDROOMS, VALID_TOTAL_NUMBER_OF_ROOMS);
+		verify(validator, times(1)).totalNumberOfRoomsIsValid(NUMBER_OF_BATHROOMS, NUMBER_OF_BEDROOMS,
+				VALID_TOTAL_NUMBER_OF_ROOMS);
 	}
-	
+
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenCheckYearOfConstructionValidity(){
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenCheckYearOfConstructionValidity() {
 		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
 		verify(validator, times(1)).yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION);
 	}
@@ -145,10 +148,24 @@ public class PropertyServiceAntiCorruptionTest {
 		given(propertyDTO.getPropertyAddress()).willReturn(addressInfos);
 		given(propertyDTO.getPropertyType()).willReturn(TYPE);
 		given(propertyDTO.getPropertyStatus()).willReturn(STATUS);
+		given(propertyDTO.getPropertyPrice()).willReturn(VALID_PRICE);
 		given(addressInfos.getZipCode()).willReturn(ZIPCODE);
 		given(validator.zipCodeIsValid(ZIPCODE)).willReturn(true);
 		given(validator.propertyTypeIsValid(TYPE)).willReturn(true);
 		given(validator.propertyStatusIsValid(STATUS)).willReturn(true);
+		given(validator.priceIsValid(VALID_PRICE)).willReturn(true);
+		given(validator.yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION)).willReturn(true);
+	}
+
+	private void featuresDTOReturnsValidInfos() {
+		given(featuresDTO.getNumberOfBedrooms()).willReturn(NUMBER_OF_BEDROOMS);
+		given(featuresDTO.getNumberOfBathrooms()).willReturn(NUMBER_OF_BATHROOMS);
+		given(featuresDTO.getTotalNumberOfRooms()).willReturn(VALID_TOTAL_NUMBER_OF_ROOMS);
+		given(featuresDTO.getYearOfConstruction()).willReturn(A_VALID_YEAR_OF_CONSTRUCTION);
+		given(validator.numberOfRoomsIsValid(NUMBER_OF_BATHROOMS)).willReturn(true);
+		given(validator.numberOfRoomsIsValid(NUMBER_OF_BEDROOMS)).willReturn(true);
+		given(validator.totalNumberOfRoomsIsValid(NUMBER_OF_BATHROOMS, NUMBER_OF_BEDROOMS, VALID_TOTAL_NUMBER_OF_ROOMS))
+				.willReturn(true);
 		given(validator.yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION)).willReturn(true);
 	}
 

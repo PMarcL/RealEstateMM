@@ -10,7 +10,9 @@ import org.RealEstateMM.domain.property.informations.PropertyType;
 public class PropertyInformationsValidator {
 
 	private final Pattern ZIP_CODE_PATTERN = Pattern.compile("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$");
-	private final int CONSTRUCTION_YEAR_OF_OLDEST_BUILDING_IN_CANADA = 1637; //According to wikipedia.org
+	private final int CONSTRUCTION_YEAR_OF_OLDEST_BUILDING_IN_CANADA = 1637; // According
+																				// to
+																				// wikipedia.org
 	private int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
 	public PropertyInformationsValidator() {
@@ -36,24 +38,29 @@ public class PropertyInformationsValidator {
 		}
 		return false;
 	}
-	
-	public boolean totalNumberOfRoomsIsValid(int numberOfBathrooms, int numberOfBedrooms, int totalNumberOfRooms){
+
+	public boolean totalNumberOfRoomsIsValid(int numberOfBathrooms, int numberOfBedrooms, int totalNumberOfRooms) {
 		numberOfRoomsIsValid(numberOfBathrooms);
 		numberOfRoomsIsValid(numberOfBedrooms);
 		numberOfRoomsIsValid(totalNumberOfRooms);
-		if (totalNumberOfRooms >= (numberOfBathrooms + numberOfBedrooms)){
+		if (totalNumberOfRooms >= (numberOfBathrooms + numberOfBedrooms)) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean yearOfConstructionIsValid(int yearOfConstruction) {
-		if(yearOfConstruction < CONSTRUCTION_YEAR_OF_OLDEST_BUILDING_IN_CANADA || yearOfConstruction > currentYear){
+		if (yearOfConstruction < CONSTRUCTION_YEAR_OF_OLDEST_BUILDING_IN_CANADA || yearOfConstruction > currentYear) {
 			return false;
 		}
 		return true;
 	}
-	
-	
+
+	public boolean priceIsValid(double price) {
+		if (price > 0.0) {
+			return true;
+		}
+		return false;
+	}
 
 }

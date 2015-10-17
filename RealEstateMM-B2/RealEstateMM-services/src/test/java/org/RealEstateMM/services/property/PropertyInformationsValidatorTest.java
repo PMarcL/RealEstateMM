@@ -21,17 +21,21 @@ public class PropertyInformationsValidatorTest {
 	private final String ONSALE = "on sale";
 	private final String SOLD = "sold";
 	private final int VALID_NUMBER_OF_ROOMS = 5;
-	private int INVALID_NUMBER_OF_ROOMS = -1;
-	
+	private final int INVALID_NUMBER_OF_ROOMS = -1;
+	private final double VALID_PRICE = 2000000.0;
+	private final double INVALID_PRICE = -200000.0;
+
 	private int A_NUMBER_OF_BATHROOMS = 2;
 	private int A_NUMBER_OF_BEDROOMS = 2;
 	private int A_VALID_NUMBER_OF_TOTAL_ROOMS = A_NUMBER_OF_BATHROOMS + A_NUMBER_OF_BEDROOMS + 1;
 	private int AN_INVALID_NUMBER_OF_TOTAL_ROOMS = A_NUMBER_OF_BATHROOMS + A_NUMBER_OF_BEDROOMS - 1;
-	
-	private int YEAR_OF_CONSTRUCTION_OF_OLDEST_BUILDING_IN_CANADA = 1637; //According to wikipedia.org
+
+	private int YEAR_OF_CONSTRUCTION_OF_OLDEST_BUILDING_IN_CANADA = 1637; // According
+																			// to
+																			// wikipedia.org
 	private int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 	private int A_VALID_YEAR_OF_CONSTRUCTION = 1995;
-	private int A_YEAR_OF_CONSTRUCTION_TOO_OLD = YEAR_OF_CONSTRUCTION_OF_OLDEST_BUILDING_IN_CANADA -1;
+	private int A_YEAR_OF_CONSTRUCTION_TOO_OLD = YEAR_OF_CONSTRUCTION_OF_OLDEST_BUILDING_IN_CANADA - 1;
 	private int A_YEAR_OF_CONSTRUCTION_IN_THE_FUTUR = currentYear + 1;
 
 	@Before
@@ -83,29 +87,41 @@ public class PropertyInformationsValidatorTest {
 	public void givenAnInvalidNumberOfRoomsWhenCheckNumberOfRoomsValidityThenReturnsFalse() {
 		assertFalse(validator.numberOfRoomsIsValid(INVALID_NUMBER_OF_ROOMS));
 	}
-	
+
 	@Test
-	public void givenAValidTotalNumberOfRoomWhenCheckingNumberOfRoomValidityThenShouldReturnTrue(){
-		assertTrue(validator.totalNumberOfRoomsIsValid(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS, A_VALID_NUMBER_OF_TOTAL_ROOMS));
+	public void givenAValidTotalNumberOfRoomWhenCheckingNumberOfRoomValidityThenShouldReturnTrue() {
+		assertTrue(validator.totalNumberOfRoomsIsValid(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS,
+				A_VALID_NUMBER_OF_TOTAL_ROOMS));
 	}
-	
+
 	@Test
-	public void givenAnInValidTotalNumberOfRoomWhenCheckingNumberOfRoomValidityThenShouldReturnFalse(){
-		assertFalse(validator.totalNumberOfRoomsIsValid(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS, AN_INVALID_NUMBER_OF_TOTAL_ROOMS));
+	public void givenAnInValidTotalNumberOfRoomWhenCheckingNumberOfRoomValidityThenShouldReturnFalse() {
+		assertFalse(validator.totalNumberOfRoomsIsValid(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS,
+				AN_INVALID_NUMBER_OF_TOTAL_ROOMS));
 	}
-	
+
 	@Test
-	public void givenAConstructionYearBetweenTheYearOfConstructionOfTheOldestBuildingInCanadaAndTodaysDateWhenCheckingTheConstructionYearValidityThenShouldReturnTrue(){
+	public void givenAConstructionYearBetweenTheYearOfConstructionOfTheOldestBuildingInCanadaAndTodaysDateWhenCheckingTheConstructionYearValidityThenShouldReturnTrue() {
 		assertTrue(validator.yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION));
 	}
-	
+
 	@Test
-	public void givenAConstructionYearOlderThenTheYearOfConstructionOfTheOldestBuildingInCanadaWhenCheckingTheConstructionYearValidityThenShouldReturnFalse(){
+	public void givenAConstructionYearOlderThenTheYearOfConstructionOfTheOldestBuildingInCanadaWhenCheckingTheConstructionYearValidityThenShouldReturnFalse() {
 		assertFalse(validator.yearOfConstructionIsValid(A_YEAR_OF_CONSTRUCTION_TOO_OLD));
 	}
-	
+
 	@Test
-	public void givenAConstructionYearInTheFuturWhenCheckingTheConstructionYearValidityThenShouldReturnFalse(){
+	public void givenAConstructionYearInTheFuturWhenCheckingTheConstructionYearValidityThenShouldReturnFalse() {
 		assertFalse(validator.yearOfConstructionIsValid(A_YEAR_OF_CONSTRUCTION_IN_THE_FUTUR));
+	}
+
+	@Test
+	public void givenAValidPriceWhenCheckPriceValidityThenReturnsTrue() {
+		assertTrue(validator.priceIsValid(VALID_PRICE));
+	}
+
+	@Test
+	public void givenAnInvalidPriceWhenCheckPriceValidityThenReturnsFalse() {
+		assertFalse(validator.priceIsValid(INVALID_PRICE));
 	}
 }
