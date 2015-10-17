@@ -52,7 +52,6 @@
 	</dependencies>
 
 	<modules>
-		<module>RealEstateMM-acceptanceTests</module>
 		<module>RealEstateMM-domain</module>
 		<module>RealEstateMM-services</module>
 		<module>RealEstateMM-persistence</module>
