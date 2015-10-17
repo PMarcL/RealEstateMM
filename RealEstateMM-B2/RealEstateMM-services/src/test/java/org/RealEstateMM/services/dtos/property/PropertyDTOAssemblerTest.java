@@ -8,8 +8,6 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.user.repository.UserRepository;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +23,6 @@ public class PropertyDTOAssemblerTest {
 	private PropertyDTO propertyDTO;
 	private Property property;
 	private PropertyAddressDTOAssembler addressAssembler;
-	private UserRepository userRepository;
 	private PropertyDTOAssembler assembler;
 	private PropertyFeaturesDTO featuresDTO;
 	private PropertyFeaturesDTOAssembler featuresAssembler;
@@ -35,9 +32,8 @@ public class PropertyDTOAssemblerTest {
 	public void setup() {
 		addressAssembler = mock(PropertyAddressDTOAssembler.class);
 		featuresAssembler = mock(PropertyFeaturesDTOAssembler.class);
-		userRepository = mock(UserRepository.class);
 
-		assembler = new PropertyDTOAssembler(addressAssembler, userRepository, featuresAssembler);
+		assembler = new PropertyDTOAssembler(addressAssembler, featuresAssembler);
 		addressDTO = mock(PropertyAddressDTO.class);
 		featuresDTO = mock(PropertyFeaturesDTO.class);
 		features = mock(PropertyFeatures.class);

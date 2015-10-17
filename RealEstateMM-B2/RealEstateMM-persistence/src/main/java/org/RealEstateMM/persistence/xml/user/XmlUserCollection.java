@@ -49,4 +49,13 @@ public class XmlUserCollection {
 		this.users = users;
 	}
 
+	public void removeUserWithPseudonym(String pseudonym) {
+		Optional<XmlUser> foundUser = find(pseudonym);
+		if (!foundUser.isPresent()) {
+			return;
+		}
+
+		users.remove(foundUser.get());
+	}
+
 }

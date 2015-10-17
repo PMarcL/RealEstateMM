@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<users>
+    <user>
+        <email>olivierD@admin.com</email>
+        <firstName>Olivier</firstName>
+        <lastName>Dugas</lastName>
+        <isLocked>true</isLocked>
+        <password>admin1234</password>
+        <phoneNumber>418 892-3940</phoneNumber>
+        <pseudonym>admin</pseudonym>
+        <userType>admin</userType>
+    </user>
+</users>

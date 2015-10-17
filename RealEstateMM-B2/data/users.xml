@@ -4,36 +4,20 @@
         <email>olivierD@admin.com</email>
         <firstName>Olivier</firstName>
         <lastName>Dugas</lastName>
+        <isLocked>false</isLocked>
         <password>admin1234</password>
         <phoneNumber>418 892-3940</phoneNumber>
         <pseudonym>admin</pseudonym>
         <userType>admin</userType>
     </user>
     <user>
-        <email>aa@aa.com</email>
-        <firstName>aa</firstName>
-        <lastName>a</lastName>
-        <password>a</password>
-        <phoneNumber>4188333914</phoneNumber>
-        <pseudonym>aa</pseudonym>
-        <userType>seller</userType>
-    </user>
-    <user>
-        <email>paul@hotmail.com</email>
-        <firstName>paul</firstName>
-        <lastName>paul</lastName>
-        <password>paul</password>
+        <email>pmleva2@gmail.com</email>
+        <firstName>Pierre-Marc</firstName>
+        <lastName>Levasseur</lastName>
+        <isLocked>false</isLocked>
+        <password>pm</password>
         <phoneNumber>8198181752</phoneNumber>
-        <pseudonym>paul</pseudonym>
+        <pseudonym>PM</pseudonym>
         <userType>seller</userType>
-    </user>
-    <user>
-        <email>bob@hotmail.com</email>
-        <firstName>bob</firstName>
-        <lastName>bob</lastName>
-        <password>bob</password>
-        <phoneNumber>8198181752</phoneNumber>
-        <pseudonym>bob</pseudonym>
-        <userType>buyer</userType>
     </user>
 </users>

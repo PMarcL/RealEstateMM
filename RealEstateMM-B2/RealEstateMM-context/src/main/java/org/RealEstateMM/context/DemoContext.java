@@ -3,16 +3,20 @@ package org.RealEstateMM.context;
 import java.io.File;
 
 import org.RealEstateMM.authentication.session.SessionRepository;
+import org.RealEstateMM.domain.emailsender.EmailSender;
+import org.RealEstateMM.domain.emailsender.GmailSender;
+import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
+import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserType;
-import org.RealEstateMM.domain.user.repository.UserRepository;
+import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
+import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.mail.GmailSender;
-import org.RealEstateMM.services.mail.MailSender;
 import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
@@ -26,11 +30,11 @@ public class DemoContext extends Context {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;
 	private static final String USER_REPOSITORY_FILE = "users.xml";
 	private static final String PROPERTY_REPOSITORY_FILE = "properties.xml";
+	private static final String BASE_URL = "http://localhost:8080/";
 
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
-	private MailSender mailSender;
 	private PropertyServiceHandler propertyService;
 
 	public DemoContext() {
@@ -39,7 +43,6 @@ public class DemoContext extends Context {
 		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
-		this.mailSender = new GmailSender();
 	}
 
 	private String propertiesFilePath() {
@@ -59,10 +62,24 @@ public class DemoContext extends Context {
 	}
 
 	private void registerServiceDependencies() {
+		registerRepositories();
+		registerUserEmailValidator();
+	}
+
+	private void registerRepositories() {
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
-		ServiceLocator.getInstance().registerService(MailSender.class, mailSender);
+	}
+
+	private void registerUserEmailValidator() {
+		ConfirmationCodeFactory confirmCodeFactory = new ConfirmationCodeFactory(new Base64Encoder());
+		EmailMessageFactory messageFactory = new EmailMessageFactory(BASE_URL);
+		EmailSender emailSender = new GmailSender();
+		UserEmailAddressValidator validator = new UserEmailAddressValidator(confirmCodeFactory, messageFactory,
+				emailSender);
+
+		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, validator);
 	}
 
 	@Override

@@ -20,10 +20,10 @@ public class XmlPropertyRepository implements PropertyRepository {
 		this.marshaller = marshaller;
 		this.propertyAssembler = propertyAssembler;
 
-		loadProperty();
+		loadProperties();
 	}
 
-	private void loadProperty() {
+	private void loadProperties() {
 		try {
 			propertyCache = marshaller.unmarshal(XmlPropertyCollection.class);
 		} catch (EmptyXmlFileException ex) {

@@ -5,7 +5,6 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.user.repository.UserRepository;
 
 public class PropertyDTOAssembler {
 
@@ -17,7 +16,7 @@ public class PropertyDTOAssembler {
 		this.featuresAssembler = new PropertyFeaturesDTOAssembler();
 	}
 
-	public PropertyDTOAssembler(PropertyAddressDTOAssembler addressAssembler, UserRepository userRepository,
+	public PropertyDTOAssembler(PropertyAddressDTOAssembler addressAssembler,
 			PropertyFeaturesDTOAssembler featuresAssembler) {
 		this.addressAssembler = addressAssembler;
 		this.featuresAssembler = featuresAssembler;

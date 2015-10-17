@@ -29,9 +29,7 @@ function ajaxPostUser(formData)
         data: formData,
         dataType: "json",
         success: function (data, status, httpResponse) {
-            document.cookie = "realestateUser=" + $('#username').val();
-            document.cookie = "accountType=" + $('select').val();
-            window.location.href = 'index.html';
+            window.location.href = 'confirmMail.html';
         },
         error: function (httpRequest) {
             $('form .card').attr('style','display:block');

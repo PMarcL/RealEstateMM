@@ -11,7 +11,7 @@ public class UserTest {
 	private final String PSEUDONYM = "John90";
 	private final String FIRSTNAME = "John";
 	private final String LASTNAME = "Doe";
-	private final String EMAIL = "john@email.com";
+	private final String EMAIL_ADDRESS = "john@email.com";
 	private final String PHONENUMBER = "819 819-3904";
 	private final String PASSWORD = "jd1234";
 	private final String USERTYPE_DESCRIPTION = UserType.SELLER;
@@ -22,7 +22,7 @@ public class UserTest {
 
 	@Before
 	public void setup() {
-		userInformations = new UserInformations(PSEUDONYM, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONENUMBER);
+		userInformations = new UserInformations(PSEUDONYM, PASSWORD, FIRSTNAME, LASTNAME, EMAIL_ADDRESS, PHONENUMBER);
 		userType = new UserType(UserType.SELLER);
 		user = new User(userInformations, userType);
 	}
@@ -57,9 +57,29 @@ public class UserTest {
 		assertTrue(user.isLocked());
 	}
 
-	// @Test
-	// public void
-	// givenAUserWithAnEmailConfirmationCodeWhenGetIsBlockedReturnTrue(){
-	// assert
-	// }
+	@Test
+	public void givenLockedUserWhenUnlockThenShouldNotBeLocked() {
+		user.unlock();
+		assertFalse(user.isLocked());
+	}
+
+	@Test
+	public void givenEmailAddressEqualsUserEmailAddressWhenVerifyingIfUserHasEmailAddressShouldReturnTrue() {
+		assertTrue(user.hasEmailAddress(EMAIL_ADDRESS));
+	}
+
+	@Test
+	public void givenEmailAddressDifferentFromUserEmailAddressWhenVerifyingIfUserHasEmailAddressShouldReturnFalse() {
+		assertFalse(user.hasEmailAddress("anotherEmailAddress@gmail.com"));
+	}
+
+	@Test
+	public void givenUserInfosWhenUpdateUserInformationsShouldReplaceExistingUserInformations() {
+		UserInformations newInfos = new UserInformations("anotherPseudonym", "anotherPassword", "anotherFirstName",
+				"anotherLastName", "anotherEmail", "anotherPhoneNb");
+
+		user.updateUserInformations(newInfos);
+
+		assertEquals(newInfos, user.getUserInformations());
+	}
 }

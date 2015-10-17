@@ -4,10 +4,12 @@ public class User {
 
 	private UserInformations userInformations;
 	private UserType userType;
+	private boolean isLocked;
 
 	public User(UserInformations userInfo, UserType type) {
 		this.userInformations = userInfo;
 		this.userType = type;
+		this.isLocked = true;
 	}
 
 	public UserInformations getUserInformations() {
@@ -26,12 +28,20 @@ public class User {
 		return userType.userTypeDescription;
 	}
 
-	public String getEmailAddress() {
-		return userInformations.emailAddress;
+	public boolean isLocked() {
+		return isLocked;
 	}
 
-	public boolean isLocked() {
-		return true;
+	public void unlock() {
+		isLocked = false;
+	}
+
+	public boolean hasEmailAddress(String emailAddress) {
+		return userInformations.emailAddress.equals(emailAddress);
+	}
+
+	public void updateUserInformations(UserInformations userInformations) {
+		this.userInformations = userInformations;
 	}
 
 }

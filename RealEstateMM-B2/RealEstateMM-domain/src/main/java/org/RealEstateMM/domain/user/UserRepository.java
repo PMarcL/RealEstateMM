@@ -1,8 +1,6 @@
-package org.RealEstateMM.domain.user.repository;
+package org.RealEstateMM.domain.user;
 
 import java.util.Optional;
-
-import org.RealEstateMM.domain.user.User;
 
 public abstract class UserRepository {
 
@@ -19,4 +17,11 @@ public abstract class UserRepository {
 	protected abstract boolean contains(String pseudonym);
 
 	protected abstract void add(User user);
+
+	public void replaceUser(User user) {
+		removeUserWithPseudonym(user.getPseudonym());
+		add(user);
+	}
+
+	protected abstract void removeUserWithPseudonym(String pseudonym);
 }

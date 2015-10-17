@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.mail;
+package org.RealEstateMM.domain.emailsender;
 
 public class CouldNotSendMailException extends RuntimeException {
 

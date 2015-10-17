@@ -1,8 +1,10 @@
 package org.RealEstateMM.services.user.anticorruption;
 
 import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 public class UserServiceAntiCorruption {
@@ -17,10 +19,16 @@ public class UserServiceAntiCorruption {
 
 	public void createUser(UserDTO userDTO) {
 		validateUserDTO(userDTO);
-		userService.create(userDTO);
+		userService.createUser(userDTO);
 	}
 
-	public UserDTO login(String pseudonym, String password) throws InvalidPasswordException, UserDoesNotExistException {
+	public void updateUser(UserDTO userDTO) {
+		validateUserDTO(userDTO);
+		userService.updateUserProfile(userDTO);
+	}
+
+	public UserDTO login(String pseudonym, String password)
+			throws InvalidPasswordException, UserDoesNotExistException, UnconfirmedEmailException {
 		if (!informationsValidator.stringIsValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
 		} else if (!informationsValidator.stringIsValid(password)) {
@@ -36,7 +44,7 @@ public class UserServiceAntiCorruption {
 		if (!informationsValidator.nameIsValid(userDTO.getLastName())) {
 			throw new InvalidUserInformationsException("LastName");
 		}
-		if (!informationsValidator.emailIsValid(userDTO.getEmail())) {
+		if (!informationsValidator.emailIsValid(userDTO.getEmailAddress())) {
 			throw new InvalidUserInformationsException("Email");
 		}
 		if (!informationsValidator.phoneNumberIsValid(userDTO.getPhoneNumber())) {
@@ -45,6 +53,14 @@ public class UserServiceAntiCorruption {
 		if (!informationsValidator.userTypeIsValid(userDTO.getUserType())) {
 			throw new InvalidUserInformationsException("User type");
 		}
+	}
+
+	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
+		userService.confirmEmailAddress(confirmationCode);
+	}
+
+	public UserDTO getUserProfile(String pseudonym) {
+		return userService.getUserProfile(pseudonym);
 	}
 
 }
