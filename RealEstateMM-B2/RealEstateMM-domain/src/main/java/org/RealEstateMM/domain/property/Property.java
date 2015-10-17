@@ -13,8 +13,8 @@ public class Property {
 	private String owner;
 	private PropertyStatus status;
 	private PropertyFeatures features;
-	
-	private PropertyFeatures emptyFeatures = new PropertyFeatures(0, 0, 0, 0, 0.00, 0, 0.00, "", ""); //TODO Valider la pertinence de ça.
+
+	private PropertyFeatures emptyFeatures = new PropertyFeatures(0, 0, 0, 0, 0.00, 0, 0.00, "", "");
 
 	public Property(PropertyType type, PropertyAddress address, double price, String ownerUsername,
 			PropertyStatus status) {
