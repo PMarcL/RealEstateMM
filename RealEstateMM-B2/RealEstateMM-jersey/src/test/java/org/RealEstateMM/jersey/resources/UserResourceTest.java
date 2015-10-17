@@ -2,7 +2,6 @@ package org.RealEstateMM.jersey.resources;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.StatusType;
@@ -91,11 +90,8 @@ public class UserResourceTest {
 	@Test
 	public void givenValidCredentialsWhenLoginThenReturnUserTypeAndToken() throws Exception {
 		Response response = userConnectionResource.login(A_PSEUDONYM, A_VALID_PASSWORD);
-
-		String actualJson = (String) response.getEntity();
-		String expectedJson = "{\"userType\":\"" + A_USER_DTO.getUserType() + "\", \"token\":\"" + A_VALID_TOKEN
-				+ "\"}";
-		assertEquals(expectedJson, actualJson);
+		LoginResponse expected = new LoginResponse(A_USER_DTO.getUserType(), A_VALID_TOKEN);
+		assertTrue(expected.equals((LoginResponse) response.getEntity()));
 	}
 
 	@Test

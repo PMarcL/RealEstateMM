@@ -28,6 +28,7 @@ import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 @Path("/")
+@Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
 	private static final String AUTHORIZATION_HEADER_MISSING = "Authorization header missing";
@@ -63,7 +64,6 @@ public class UserResource {
 			UserDTO userDTO = userService.login(pseudonym, password);
 			Session session = sessionService.open(userDTO);
 			return generateLoginResponse(userDTO, session);
-
 		} catch (InvalidPasswordException | UserDoesNotExistException | UnconfirmedEmailException exception) {
 			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
 		} catch (InvalidUserInformationsException exception) {
@@ -74,8 +74,8 @@ public class UserResource {
 	@PUT
 	@Path("user")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response editUserProfile(UserDTO userProfile) {
-
 		try {
 			userService.updateUser(userProfile);
 			Session session = sessionService.open(userProfile);
@@ -104,8 +104,8 @@ public class UserResource {
 	}
 
 	private Response generateLoginResponse(UserDTO userDTO, Session session) {
-		String json = "{\"userType\":\"" + userDTO.getUserType() + "\", \"token\":\"" + session.token + "\"}";
-		return Response.ok(Status.OK).entity(json).build();
+		LoginResponse response = new LoginResponse(userDTO.getUserType(), session.token);
+		return Response.ok(Status.OK).entity(response).build();
 	}
 
 	@GET
