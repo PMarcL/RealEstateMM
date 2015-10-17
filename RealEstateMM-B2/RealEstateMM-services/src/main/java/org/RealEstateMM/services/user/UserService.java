@@ -84,4 +84,9 @@ public class UserService {
 				userProfile.getLastName(), userProfile.getEmailAddress(), userProfile.getPhoneNumber());
 	}
 
+	public UserDTO getUserProfile(String pseudonym) throws UserDoesNotExistException {
+		User user = findUserWithPseudonym(pseudonym);
+		return userAssembler.toDTO(user);
+	}
+
 }

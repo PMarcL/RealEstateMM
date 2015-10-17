@@ -47,6 +47,7 @@ public class UserServiceTest {
 		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
 		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
 		given(user.getUserInformations()).willReturn(userInfos);
+		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
 
 		userService = new UserService(userRepository, userAssembler, emailValidator);
 	}
@@ -70,10 +71,7 @@ public class UserServiceTest {
 	@Test
 	public void givenAPseudonymWithRightPassWordWhenAuthenticateThenReturnTheUserDTO() throws Exception {
 		given(user.hasPassword(PASSWORD)).willReturn(true);
-		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
-
 		UserDTO actual = userService.authenticate(PSEUDONYM, PASSWORD);
-
 		assertEquals(USER_DTO, actual);
 	}
 
@@ -134,6 +132,18 @@ public class UserServiceTest {
 		given(user.hasEmailAddress(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
 		userService.updateUserProfile(USER_DTO);
 		verify(emailValidator, never()).sendEmailConfirmationMessage(any(UserInformations.class));
+	}
+
+	@Test
+	public void givenExistingUserWhenGetUserProfileShouldReturnAssembledUserInformations() {
+		UserDTO result = userService.getUserProfile(PSEUDONYM);
+		assertSame(USER_DTO, result);
+	}
+
+	@Test(expected = UserDoesNotExistException.class)
+	public void givenUserDoesNotExistsWhenGetUserProfileShouldThrowException() {
+		userDoesNotExists();
+		userService.getUserProfile(PSEUDONYM);
 	}
 
 	private void confirmationCodeIsInvalid() {

@@ -1,11 +1,7 @@
 package org.RealEstateMM.jersey.resources;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -101,13 +97,13 @@ public class UserResourceTest {
 				+ "\"}";
 		assertEquals(expectedJson, actualJson);
 	}
-	
+
 	@Test
 	public void givenValidCredentialsWhenEditUserProfileThenReturnStatusOK() throws Exception {
 		StatusType statusType = userConnectionResource.editUserProfile(A_USER_DTO).getStatusInfo();
 		assertEquals(Status.OK, statusType);
 	}
-	
+
 	@Test
 	public void givenInvalidCredentialsWhenEditUserProfileThenReturnResponseBadRequest() throws Exception {
 		doThrow(InvalidUserInformationsException.class).when(userServiceAC).updateUser(A_USER_DTO);
@@ -154,15 +150,35 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() throws ImpossibleToConfirmEmailAddressException {
+	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest()
+			throws ImpossibleToConfirmEmailAddressException {
 		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
 		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userServiceAC)
 				.confirmEmailAddress(alreadyConfirmedCode);
-
 
 		Response response = userConnectionResource.confirmEmail(alreadyConfirmedCode);
 
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
 	}
 
+	@Test
+	public void givenExistingUserPseudonymWhenGetUserProfileThenReturnStatusOk() {
+		given(userServiceAC.getUserProfile(A_PSEUDONYM)).willReturn(A_USER_DTO);
+		Response response = userConnectionResource.getUserProfile(A_PSEUDONYM);
+		assertEquals(Status.OK, response.getStatusInfo());
+	}
+
+	@Test
+	public void givenUserDoesNotExistWhenGetUserProfileThenReturnBadRequest() {
+		given(userServiceAC.getUserProfile(anyString())).willThrow(new UserDoesNotExistException());
+		Response response = userConnectionResource.getUserProfile(A_PSEUDONYM);
+		assertEquals(Status.NOT_FOUND, response.getStatusInfo());
+	}
+
+	@Test
+	public void givenExistingUserPseudonymWhenGetUserProfileThenResponseContainsUserProfileInfos() {
+		given(userServiceAC.getUserProfile(A_PSEUDONYM)).willReturn(A_USER_DTO);
+		Response response = userConnectionResource.getUserProfile(A_PSEUDONYM);
+		assertSame(A_USER_DTO, response.getEntity());
+	}
 }

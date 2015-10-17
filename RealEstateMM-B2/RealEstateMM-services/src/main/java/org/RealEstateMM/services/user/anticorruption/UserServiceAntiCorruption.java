@@ -21,8 +21,8 @@ public class UserServiceAntiCorruption {
 		validateUserDTO(userDTO);
 		userService.createUser(userDTO);
 	}
-	
-	public void updateUser(UserDTO userDTO){
+
+	public void updateUser(UserDTO userDTO) {
 		validateUserDTO(userDTO);
 		userService.updateUserProfile(userDTO);
 	}
@@ -57,6 +57,10 @@ public class UserServiceAntiCorruption {
 
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
 		userService.confirmEmailAddress(confirmationCode);
+	}
+
+	public UserDTO getUserProfile(String pseudonym) {
+		return userService.getUserProfile(pseudonym);
 	}
 
 }

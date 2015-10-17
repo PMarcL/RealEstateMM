@@ -119,4 +119,16 @@ public class UserResource {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
 	}
+
+	@GET
+	@Path("user/{pseudonym}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserProfile(@PathParam("pseudonym") String pseudonym) {
+		try {
+			UserDTO userProfile = userService.getUserProfile(pseudonym);
+			return Response.status(Status.OK).entity(userProfile).build();
+		} catch (UserDoesNotExistException e) {
+			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+		}
+	}
 }
