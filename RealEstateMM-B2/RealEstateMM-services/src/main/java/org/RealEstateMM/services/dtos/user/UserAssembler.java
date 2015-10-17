@@ -21,7 +21,7 @@ public class UserAssembler {
 
 	public User fromDTO(UserDTO userDTO) {
 		UserInformations userInfo = new UserInformations(userDTO.getPseudonym(), userDTO.getPassword(),
-				userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getPhoneNumber());
+				userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmailAddress(), userDTO.getPhoneNumber());
 		UserType type = new UserType(userDTO.getUserType());
 		return new User(userInfo, type);
 	}

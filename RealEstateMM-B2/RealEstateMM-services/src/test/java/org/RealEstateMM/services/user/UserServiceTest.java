@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 import java.util.Optional;
 
+import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -28,23 +29,26 @@ public class UserServiceTest {
 	private final String INVALID_PASSWORD = "posdf33";
 
 	private User user;
+	private UserInformations userInfos;
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
-	private UserEmailAddressValidator emailConfirmer;
+	private UserEmailAddressValidator emailValidator;
 
 	private UserService userService;
 
 	@Before
 	public void setup() {
 		user = mock(User.class);
+		userInfos = mock(UserInformations.class);
 		userRepository = mock(UserRepository.class);
 		userAssembler = mock(UserAssembler.class);
-		emailConfirmer = mock(UserEmailAddressValidator.class);
+		emailValidator = mock(UserEmailAddressValidator.class);
 
 		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
 		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
+		given(user.getUserInformations()).willReturn(userInfos);
 
-		userService = new UserService(userRepository, userAssembler, emailConfirmer);
+		userService = new UserService(userRepository, userAssembler, emailValidator);
 	}
 
 	@Test
@@ -60,7 +64,7 @@ public class UserServiceTest {
 
 		userService.createUser(USER_DTO);
 
-		verify(emailConfirmer).sendEmailConfirmationMessage(userInfos);
+		verify(emailValidator).sendEmailConfirmationMessage(userInfos);
 	}
 
 	@Test
@@ -118,8 +122,22 @@ public class UserServiceTest {
 		userService.updateUserProfile(USER_DTO);
 	}
 
+	@Test
+	public void givenNewEmailAddressDifferentFromUserEmailAddressWhenUpdateUserProfileShouldSendEmailAddressConfirmationEmail() {
+		given(user.hasEmailAddress(anyString())).willReturn(false);
+		userService.updateUserProfile(USER_DTO);
+		verify(emailValidator).sendEmailConfirmationMessage(userInfos);
+	}
+
+	@Test
+	public void givenEmailAddressIsSameAsCurrentEmailAddressWhenUdpateUserProfileShouldNotSendEmailAddressConfirmationEmail() {
+		given(user.hasEmailAddress(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
+		userService.updateUserProfile(USER_DTO);
+		verify(emailValidator, never()).sendEmailConfirmationMessage(any(UserInformations.class));
+	}
+
 	private void confirmationCodeIsInvalid() {
-		doThrow(InvalidEmailConfirmationCodeException.class).when(emailConfirmer).confirmEmailAddress(anyString(),
+		doThrow(InvalidEmailConfirmationCodeException.class).when(emailValidator).confirmEmailAddress(anyString(),
 				any(UserRepository.class));
 	}
 
@@ -129,7 +147,7 @@ public class UserServiceTest {
 
 	private void validateUserProfile(UserInformations userInfos) {
 		assertEquals(USER_DTO.getPseudonym(), userInfos.pseudonym);
-		assertEquals(USER_DTO.getEmail(), userInfos.emailAddress);
+		assertEquals(USER_DTO.getEmailAddress(), userInfos.emailAddress);
 		assertEquals(USER_DTO.getFirstName(), userInfos.firstName);
 		assertEquals(USER_DTO.getLastName(), userInfos.lastName);
 		assertEquals(USER_DTO.getPassword(), userInfos.password);

@@ -71,13 +71,17 @@ public class UserService {
 
 	public void updateUserProfile(UserDTO userProfile) throws UserDoesNotExistException {
 		User user = findUserWithPseudonym(userProfile.getPseudonym());
+		boolean emailChanged = !(user.hasEmailAddress(userProfile.getEmailAddress()));
 		user.updateUserInformations(createUserInfosFromDTO(userProfile));
 		userRepository.replaceUser(user);
+		if (emailChanged) {
+			emailAddressValidator.sendEmailConfirmationMessage(user.getUserInformations());
+		}
 	}
 
 	private UserInformations createUserInfosFromDTO(UserDTO userProfile) {
 		return new UserInformations(userProfile.getPseudonym(), userProfile.getPassword(), userProfile.getFirstName(),
-				userProfile.getLastName(), userProfile.getEmail(), userProfile.getPhoneNumber());
+				userProfile.getLastName(), userProfile.getEmailAddress(), userProfile.getPhoneNumber());
 	}
 
 }

@@ -33,7 +33,7 @@ public class UserAssemblerTest {
 		userDTO = assembler.toDTO(user);
 
 		assertEquals(UserBuilder.DEFAULT_PSEUDONYM, userDTO.getPseudonym());
-		assertEquals(UserBuilder.DEFAULT_EMAIL_ADDRESS, userDTO.getEmail());
+		assertEquals(UserBuilder.DEFAULT_EMAIL_ADDRESS, userDTO.getEmailAddress());
 		assertEquals(UserBuilder.DEFAULT_PHONE_NUMBER, userDTO.getPhoneNumber());
 		assertEquals(UserBuilder.DEFAULT_FIRST_NAME, userDTO.getFirstName());
 		assertEquals(UserBuilder.DEFAULT_LAST_NAME, userDTO.getLastName());
@@ -48,7 +48,7 @@ public class UserAssemblerTest {
 
 		UserInformations userInfo = result.getUserInformations();
 		assertEquals(dto.getPseudonym(), result.getPseudonym());
-		assertEquals(dto.getEmail(), userInfo.emailAddress);
+		assertEquals(dto.getEmailAddress(), userInfo.emailAddress);
 		assertEquals(dto.getPhoneNumber(), userInfo.phoneNumber);
 		assertEquals(dto.getFirstName(), userInfo.firstName);
 		assertEquals(dto.getLastName(), userInfo.lastName);

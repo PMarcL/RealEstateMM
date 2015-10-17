@@ -44,7 +44,7 @@ public class UserServiceAntiCorruption {
 		if (!informationsValidator.nameIsValid(userDTO.getLastName())) {
 			throw new InvalidUserInformationsException("LastName");
 		}
-		if (!informationsValidator.emailIsValid(userDTO.getEmail())) {
+		if (!informationsValidator.emailIsValid(userDTO.getEmailAddress())) {
 			throw new InvalidUserInformationsException("Email");
 		}
 		if (!informationsValidator.phoneNumberIsValid(userDTO.getPhoneNumber())) {
