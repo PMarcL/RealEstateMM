@@ -64,6 +64,13 @@ public class UserTest {
 	}
 
 	@Test
+	public void givenUnlockedUserWhenLockThenShouldBeLocked() {
+		user.unlock();
+		user.lock();
+		assertTrue(user.isLocked());
+	}
+
+	@Test
 	public void givenEmailAddressEqualsUserEmailAddressWhenVerifyingIfUserHasEmailAddressShouldReturnTrue() {
 		assertTrue(user.hasEmailAddress(EMAIL_ADDRESS));
 	}

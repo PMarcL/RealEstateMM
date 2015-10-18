@@ -128,6 +128,13 @@ public class UserServiceTest {
 	}
 
 	@Test
+	public void givenNewEmailAddressDifferentFromEmailAddressWhenUpdateUserProfileShouldLockUser() {
+		given(user.hasEmailAddress(anyString())).willReturn(false);
+		userService.updateUserProfile(USER_DTO);
+		verify(user).lock();
+	}
+
+	@Test
 	public void givenEmailAddressIsSameAsCurrentEmailAddressWhenUdpateUserProfileShouldNotSendEmailAddressConfirmationEmail() {
 		given(user.hasEmailAddress(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
 		userService.updateUserProfile(USER_DTO);

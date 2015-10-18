@@ -75,6 +75,7 @@ public class UserService {
 		user.updateUserInformations(createUserInfosFromDTO(userProfile));
 		userRepository.replaceUser(user);
 		if (emailChanged) {
+			user.lock();
 			emailAddressValidator.sendEmailConfirmationMessage(user.getUserInformations());
 		}
 	}

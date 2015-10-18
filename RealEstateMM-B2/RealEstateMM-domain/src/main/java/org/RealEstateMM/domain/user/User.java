@@ -9,7 +9,7 @@ public class User {
 	public User(UserInformations userInfo, UserType type) {
 		this.userInformations = userInfo;
 		this.userType = type;
-		this.isLocked = true;
+		lock();
 	}
 
 	public UserInformations getUserInformations() {
@@ -42,6 +42,10 @@ public class User {
 
 	public void updateUserInformations(UserInformations userInformations) {
 		this.userInformations = userInformations;
+	}
+
+	public void lock() {
+		isLocked = true;
 	}
 
 }
