@@ -13,7 +13,6 @@ public class EmailAddressConfirmationMessage extends EmailMessage {
 	}
 
 	private static String createUrl(String baseUrl, ConfirmationCode confirmationCode) {
-		// TODO test the url is well built
 		return baseUrl + RESOURCE_PATH + confirmationCode.toString();
 	}
 
