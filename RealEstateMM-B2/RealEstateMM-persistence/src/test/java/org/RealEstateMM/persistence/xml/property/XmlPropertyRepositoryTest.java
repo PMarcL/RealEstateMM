@@ -9,10 +9,12 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
+import org.RealEstateMM.persistence.xml.XmlMarshallingException;
 import org.RealEstateMM.persistence.xml.property.XmlProperty;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyCollection;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
+import org.RealEstateMM.persistence.xml.user.XmlUserCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -35,8 +37,14 @@ public class XmlPropertyRepositoryTest {
 	}
 
 	@Test
-	public void givenEmptyXmlFileWhenCreatedShouldInitializeEmptyPropertyCollection() {
+	public void givenEmptyXmlFileWhenCreatedThenInitializeEmptyPropertyCollection() {
 		given(marshaller.unmarshal(XmlPropertyCollection.class)).willThrow(new EmptyXmlFileException());
+		repository = new XmlPropertyRepository(marshaller, assembler);
+	}
+
+	@Test
+	public void givenXmlFileWithNoPropertyWhenCreatedThenInitializeEmptyPropertyCollection() {
+		given(marshaller.unmarshal(XmlUserCollection.class)).willThrow(new XmlMarshallingException(null));
 		repository = new XmlPropertyRepository(marshaller, assembler);
 	}
 

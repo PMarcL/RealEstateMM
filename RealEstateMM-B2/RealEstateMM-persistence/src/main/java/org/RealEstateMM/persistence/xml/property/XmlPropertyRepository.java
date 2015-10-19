@@ -9,6 +9,7 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
+import org.RealEstateMM.persistence.xml.XmlMarshallingException;
 
 public class XmlPropertyRepository implements PropertyRepository {
 
@@ -28,7 +29,10 @@ public class XmlPropertyRepository implements PropertyRepository {
 			propertyCache = marshaller.unmarshal(XmlPropertyCollection.class);
 		} catch (EmptyXmlFileException ex) {
 			propertyCache = new XmlPropertyCollection();
+		} catch (XmlMarshallingException e) {
+			propertyCache = new XmlPropertyCollection();
 		}
+
 	}
 
 	@Override

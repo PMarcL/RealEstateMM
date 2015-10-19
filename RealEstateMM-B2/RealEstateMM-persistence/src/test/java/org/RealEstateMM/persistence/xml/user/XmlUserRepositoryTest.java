@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
+import org.RealEstateMM.persistence.xml.XmlMarshallingException;
 import org.RealEstateMM.persistence.xml.user.XmlUser;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.RealEstateMM.persistence.xml.user.XmlUserCollection;
@@ -41,6 +42,13 @@ public class XmlUserRepositoryTest {
 	@Test
 	public void givenEmptyXmlFileWhenCreatedShouldInitializeEmptyUserCollection() {
 		given(marshaller.unmarshal(XmlUserCollection.class)).willThrow(new EmptyXmlFileException());
+		repository = new XmlUserRepository(marshaller, assembler);
+		assertFalse(repository.contains(PSEUDONYM));
+	}
+
+	@Test
+	public void givenANewXmlRepositoryInstanceWhenCreatingUserCacheThenCreateNewUserCacheIfMarshallerThrowException() {
+		given(marshaller.unmarshal(XmlUserCollection.class)).willThrow(new XmlMarshallingException(null));
 		repository = new XmlUserRepository(marshaller, assembler);
 		assertFalse(repository.contains(PSEUDONYM));
 	}

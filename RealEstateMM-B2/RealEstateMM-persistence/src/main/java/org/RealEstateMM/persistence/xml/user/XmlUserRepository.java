@@ -6,6 +6,7 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
+import org.RealEstateMM.persistence.xml.XmlMarshallingException;
 
 public class XmlUserRepository extends UserRepository {
 
@@ -24,6 +25,8 @@ public class XmlUserRepository extends UserRepository {
 		try {
 			usersCache = marshaller.unmarshal(XmlUserCollection.class);
 		} catch (EmptyXmlFileException e) {
+			usersCache = new XmlUserCollection();
+		} catch (XmlMarshallingException e) {
 			usersCache = new XmlUserCollection();
 		}
 	}
