@@ -9,18 +9,18 @@
 <body>
 
 <div class="form">
-    <form>
+    <form id="buyer-info-form">
 
 
 
         <div class="output-field">
-            <input id="username" type="text" class="container">
+            <input id="username" readonly="true" type="text" class="container">
             <label for="username">Username</label>
         </div>
 
 
         <div class="output-field">
-            <input id="password" type="password" class="container">
+            <input id="password" readonly="true" type="password" class="container">
             <label for="password">Password</label>
         </div>
 
@@ -35,8 +35,9 @@
         </div>
 
         <div class="output-field">
-            <input id="email" type="text" class="container">
+            <input id="email" type="email" class="container">
             <label>Email</label>
+
         </div>
 
         <div class="output-field">
@@ -45,6 +46,7 @@
         </div>
 
         <div class="output-field"><a class="waves-effect waves-light btn" onclick="putUserInfo()">Edit Information</a></div>
+        <div class="output-field"><a class="waves-effect waves-light btn" onclick="getUserInfo()">Get Actual Info</a></div>
 
     </form>
 
@@ -57,6 +59,7 @@
 <script src="asset/js/PutUserInfo.js"></script>
 <script src = 'asset/js/AccountTypeCookie.js'></script>
 <script src="asset/js/LoadMainMenu.js"></script>
+<script src="asset/js/GetUserInfo.js"></script>
 
 </body>
 </html>
