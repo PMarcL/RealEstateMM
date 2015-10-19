@@ -3,11 +3,12 @@ package org.RealEstateMM.services.user.anticorruption;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
-public class UserServiceAntiCorruption {
+public class UserServiceAntiCorruption implements UserServiceHandler {
 
 	private UserInformationsValidator informationsValidator;
 	private UserService userService;
@@ -17,18 +18,21 @@ public class UserServiceAntiCorruption {
 		informationsValidator = validator;
 	}
 
+	@Override
 	public void createUser(UserDTO userDTO) {
 		validateUserDTO(userDTO);
 		userService.createUser(userDTO);
 	}
 
-	public void updateUser(UserDTO userDTO) {
+	@Override
+	public void updateUserProfile(UserDTO userDTO) {
 		validateUserDTO(userDTO);
 		userService.updateUserProfile(userDTO);
 	}
 
-	public UserDTO login(String pseudonym, String password)
-			throws InvalidPasswordException, UserDoesNotExistException, UnconfirmedEmailException {
+	@Override
+	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
+			UserDoesNotExistException, UnconfirmedEmailException {
 		if (!informationsValidator.stringIsValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
 		} else if (!informationsValidator.stringIsValid(password)) {
@@ -55,12 +59,13 @@ public class UserServiceAntiCorruption {
 		}
 	}
 
+	@Override
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
 		userService.confirmEmailAddress(confirmationCode);
 	}
 
+	@Override
 	public UserDTO getUserProfile(String pseudonym) {
 		return userService.getUserProfile(pseudonym);
 	}
-
 }

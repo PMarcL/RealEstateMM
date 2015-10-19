@@ -21,6 +21,10 @@ import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
+import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.services.user.UserServiceHandler;
+import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
+import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
@@ -36,6 +40,7 @@ public class DemoContext extends Context {
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
 	private PropertyServiceHandler propertyService;
+	private UserServiceHandler userService;
 
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
@@ -59,6 +64,9 @@ public class DemoContext extends Context {
 		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
 				new PropertyInformationsValidator());
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
+
+		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
+		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
 	}
 
 	private void registerServiceDependencies() {

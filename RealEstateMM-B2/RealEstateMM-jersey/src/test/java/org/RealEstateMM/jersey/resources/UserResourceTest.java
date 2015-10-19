@@ -41,7 +41,7 @@ public class UserResourceTest {
 		userServiceAC = mock(UserServiceAntiCorruption.class);
 		sessionService = mock(SessionService.class);
 
-		given(userServiceAC.login(A_PSEUDONYM, A_VALID_PASSWORD)).willReturn(A_USER_DTO);
+		given(userServiceAC.authenticate(A_PSEUDONYM, A_VALID_PASSWORD)).willReturn(A_USER_DTO);
 		given(sessionService.open(A_USER_DTO)).willReturn(A_SESSION);
 
 		userConnectionResource = new UserResource(userServiceAC, sessionService);
@@ -75,14 +75,15 @@ public class UserResourceTest {
 
 	@Test
 	public void givenInvalidPasswordWhenLoginThenReturnResponseUnauthorizedError() throws Exception {
-		doThrow(InvalidPasswordException.class).when(userServiceAC).login(A_PSEUDONYM, AN_INVALID_PASSWORD);
+		doThrow(InvalidPasswordException.class).when(userServiceAC).authenticate(A_PSEUDONYM, AN_INVALID_PASSWORD);
 		Response response = userConnectionResource.login(A_PSEUDONYM, AN_INVALID_PASSWORD);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
 	@Test
 	public void givenInvalidPseudonymWhenLoginThenReturnResponseUnauthorizedError() throws Exception {
-		doThrow(UserDoesNotExistException.class).when(userServiceAC).login(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
+		doThrow(UserDoesNotExistException.class).when(userServiceAC).authenticate(UNEXISTING_PSEUDONYM,
+				AN_INVALID_PASSWORD);
 		Response response = userConnectionResource.login(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
@@ -102,7 +103,7 @@ public class UserResourceTest {
 
 	@Test
 	public void givenInvalidCredentialsWhenEditUserProfileThenReturnResponseBadRequest() throws Exception {
-		doThrow(InvalidUserInformationsException.class).when(userServiceAC).updateUser(A_USER_DTO);
+		doThrow(InvalidUserInformationsException.class).when(userServiceAC).updateUserProfile(A_USER_DTO);
 		StatusType statusType = userConnectionResource.editUserProfile(A_USER_DTO).getStatusInfo();
 		assertEquals(Status.BAD_REQUEST, statusType);
 	}
@@ -115,7 +116,7 @@ public class UserResourceTest {
 
 	@Test
 	public void givenCredentialsWithInvalidInformationWhenloginThenReturnsResponseBadRequest() throws Exception {
-		doThrow(InvalidUserInformationsException.class).when(userServiceAC).login(null, null);
+		doThrow(InvalidUserInformationsException.class).when(userServiceAC).authenticate(null, null);
 		Response response = userConnectionResource.login(null, null);
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
 	}

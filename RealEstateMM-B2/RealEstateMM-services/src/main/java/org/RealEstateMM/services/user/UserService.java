@@ -15,7 +15,7 @@ import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
-public class UserService {
+public class UserService implements UserServiceHandler {
 
 	private UserRepository userRepository;
 	private UserAssembler userAssembler;
@@ -34,14 +34,16 @@ public class UserService {
 		emailAddressValidator = ServiceLocator.getInstance().getService(UserEmailAddressValidator.class);
 	}
 
+	@Override
 	public void createUser(UserDTO userDTO) throws CouldNotSendMailException {
 		User newUser = userAssembler.fromDTO(userDTO);
 		userRepository.addUser(newUser);
 		emailAddressValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
 	}
 
-	public UserDTO authenticate(String pseudonym, String password)
-			throws InvalidPasswordException, UserDoesNotExistException, UnconfirmedEmailException {
+	@Override
+	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
+			UserDoesNotExistException, UnconfirmedEmailException {
 
 		User user = findUserWithPseudonym(pseudonym);
 		if (user.isLocked()) {
@@ -61,6 +63,7 @@ public class UserService {
 		return user.get();
 	}
 
+	@Override
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
 		try {
 			emailAddressValidator.confirmEmailAddress(confirmationCode, userRepository);
@@ -69,6 +72,7 @@ public class UserService {
 		}
 	}
 
+	@Override
 	public void updateUserProfile(UserDTO userProfile) throws UserDoesNotExistException {
 		User user = findUserWithPseudonym(userProfile.getPseudonym());
 		boolean emailChanged = !(user.hasEmailAddress(userProfile.getEmailAddress()));
@@ -85,6 +89,7 @@ public class UserService {
 				userProfile.getLastName(), userProfile.getEmailAddress(), userProfile.getPhoneNumber());
 	}
 
+	@Override
 	public UserDTO getUserProfile(String pseudonym) throws UserDoesNotExistException {
 		User user = findUserWithPseudonym(pseudonym);
 		return userAssembler.toDTO(user);

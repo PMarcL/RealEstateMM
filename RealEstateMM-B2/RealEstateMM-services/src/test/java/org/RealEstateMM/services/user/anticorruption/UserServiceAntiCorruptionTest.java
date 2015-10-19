@@ -78,41 +78,41 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test
 	public void givenUpdateInformationWhenUpdateInformationThenRegisterUserUpdatedWithService() {
-		userServiceAC.updateUser(A_USER_DTO);
+		userServiceAC.updateUserProfile(A_USER_DTO);
 		verify(service).updateUserProfile(A_USER_DTO);
 	}
 
 	@Test
 	public void givenAPseudonymWhenPseudonymIsValidThenCallsServiceToCheckUserExistance() throws Exception {
-		userServiceAC.login(VALID_PSEUDO, VALID_PASSWORD);
+		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
 		verify(service).authenticate(VALID_PSEUDO, VALID_PASSWORD);
 	}
 
 	@Test
 	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() throws Exception {
-		userServiceAC.login(VALID_PSEUDO, VALID_PASSWORD);
+		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).stringIsValid(VALID_PSEUDO);
 	}
 
 	@Test
 	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() throws Exception {
-		userServiceAC.login(VALID_PSEUDO, VALID_PASSWORD);
+		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
 		verify(validator).stringIsValid(VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAPseudonymWhenPseudonymIsInvalidThenThrowException() throws Exception {
-		userServiceAC.login(INVALID_STRING, VALID_PASSWORD);
+		userServiceAC.authenticate(INVALID_STRING, VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAnInvalidPasswordWhenCheckingUserExistanceThenThrowException() throws Exception {
-		userServiceAC.login(INVALID_STRING, INVALID_STRING);
+		userServiceAC.authenticate(INVALID_STRING, INVALID_STRING);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenAValidPseudoAndInvalidPasswordWhenCheckinUserExistanceThenThrowException() throws Exception {
-		userServiceAC.login(VALID_PSEUDO, INVALID_STRING);
+		userServiceAC.authenticate(VALID_PSEUDO, INVALID_STRING);
 	}
 
 	@Test

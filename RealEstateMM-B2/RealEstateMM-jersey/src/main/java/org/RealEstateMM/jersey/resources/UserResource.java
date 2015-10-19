@@ -19,24 +19,24 @@ import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
-import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
-import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
 	private static final String AUTHORIZATION_HEADER_MISSING = "Authorization header missing";
-	private UserServiceAntiCorruption userService;
+	private UserServiceHandler userService;
 	private SessionService sessionService;
 
 	public UserResource() {
-		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
+		this.userService = ServiceLocator.getInstance().getService(UserServiceHandler.class);
 		this.sessionService = new SessionService();
 	}
 
@@ -61,7 +61,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@QueryParam("username") String pseudonym, @QueryParam("password") String password) {
 		try {
-			UserDTO userDTO = userService.login(pseudonym, password);
+			UserDTO userDTO = userService.authenticate(pseudonym, password);
 			Session session = sessionService.open(userDTO);
 			return generateLoginResponse(userDTO, session);
 		} catch (InvalidPasswordException | UserDoesNotExistException | UnconfirmedEmailException exception) {
@@ -77,7 +77,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response editUserProfile(UserDTO userProfile) {
 		try {
-			userService.updateUser(userProfile);
+			userService.updateUserProfile(userProfile);
 			Session session = sessionService.open(userProfile);
 			return generateLoginResponse(userProfile, session);
 		} catch (InvalidUserInformationsException exception) {
