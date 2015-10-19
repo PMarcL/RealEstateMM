@@ -1,3 +1,4 @@
+var change = false;
 function putUserInfo() {
     var formData = JSON.stringify({
 
@@ -10,18 +11,21 @@ function putUserInfo() {
         "userType" : "buyer"
     });
 
+
     if(isAFieldEmpty())
     {
 
         $('form .card').attr('style','display:block');
         $('form .card').html("You must fill all fields");
     }
+
     else
     {
         ajaxPutUser(formData);
         $('form .card').attr('style','display:none');
     }
 }
+
 
 function ajaxPutUser(formData)
 {
