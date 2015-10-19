@@ -15,7 +15,7 @@ body
 .propertylist-item
 {
   @include j-column(8/10,$offset:1/10);
-  height:200px;
+  height:300px;
   border-bottom: solid;
 }
 
@@ -66,4 +66,20 @@ body
   @include j-column(1);
   font-size: 0.75em;
   color:#4caf50;
+}
+
+.featuresAttribute
+{
+  @include j-column(3/10);
+}
+
+.features
+{
+
+}
+
+.featureTitle
+{
+  @include j-column(1);
+  font-weight: bold;
 }

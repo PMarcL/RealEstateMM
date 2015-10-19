@@ -8,26 +8,12 @@ body {
   width: 79.4%;
   margin-left: 10.3%;
   margin-right: 3%;
-  height: 425px;
+  height: 300px;
   border-bottom: solid; }
   .propertylist-item:last-child {
     margin-right: 0; }
 
 .propertylist-item:hover {
-  opacity: 0.8; }
-
-.ownerpropertylist-item {
-  float: left;
-  clear: none;
-  width: 79.4%;
-  margin-left: 10.3%;
-  margin-right: 3%;
-  height: 500px;
-  border-bottom: solid; }
-  .ownerpropertylist-item:last-child {
-    margin-right: 0; }
-
-.ownerpropertylist-item:hover {
   opacity: 0.8; }
 
 .price {
@@ -95,6 +81,22 @@ body {
     margin-right: 0; }
 
 .featuresAttribute {
-  padding-left:3em; }
+  float: left;
+  clear: none;
+  width: 27.9%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .featuresAttribute:last-child {
+    margin-right: 0; }
+
+.featureTitle {
+  float: left;
+  clear: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 3%;
+  font-weight: bold; }
+  .featureTitle:last-child {
+    margin-right: 0; }
 
 /*# sourceMappingURL=browseProperties.css.map */
