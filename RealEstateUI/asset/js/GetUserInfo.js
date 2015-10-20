@@ -21,11 +21,6 @@ function getUserInfo()
             $('#lastName').val(data.lastName);
             $('#username').val(data.pseudonym);
             $('#password').val(data.password);
-
-
-
-
-
         },
         error: function (data, textStatus, xhr) {
             $('.card').attr('style','display:block');

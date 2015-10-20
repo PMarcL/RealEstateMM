@@ -18,6 +18,6 @@
         <password>pm</password>
         <phoneNumber>8198181752</phoneNumber>
         <pseudonym>PM</pseudonym>
-        <userType>seller</userType>
+        <userType>buyer</userType>
     </user>
 </users>
