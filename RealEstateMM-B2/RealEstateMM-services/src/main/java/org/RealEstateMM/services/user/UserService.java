@@ -42,8 +42,8 @@ public class UserService implements UserServiceHandler {
 	}
 
 	@Override
-	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
-			UserDoesNotExistException, UnconfirmedEmailException {
+	public UserDTO authenticate(String pseudonym, String password)
+			throws InvalidPasswordException, UserDoesNotExistException, UnconfirmedEmailException {
 
 		User user = findUserWithPseudonym(pseudonym);
 		if (user.isLocked()) {
@@ -77,11 +77,11 @@ public class UserService implements UserServiceHandler {
 		User user = findUserWithPseudonym(userProfile.getPseudonym());
 		boolean emailChanged = !(user.hasEmailAddress(userProfile.getEmailAddress()));
 		user.updateUserInformations(createUserInfosFromDTO(userProfile));
-		userRepository.replaceUser(user);
 		if (emailChanged) {
 			user.lock();
 			emailAddressValidator.sendEmailConfirmationMessage(user.getUserInformations());
 		}
+		userRepository.replaceUser(user);
 	}
 
 	private UserInformations createUserInfosFromDTO(UserDTO userProfile) {

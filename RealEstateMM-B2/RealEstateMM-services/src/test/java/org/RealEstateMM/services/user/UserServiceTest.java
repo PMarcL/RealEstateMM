@@ -128,10 +128,14 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void givenNewEmailAddressDifferentFromEmailAddressWhenUpdateUserProfileShouldLockUser() {
+	public void givenNewEmailAddressDifferentFromEmailAddressWhenUpdateUserProfileShouldLockUserBeforeReplacingItInRepository() {
 		given(user.hasEmailAddress(anyString())).willReturn(false);
+
 		userService.updateUserProfile(USER_DTO);
-		verify(user).lock();
+
+		InOrder inOrder = inOrder(user, userRepository);
+		inOrder.verify(user).lock();
+		inOrder.verify(userRepository).replaceUser(user);
 	}
 
 	@Test
