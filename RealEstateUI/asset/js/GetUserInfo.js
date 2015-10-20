@@ -2,16 +2,16 @@
 
 function getUserInfo()
 {
-    var re = new RegExp(name + "=([^;]+)");
-    var value = re.exec(document.cookie);
+    var loginCookie = new LoginCookie();
+
 
     $.ajax({
-        url: "http://localhost:8080/user/" + value[1],
+        url: "http://localhost:8080/user/" + loginCookie.cookie(),
         type: "GET",
         contentType: "application/json",
         data:
         {
-            "Pseudonym": value[1]
+            "Pseudonym": loginCookie.cookie()
         },
         success: function (data, status, httpResponse) {
 
