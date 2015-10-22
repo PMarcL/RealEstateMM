@@ -1,8 +1,6 @@
 @import '../../jeet/index';
 
 
-@include j-edit();
-
 .toolbar
 {
   @include j-cf();
@@ -17,10 +15,6 @@ aside
 
 }
 
-.login
-{
-  margin-right: 5%;
-}
 section a
 {
 
@@ -55,19 +49,12 @@ h5
   color:#D32F2F;
 }
 
-
-
-@media screen and (max-width: 800px)
-{
-  aside
-  {
-    text-align: left;
-    @include j-column(1);
-
-  }
-}
-
 .accountActions
 {
   @include j-column(1/2);
+}
+
+iframe
+{
+  @include j-column(1);
 }

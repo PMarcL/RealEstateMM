@@ -1,0 +1,18 @@
+@import '../../jeet/index';
+
+
+nav
+{
+  @include j-column(1);
+  background-color: #232838;
+}
+
+li > a:hover
+{
+  background-color:#90a4ae;
+}
+
+img
+{
+  height:64px;
+}

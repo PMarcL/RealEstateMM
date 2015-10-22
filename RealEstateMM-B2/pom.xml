@@ -49,15 +49,9 @@
 			<version>3.4.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>1.7.1</version>
-		</dependency>
 	</dependencies>
 
 	<modules>
-		<module>RealEstateMM-acceptanceTests</module>
 		<module>RealEstateMM-domain</module>
 		<module>RealEstateMM-services</module>
 		<module>RealEstateMM-persistence</module>

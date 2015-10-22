@@ -1,20 +1,102 @@
+body {
+  font-weight: 150;
+  font-size: 1.25em; }
+
 .propertylist-item {
   float: left;
   clear: none;
   width: 79.4%;
   margin-left: 10.3%;
   margin-right: 3%;
-  height: 200px; }
+  height: 300px;
+  border-bottom: solid; }
   .propertylist-item:last-child {
     margin-right: 0; }
 
-.propertylist-item div {
+.propertylist-item:hover {
+  opacity: 0.8; }
+
+.price {
+  font-weight: bold; }
+
+.type {
+  float: left;
+  clear: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 3%;
+  font-size: 2em; }
+  .type:last-child {
+    margin-right: 0; }
+
+.city {
+  float: left;
+  clear: none;
+  width: 17.6%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .city:last-child {
+    margin-right: 0; }
+
+.province {
+  float: left;
+  clear: none;
+  width: 17.6%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .province:last-child {
+    margin-right: 0; }
+
+.streetAddress {
   float: left;
   clear: none;
   width: 27.9%;
   margin-left: 0;
   margin-right: 3%; }
-  .propertylist-item div:last-child {
+  .streetAddress:last-child {
+    margin-right: 0; }
+
+.zipCode {
+  float: left;
+  clear: none;
+  width: 17.6%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .zipCode:last-child {
+    margin-right: 0; }
+
+.owner {
+  font-size: 1em;
+  color: #26a69a; }
+
+.status {
+  float: left;
+  clear: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 3%;
+  font-size: 0.75em;
+  color: #4caf50; }
+  .status:last-child {
+    margin-right: 0; }
+
+.featuresAttribute {
+  float: left;
+  clear: none;
+  width: 27.9%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .featuresAttribute:last-child {
+    margin-right: 0; }
+
+.featureTitle {
+  float: left;
+  clear: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 3%;
+  font-weight: bold; }
+  .featureTitle:last-child {
     margin-right: 0; }
 
 /*# sourceMappingURL=browseProperties.css.map */

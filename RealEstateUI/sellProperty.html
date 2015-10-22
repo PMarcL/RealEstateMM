@@ -2,62 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New Sale</title>
+    <title>Property</title>
 
     <link rel="stylesheet" href="asset/css/sellProperty.css"/>
     <link rel="stylesheet" href="asset/css/signupStyle.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
 </head>
 <body>
 
-<div class="form">
+<header></header>
+
+<div id="property_container" class="form"></div>
+
+<script type="text/template" id="edit_property">
+    <h4 style="margin:0;">Property Features</h4>
     <form>
-
-
         <div class="input-field">
-            <input id="price" type="text" class="validate">
-            <label for="price">price</label>
-        </div>
-
-
-        <div class="input-field">
-            <input id="propertyType" type="text" class="validate">
-            <label for="propertyType">Type</label>
+            <input id="bathrooms" type="text" class="validate">
+            <label for="bathrooms">Number of bathrooms</label>
         </div>
 
         <div class="input-field">
-            <input id="streetAddress" type="text" class="validate">
-            <label for="streetAddress">Address</label>
+            <input id="bedrooms" type="text" class="validate">
+            <label for="bedrooms">Number of bedrooms</label>
         </div>
 
         <div class="input-field">
-            <input id="city" type="text" class="validate">
-            <label for="city">City</label>
+            <input id="totalNumberRooms" type="text" class="validate">
+            <label for="totalNumberRooms">Total number of rooms</label>
         </div>
 
         <div class="input-field">
-            <input id="province" type="text" class="validate">
-            <label for="province">Province</label>
+            <input id="levels" type="text" class="validate">
+            <label for="levels">Number of levels</label>
         </div>
 
         <div class="input-field">
-            <input id="zipCode" type="text" class="validate">
-            <label for="zipCode">Zip Code</label>
+            <input id="lotDimensions" type="text" class="validate">
+            <label for="lotDimensions">Lot dimensions (m<sup>2</sup>)</label>
         </div>
 
+        <div class="input-field">
+            <input id="yearOfConstruction" type="text" class="validate">
+            <label for="yearOfConstruction">Year of construction</label>
+        </div>
 
+        <div class="input-field">
+            <input id="livingSpaceArea" type="text" class="validate">
+            <label for="livingSpaceArea">Living Space Area (m<sup>2</sup>)</label>
+        </div>
+
+        <div class="input-field select">
+            <select style="display:block" id="backyardFaces">
+                <option value="" disabled selected>Choose backyard direction</option>
+                <option value="north">North</option>
+                <option value="east">East</option>
+                <option value="south">South</option>
+                <option value="west">West</option>
+            </select>
+        </div>
+
+        <div class="input-field description">
+            <input id="description" type="text" class="validate">
+            <label for="description">Description</label>
+        </div>
 
         <div class="card red darken-2">You must fill all fields</div>
-        <div class="confirm-sale"><a onclick="postNewProperty()" class="waves-effect waves-light btn" >Confirm</a></div>
-
+        <div class="confirm-sale"><a class="waves-effect waves-light btn editProperty" >Save features</a></div>
     </form>
+</script>
 
-</div>
+<script type="text/template" id="new_property">
+    <div id="newProperty" class="form">
+        <form>
+            <div class="input-field">
+                <input id="price" type="text" class="validate">
+                <label for="price">price</label>
+            </div>
+
+            <div class="input-field">
+                <input id="streetAddress" type="text" class="validate">
+                <label for="streetAddress">Address</label>
+            </div>
+
+            <div class="input-field">
+                <input id="city" type="text" class="validate">
+                <label for="city">City</label>
+            </div>
+
+            <div class="input-field">
+                <input id="province" type="text" class="validate">
+                <label for="province">Province</label>
+            </div>
+
+            <div class="input-field">
+                <input id="zipCode" type="text" class="validate">
+                <label for="zipCode">Zip Code</label>
+            </div>
+
+            <div class="input-field select">
+                <select style="display:block" id="propertyType">
+                    <option value="" disabled selected>Choose your property type</option>
+                    <option value="house">House</option>
+                    <option value="multiplex">Multiplex</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="land">Land</option>
+                    <option value="farm">Farm</option>
+                </select>
+            </div>
+
+            <div class="card red darken-2">You must fill all fields</div>
+            <div class="confirm-sale"><a class="waves-effect waves-light btn addProperty" >Add property</a></div>
+        </form>
+    </div>
+</script>
 
 <script src="jquery/jquery-2.1.4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
 <script src="materialize/materialize.js"></script>
 <script src="asset/js/FormValidator.js"></script>
+<script src="asset/js/PropertyFeaturesFormValidator.js"></script>
 <script src="asset/js/LoginCookie.js"></script>
-<script src="asset/js/PostNewProperty.js"></script>
+<script src="asset/js/PutProperty.js"></script>
+<script src="asset/js/AddProperty.js"></script>
+<script src="asset/js/LoadMainMenu.js"></script>
 </body>
 </html>

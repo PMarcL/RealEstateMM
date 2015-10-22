@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>buyer Information</title>
+    <link rel="stylesheet" href="asset/css/buyerInformation.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+</head>
+<body>
+
+<header></header>
+
+<div class="form">
+    <form id="buyer-info-form">
+        <div class="output-field">
+            <input id="username" readonly="true" type="text" class="container">
+            <label for="username">Username</label>
+        </div>
+
+        <div class="output-field">
+            <input id="password" readonly="true" type="password" class="container">
+            <label for="password">Password</label>
+        </div>
+
+        <div class="output-field">
+            <input id="firstName"  type="text" class="container">
+            <label>First Name</label>
+        </div>
+
+        <div class="output-field">
+            <input id="lastName" type="text" class="container">
+            <label>Last Name</label>
+        </div>
+
+        <div class="output-field">
+            <input id="email" type="email" class="container">
+            <label>Email</label>
+
+        </div>
+
+        <div class="output-field">
+            <input id="phone" type="text" class="container">
+            <label>Phone Number</label>
+        </div>
+
+        <div class="row">
+            <div class="output-field  col s12"><a class="waves-effect waves-light btn updateUser">Edit Information</a></div>
+        </div>
+
+    </form>
+
+
+</div>
+
+
+<script src="jquery/jquery-2.1.4.js"></script>
+<script src="materialize/materialize.js"></script>
+<script src="asset/js/FormValidator.js"></script>
+<script src="asset/js/PutUserInfo.js"></script>
+<script src = 'asset/js/AccountTypeCookie.js'></script>
+<script src="asset/js/LoadMainMenu.js"></script>
+<script src="asset/js/LoginCookie.js"></script>
+<script src="asset/js/GetUserInfo.js"></script>
+<script src="asset/js/DisplayUserFields.js"></script>
+
+</body>
+</html>

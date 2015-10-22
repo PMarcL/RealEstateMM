@@ -48,7 +48,7 @@ public class UserDTO {
 		this.lastName = lastName;
 	}
 
-	public String getEmail() {
+	public String getEmailAddress() {
 		return email;
 	}
 

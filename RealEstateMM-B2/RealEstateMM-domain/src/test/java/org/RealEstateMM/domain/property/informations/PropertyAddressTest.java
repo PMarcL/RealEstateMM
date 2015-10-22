@@ -2,6 +2,7 @@ package org.RealEstateMM.domain.property.informations;
 
 import static org.junit.Assert.*;
 
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,13 +38,5 @@ public class PropertyAddressTest {
 				AN_ADDRESS_PROVINCE_NAME, AN_ADDRESS_ZIP_CODE);
 
 		assertFalse(address.isEquals(address2));
-	}
-
-	@Test
-	public void givenAPropertyAddressWhenGettingTheFullAddressThenTheAddressShouldBeReturnedInTheCorrectFormat() {
-		String returnedAddress = address.toString();
-		String expectedAddressFormat = "123 FakeStreet, Pleasant Town, Québec, H0H0H0";
-
-		assertEquals(expectedAddressFormat, returnedAddress);
 	}
 }

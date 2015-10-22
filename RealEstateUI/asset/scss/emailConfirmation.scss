@@ -1,0 +1,8 @@
+@import '../../jeet/index';
+
+.info
+{
+  color:white;
+  font-size: 2em;
+  @include j-column(8/10);
+}

@@ -45,6 +45,7 @@ function signout() {
     userCookie.delete();
     accountCookie.delete();
     displayUserOptions();
+    window.location.href = "index.html";
 }
 
 function toggleElementVisibilityWithClass(elemClass, visibility) {
