@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
@@ -36,7 +37,7 @@ public class PropertyResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProperties(@QueryParam("orderBy") String orderBy) {
+	public Response getProperties(@QueryParam("orderBy") PropertySearchFilter orderBy) {
 		String json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
 		return Response.ok(Status.OK).entity(json).build();
 	}

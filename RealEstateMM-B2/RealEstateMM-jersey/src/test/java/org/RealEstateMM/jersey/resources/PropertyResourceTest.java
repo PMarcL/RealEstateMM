@@ -5,17 +5,22 @@ import static org.mockito.BDDMockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
+
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 
 public class PropertyResourceTest {
 
-	private final String NO_QUERY_PARAM = null;
+	private final PropertySearchFilter NO_QUERY_PARAM = null;
 	private final String OWNER = "owner90";
 
 	private PropertyResource propertyResource;
