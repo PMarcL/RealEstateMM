@@ -15,6 +15,7 @@ import org.RealEstateMM.services.dtos.property.PropertyDTO;
 
 public class PropertyResourceTest {
 
+	private final String NO_QUERY_PARAM = null;
 	private final String OWNER = "owner90";
 
 	private PropertyResource propertyResource;
@@ -50,13 +51,13 @@ public class PropertyResourceTest {
 
 	@Test
 	public void whenGetAllPropertiesThenUsesTheServiceToGetProperties() {
-		propertyResource.getAllProperties();
+		propertyResource.getProperties(NO_QUERY_PARAM);
 		verify(service).getAllProperties();
 	}
 
 	@Test
 	public void whenGetAllPropertiesThenAlwaysReturnsStatusOK() {
-		Response result = propertyResource.getAllProperties();
+		Response result = propertyResource.getProperties(NO_QUERY_PARAM);
 		assertEquals(Status.OK, result.getStatusInfo());
 	}
 
@@ -66,7 +67,7 @@ public class PropertyResourceTest {
 		given(service.getAllProperties()).willReturn(dtos);
 		String json = new Gson().toJson(dtos);
 
-		Response result = propertyResource.getAllProperties();
+		Response result = propertyResource.getProperties(NO_QUERY_PARAM);
 
 		assertEquals(json, result.getEntity());
 	}
