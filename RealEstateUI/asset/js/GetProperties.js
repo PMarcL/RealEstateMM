@@ -1,8 +1,16 @@
-$(document).ready(getProperties());
+$(document).ready(function(){
+    getProperties('');
 
-function getProperties() {
+    $('#orderBy').change(function(){
+        var queryParam = '?orderBy=' + $(orderBy).val();
+        $('#propertylist').empty();
+        getProperties(queryParam);
+    });
+});
+
+function getProperties(param) {
     $.ajax({
-        url: "http://localhost:8080/property",
+        url: "http://localhost:8080/property" + param,
         type: "GET",
         contentType: "application/json",
 
