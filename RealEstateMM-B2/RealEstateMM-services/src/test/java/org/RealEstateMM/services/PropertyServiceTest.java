@@ -49,8 +49,7 @@ public class PropertyServiceTest {
 		address = mock(PropertyAddress.class);
 		features = mock(PropertyFeatures.class);
 		given(repository.getPropertyAtAddress(address)).willReturn(Optional.of(property));
-		given(assembler.toDTO(property)).willReturn(propertyDTO);
-		assemblerReturnsFeaturesAndAddress();
+		configureAssembler();
 	}
 
 	@Test
@@ -60,8 +59,13 @@ public class PropertyServiceTest {
 	}
 
 	@Test
+	public void givenAPropertyDTOWhenUploadsPropertyThenUpdateCreationDateOfNewProperty() {
+		propertyService.uploadProperty(propertyDTO);
+		verify(property).setCreationDate(anyObject());
+	}
+
+	@Test
 	public void givenAPropertyDTOWhenUploadsPropertyThenUseRepositoryToStoreNewProperty() {
-		given(assembler.fromDTO(propertyDTO)).willReturn(property);
 		propertyService.uploadProperty(propertyDTO);
 		verify(repository).add(property);
 	}
@@ -81,7 +85,6 @@ public class PropertyServiceTest {
 
 	@Test
 	public void whenGetAllPropertiesThenReturnsDTOsOfAllProperties() {
-		given(assembler.toDTO(property)).willReturn(propertyDTO);
 		given(repository.getAllProperties()).willReturn(buildPropertiesList());
 
 		ArrayList<PropertyDTO> returnedDTOs = propertyService.getAllProperties();
@@ -170,7 +173,9 @@ public class PropertyServiceTest {
 		given(orderingStrategy.getOrderedProperties(repository)).willReturn(buildPropertiesList());
 	}
 
-	private void assemblerReturnsFeaturesAndAddress() {
+	private void configureAssembler() {
+		given(assembler.toDTO(property)).willReturn(propertyDTO);
+		given(assembler.fromDTO(propertyDTO)).willReturn(property);
 		given(assembler.getFeaturesFromDTO(propertyDTO)).willReturn(features);
 		given(assembler.getPropertyAddressFromDTO(propertyDTO)).willReturn(address);
 	}

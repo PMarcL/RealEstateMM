@@ -12,6 +12,7 @@ import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Optional;
 
 public class PropertyService implements PropertyServiceHandler {
@@ -36,6 +37,7 @@ public class PropertyService implements PropertyServiceHandler {
 	@Override
 	public void uploadProperty(PropertyDTO propertyInfos) {
 		Property newProperty = propertyAssembler.fromDTO(propertyInfos);
+		newProperty.setCreationDate(Calendar.getInstance().getTime());
 		propertyRepository.add(newProperty);
 	}
 
