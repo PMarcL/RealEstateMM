@@ -9,7 +9,9 @@ public interface PropertyServiceHandler {
 
 	public void uploadProperty(PropertyDTO propertyInfos);
 
-	public ArrayList<PropertyDTO> getAllProperties(PropertySearchFilter orderBy);
+	public ArrayList<PropertyDTO> getAllProperties();
+
+	public ArrayList<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy);
 
 	public void editPropertyFeatures(PropertyDTO propertyDTO);
 

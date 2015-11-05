@@ -70,12 +70,17 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getAllProperties(PropertySearchFilter orderBy) {
-		return service.getAllProperties(orderBy);
+	public ArrayList<PropertyDTO> getAllProperties() {
+		return service.getAllProperties();
 	}
 
 	@Override
 	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner) {
 		return service.getPropertiesFromOwner(owner);
+	}
+
+	@Override
+	public ArrayList<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
+		return service.getOrderedProperties(orderBy);
 	}
 }

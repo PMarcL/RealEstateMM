@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import org.RealEstateMM.domain.property.search.InvalidFilterException;
 import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
@@ -25,6 +26,7 @@ public class PropertyResourceTest {
 
 	private PropertyResource propertyResource;
 	private PropertyDTO propertyDTO;
+	private PropertySearchFilter searchFilter;
 	private PropertyServiceHandler service;
 
 	@Before
@@ -33,6 +35,7 @@ public class PropertyResourceTest {
 		propertyResource = new PropertyResource(service);
 
 		propertyDTO = mock(PropertyDTO.class);
+		searchFilter = mock(PropertySearchFilter.class);
 	}
 
 	@Test
@@ -55,26 +58,39 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenUsesTheServiceToGetProperties() {
+	public void whenGetAllPropertiesWithNoQueryParamThenUsesTheServiceToGetProperties() {
 		propertyResource.getProperties(NO_QUERY_PARAM);
-		verify(service).getAllProperties(NO_QUERY_PARAM);
+		verify(service).getAllProperties();
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenAlwaysReturnsStatusOK() {
+	public void whenGetAllPropertiesWithNoQueryParamThenAlwaysReturnsStatusOK() {
 		Response result = propertyResource.getProperties(NO_QUERY_PARAM);
 		assertEquals(Status.OK, result.getStatusInfo());
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenConvertToJsonPropertyDTOs() {
+	public void whenGetAllPropertiesWithNoQueryParamThenConvertToJsonPropertyDTOs() {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
-		given(service.getAllProperties(NO_QUERY_PARAM)).willReturn(dtos);
+		given(service.getAllProperties()).willReturn(dtos);
 		String json = new Gson().toJson(dtos);
 
 		Response result = propertyResource.getProperties(NO_QUERY_PARAM);
 
 		assertEquals(json, result.getEntity());
+	}
+
+	@Test
+	public void whenGetAllPropertiesWithQueryParamThenUsesTheServiceToGetOrderedProperties() {
+		propertyResource.getProperties(searchFilter);
+		verify(service).getOrderedProperties(searchFilter);
+	}
+
+	@Test
+	public void whenGetAllPropertiesWithQueryParamThenReturnsInvalidRequestIfSearchFilterIsInvalid() {
+		doThrow(InvalidFilterException.class).when(service).getOrderedProperties(searchFilter);
+		Response result = propertyResource.getProperties(searchFilter);
+		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}
 
 	@Test
