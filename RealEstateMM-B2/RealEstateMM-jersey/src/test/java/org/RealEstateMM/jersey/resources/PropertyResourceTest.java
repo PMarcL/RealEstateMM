@@ -57,7 +57,7 @@ public class PropertyResourceTest {
 	@Test
 	public void whenGetAllPropertiesThenUsesTheServiceToGetProperties() {
 		propertyResource.getProperties(NO_QUERY_PARAM);
-		verify(service).getAllProperties();
+		verify(service).getAllProperties(NO_QUERY_PARAM);
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class PropertyResourceTest {
 	@Test
 	public void whenGetAllPropertiesThenConvertToJsonPropertyDTOs() {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
-		given(service.getAllProperties()).willReturn(dtos);
+		given(service.getAllProperties(NO_QUERY_PARAM)).willReturn(dtos);
 		String json = new Gson().toJson(dtos);
 
 		Response result = propertyResource.getProperties(NO_QUERY_PARAM);

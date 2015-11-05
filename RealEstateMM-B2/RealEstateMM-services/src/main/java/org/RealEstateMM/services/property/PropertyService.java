@@ -4,6 +4,8 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
+import org.RealEstateMM.domain.property.search.PropertyOrderer;
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
@@ -15,6 +17,8 @@ public class PropertyService implements PropertyServiceHandler {
 
 	private PropertyRepository propertyRepository;
 	private PropertyDTOAssembler propertyAssembler;
+	
+	private PropertyOrderer propertyOrderer;
 
 	public PropertyService() {
 		propertyRepository = ServiceLocator.getInstance().getService(PropertyRepository.class);
@@ -24,6 +28,8 @@ public class PropertyService implements PropertyServiceHandler {
 	public PropertyService(PropertyRepository propertyRepository, PropertyDTOAssembler propertyAssembler) {
 		this.propertyRepository = propertyRepository;
 		this.propertyAssembler = propertyAssembler;
+		
+		this.propertyOrderer = new PropertyOrderer(propertyRepository);
 	}
 
 	@Override
@@ -33,8 +39,8 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getAllProperties() {
-		ArrayList<Property> properties = propertyRepository.getAllProperties();
+	public ArrayList<PropertyDTO> getAllProperties(PropertySearchFilter orderBy) {
+		ArrayList<Property> properties = propertyOrderer.OrderBy(orderBy.getParsedSearchParameter());//propertyRepository.getAllProperties();
 		return buildDTOsFromProperties(properties);
 	}
 

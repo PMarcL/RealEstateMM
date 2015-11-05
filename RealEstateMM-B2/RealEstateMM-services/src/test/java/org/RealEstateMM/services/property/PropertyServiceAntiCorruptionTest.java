@@ -2,6 +2,7 @@ package org.RealEstateMM.services.property;
 
 import static org.mockito.BDDMockito.*;
 
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
@@ -18,6 +19,7 @@ public class PropertyServiceAntiCorruptionTest {
 	private final int VALID_TOTAL_NUMBER_OF_ROOMS = 4;
 	private final double VALID_PRICE = 200000.0;
 	private final int A_VALID_YEAR_OF_CONSTRUCTION = 1999;
+	private final PropertySearchFilter NO_QUERY_PARAM = null;
 
 	private PropertyServiceAntiCorruption propertyAntiCorruption;
 	private PropertyServiceHandler service;
@@ -103,8 +105,8 @@ public class PropertyServiceAntiCorruptionTest {
 
 	@Test
 	public void whenGetAllPropertiesThenCallsPropertyService() {
-		propertyAntiCorruption.getAllProperties();
-		verify(service).getAllProperties();
+		propertyAntiCorruption.getAllProperties(NO_QUERY_PARAM);
+		verify(service).getAllProperties(NO_QUERY_PARAM);
 	}
 
 	@Test

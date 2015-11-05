@@ -38,7 +38,7 @@ public class PropertyResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProperties(@QueryParam("orderBy") PropertySearchFilter orderBy) {
-		String json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
+		String json = getJsonFromPropertyDTOs(propertyService.getAllProperties(orderBy));
 		return Response.ok(Status.OK).entity(json).build();
 	}
 

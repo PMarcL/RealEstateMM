@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 
 public interface PropertyRepository {
 
