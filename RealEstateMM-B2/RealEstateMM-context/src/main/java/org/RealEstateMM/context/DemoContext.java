@@ -8,15 +8,21 @@ import org.RealEstateMM.domain.emailsender.GmailSender;
 import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.user.Administrator;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.domain.user.UserType;
+import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
+import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
+import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
+import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
+import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
 import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
@@ -25,10 +31,6 @@ import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
-import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
-import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
-import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
-import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
 
 public class DemoContext extends Context {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;
@@ -45,7 +47,8 @@ public class DemoContext extends Context {
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
 		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
+				new XmlUserAssembler(new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
 	}
@@ -61,6 +64,7 @@ public class DemoContext extends Context {
 	@Override
 	protected void registerServices() {
 		registerServiceDependencies();
+
 		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
 				new PropertyInformationsValidator());
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
@@ -72,6 +76,11 @@ public class DemoContext extends Context {
 	private void registerServiceDependencies() {
 		registerRepositories();
 		registerUserEmailValidator();
+		registerAssemblers();
+	}
+
+	private void registerAssemblers() {
+		ServiceLocator.getInstance().registerService(UserAssembler.class, new UserAssembler(new UserRoleFactory()));
 	}
 
 	private void registerRepositories() {
@@ -97,7 +106,7 @@ public class DemoContext extends Context {
 
 		UserInformations adminInfo = new UserInformations("admin", "admin1234", "Olivier", "Dugas",
 				"olivierD@admin.com", "418 892-3940");
-		User admin = new User(adminInfo, new UserType("admin"));
+		User admin = new User(adminInfo, new Administrator());
 		userRepository.addUser(admin);
 	}
 

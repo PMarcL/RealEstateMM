@@ -1,14 +1,16 @@
 package org.RealEstateMM.domain.user;
 
+import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+
 public class User {
 
 	private UserInformations userInformations;
-	private UserType userType;
+	private UserRole role;
 	private boolean isLocked;
 
-	public User(UserInformations userInfo, UserType type) {
+	public User(UserInformations userInfo, UserRole role) {
 		this.userInformations = userInfo;
-		this.userType = type;
+		this.role = role;
 		lock();
 	}
 
@@ -22,10 +24,6 @@ public class User {
 
 	public boolean hasPassword(String password) {
 		return userInformations.password.equals(password);
-	}
-
-	public String getUserTypeDescription() {
-		return userType.userTypeDescription;
 	}
 
 	public boolean isLocked() {
@@ -46,6 +44,10 @@ public class User {
 
 	public void lock() {
 		isLocked = true;
+	}
+
+	public RoleDescription getRoleDescription() {
+		return role.getRoleDescription();
 	}
 
 }

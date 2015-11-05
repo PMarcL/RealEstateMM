@@ -7,9 +7,11 @@ import java.util.Optional;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,7 +31,15 @@ public class SessionServiceTest {
 
 		given(userAssembler.fromDTO(A_USER_DTO)).willReturn(A_USER);
 
-		sessionService = new SessionService(sessionRepository, userAssembler);
+		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
+		ServiceLocator.getInstance().registerService(UserAssembler.class, userAssembler);
+
+		sessionService = new SessionService();
+	}
+
+	@After
+	public void tearDown() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test

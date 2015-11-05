@@ -2,7 +2,6 @@ package org.RealEstateMM.services.user.anticorruption;
 
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.UserService;
@@ -43,25 +42,25 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).nameIsValid(UserBuilder.DEFAULT_LAST_NAME);
+		verify(validator).nameIsValid(A_USER_DTO.getLastName());
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS);
+		verify(validator).emailIsValid(A_USER_DTO.getEmailAddress());
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER);
+		verify(validator).phoneNumberIsValid(A_USER_DTO.getPhoneNumber());
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC);
+		verify(validator).userTypeIsValid(A_USER_DTO.getUserRole());
 	}
 
 	@Test
@@ -72,7 +71,7 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
-		given(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(false);
+		given(validator.emailIsValid(A_USER_DTO.getEmailAddress())).willReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
 
@@ -122,12 +121,12 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	private void allFieldsAreValid() {
-		given(validator.nameIsValid(UserBuilder.DEFAULT_FIRST_NAME)).willReturn(true);
-		given(validator.nameIsValid(UserBuilder.DEFAULT_LAST_NAME)).willReturn(true);
-		given(validator.phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER)).willReturn(true);
-		given(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
+		given(validator.nameIsValid(A_USER_DTO.getFirstName())).willReturn(true);
+		given(validator.nameIsValid(A_USER_DTO.getLastName())).willReturn(true);
+		given(validator.phoneNumberIsValid(A_USER_DTO.getPhoneNumber())).willReturn(true);
+		given(validator.emailIsValid(A_USER_DTO.getEmailAddress())).willReturn(true);
 		given(validator.stringIsValid(VALID_PASSWORD)).willReturn(true);
 		given(validator.stringIsValid(VALID_PSEUDO)).willReturn(true);
-		given(validator.userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC)).willReturn(true);
+		given(validator.userTypeIsValid(A_USER_DTO.getUserRole())).willReturn(true);
 	}
 }

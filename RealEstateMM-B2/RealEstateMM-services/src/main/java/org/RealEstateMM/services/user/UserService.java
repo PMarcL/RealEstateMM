@@ -21,16 +21,9 @@ public class UserService implements UserServiceHandler {
 	private UserAssembler userAssembler;
 	private UserEmailAddressValidator emailAddressValidator;
 
-	public UserService(UserRepository userRepository, UserAssembler accountAssembler,
-			UserEmailAddressValidator emailConfirmer) {
-		this.userRepository = userRepository;
-		this.userAssembler = accountAssembler;
-		this.emailAddressValidator = emailConfirmer;
-	}
-
 	public UserService() {
 		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
-		userAssembler = new UserAssembler();
+		userAssembler = ServiceLocator.getInstance().getService(UserAssembler.class);
 		emailAddressValidator = ServiceLocator.getInstance().getService(UserEmailAddressValidator.class);
 	}
 

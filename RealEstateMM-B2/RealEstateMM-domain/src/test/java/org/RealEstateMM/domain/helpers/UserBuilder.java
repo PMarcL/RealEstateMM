@@ -4,6 +4,7 @@ import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserRole.RoleDescription;
 
 public class UserBuilder {
 	public static final String DEFAULT_PSEUDONYM = "JohnD90";
@@ -12,8 +13,8 @@ public class UserBuilder {
 	public static final String DEFAULT_LAST_NAME = "Doe";
 	public static final String DEFAULT_PHONE_NUMBER = "(819) 418-5739";
 	public static final String DEFAULT_PASSWORD = "JD1234";
-	public static final String DEFAULT_USER_TYPE_DESC = "seller";
 	public static final boolean DEFAULT_LOCK_STATE = true;
+	public static final RoleDescription DEFAULT_USER_ROLE = RoleDescription.SELLER;
 
 	private User user;
 	private String pseudonym;
@@ -24,8 +25,13 @@ public class UserBuilder {
 		pseudonym = DEFAULT_PSEUDONYM;
 
 		withPseudonym(DEFAULT_PSEUDONYM);
-		withUserType(DEFAULT_USER_TYPE_DESC);
 		withLockState(DEFAULT_LOCK_STATE);
+		withRoleDescription(DEFAULT_USER_ROLE);
+	}
+
+	public UserBuilder withRoleDescription(RoleDescription role) {
+		given(user.getRoleDescription()).willReturn(role);
+		return this;
 	}
 
 	public UserBuilder withLockState(boolean lockState) {
@@ -36,11 +42,6 @@ public class UserBuilder {
 	public UserBuilder withPseudonym(String pseudonym) {
 		this.pseudonym = pseudonym;
 		given(user.getPseudonym()).willReturn(pseudonym);
-		return this;
-	}
-
-	public UserBuilder withUserType(String type) {
-		given(user.getUserTypeDescription()).willReturn(type);
 		return this;
 	}
 

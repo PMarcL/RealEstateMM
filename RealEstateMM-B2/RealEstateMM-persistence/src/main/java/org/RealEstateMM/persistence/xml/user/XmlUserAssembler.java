@@ -2,9 +2,16 @@ package org.RealEstateMM.persistence.xml.user;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.UserType;
+import org.RealEstateMM.domain.user.UserRole;
+import org.RealEstateMM.domain.user.UserRoleFactory;
 
 public class XmlUserAssembler {
+
+	private UserRoleFactory roleFactory;
+
+	public XmlUserAssembler(UserRoleFactory roleFactory) {
+		this.roleFactory = roleFactory;
+	}
 
 	public XmlUser fromUser(User user) {
 		XmlUser newUser = new XmlUser();
@@ -16,7 +23,7 @@ public class XmlUserAssembler {
 		newUser.setLastName(userInfo.lastName);
 		newUser.setEmail(userInfo.emailAddress);
 		newUser.setPhoneNumber(userInfo.phoneNumber);
-		newUser.setUserType(user.getUserTypeDescription());
+		newUser.setUserType(user.getRoleDescription().toString());
 		newUser.setLocked(user.isLocked());
 
 		return newUser;
@@ -24,7 +31,7 @@ public class XmlUserAssembler {
 
 	public User toUser(XmlUser xmlUser) {
 		UserInformations userInfo = buildUserInformations(xmlUser);
-		UserType userType = new UserType(xmlUser.getUserType());
+		UserRole userType = roleFactory.create(xmlUser.getUserType());
 
 		User user = new User(userInfo, userType);
 		if (userIsUnlocked(xmlUser)) {

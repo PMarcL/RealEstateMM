@@ -54,7 +54,7 @@ public class UserServiceAntiCorruption implements UserServiceHandler {
 		if (!informationsValidator.phoneNumberIsValid(userDTO.getPhoneNumber())) {
 			throw new InvalidUserInformationsException("PhoneNumber");
 		}
-		if (!informationsValidator.userTypeIsValid(userDTO.getUserType())) {
+		if (!informationsValidator.userTypeIsValid(userDTO.getUserRole())) {
 			throw new InvalidUserInformationsException("User type");
 		}
 	}

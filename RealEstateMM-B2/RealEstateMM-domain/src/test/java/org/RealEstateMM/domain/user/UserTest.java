@@ -1,5 +1,9 @@
 package org.RealEstateMM.domain.user;
 
+import static org.mockito.BDDMockito.*;
+
+import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -14,17 +18,16 @@ public class UserTest {
 	private final String EMAIL_ADDRESS = "john@email.com";
 	private final String PHONENUMBER = "819 819-3904";
 	private final String PASSWORD = "jd1234";
-	private final String USERTYPE_DESCRIPTION = UserType.SELLER;
 
 	private User user;
 	private UserInformations userInformations;
-	private UserType userType;
+	private UserRole role;
 
 	@Before
 	public void setup() {
 		userInformations = new UserInformations(PSEUDONYM, PASSWORD, FIRSTNAME, LASTNAME, EMAIL_ADDRESS, PHONENUMBER);
-		userType = new UserType(UserType.SELLER);
-		user = new User(userInformations, userType);
+		role = mock(UserRole.class);
+		user = new User(userInformations, role);
 	}
 
 	@Test
@@ -48,8 +51,9 @@ public class UserTest {
 	}
 
 	@Test
-	public void givenAUserWhenGettingHisUserTypeDescriptionThenReturnsTheCorrectDescription() {
-		assertEquals(USERTYPE_DESCRIPTION, user.getUserTypeDescription());
+	public void givenAUserWhenGettingRoleDescriptionThenReturnDescriptionFromRole() {
+		given(role.getRoleDescription()).willReturn(RoleDescription.SELLER);
+		assertEquals(RoleDescription.SELLER, user.getRoleDescription());
 	}
 
 	@Test

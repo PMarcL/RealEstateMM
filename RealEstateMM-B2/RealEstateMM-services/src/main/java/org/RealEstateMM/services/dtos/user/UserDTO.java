@@ -72,7 +72,7 @@ public class UserDTO {
 		this.password = password;
 	}
 
-	public String getUserType() {
+	public String getUserRole() {
 		return userType;
 	}
 

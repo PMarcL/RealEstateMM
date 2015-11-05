@@ -104,7 +104,7 @@ public class UserResource {
 	}
 
 	private Response generateLoginResponse(UserDTO userDTO, Session session) {
-		LoginResponse response = new LoginResponse(userDTO.getUserType(), session.token);
+		LoginResponse response = new LoginResponse(userDTO.getUserRole(), session.token);
 		return Response.ok(Status.OK).entity(response).build();
 	}
 

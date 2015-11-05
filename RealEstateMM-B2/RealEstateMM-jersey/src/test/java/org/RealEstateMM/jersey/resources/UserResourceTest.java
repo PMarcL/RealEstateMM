@@ -91,7 +91,7 @@ public class UserResourceTest {
 	@Test
 	public void givenValidCredentialsWhenLoginThenReturnUserTypeAndToken() throws Exception {
 		Response response = userConnectionResource.login(A_PSEUDONYM, A_VALID_PASSWORD);
-		LoginResponse expected = new LoginResponse(A_USER_DTO.getUserType(), A_VALID_TOKEN);
+		LoginResponse expected = new LoginResponse(A_USER_DTO.getUserRole(), A_VALID_TOKEN);
 		assertTrue(expected.equals((LoginResponse) response.getEntity()));
 	}
 

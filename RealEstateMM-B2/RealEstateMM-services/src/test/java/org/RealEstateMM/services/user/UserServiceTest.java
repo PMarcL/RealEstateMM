@@ -2,19 +2,22 @@ package org.RealEstateMM.services.user;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
+
 import java.util.Optional;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
+import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -38,18 +41,15 @@ public class UserServiceTest {
 
 	@Before
 	public void setup() {
-		user = mock(User.class);
-		userInfos = mock(UserInformations.class);
-		userRepository = mock(UserRepository.class);
-		userAssembler = mock(UserAssembler.class);
-		emailValidator = mock(UserEmailAddressValidator.class);
+		setupMocks();
+		registerServices();
 
-		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
-		given(user.getUserInformations()).willReturn(userInfos);
-		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
+		userService = new UserService();
+	}
 
-		userService = new UserService(userRepository, userAssembler, emailValidator);
+	@After
+	public void tearDown() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test
@@ -173,6 +173,25 @@ public class UserServiceTest {
 		assertEquals(USER_DTO.getLastName(), userInfos.lastName);
 		assertEquals(USER_DTO.getPassword(), userInfos.password);
 		assertEquals(USER_DTO.getPhoneNumber(), userInfos.phoneNumber);
+	}
+
+	private void registerServices() {
+		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
+		ServiceLocator.getInstance().registerService(UserAssembler.class, userAssembler);
+		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, emailValidator);
+	}
+
+	private void setupMocks() {
+		user = mock(User.class);
+		userInfos = mock(UserInformations.class);
+		userRepository = mock(UserRepository.class);
+		userAssembler = mock(UserAssembler.class);
+		emailValidator = mock(UserEmailAddressValidator.class);
+
+		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
+		given(user.getUserInformations()).willReturn(userInfos);
+		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
 	}
 
 }

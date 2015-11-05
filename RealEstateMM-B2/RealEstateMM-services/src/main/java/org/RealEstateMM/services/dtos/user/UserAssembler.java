@@ -2,9 +2,16 @@ package org.RealEstateMM.services.dtos.user;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.UserType;
+import org.RealEstateMM.domain.user.UserRole;
+import org.RealEstateMM.domain.user.UserRoleFactory;
 
 public class UserAssembler {
+
+	private UserRoleFactory roleFactory;
+
+	public UserAssembler(UserRoleFactory roleFactory) {
+		this.roleFactory = roleFactory;
+	}
 
 	public UserDTO toDTO(User user) {
 		UserDTO dto = new UserDTO();
@@ -15,14 +22,18 @@ public class UserAssembler {
 		dto.setPhoneNumber(userInfo.phoneNumber);
 		dto.setPseudonym(user.getPseudonym());
 		dto.setPassword(userInfo.password);
-		dto.setUserType(user.getUserTypeDescription());
+		dto.setUserType(user.getRoleDescription().toString());
 		return dto;
 	}
 
 	public User fromDTO(UserDTO userDTO) {
-		UserInformations userInfo = new UserInformations(userDTO.getPseudonym(), userDTO.getPassword(),
-				userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmailAddress(), userDTO.getPhoneNumber());
-		UserType type = new UserType(userDTO.getUserType());
-		return new User(userInfo, type);
+		UserInformations userInfo = createUserInformations(userDTO);
+		UserRole role = roleFactory.create(userDTO.getUserRole());
+		return new User(userInfo, role);
+	}
+
+	private UserInformations createUserInformations(UserDTO userDTO) {
+		return new UserInformations(userDTO.getPseudonym(), userDTO.getPassword(), userDTO.getFirstName(),
+				userDTO.getLastName(), userDTO.getEmailAddress(), userDTO.getPhoneNumber());
 	}
 }

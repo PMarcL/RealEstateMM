@@ -15,12 +15,7 @@ public class SessionService {
 
 	public SessionService() {
 		this.sessionRepository = ServiceLocator.getInstance().getService(SessionRepository.class);
-		this.userAssembler = new UserAssembler();
-	}
-
-	public SessionService(SessionRepository sessionRepository, UserAssembler userAssembler) {
-		this.sessionRepository = sessionRepository;
-		this.userAssembler = userAssembler;
+		this.userAssembler = ServiceLocator.getInstance().getService(UserAssembler.class);
 	}
 
 	public Session open(UserDTO userDTO) {
