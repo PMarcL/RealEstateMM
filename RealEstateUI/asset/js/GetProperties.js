@@ -19,7 +19,7 @@ function getProperties(param) {
             createHtmlPropertyList(propertiesJSON);
         },
         error: function (data, textStatus, xhr) {
-            alert(data.responseText);
+            console.log(data.responseText);
         }
     });
 }
