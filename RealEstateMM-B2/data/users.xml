@@ -20,4 +20,24 @@
         <pseudonym>PM</pseudonym>
         <userType>buyer</userType>
     </user>
+    <user>
+        <email>bobcat@hotmail.com</email>
+        <firstName>Bob</firstName>
+        <lastName>Katz</lastName>
+        <isLocked>false</isLocked>
+        <password>bob</password>
+        <phoneNumber>8198185647</phoneNumber>
+        <pseudonym>Bob</pseudonym>
+        <userType>buyer</userType>
+    </user>
+    <user>
+        <email>paulj@hotmail.com</email>
+        <firstName>Paul</firstName>
+        <lastName>Jones</lastName>
+        <isLocked>false</isLocked>
+        <password>paul</password>
+        <phoneNumber>4182672859</phoneNumber>
+        <pseudonym>Paul</pseudonym>
+        <userType>seller</userType>
+    </user>
 </users>

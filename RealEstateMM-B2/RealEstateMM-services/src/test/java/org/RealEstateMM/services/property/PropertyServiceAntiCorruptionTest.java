@@ -1,10 +1,10 @@
 package org.RealEstateMM.services.property;
 
 import static org.mockito.BDDMockito.*;
-
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -105,6 +105,13 @@ public class PropertyServiceAntiCorruptionTest {
 	public void whenGetAllPropertiesThenCallsPropertyService() {
 		propertyAntiCorruption.getAllProperties();
 		verify(service).getAllProperties();
+	}
+
+	@Test
+	public void whenGetOrderedPropertiesThenCallsPropertyService() {
+		PropertySearchFilter filter = mock(PropertySearchFilter.class);
+		propertyAntiCorruption.getOrderedProperties(filter);
+		verify(service).getOrderedProperties(filter);
 	}
 
 	@Test

@@ -1,8 +1,16 @@
-$(document).ready(getProperties());
+$(document).ready(function(){
+    getProperties('');
 
-function getProperties() {
+    $('#orderBy').change(function(){
+        var queryParam = '?orderBy=' + $(orderBy).val();
+        $('#propertylist').empty();
+        getProperties(queryParam);
+    });
+});
+
+function getProperties(param) {
     $.ajax({
-        url: "http://localhost:8080/property",
+        url: "http://localhost:8080/property" + param,
         type: "GET",
         contentType: "application/json",
 
@@ -11,7 +19,7 @@ function getProperties() {
             createHtmlPropertyList(propertiesJSON);
         },
         error: function (data, textStatus, xhr) {
-            alert(data.responseText);
+            console.log(data.responseText);
         }
     });
 }
@@ -21,7 +29,7 @@ function createHtmlPropertyList(propertiesJSON) {
     var buffer = "";
     $.each(propertiesJSON, function () {
 
-        buffer+= "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
+        buffer = "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
             + "<div class='price'>" + "C $" +this.propertyPrice + "</div>"
             + "<div class='streetAddress'>" + this.propertyAddress.streetAddress + "</div>"
             + "<div class='city'>" + this.propertyAddress.city + "</div>"
@@ -41,7 +49,8 @@ function createHtmlPropertyList(propertiesJSON) {
             +   "<div class='featuresAttribute'> Backyard direction : " + this.propertyFeatures.backyardDirection + "</div>"
             +   "<div class='featuresAttribute'> Description : " + this.propertyFeatures.description + "</div>"
             +"</div><br>"
-            + "<li>";
+            + "<li>"
+            + buffer;
         $('#propertylist').html(buffer);
     });
 }
