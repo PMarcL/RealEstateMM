@@ -5,8 +5,8 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
 
 import java.util.ArrayList;
 import java.util.Optional;

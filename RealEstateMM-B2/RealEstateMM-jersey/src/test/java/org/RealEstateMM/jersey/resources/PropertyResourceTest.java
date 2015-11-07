@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
 
 public class PropertyResourceTest {
 

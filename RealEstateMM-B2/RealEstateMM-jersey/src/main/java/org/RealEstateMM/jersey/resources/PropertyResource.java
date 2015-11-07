@@ -16,9 +16,9 @@ import javax.ws.rs.core.Response.Status;
 import com.google.gson.Gson;
 
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
 
 @Path("/property")
 public class PropertyResource {

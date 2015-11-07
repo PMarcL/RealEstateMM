@@ -22,7 +22,6 @@ import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
@@ -31,6 +30,7 @@ import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
+import org.RealEstateMM.services.user.dtos.UserAssembler;
 
 public class DemoContext extends Context {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;

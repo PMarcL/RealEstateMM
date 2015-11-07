@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.dtos.user;
+package org.RealEstateMM.services.user.dtos;
 
 import static org.mockito.BDDMockito.*;
 import static org.junit.Assert.*;
@@ -9,6 +9,8 @@ import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRole;
 import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+import org.RealEstateMM.services.user.dtos.UserAssembler;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 

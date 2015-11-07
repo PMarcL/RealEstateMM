@@ -2,9 +2,9 @@ package org.RealEstateMM.services.property;
 
 import java.util.ArrayList;
 
-import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
 
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 

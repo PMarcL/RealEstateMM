@@ -3,33 +3,27 @@ package org.RealEstateMM.authentication.session;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.dtos.user.UserAssembler;
-import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 
 public class SessionService {
 
 	private SessionRepository sessionRepository;
-	private UserAssembler userAssembler;
 
 	public SessionService() {
 		this.sessionRepository = ServiceLocator.getInstance().getService(SessionRepository.class);
-		this.userAssembler = ServiceLocator.getInstance().getService(UserAssembler.class);
 	}
 
 	public Session open(UserDTO userDTO) {
-		User user = userAssembler.fromDTO(userDTO);
-
-		Session createdSession = createASession(user);
-		sessionRepository.saveOrOverwriteSession(createdSession);
+		Session createdSession = createASession(userDTO);
+		sessionRepository.addOrOverwriteSession(createdSession);
 
 		return createdSession;
 	}
 
-	private Session createASession(User user) {
+	private Session createASession(UserDTO userDTO) {
 		String token = UUID.randomUUID().toString();
-		return new Session(user.getPseudonym(), token);
+		return new Session(userDTO.getPseudonym(), token);
 	}
 
 	public void close(String token) {

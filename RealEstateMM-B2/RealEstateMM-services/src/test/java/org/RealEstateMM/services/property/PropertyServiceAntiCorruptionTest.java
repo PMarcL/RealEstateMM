@@ -2,9 +2,9 @@ package org.RealEstateMM.services.property;
 
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
 import org.junit.Before;
 import org.junit.Test;
 

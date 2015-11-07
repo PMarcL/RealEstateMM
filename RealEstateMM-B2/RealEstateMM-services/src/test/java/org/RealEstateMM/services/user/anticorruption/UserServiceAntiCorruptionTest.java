@@ -2,9 +2,9 @@ package org.RealEstateMM.services.user.anticorruption;
 
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 

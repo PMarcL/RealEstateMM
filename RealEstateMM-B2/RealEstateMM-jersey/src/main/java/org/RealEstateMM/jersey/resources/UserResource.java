@@ -17,15 +17,14 @@ import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
-import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
-import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
-import org.RealEstateMM.servicelocator.ServiceLocator;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,8 +39,8 @@ public class UserResource {
 		this.sessionService = new SessionService();
 	}
 
-	public UserResource(UserServiceAntiCorruption userServiceAC, SessionService sessionService) {
-		this.userService = userServiceAC;
+	public UserResource(UserServiceHandler userService, SessionService sessionService) {
+		this.userService = userService;
 		this.sessionService = sessionService;
 	}
 

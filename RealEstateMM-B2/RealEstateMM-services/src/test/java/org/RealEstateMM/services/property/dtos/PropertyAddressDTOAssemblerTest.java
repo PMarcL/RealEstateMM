@@ -1,8 +1,10 @@
-package org.RealEstateMM.services.dtos.property;
+package org.RealEstateMM.services.property.dtos;
 
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTOAssembler;
 import org.junit.Before;
 import org.junit.Test;
 

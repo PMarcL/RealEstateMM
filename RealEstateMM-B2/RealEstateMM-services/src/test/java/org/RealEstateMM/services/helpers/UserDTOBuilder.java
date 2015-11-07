@@ -1,7 +1,7 @@
 package org.RealEstateMM.services.helpers;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
-import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 
 public class UserDTOBuilder {
 

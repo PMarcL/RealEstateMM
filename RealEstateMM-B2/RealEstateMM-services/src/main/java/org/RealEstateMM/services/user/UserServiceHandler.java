@@ -1,7 +1,7 @@
 package org.RealEstateMM.services.user;
 
 import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
-import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;

@@ -2,7 +2,7 @@ package org.RealEstateMM.services.property;
 
 import java.util.ArrayList;
 
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
 
 public interface PropertyServiceHandler {
 

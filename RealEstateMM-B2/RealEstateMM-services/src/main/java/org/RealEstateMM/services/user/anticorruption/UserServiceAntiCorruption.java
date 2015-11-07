@@ -1,9 +1,9 @@
 package org.RealEstateMM.services.user.anticorruption;
 
-import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;

@@ -5,20 +5,15 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
 
-import org.RealEstateMM.domain.helpers.UserBuilder;
-import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.dtos.user.UserAssembler;
-import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 public class SessionServiceTest {
-
-	private final User A_USER = new UserBuilder().build();
 	private final UserDTO A_USER_DTO = new UserDTOBuilder().build();
 
 	private SessionService sessionService;
@@ -27,12 +22,7 @@ public class SessionServiceTest {
 	@Before
 	public void setUp() {
 		sessionRepository = mock(SessionRepository.class);
-		UserAssembler userAssembler = mock(UserAssembler.class);
-
-		given(userAssembler.fromDTO(A_USER_DTO)).willReturn(A_USER);
-
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
-		ServiceLocator.getInstance().registerService(UserAssembler.class, userAssembler);
 
 		sessionService = new SessionService();
 	}
@@ -44,21 +34,18 @@ public class SessionServiceTest {
 
 	@Test
 	public void whenOpenSessionThenAddOrOverwriteANewSessionForThatUserInTheSessionRepository() {
-
 		sessionService.open(A_USER_DTO);
 
 		ArgumentCaptor<Session> captor = ArgumentCaptor.forClass(Session.class);
-		verify(sessionRepository, times(1)).saveOrOverwriteSession(captor.capture());
-		assertEquals(A_USER.getPseudonym(), captor.getValue().pseudonym);
-
-		verifyNoMoreInteractions(sessionRepository);
+		verify(sessionRepository).addOrOverwriteSession(captor.capture());
+		assertEquals(A_USER_DTO.getPseudonym(), captor.getValue().pseudonym);
 	}
 
 	@Test
 	public void whenOpenSessionThenReturnTheCreatedSession() {
 		Session actual = sessionService.open(A_USER_DTO);
 
-		assertEquals(A_USER.getPseudonym(), actual.pseudonym);
+		assertEquals(A_USER_DTO.getPseudonym(), actual.pseudonym);
 		assertNotNull(actual.token);
 	}
 
@@ -66,7 +53,7 @@ public class SessionServiceTest {
 	public void givenATokenwhenCloseThenRemoveTheSessionFromRepository() {
 		String anyToken = "aToken";
 		sessionService.close(anyToken);
-		verify(sessionRepository, times(1)).removeSesionWithToken(anyToken);
+		verify(sessionRepository).removeSesionWithToken(anyToken);
 	}
 
 	@Test
