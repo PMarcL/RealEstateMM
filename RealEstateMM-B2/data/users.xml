@@ -40,4 +40,14 @@
         <pseudonym>Paul</pseudonym>
         <userType>seller</userType>
     </user>
+    <user>
+        <email>olivierD@admin.com</email>
+        <firstName>Olivier</firstName>
+        <lastName>Dugas</lastName>
+        <isLocked>true</isLocked>
+        <password>admin1234</password>
+        <phoneNumber>418 892-3940</phoneNumber>
+        <pseudonym>ADMIN</pseudonym>
+        <userType>ADMIN</userType>
+    </user>
 </users>

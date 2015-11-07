@@ -6,7 +6,7 @@ function postUser() {
         "lastName": $('#lastName').val(),
         "email": $('#email').val(),
         "phoneNumber": $('#phone').val(),
-        "userType" : $('select').val()
+        "userType" : $('select').val().toUpperCase()
     });
     if(isAFieldEmpty())
     {

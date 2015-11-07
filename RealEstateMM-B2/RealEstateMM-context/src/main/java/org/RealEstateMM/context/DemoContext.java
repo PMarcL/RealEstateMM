@@ -47,8 +47,8 @@ public class DemoContext extends Context {
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
 		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
-				new XmlUserAssembler(new UserRoleFactory()));
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
+				new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
 	}
@@ -101,10 +101,10 @@ public class DemoContext extends Context {
 
 	@Override
 	protected void injectData() {
-		if (isAdminExisting("admin"))
+		if (isAdminExisting("ADMIN"))
 			return;
 
-		UserInformations adminInfo = new UserInformations("admin", "admin1234", "Olivier", "Dugas",
+		UserInformations adminInfo = new UserInformations("ADMIN", "admin1234", "Olivier", "Dugas",
 				"olivierD@admin.com", "418 892-3940");
 		User admin = new User(adminInfo, new Administrator());
 		userRepository.addUser(admin);
