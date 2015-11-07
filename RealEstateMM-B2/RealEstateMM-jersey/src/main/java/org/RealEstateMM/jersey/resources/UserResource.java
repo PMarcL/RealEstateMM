@@ -2,7 +2,6 @@ package org.RealEstateMM.jersey.resources;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -45,8 +44,8 @@ public class UserResource {
 	}
 
 	@POST
-	@Path("logout")
-	public Response logout(@HeaderParam("Authorization") String token) {
+	@Path("logout/{token}")
+	public Response logout(@PathParam("token") String token) {
 		if (token == null) {
 			return Response.status(Status.BAD_REQUEST).entity(AUTHORIZATION_HEADER_MISSING).build();
 		}

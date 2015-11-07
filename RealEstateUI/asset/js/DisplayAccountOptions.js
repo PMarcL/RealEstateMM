@@ -1,5 +1,6 @@
 var userCookie = new LoginCookie();
 var accountCookie = new AccountTypeCookie();
+var tokenCookie = new TokenCookie();
 
 $(document).ready(displayUserOptions());
 
@@ -44,6 +45,12 @@ function loggedInDisplay() {
 function signout() {
     userCookie.delete();
     accountCookie.delete();
+    $.ajax({
+        url: "http://localhost:8080/user/" + tokenCookie.cookie(),
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json"
+    });
     displayUserOptions();
     window.location.href = "index.html";
 }

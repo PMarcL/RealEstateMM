@@ -14,5 +14,4 @@ public class UserRoleFactory {
 			throw new InvalidRoleDescriptionException(roleDescription);
 		}
 	}
-
 }

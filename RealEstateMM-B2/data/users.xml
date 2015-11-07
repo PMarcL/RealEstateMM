@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <users>
     <user>
-        <email>olivierD@admin.com</email>
-        <firstName>Olivier</firstName>
-        <lastName>Dugas</lastName>
-        <isLocked>false</isLocked>
-        <password>admin1234</password>
-        <phoneNumber>418 892-3940</phoneNumber>
-        <pseudonym>admin</pseudonym>
-        <userType>admin</userType>
-    </user>
-    <user>
         <email>pmleva2@gmail.com</email>
         <firstName>Pierre-Marc</firstName>
         <lastName>Levasseur</lastName>
@@ -18,7 +8,7 @@
         <password>pm</password>
         <phoneNumber>8198181752</phoneNumber>
         <pseudonym>PM</pseudonym>
-        <userType>buyer</userType>
+        <userType>BUYER</userType>
     </user>
     <user>
         <email>bobcat@hotmail.com</email>
@@ -28,7 +18,7 @@
         <password>bob</password>
         <phoneNumber>8198185647</phoneNumber>
         <pseudonym>Bob</pseudonym>
-        <userType>buyer</userType>
+        <userType>BUYER</userType>
     </user>
     <user>
         <email>paulj@hotmail.com</email>
@@ -38,7 +28,7 @@
         <password>paul</password>
         <phoneNumber>4182672859</phoneNumber>
         <pseudonym>Paul</pseudonym>
-        <userType>seller</userType>
+        <userType>SELLER</userType>
     </user>
     <user>
         <email>olivierD@admin.com</email>
