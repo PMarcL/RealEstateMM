@@ -1,5 +1,7 @@
 package org.RealEstateMM.domain.property;
 
+import java.util.Date;
+
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
@@ -13,6 +15,7 @@ public class Property {
 	private String owner;
 	private PropertyStatus status;
 	private PropertyFeatures features;
+	private Date creationDate;
 
 	private PropertyFeatures emptyFeatures = new PropertyFeatures(0, 0, 0, 0, 0.00, 0, 0.00, "", "");
 
@@ -61,5 +64,13 @@ public class Property {
 
 	public boolean isOwnedBy(String owner) {
 		return this.owner.equals(owner);
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
 	}
 }

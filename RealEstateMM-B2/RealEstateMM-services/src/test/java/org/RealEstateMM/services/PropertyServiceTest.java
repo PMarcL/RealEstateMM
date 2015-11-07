@@ -10,6 +10,10 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
+import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
+import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
 import org.RealEstateMM.services.property.PropertyService;
@@ -19,6 +23,7 @@ import org.junit.Test;
 public class PropertyServiceTest {
 
 	private final String OWNER = "owner90";
+	private final PropertySearchParameters PARAM = PropertySearchParameters.RECENTLY_UPLOADED_FIRST;
 
 	private PropertyDTOAssembler assembler;
 	private PropertyRepository repository;
@@ -26,6 +31,9 @@ public class PropertyServiceTest {
 	private Property property;
 	private PropertyAddress address;
 	private PropertyFeatures features;
+	private PropertySearchFilter filter;
+	private PropertyOrderingFactory orderingFactory;
+	private PropertyOrderingStrategy orderingStrategy;
 
 	private PropertyService propertyService;
 
@@ -33,14 +41,15 @@ public class PropertyServiceTest {
 	public void setup() {
 		assembler = mock(PropertyDTOAssembler.class);
 		repository = mock(PropertyRepository.class);
-		propertyService = new PropertyService(repository, assembler);
+		orderingFactory = mock(PropertyOrderingFactory.class);
+		propertyService = new PropertyService(repository, assembler, orderingFactory);
 
 		propertyDTO = mock(PropertyDTO.class);
 		property = mock(Property.class);
 		address = mock(PropertyAddress.class);
 		features = mock(PropertyFeatures.class);
 		given(repository.getPropertyAtAddress(address)).willReturn(Optional.of(property));
-		assemblerReturnsFeaturesAndAddress();
+		configureAssembler();
 	}
 
 	@Test
@@ -50,8 +59,13 @@ public class PropertyServiceTest {
 	}
 
 	@Test
+	public void givenAPropertyDTOWhenUploadsPropertyThenUpdateCreationDateOfNewProperty() {
+		propertyService.uploadProperty(propertyDTO);
+		verify(property).setCreationDate(anyObject());
+	}
+
+	@Test
 	public void givenAPropertyDTOWhenUploadsPropertyThenUseRepositoryToStoreNewProperty() {
-		given(assembler.fromDTO(propertyDTO)).willReturn(property);
 		propertyService.uploadProperty(propertyDTO);
 		verify(repository).add(property);
 	}
@@ -71,7 +85,6 @@ public class PropertyServiceTest {
 
 	@Test
 	public void whenGetAllPropertiesThenReturnsDTOsOfAllProperties() {
-		given(assembler.toDTO(property)).willReturn(propertyDTO);
 		given(repository.getAllProperties()).willReturn(buildPropertiesList());
 
 		ArrayList<PropertyDTO> returnedDTOs = propertyService.getAllProperties();
@@ -118,7 +131,6 @@ public class PropertyServiceTest {
 
 	@Test
 	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenConvertPropertiesWithAssembler() {
-		given(assembler.toDTO(property)).willReturn(propertyDTO);
 		given(repository.getPropertiesFromOwner(OWNER)).willReturn(buildPropertiesList());
 
 		ArrayList<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
@@ -129,13 +141,41 @@ public class PropertyServiceTest {
 	@Test
 	public void givenPropertyOwnerWhenGetPropertiesFromOwnerWithoutPropertiesThenReturnsEmptyPropertiesList() {
 		given(repository.getPropertiesFromOwner(OWNER)).willReturn(new ArrayList<Property>());
-
 		ArrayList<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
-
 		assertTrue(returnedDTOs.isEmpty());
 	}
 
-	private void assemblerReturnsFeaturesAndAddress() {
+	@Test
+	public void givenASearchFilterWhenGetOrderedPropertiesThenUsesFactoryWithSearchParamToGetOrderingStrategy() {
+		configureSearchStrategy();
+
+		propertyService.getOrderedProperties(filter);
+
+		verify(orderingFactory).getOrderingStrategy(PARAM);
+	}
+
+	@Test
+	public void givenASearchFilterWhenGetOrderedPropertiesThenReturnsPropertiesOrderedByOrderingStrategy() {
+		configureSearchStrategy();
+
+		ArrayList<PropertyDTO> returnedDTOs = propertyService.getOrderedProperties(filter);
+
+		verify(orderingStrategy).getOrderedProperties(repository);
+		assertTrue(returnedDTOs.contains(propertyDTO));
+	}
+
+	private void configureSearchStrategy() {
+		filter = mock(PropertySearchFilter.class);
+		orderingStrategy = mock(PropertyOrderingStrategy.class);
+
+		given(filter.getParsedSearchParameter()).willReturn(PARAM);
+		given(orderingFactory.getOrderingStrategy(PARAM)).willReturn(orderingStrategy);
+		given(orderingStrategy.getOrderedProperties(repository)).willReturn(buildPropertiesList());
+	}
+
+	private void configureAssembler() {
+		given(assembler.toDTO(property)).willReturn(propertyDTO);
+		given(assembler.fromDTO(propertyDTO)).willReturn(property);
 		given(assembler.getFeaturesFromDTO(propertyDTO)).willReturn(features);
 		given(assembler.getPropertyAddressFromDTO(propertyDTO)).willReturn(address);
 	}

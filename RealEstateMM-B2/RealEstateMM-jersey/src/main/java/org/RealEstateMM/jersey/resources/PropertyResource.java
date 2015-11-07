@@ -9,12 +9,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
+import org.RealEstateMM.domain.property.search.InvalidFilterException;
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
@@ -35,9 +38,18 @@ public class PropertyResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllProperties() {
-		String json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
-		return Response.ok(Status.OK).entity(json).build();
+	public Response getProperties(@QueryParam("orderBy") PropertySearchFilter orderBy) {
+		try {
+			String json;
+			if (orderBy == null) {
+				json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
+			} else {
+				json = getJsonFromPropertyDTOs(propertyService.getOrderedProperties(orderBy));
+			}
+			return Response.ok(Status.OK).entity(json).build();
+		} catch (InvalidFilterException exception) {
+			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		}
 	}
 
 	@GET

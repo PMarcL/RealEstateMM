@@ -3,6 +3,9 @@ package org.RealEstateMM.domain.property;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
@@ -21,7 +24,7 @@ public class PropertyTest {
 	private static final double EMPTY_LIVING_SPACE_AREA = 0.00;
 	private static final String EMPTY_BACKYARD_DIRECTION = "";
 	private static final String EMPTY_DESCRIPTION = "";
-	
+
 	private static final int A_NUMBER_OF_BATHROOMS = 1;
 	private static final int A_TOTAL_NUMBER_OF_ROOMS = 3;
 	private static final int A_NUMBER_OF_BEDROOMS = 1;
@@ -31,10 +34,8 @@ public class PropertyTest {
 	private static final double A_LIVING_SPACE_AREA = 50.00;
 	private static final String A_BACKYARD_DIRECTION = "WEST";
 	private static final String A_DESCRIPTION = "Good property";
-	
+
 	private static final double DELTA = 0.001;
-	
-	
 
 	private Property property;
 
@@ -54,19 +55,19 @@ public class PropertyTest {
 	}
 
 	@Test
-	public void givenAPropertyWhenVerifyingItsOwnerWithAnInvalidOwnerThenItShouldReturnFalse(){
+	public void givenAPropertyWhenVerifyingItsOwnerWithAnInvalidOwnerThenItShouldReturnFalse() {
 		assertFalse(property.isOwnedBy(NOT_THE_OWNER_USERNAME));
 	}
-	
+
 	@Test
-	public void givenAPropertyWhenVerifyingItsOwnerWithTheRightOwnerThenItShouldReturnTrue(){
+	public void givenAPropertyWhenVerifyingItsOwnerWithTheRightOwnerThenItShouldReturnTrue() {
 		assertTrue(property.isOwnedBy(OWNER_USERNAME));
 	}
-	
+
 	@Test
-	public void givenANewPropertyThenItShouldHaveEmptyPropertyFeatures(){
+	public void givenANewPropertyThenItShouldHaveEmptyPropertyFeatures() {
 		PropertyFeatures returnedFeatures = property.getFeatures();
-		
+
 		assertEquals(EMPTY_NUMBER_OF_BATHROOMS, returnedFeatures.numberOfBathrooms);
 		assertEquals(EMPTY_NUMBER_OF_BEDROOMS, returnedFeatures.numberOfBedrooms);
 		assertEquals(EMPTY_TOTAL_NUMBER_OF_ROOMS, returnedFeatures.totalNumberOfRooms);
@@ -77,13 +78,15 @@ public class PropertyTest {
 		assertEquals(EMPTY_BACKYARD_DIRECTION, returnedFeatures.backyardDirection);
 		assertEquals(EMPTY_DESCRIPTION, returnedFeatures.description);
 	}
-	
+
 	@Test
-	public void givenANewPropertyUpdatingItsFeaturesShouldModifyItsFeatures(){
-		PropertyFeatures newFeatures = new PropertyFeatures(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS, A_TOTAL_NUMBER_OF_ROOMS, A_NUMBER_OF_LEVEL, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION, A_LIVING_SPACE_AREA, A_BACKYARD_DIRECTION, A_DESCRIPTION);
+	public void givenANewPropertyUpdatingItsFeaturesShouldModifyItsFeatures() {
+		PropertyFeatures newFeatures = new PropertyFeatures(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS,
+				A_TOTAL_NUMBER_OF_ROOMS, A_NUMBER_OF_LEVEL, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION,
+				A_LIVING_SPACE_AREA, A_BACKYARD_DIRECTION, A_DESCRIPTION);
 		property.updateFeatures(newFeatures);
 		PropertyFeatures returnedFeatures = property.getFeatures();
-		
+
 		assertEquals(A_NUMBER_OF_BATHROOMS, returnedFeatures.numberOfBathrooms);
 		assertEquals(A_NUMBER_OF_BEDROOMS, returnedFeatures.numberOfBedrooms);
 		assertEquals(A_TOTAL_NUMBER_OF_ROOMS, returnedFeatures.totalNumberOfRooms);
@@ -93,6 +96,13 @@ public class PropertyTest {
 		assertEquals(A_LIVING_SPACE_AREA, returnedFeatures.livingSpaceArea, DELTA);
 		assertEquals(A_BACKYARD_DIRECTION, returnedFeatures.backyardDirection);
 		assertEquals(A_DESCRIPTION, returnedFeatures.description);
+	}
+
+	@Test
+	public void givenANewPropertyWhenSetCreationDateThenCreationDateIsUpdated() {
+		Date creationDate = Calendar.getInstance().getTime();
+		property.setCreationDate(creationDate);
+		assertEquals(creationDate, property.getCreationDate());
 	}
 
 }

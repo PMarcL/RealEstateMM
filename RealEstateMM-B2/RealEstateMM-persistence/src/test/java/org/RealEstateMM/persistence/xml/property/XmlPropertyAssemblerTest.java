@@ -2,6 +2,8 @@ package org.RealEstateMM.persistence.xml.property;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
+
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
@@ -13,24 +15,25 @@ import org.junit.Test;
 
 public class XmlPropertyAssemblerTest {
 
-	private static final int A_NUMBER_OF_ROOMS = 2;
-	private static final int A_NUMBER_OF_DEBROOMS = 3;
-	private static final int A_TOTAL_NUMBER_OF_ROOMS = 7;
-	private static final int A_NUMBER_OF_LEVEL = 2;
-	private static final double A_LOT_DIMENSION = 2000.00;
-	private static final int A_YEAR_OF_CONSTRUCTION = 2000;
-	private static final double A_LIVING_SPACE_AREA = 1000.00;
-	private static final String A_BACKYARD_DIRECTION = "WEST";
-	
-	private static final PropertyType A_TYPE = PropertyType.HOUSE;
-	private static final Double A_PRICE = 200000.0;
-	private static final Double DELTA = 0.001;
-	private static final String A_OWNER_NAME = "Joe";
-	private static final PropertyStatus A_STATUS = PropertyStatus.ONSALE;
-	private static final String A_STREETADDRESS = "123, FakeStreet";
-	private static final String A_CITY = "Gotham";
-	private static final String A_PROVINCE = "Quebec";
-	private static final String A_ZIPCODE = "G6V0A9";
+	private final int A_NUMBER_OF_ROOMS = 2;
+	private final int A_NUMBER_OF_DEBROOMS = 3;
+	private final int A_TOTAL_NUMBER_OF_ROOMS = 7;
+	private final int A_NUMBER_OF_LEVEL = 2;
+	private final double A_LOT_DIMENSION = 2000.00;
+	private final int A_YEAR_OF_CONSTRUCTION = 2000;
+	private final double A_LIVING_SPACE_AREA = 1000.00;
+	private final String A_BACKYARD_DIRECTION = "WEST";
+
+	private final PropertyType A_TYPE = PropertyType.HOUSE;
+	private final Double A_PRICE = 200000.0;
+	private final Double DELTA = 0.001;
+	private final String A_OWNER_NAME = "Joe";
+	private final PropertyStatus A_STATUS = PropertyStatus.ONSALE;
+	private final String A_STREETADDRESS = "123, FakeStreet";
+	private final String A_CITY = "Gotham";
+	private final String A_PROVINCE = "Quebec";
+	private final String A_ZIPCODE = "G6V0A9";
+	private final String CREATION_DATE = "2015-10-31-01:30:05";
 
 	private XmlPropertyAssembler assembler;
 	private XmlProperty xmlProperty;
@@ -75,6 +78,7 @@ public class XmlPropertyAssemblerTest {
 	private void createProperty() {
 		PropertyAddress address = new PropertyAddress(A_STREETADDRESS, A_CITY, A_PROVINCE, A_ZIPCODE);
 		property = new Property(A_TYPE, address, A_PRICE, A_OWNER_NAME, A_STATUS);
+		property.setCreationDate(new Date(11000));
 	}
 
 	private void createXmlProperty() {
@@ -82,12 +86,13 @@ public class XmlPropertyAssemblerTest {
 		xmlProperty.setType(PropertyType.getStringFromType(A_TYPE));
 		xmlProperty.setPrice(String.valueOf(A_PRICE));
 		xmlProperty.setOwnerUserName(A_OWNER_NAME);
+		xmlProperty.setCreationDate(CREATION_DATE);
 		xmlProperty.setStatus(PropertyStatus.getStringFromStatus(A_STATUS));
 		xmlProperty.setStreetAddress(A_STREETADDRESS);
 		xmlProperty.setCityAddress(A_CITY);
 		xmlProperty.setProvinceAddress(A_PROVINCE);
 		xmlProperty.setZipCodeAddress(A_ZIPCODE);
-		
+
 		xmlProperty.setNumberOfBathrooms(Integer.toString(A_NUMBER_OF_ROOMS));
 		xmlProperty.setNumberOfBedrooms(Integer.toString(A_NUMBER_OF_DEBROOMS));
 		xmlProperty.setTotalNumberOfRooms(Integer.toString(A_TOTAL_NUMBER_OF_ROOMS));
