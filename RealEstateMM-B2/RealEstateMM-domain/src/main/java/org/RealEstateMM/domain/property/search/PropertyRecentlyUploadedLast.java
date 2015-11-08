@@ -12,9 +12,9 @@ public class PropertyRecentlyUploadedLast implements PropertyOrderingStrategy {
 	@Override
 	public ArrayList<Property> getOrderedProperties(PropertyRepository propertyRepository) {
 		ArrayList<Property> properties = propertyRepository.getAll();
-		Comparator<Property> mostRecentPropertyFirst = Comparator.comparing(Property::getCreationDate);
+		Comparator<Property> mostRecentPropertyLast = Comparator.comparing(Property::getCreationDate);
 
-		Collections.sort(properties, mostRecentPropertyFirst);
+		Collections.sort(properties, mostRecentPropertyLast);
 
 		return properties;
 	}

@@ -29,7 +29,8 @@ function createHtmlPropertyList(propertiesJSON) {
     var buffer = "";
     $.each(propertiesJSON, function () {
 
-        buffer = "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
+        buffer = buffer
+            + "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
             + "<div class='price'>" + "C $" +this.propertyPrice + "</div>"
             + "<div class='streetAddress'>" + this.propertyAddress.streetAddress + "</div>"
             + "<div class='city'>" + this.propertyAddress.city + "</div>"
@@ -49,8 +50,7 @@ function createHtmlPropertyList(propertiesJSON) {
             +   "<div class='featuresAttribute'> Backyard direction : " + this.propertyFeatures.backyardDirection + "</div>"
             +   "<div class='featuresAttribute'> Description : " + this.propertyFeatures.description + "</div>"
             +"</div><br>"
-            + "<li>"
-            + buffer;
+            + "<li>";
         $('#propertylist').html(buffer);
     });
 }

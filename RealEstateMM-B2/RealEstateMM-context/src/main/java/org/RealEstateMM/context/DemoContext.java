@@ -17,6 +17,8 @@ import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.dtos.property.PropertyAddressDTOAssembler;
+import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTOAssembler;
 import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
@@ -67,9 +69,6 @@ public class DemoContext extends Context {
 
 		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
-
-		// this.propertyDTOAssembler = new PropertyDTOAssembler();
-		// ServiceLocator.getInstance().registerService(PropertyDTOAssembler.class,
 		// propertyDTOAssembler); //TODO Comment choisir entre les deux
 		// constructeurs de PropertyDTOAssembler?
 	}
