@@ -2,7 +2,7 @@ package org.RealEstateMM.domain.user;
 
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 
 import static org.junit.Assert.*;
 
@@ -18,6 +18,7 @@ public class UserTest {
 	private final String EMAIL_ADDRESS = "john@email.com";
 	private final String PHONENUMBER = "819 819-3904";
 	private final String PASSWORD = "jd1234";
+	private final AccessLevel ACCESS_LEVEL = AccessLevel.SELLER;
 
 	private User user;
 	private UserInformations userInformations;
@@ -52,8 +53,8 @@ public class UserTest {
 
 	@Test
 	public void givenAUserWhenGettingRoleDescriptionThenReturnDescriptionFromRole() {
-		given(role.getRoleDescription()).willReturn(RoleDescription.SELLER);
-		assertEquals(RoleDescription.SELLER, user.getRoleDescription());
+		given(role.getRoleDescription()).willReturn(AccessLevel.SELLER);
+		assertEquals(AccessLevel.SELLER, user.getRoleDescription());
 	}
 
 	@Test
@@ -92,5 +93,11 @@ public class UserTest {
 		user.updateUserInformations(newInfos);
 
 		assertEquals(newInfos, user.getUserInformations());
+	}
+
+	@Test
+	public void whenCheckingIfUserIsAuthorizedThenShouldAskUserRole() {
+		given(role.isAuthorized(ACCESS_LEVEL)).willReturn(true);
+		assertTrue(user.isAuthorized(ACCESS_LEVEL));
 	}
 }

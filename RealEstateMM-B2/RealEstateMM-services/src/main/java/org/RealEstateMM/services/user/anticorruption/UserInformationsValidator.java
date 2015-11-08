@@ -3,7 +3,7 @@ package org.RealEstateMM.services.user.anticorruption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 
 public class UserInformationsValidator {
 
@@ -32,7 +32,7 @@ public class UserInformationsValidator {
 
 	public boolean userTypeIsValid(String userType) {
 		try {
-			RoleDescription.valueOf(userType);
+			AccessLevel.valueOf(userType);
 		} catch (Exception e) {
 			return false;
 		}

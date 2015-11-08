@@ -8,7 +8,7 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRole;
 import org.RealEstateMM.domain.user.UserRoleFactory;
-import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.Before;
@@ -72,12 +72,12 @@ public class UserAssemblerTest {
 	public void givenADTOWhenAssembleThenCreateUserWithUserRoleFromFactory() {
 		UserDTO dto = createDTO();
 		UserRole role = mock(UserRole.class);
-		given(role.getRoleDescription()).willReturn(RoleDescription.ADMIN);
+		given(role.getRoleDescription()).willReturn(AccessLevel.ADMIN);
 		given(roleFactory.create(USER_ROLE_DESCRIPTION)).willReturn(role);
 
 		User result = assembler.fromDTO(dto);
 
-		assertEquals(RoleDescription.ADMIN, result.getRoleDescription());
+		assertEquals(AccessLevel.ADMIN, result.getRoleDescription());
 	}
 
 	private UserDTO createDTO() {

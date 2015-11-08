@@ -1,18 +1,22 @@
 package org.RealEstateMM.domain.user;
 
 public abstract class UserRole {
-	public enum RoleDescription {
+	public enum AccessLevel {
 		SELLER, BUYER, ADMIN
 	}
 
-	private RoleDescription description;
+	private AccessLevel accessLevel;
 
-	public UserRole(RoleDescription description) {
-		this.description = description;
+	public UserRole(AccessLevel description) {
+		this.accessLevel = description;
 	}
 
-	public RoleDescription getRoleDescription() {
-		return description;
+	public AccessLevel getRoleDescription() {
+		return accessLevel;
+	}
+
+	public boolean isAuthorized(AccessLevel requiredAccessLevel) {
+		return accessLevel == requiredAccessLevel;
 	}
 
 }

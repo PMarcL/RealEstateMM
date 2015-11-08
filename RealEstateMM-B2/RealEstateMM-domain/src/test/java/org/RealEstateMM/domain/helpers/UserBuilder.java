@@ -4,7 +4,7 @@ import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 
 public class UserBuilder {
 	public static final String DEFAULT_PSEUDONYM = "JohnD90";
@@ -14,7 +14,7 @@ public class UserBuilder {
 	public static final String DEFAULT_PHONE_NUMBER = "(819) 418-5739";
 	public static final String DEFAULT_PASSWORD = "JD1234";
 	public static final boolean DEFAULT_LOCK_STATE = true;
-	public static final RoleDescription DEFAULT_USER_ROLE = RoleDescription.SELLER;
+	public static final AccessLevel DEFAULT_USER_ROLE = AccessLevel.SELLER;
 
 	private User user;
 	private String pseudonym;
@@ -29,7 +29,7 @@ public class UserBuilder {
 		withRoleDescription(DEFAULT_USER_ROLE);
 	}
 
-	public UserBuilder withRoleDescription(RoleDescription role) {
+	public UserBuilder withRoleDescription(AccessLevel role) {
 		given(user.getRoleDescription()).willReturn(role);
 		return this;
 	}

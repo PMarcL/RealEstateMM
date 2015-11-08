@@ -1,6 +1,6 @@
 package org.RealEstateMM.domain.user;
 
-import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 
 public class User {
 
@@ -46,8 +46,12 @@ public class User {
 		isLocked = true;
 	}
 
-	public RoleDescription getRoleDescription() {
+	public AccessLevel getRoleDescription() {
 		return role.getRoleDescription();
+	}
+
+	public boolean isAuthorized(AccessLevel accessLevel) {
+		return role.isAuthorized(accessLevel);
 	}
 
 }

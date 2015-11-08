@@ -7,8 +7,8 @@ import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRole;
-import org.RealEstateMM.domain.user.UserRole.RoleDescription;
 import org.RealEstateMM.domain.user.UserRoleFactory;
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.persistence.xml.user.XmlUser;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.junit.Before;
@@ -81,12 +81,12 @@ public class XmlUserAssemblerTest {
 	@Test
 	public void givenAXmlUserWhenAssemblingUserFromXmlUserThenUserShouldHaveUserRoleFromFactory() {
 		UserRole role = mock(UserRole.class);
-		given(role.getRoleDescription()).willReturn(RoleDescription.ADMIN);
+		given(role.getRoleDescription()).willReturn(AccessLevel.ADMIN);
 		given(roleFactory.create(xmlUser.getUserType())).willReturn(role);
 
 		User result = assembler.toUser(xmlUser);
 
-		assertEquals(RoleDescription.ADMIN, result.getRoleDescription());
+		assertEquals(AccessLevel.ADMIN, result.getRoleDescription());
 	}
 
 	@Test

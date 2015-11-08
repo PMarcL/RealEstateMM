@@ -2,14 +2,20 @@ package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.user.UserRole.RoleDescription;
+import org.RealEstateMM.domain.user.Administrator;
+import org.RealEstateMM.domain.user.Buyer;
+import org.RealEstateMM.domain.user.InvalidRoleDescriptionException;
+import org.RealEstateMM.domain.user.Seller;
+import org.RealEstateMM.domain.user.UserRole;
+import org.RealEstateMM.domain.user.UserRoleFactory;
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.junit.Before;
 import org.junit.Test;
 
 public class UserRoleFactoryTest {
-	private final String SELLER_VALUE = RoleDescription.SELLER.toString();
-	private final String BUYER_VALUE = RoleDescription.BUYER.toString();
-	private final String ADMIN_VALUE = RoleDescription.ADMIN.toString();
+	private final String SELLER_VALUE = AccessLevel.SELLER.toString();
+	private final String BUYER_VALUE = AccessLevel.BUYER.toString();
+	private final String ADMIN_VALUE = AccessLevel.ADMIN.toString();
 
 	private UserRoleFactory factory;
 
