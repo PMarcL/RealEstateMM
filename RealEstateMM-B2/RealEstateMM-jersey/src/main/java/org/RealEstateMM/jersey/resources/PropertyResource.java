@@ -41,7 +41,7 @@ public class PropertyResource {
 	public Response getProperties(@QueryParam("orderBy") PropertySearchFilter orderBy) {
 		try {
 			String json;
-			if (orderBy == null) {
+			if (orderBy == null) { // TODO test sans GSON
 				json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
 			} else {
 				json = getJsonFromPropertyDTOs(propertyService.getOrderedProperties(orderBy));
