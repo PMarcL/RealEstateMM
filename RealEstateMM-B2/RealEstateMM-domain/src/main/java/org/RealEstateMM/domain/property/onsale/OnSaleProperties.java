@@ -25,7 +25,7 @@ public class OnSaleProperties {
 	}
 
 	private void findOnSaleProperties() {
-		onSaleProperties = (ArrayList<Property>) propertyRepository.getAllProperties().stream()
-				.filter(p -> p.getPropertyStatus() == PropertyStatus.ONSALE).collect(Collectors.toList());
+		onSaleProperties = (ArrayList<Property>) propertyRepository.getAll().stream()
+				.filter(p -> p.getStatus() == PropertyStatus.ON_SALE).collect(Collectors.toList());
 	}
 }

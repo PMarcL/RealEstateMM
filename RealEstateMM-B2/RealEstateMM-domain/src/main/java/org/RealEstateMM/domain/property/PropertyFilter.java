@@ -1,7 +1,8 @@
 package org.RealEstateMM.domain.property;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PropertyFilter {
 
@@ -11,17 +12,10 @@ public class PropertyFilter {
 		this.propertyRepository = propertyRepository;
 	}
 
-	public ArrayList<Property> getNumberOfNumberOfPropertiesSoldThisYear() {
-		ArrayList<Property> properties = propertyRepository.getAllProperties();
-		return null; // return properties.stream().filter(p ->
-						// isSoldThisYear(p)).;
-	}
-
-	private boolean isSoldThisYear(Property property) {
-		Calendar now = Calendar.getInstance();
-		Calendar soldDate = Calendar.getInstance();
-		soldDate.setTime(property.getSaleDate());
-		return soldDate.get(Calendar.YEAR) == now.get(Calendar.YEAR);
+	public ArrayList<Property> getPropertiesSoldThisYear() {
+		ArrayList<Property> properties = propertyRepository.getAll();
+		List<Property> filteredList = properties.stream().filter(p -> p.isSoldThisYear()).collect(Collectors.toList());
+		return new ArrayList<>(filteredList);
 	}
 
 }

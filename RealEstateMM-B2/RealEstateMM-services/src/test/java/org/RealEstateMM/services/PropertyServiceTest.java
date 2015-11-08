@@ -73,19 +73,19 @@ public class PropertyServiceTest {
 	@Test
 	public void whenGetAllPropertiesThenGetsAllPropertyFromRepository() {
 		propertyService.getAllProperties();
-		verify(repository).getAllProperties();
+		verify(repository).getAll();
 	}
 
 	@Test
 	public void whenGetAllPropertiesThenBuildDTOsFromPropertiesWithAssembler() {
-		given(repository.getAllProperties()).willReturn(buildPropertiesList());
+		given(repository.getAll()).willReturn(buildPropertiesList());
 		propertyService.getAllProperties();
 		verify(assembler).toDTO(property);
 	}
 
 	@Test
 	public void whenGetAllPropertiesThenReturnsDTOsOfAllProperties() {
-		given(repository.getAllProperties()).willReturn(buildPropertiesList());
+		given(repository.getAll()).willReturn(buildPropertiesList());
 
 		ArrayList<PropertyDTO> returnedDTOs = propertyService.getAllProperties();
 

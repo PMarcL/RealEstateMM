@@ -43,7 +43,7 @@ public class XmlPropertyRepository implements PropertyRepository {
 	}
 
 	@Override
-	public ArrayList<Property> getAllProperties() {
+	public ArrayList<Property> getAll() {
 		ArrayList<Property> properties = new ArrayList<Property>();
 		List<XmlProperty> xmlProperties = propertyCache.getProperties();
 
@@ -55,7 +55,7 @@ public class XmlPropertyRepository implements PropertyRepository {
 
 	@Override
 	public Optional<Property> getPropertyAtAddress(PropertyAddress address) {
-		ArrayList<Property> properties = this.getAllProperties();
+		ArrayList<Property> properties = this.getAll();
 
 		for (Property property : properties) {
 			if (property.getAddress().isEquals(address)) {
@@ -75,7 +75,7 @@ public class XmlPropertyRepository implements PropertyRepository {
 
 	@Override
 	public ArrayList<Property> getPropertiesFromOwner(String owner) {
-		ArrayList<Property> properties = this.getAllProperties();
+		ArrayList<Property> properties = this.getAll();
 		ArrayList<Property> propertiesOfOwner = new ArrayList<Property>();
 
 		for (Property property : properties) {

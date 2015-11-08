@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,26 +21,36 @@ public class PropertyFilterTest {
 	}
 
 	@Test
-	public void givenAnEmptyListWhenGetNumberOfPropertiesSoldThisYearThenReturnsZero() {
-		ArrayList<Property> actual = propertyFilter.getNumberOfNumberOfPropertiesSoldThisYear();
+	public void givenAnEmptyListWhenFilterPropertiesSoldThisYearThenAnEmptyList() {
+		ArrayList<Property> actual = propertyFilter.getPropertiesSoldThisYear();
 		assertEquals(new ArrayList<Property>(), actual);
 	}
 
 	@Test
-	public void givenAnEmptyListWhenGetNumberOfPropertiesSoldThisYearThenReturnsTheAmountOfPropertySoldThisYear() {
+	public void givenAListOfPropertiesWhenGetPropertiesSoldThisYearThenReturnsThePropertiesSoldThisYear() {
+		Property propertySoldThisYear1 = aPropertyMockReturningIfSoldThisYear(true);
+		Property propertySoldThisYear2 = aPropertyMockReturningIfSoldThisYear(true);
+		Property propertySoldInAPassedYear = aPropertyMockReturningIfSoldThisYear(false);
+
 		ArrayList<Property> properties = new ArrayList<>();
-		properties.add(mock(Property.class));
-		properties.add(mock(Property.class));
-		properties.add(mock(Property.class));
-		given(properties.get(0).getSaleDate()).willReturn(new Date());
-		given(properties.get(1).getSaleDate()).willReturn(new Date());
+		properties.add(propertySoldThisYear1);
+		properties.add(propertySoldInAPassedYear);
+		properties.add(propertySoldThisYear2);
+		int numberOfPropertiesSoldThisYear = 2;
 
-		// what to do with the almost completely deprecated Date class
-		Date A_PASSED_YEAR_DATE = new Date(1990, 1, 1);
-		given(properties.get(2).getSaleDate()).willReturn(A_PASSED_YEAR_DATE);
+		given(propertyRepository.getAll()).willReturn(properties);
 
-		given(propertyRepository.getAllProperties()).willReturn(properties);
-		assertEquals(, propertyFilter.getNumberOfNumberOfPropertiesSoldThisYear());
+		ArrayList<Property> actual = propertyFilter.getPropertiesSoldThisYear();
+
+		assertTrue(actual.contains(propertySoldThisYear1));
+		assertTrue(actual.contains(propertySoldThisYear2));
+		assertEquals(numberOfPropertiesSoldThisYear, actual.size());
+	}
+
+	private Property aPropertyMockReturningIfSoldThisYear(boolean isSoldThisYear) {
+		Property property = mock(Property.class);
+		given(property.isSoldThisYear()).willReturn(isSoldThisYear);
+		return property;
 	}
 
 }

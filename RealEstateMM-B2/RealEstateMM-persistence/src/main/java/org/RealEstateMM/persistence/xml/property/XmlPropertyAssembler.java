@@ -28,7 +28,7 @@ public class XmlPropertyAssembler {
 		newProperty.setZipCodeAddress(propertyAddress.zipCode);
 		newProperty.setPrice(String.valueOf(property.getPrice()));
 		newProperty.setOwnerUserName(property.getOwner());
-		newProperty.setStatus(PropertyStatus.getStringFromStatus(property.getPropertyStatus()));
+		newProperty.setStatus(PropertyStatus.getStringFromStatus(property.getStatus()));
 
 		newProperty.setNumberOfBathrooms(String.valueOf(propertyFeatures.numberOfBathrooms));
 		newProperty.setNumberOfBedrooms(String.valueOf(propertyFeatures.numberOfBedrooms));

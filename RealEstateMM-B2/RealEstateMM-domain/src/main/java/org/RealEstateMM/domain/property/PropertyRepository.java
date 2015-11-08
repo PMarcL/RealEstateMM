@@ -9,7 +9,7 @@ public interface PropertyRepository {
 
 	public void add(Property property);
 
-	public ArrayList<Property> getAllProperties();
+	public ArrayList<Property> getAll();
 
 	public Optional<Property> getPropertyAtAddress(PropertyAddress address);
 

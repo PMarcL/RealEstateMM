@@ -30,7 +30,7 @@ public class PropertyWithHighestPriceLastTest {
 		createPropertyList();
 		makeNewPropertyMoreRecentThanOldProperty();
 		propertyRepository = mock(PropertyRepository.class);
-		given(propertyRepository.getAllProperties()).willReturn(properties);
+		given(propertyRepository.getAll()).willReturn(properties);
 	}
 
 	@Test

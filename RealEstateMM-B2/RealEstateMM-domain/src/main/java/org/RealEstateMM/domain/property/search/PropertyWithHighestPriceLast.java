@@ -11,7 +11,7 @@ public class PropertyWithHighestPriceLast implements PropertyOrderingStrategy {
 
 	@Override
 	public ArrayList<Property> getOrderedProperties(PropertyRepository propertyRepository) {
-		ArrayList<Property> properties = propertyRepository.getAllProperties();
+		ArrayList<Property> properties = propertyRepository.getAll();
 		Comparator<Property> mostRecentPropertyFirst = Comparator.comparing(Property::getPrice);
 
 		Collections.sort(properties, mostRecentPropertyFirst);

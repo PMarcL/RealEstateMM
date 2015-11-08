@@ -1,5 +1,6 @@
 package org.RealEstateMM.domain.property;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
@@ -21,16 +22,15 @@ public class Property {
 	private PropertyFeatures emptyFeatures = new PropertyFeatures(0, 0, 0, 0, 0.00, 0, 0.00, "", "");
 
 	public Property(PropertyType type, PropertyAddress address, double price, String ownerUsername,
-			PropertyStatus status) {
-
+			PropertyStatus status, Date creationDate, Date saleDate) {
 		this.type = type;
 		this.address = address;
 		this.price = price;
 		this.owner = ownerUsername;
 		this.status = status;
 		this.features = emptyFeatures;
-
-		this.saleDate = null;
+		this.creationDate = creationDate;
+		this.saleDate = saleDate;
 	}
 
 	public PropertyType getType() {
@@ -49,7 +49,7 @@ public class Property {
 		return owner;
 	}
 
-	public PropertyStatus getPropertyStatus() {
+	public PropertyStatus getStatus() {
 		return status;
 	}
 
@@ -83,5 +83,16 @@ public class Property {
 
 	public void setSolDate(Date saleDate) {
 		this.saleDate = saleDate;
+	}
+
+	public Boolean isSoldThisYear() {
+		if (getStatus() == PropertyStatus.SOLD) {
+			Calendar now = Calendar.getInstance();
+			Calendar soldDate = Calendar.getInstance();
+			soldDate.setTime(getSaleDate());
+			return soldDate.get(Calendar.YEAR) == now.get(Calendar.YEAR);
+		} else {
+			return false;
+		}
 	}
 }

@@ -28,7 +28,7 @@ public class XmlPropertyAssemblerTest {
 	private final Double A_PRICE = 200000.0;
 	private final Double DELTA = 0.001;
 	private final String A_OWNER_NAME = "Joe";
-	private final PropertyStatus A_STATUS = PropertyStatus.ONSALE;
+	private final PropertyStatus A_STATUS = PropertyStatus.ON_SALE;
 	private final String A_STREETADDRESS = "123, FakeStreet";
 	private final String A_CITY = "Gotham";
 	private final String A_PROVINCE = "Quebec";
@@ -68,7 +68,7 @@ public class XmlPropertyAssemblerTest {
 		assertEquals(A_TYPE, result.getType());
 		assertEquals(A_PRICE, result.getPrice(), DELTA);
 		assertEquals(A_OWNER_NAME, result.getOwner());
-		assertEquals(A_STATUS, result.getPropertyStatus());
+		assertEquals(A_STATUS, result.getStatus());
 		assertEquals(A_STREETADDRESS, resultAddress.streetAddress);
 		assertEquals(A_CITY, resultAddress.city);
 		assertEquals(A_PROVINCE, resultAddress.province);

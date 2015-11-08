@@ -30,7 +30,7 @@ public class OnSalePropertiesTest {
 
 	@Test
 	public void givenNoOnSalePropertiesThenGetOnSalePropertiesByTypeShouldReturnEmptyList() {
-		given(propertyRepo.getAllProperties()).willReturn(new ArrayList<Property>());
+		given(propertyRepo.getAll()).willReturn(new ArrayList<Property>());
 		onSaleProperties = new OnSaleProperties(propertyRepo);
 
 		List<Property> onSaleHouses = onSaleProperties.findOnSalePropertiesByType(PropertyType.HOUSE);
@@ -42,10 +42,10 @@ public class OnSalePropertiesTest {
 	public void givenOneOnSaleHouseGetOnSalePropertiesByHouseShouldReturnIt(){
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
-		given(firstProperty.getPropertyStatus()).willReturn(PropertyStatus.ONSALE);
+		given(firstProperty.getStatus()).willReturn(PropertyStatus.ON_SALE);
 		given(firstProperty.getType()).willReturn(PropertyType.HOUSE);
 		allProperties.add(firstProperty);
-		given(propertyRepo.getAllProperties()).willReturn(allProperties);
+		given(propertyRepo.getAll()).willReturn(allProperties);
 		onSaleProperties = new OnSaleProperties(propertyRepo);
 		
 		List<Property> onSaleHouses = onSaleProperties.findOnSalePropertiesByType(PropertyType.HOUSE);
@@ -58,10 +58,10 @@ public class OnSalePropertiesTest {
 	public void givenOneSoldHouseGetOnSalePropertiesByHouseShouldReturnAnEmptyList(){
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
-		given(firstProperty.getPropertyStatus()).willReturn(PropertyStatus.SOLD);
+		given(firstProperty.getStatus()).willReturn(PropertyStatus.SOLD);
 		given(firstProperty.getType()).willReturn(PropertyType.HOUSE);
 		allProperties.add(firstProperty);
-		given(propertyRepo.getAllProperties()).willReturn(allProperties);
+		given(propertyRepo.getAll()).willReturn(allProperties);
 		onSaleProperties = new OnSaleProperties(propertyRepo);
 		
 		List<Property> onSaleHouses = onSaleProperties.findOnSalePropertiesByType(PropertyType.HOUSE);
@@ -73,10 +73,10 @@ public class OnSalePropertiesTest {
 	public void givenOneOnSaleHouseGetOnSalePropertiesByFarmShouldReturnAnEmptyList(){
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
-		given(firstProperty.getPropertyStatus()).willReturn(PropertyStatus.ONSALE);
+		given(firstProperty.getStatus()).willReturn(PropertyStatus.ON_SALE);
 		given(firstProperty.getType()).willReturn(PropertyType.FARM);
 		allProperties.add(firstProperty);
-		given(propertyRepo.getAllProperties()).willReturn(allProperties);
+		given(propertyRepo.getAll()).willReturn(allProperties);
 		onSaleProperties = new OnSaleProperties(propertyRepo);
 		
 		List<Property> onSaleHouses = onSaleProperties.findOnSalePropertiesByType(PropertyType.HOUSE);
@@ -89,13 +89,13 @@ public class OnSalePropertiesTest {
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
 		secondProperty = mock(Property.class);
-		given(firstProperty.getPropertyStatus()).willReturn(PropertyStatus.ONSALE);
+		given(firstProperty.getStatus()).willReturn(PropertyStatus.ON_SALE);
 		given(firstProperty.getType()).willReturn(PropertyType.MULTIPLEX);
-		given(secondProperty.getPropertyStatus()).willReturn(PropertyStatus.ONSALE);
+		given(secondProperty.getStatus()).willReturn(PropertyStatus.ON_SALE);
 		given(secondProperty.getType()).willReturn(PropertyType.MULTIPLEX);
 		allProperties.add(firstProperty);
 		allProperties.add(secondProperty);
-		given(propertyRepo.getAllProperties()).willReturn(allProperties);
+		given(propertyRepo.getAll()).willReturn(allProperties);
 		onSaleProperties = new OnSaleProperties(propertyRepo);
 		
 		List<Property> onSaleMultiplex = onSaleProperties.findOnSalePropertiesByType(PropertyType.MULTIPLEX);
@@ -108,13 +108,13 @@ public class OnSalePropertiesTest {
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
 		secondProperty = mock(Property.class);
-		given(firstProperty.getPropertyStatus()).willReturn(PropertyStatus.ONSALE);
+		given(firstProperty.getStatus()).willReturn(PropertyStatus.ON_SALE);
 		given(firstProperty.getType()).willReturn(PropertyType.MULTIPLEX);
-		given(secondProperty.getPropertyStatus()).willReturn(PropertyStatus.SOLD);
+		given(secondProperty.getStatus()).willReturn(PropertyStatus.SOLD);
 		given(secondProperty.getType()).willReturn(PropertyType.MULTIPLEX);
 		allProperties.add(firstProperty);
 		allProperties.add(secondProperty);
-		given(propertyRepo.getAllProperties()).willReturn(allProperties);
+		given(propertyRepo.getAll()).willReturn(allProperties);
 		onSaleProperties = new OnSaleProperties(propertyRepo);
 		
 		List<Property> onSaleMultiplex = onSaleProperties.findOnSalePropertiesByType(PropertyType.MULTIPLEX);

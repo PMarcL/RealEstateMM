@@ -44,7 +44,7 @@ public class PropertyService implements PropertyServiceHandler {
 
 	@Override
 	public ArrayList<PropertyDTO> getAllProperties() {
-		ArrayList<Property> properties = propertyRepository.getAllProperties();
+		ArrayList<Property> properties = propertyRepository.getAll();
 		return buildDTOsFromProperties(properties);
 	}
 
