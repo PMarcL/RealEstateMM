@@ -22,15 +22,16 @@ public class Property {
 	private PropertyFeatures emptyFeatures = new PropertyFeatures(0, 0, 0, 0, 0.00, 0, 0.00, "", "");
 
 	public Property(PropertyType type, PropertyAddress address, double price, String ownerUsername,
-			PropertyStatus status, Date creationDate, Date saleDate) {
+			PropertyStatus status) {
+
 		this.type = type;
 		this.address = address;
 		this.price = price;
 		this.owner = ownerUsername;
 		this.status = status;
 		this.features = emptyFeatures;
-		this.creationDate = creationDate;
-		this.saleDate = saleDate;
+
+		this.saleDate = null;
 	}
 
 	public PropertyType getType() {
@@ -81,7 +82,7 @@ public class Property {
 		return saleDate;
 	}
 
-	public void setSolDate(Date saleDate) {
+	public void setSaleDate(Date saleDate) {
 		this.saleDate = saleDate;
 	}
 

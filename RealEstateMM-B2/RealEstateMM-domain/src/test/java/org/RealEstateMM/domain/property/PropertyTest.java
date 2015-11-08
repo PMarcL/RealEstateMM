@@ -51,8 +51,7 @@ public class PropertyTest {
 	public void setup() {
 		propertyAddress = mock(PropertyAddress.class);
 
-		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PROPERTY_PRICE, OWNER_USERNAME, A_PROPERTY_STATUS,
-				new Date(), null);
+		property = new Property(A_PROPERTY_TYPE, propertyAddress, A_PROPERTY_PRICE, OWNER_USERNAME, A_PROPERTY_STATUS);
 	}
 
 	@Test
@@ -113,9 +112,16 @@ public class PropertyTest {
 
 	@Test
 	public void givenAPropertySoldOnAPassedYearWhenCheckingIfSoldThisYearThenReturnsFalse() {
-		Property propertySoldOnAPassedYear = new Property(null, null, 0, null, PropertyStatus.SOLD, null,
-				aPassedYearDate());
+		Property propertySoldOnAPassedYear = new Property(null, null, 0, null, PropertyStatus.SOLD);
+		propertySoldOnAPassedYear.setSaleDate(aPassedYearDate());
 		assertFalse(propertySoldOnAPassedYear.isSoldThisYear());
+	}
+
+	@Test
+	public void givenAPropertySoldThisYearWhenCheckingIfSoldThisYearThenReturnsTrue() {
+		Property propertySoldOnAPassedYear = new Property(null, null, 0, null, PropertyStatus.SOLD);
+		propertySoldOnAPassedYear.setSaleDate(new Date());
+		assertTrue(propertySoldOnAPassedYear.isSoldThisYear());
 	}
 
 	private Date aPassedYearDate() {
