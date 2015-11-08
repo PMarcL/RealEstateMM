@@ -16,6 +16,7 @@ public class Property {
 	private PropertyStatus status;
 	private PropertyFeatures features;
 	private Date creationDate;
+	private Date saleDate;
 
 	private PropertyFeatures emptyFeatures = new PropertyFeatures(0, 0, 0, 0, 0.00, 0, 0.00, "", "");
 
@@ -28,6 +29,8 @@ public class Property {
 		this.owner = ownerUsername;
 		this.status = status;
 		this.features = emptyFeatures;
+
+		this.saleDate = null;
 	}
 
 	public PropertyType getType() {
@@ -72,5 +75,13 @@ public class Property {
 
 	public Date getCreationDate() {
 		return creationDate;
+	}
+
+	public Date getSaleDate() {
+		return saleDate;
+	}
+
+	public void setSolDate(Date saleDate) {
+		this.saleDate = saleDate;
 	}
 }
