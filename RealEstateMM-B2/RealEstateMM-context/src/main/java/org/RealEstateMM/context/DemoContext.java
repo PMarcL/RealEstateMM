@@ -8,6 +8,7 @@ import org.RealEstateMM.domain.emailsender.GmailSender;
 import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -17,6 +18,7 @@ import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
 import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
@@ -41,6 +43,7 @@ public class DemoContext extends Context {
 	private SessionRepository sessionRepository;
 	private PropertyServiceHandler propertyService;
 	private UserServiceHandler userService;
+	private PropertyDTOAssembler propertyDTOAssembler;
 
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
@@ -67,6 +70,9 @@ public class DemoContext extends Context {
 
 		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
+		
+		//this.propertyDTOAssembler = new PropertyDTOAssembler();
+		//ServiceLocator.getInstance().registerService(PropertyDTOAssembler.class, propertyDTOAssembler); //TODO Comment choisir entre les deux constructeurs de PropertyDTOAssembler?
 	}
 
 	private void registerServiceDependencies() {
