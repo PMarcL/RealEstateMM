@@ -4,26 +4,24 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 public class PropertyFilterTest {
 
-	private PropertyRepository propertyRepository;
 	private PropertyFilter propertyFilter;
 
 	@Before
 	public void setUp() throws Exception {
-		propertyRepository = Mockito.mock(PropertyRepository.class);
-		propertyFilter = new PropertyFilter(propertyRepository);
+		propertyFilter = new PropertyFilter();
 	}
 
 	@Test
 	public void givenAnEmptyListWhenFilterPropertiesSoldThisYearThenAnEmptyList() {
-		ArrayList<Property> actual = propertyFilter.getPropertiesSoldThisYear();
-		assertEquals(new ArrayList<Property>(), actual);
+		Collection<Property> actual = propertyFilter.getPropertiesSoldThisYear(new ArrayList<Property>());
+		assertEquals(new ArrayList<Property>(), new ArrayList<Property>(actual));
 	}
 
 	@Test
@@ -38,9 +36,7 @@ public class PropertyFilterTest {
 		properties.add(propertySoldThisYear2);
 		int numberOfPropertiesSoldThisYear = 2;
 
-		given(propertyRepository.getAll()).willReturn(properties);
-
-		ArrayList<Property> actual = propertyFilter.getPropertiesSoldThisYear();
+		Collection<Property> actual = propertyFilter.getPropertiesSoldThisYear(properties);
 
 		assertTrue(actual.contains(propertySoldThisYear1));
 		assertTrue(actual.contains(propertySoldThisYear2));

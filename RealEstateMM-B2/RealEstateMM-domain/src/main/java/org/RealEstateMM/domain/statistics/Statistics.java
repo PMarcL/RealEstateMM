@@ -2,6 +2,7 @@ package org.RealEstateMM.domain.statistics;
 
 import java.util.Collection;
 
+import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyFilter;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.user.User;
@@ -20,12 +21,21 @@ public class Statistics {
 		this.propertyRepository = propertyRepository;
 		this.userRepository = userRepository;
 
-		propertyFilter = new PropertyFilter(propertyRepository);
+		propertyFilter = new PropertyFilter();
 		userFilter = new UserFilter();
 	}
 
+	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository, UserFilter userFilter,
+			PropertyFilter propertyFilter) {
+		this.propertyRepository = propertyRepository;
+		this.userRepository = userRepository;
+		this.userFilter = userFilter;
+		this.propertyFilter = propertyFilter;
+	}
+
 	public int getNumberOfPropertiesSoldThisYear() {
-		return propertyFilter.getPropertiesSoldThisYear().size();
+		Collection<Property> properties = propertyRepository.getAll();
+		return propertyFilter.getPropertiesSoldThisYear(properties).size();
 	}
 
 	public int getNumberOfActiveSeller() {
