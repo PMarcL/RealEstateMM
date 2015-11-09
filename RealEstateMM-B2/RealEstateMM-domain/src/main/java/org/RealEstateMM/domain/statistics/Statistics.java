@@ -1,9 +1,12 @@
 package org.RealEstateMM.domain.statistics;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.RealEstateMM.domain.property.PropertyFilter;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.onsale.NumberOfOnSaleProperties;
+import org.RealEstateMM.domain.property.onsale.OnSaleProperties;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserFilter;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -15,7 +18,8 @@ public class Statistics {
 	private PropertyRepository propertyRepository;
 	private UserRepository userRepository;
 
-	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository) {
+	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository ) {
+		propertyFilter = new PropertyFilter(propertyRepository);
 		this.propertyRepository = propertyRepository;
 		this.userRepository = userRepository;
 
@@ -25,6 +29,12 @@ public class Statistics {
 
 	public int getNumberOfPropertiesSoldThisYear() {
 		return propertyFilter.getPropertiesSoldThisYear().size();
+	}
+
+	public HashMap<String, Integer> getNumberOfPropertiesOnSalePerCategory() {
+		OnSaleProperties onSaleProperties = new OnSaleProperties(propertyRepository);
+		NumberOfOnSaleProperties numberOfPropertiesByCategory = new NumberOfOnSaleProperties(onSaleProperties);
+		return numberOfPropertiesByCategory.getMapTypeNumberOfProperties();
 	}
 
 	public int getNumberOfActiveSeller() {

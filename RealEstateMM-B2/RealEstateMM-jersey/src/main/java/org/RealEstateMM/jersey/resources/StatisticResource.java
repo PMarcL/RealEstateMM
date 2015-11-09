@@ -11,6 +11,13 @@ import org.RealEstateMM.jersey.responses.statistics.NumberOfPropertiesSoldThisYe
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.statistics.StatisticService;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonAnyFormatVisitor;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 @Path("/stats")
 public class StatisticResource {
 
@@ -44,4 +51,16 @@ public class StatisticResource {
 		return Response.ok().entity(entity).build();
 	}
 
+	@GET
+	@Path("onsaleproperties")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNumberOfOnSalePropertiesByCategory() {
+		try {
+			String propertiesAsJson = new ObjectMapper()
+					.writeValueAsString(statisticService.getNumberOfOnSalePropertiesPerCategory());
+			return Response.ok().entity(propertiesAsJson).build();
+		} catch (JsonProcessingException e) {
+			return Response.serverError().build();
+		}
+	}
 }
