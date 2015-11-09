@@ -2,6 +2,10 @@ package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+
+import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -89,4 +93,44 @@ public class UserTest {
 
 		assertEquals(newInfos, user.getUserInformations());
 	}
+
+	@Test
+	public void whenNewUserThenTheLastLoginDateIsNull() {
+		assertNull(user.getLastLoginDate());
+	}
+
+	@Test
+	public void givenTheCorrectPasswordWithAConfirmedUserWhenAuthenticateThenLogin() throws Exception {
+		User confirmedUser = aConfirmedUserWithPassword(PASSWORD);
+		Calendar dateBeforeAuthentication = Calendar.getInstance();
+
+		confirmedUser.authenticate(PASSWORD);
+
+		Calendar dateOfLastLogin = Calendar.getInstance();
+		dateOfLastLogin.setTime(confirmedUser.getLastLoginDate());
+		assertTrue(dateBeforeAuthentication.before(dateOfLastLogin));
+	}
+
+	private User aConfirmedUserWithPassword(String password) {
+		UserInformations userInfo = new UserInformations(null, password, null, null, null, null);
+		User confirmedUser = new User(userInfo, new UserType(UserType.BUYER));
+		confirmedUser.unlock();
+		return confirmedUser;
+	}
+
+	@Test(expected = UnconfirmedEmailException.class)
+	public void givenALockedUserWhenAuthenticateThrowUnconfirmedEmailException() throws Exception {
+		User unconfirmedUser = user;
+		unconfirmedUser.authenticate(PASSWORD);
+		assertNull(unconfirmedUser.getLastLoginDate());
+	}
+
+	@Test(expected = InvalidPasswordException.class)
+	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() throws Exception {
+		String invalidPassword = "posdf33";
+		User confirmedUser = aConfirmedUserWithPassword(PASSWORD);
+		confirmedUser.authenticate(invalidPassword);
+		assertNull(confirmedUser.getLastLoginDate());
+	}
+
 }

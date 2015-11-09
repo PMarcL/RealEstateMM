@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
+import org.RealEstateMM.domain.user.exceptions.UserWithPseudonymAlreadyStoredException;
 import org.junit.Before;
 import org.junit.Test;
 

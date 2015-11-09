@@ -1,15 +1,36 @@
 package org.RealEstateMM.domain.user;
 
+import java.util.Date;
+
+import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
+
 public class User {
 
 	private UserInformations userInformations;
 	private UserType userType;
+
+	private Date lastLoginDate;
 	private boolean isLocked;
 
 	public User(UserInformations userInfo, UserType type) {
 		this.userInformations = userInfo;
 		this.userType = type;
 		lock();
+	}
+
+	public void authenticate(String password) throws UnconfirmedEmailException, InvalidPasswordException {
+		if (isLocked()) {
+			throw new UnconfirmedEmailException();
+		}
+		if (!hasPassword(password)) {
+			throw new InvalidPasswordException();
+		}
+		login();
+	}
+
+	private void login() {
+		this.lastLoginDate = new Date();
 	}
 
 	public UserInformations getUserInformations() {
@@ -26,6 +47,10 @@ public class User {
 
 	public String getUserTypeDescription() {
 		return userType.userTypeDescription;
+	}
+
+	public Date getLastLoginDate() {
+		return lastLoginDate;
 	}
 
 	public boolean isLocked() {

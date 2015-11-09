@@ -2,6 +2,8 @@ package org.RealEstateMM.domain.user;
 
 import java.util.Optional;
 
+import org.RealEstateMM.domain.user.exceptions.UserWithPseudonymAlreadyStoredException;
+
 public abstract class UserRepository {
 
 	public abstract Optional<User> getUserWithPseudonym(String pseudonym);

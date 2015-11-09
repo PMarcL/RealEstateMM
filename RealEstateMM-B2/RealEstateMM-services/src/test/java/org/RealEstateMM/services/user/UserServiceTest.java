@@ -13,7 +13,6 @@ import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCo
 import org.RealEstateMM.services.dtos.user.UserAssembler;
 import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
-import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +25,6 @@ public class UserServiceTest {
 	private final String PSEUDONYM = "pseudo34";
 	private final String PASSWORD = "pw1234";
 	private final UserDTO USER_DTO = new UserDTOBuilder().withPseudonym(PSEUDONYM).withPassword(PASSWORD).build();
-	private final String INVALID_PASSWORD = "posdf33";
 
 	private User user;
 	private UserInformations userInfos;
@@ -79,13 +77,6 @@ public class UserServiceTest {
 	public void givenNoUserWhenAuthenticateThenThrowUserNotFoundException() throws Exception {
 		userDoesNotExists();
 		userService.authenticate(PSEUDONYM, PASSWORD);
-	}
-
-	@Test(expected = InvalidPasswordException.class)
-	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() throws Exception {
-		given(user.hasPassword(PASSWORD)).willReturn(true);
-
-		userService.authenticate(PSEUDONYM, INVALID_PASSWORD);
 	}
 
 	@Test(expected = ImpossibleToConfirmEmailAddressException.class)
