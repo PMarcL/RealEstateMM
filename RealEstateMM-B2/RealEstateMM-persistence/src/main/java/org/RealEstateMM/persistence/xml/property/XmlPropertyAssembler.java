@@ -15,8 +15,8 @@ public class XmlPropertyAssembler {
 	public final static String DATE_FORMAT_NOW = "yyyy-MM-dd-HH:mm:ss";
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT_NOW);
 
-	public XmlUser fromProperty(Property property) {
-		XmlUser newProperty = new XmlUser();
+	public XmlProperty fromProperty(Property property) {
+		XmlProperty newProperty = new XmlProperty();
 		PropertyAddress propertyAddress = property.getAddress();
 		PropertyFeatures propertyFeatures = property.getFeatures();
 
@@ -44,7 +44,7 @@ public class XmlPropertyAssembler {
 		return newProperty;
 	}
 
-	public Property toProperty(XmlUser xmlProperty) {
+	public Property toProperty(XmlProperty xmlProperty) {
 		PropertyType type = PropertyType.getTypeFromString(xmlProperty.getType());
 		PropertyStatus status = PropertyStatus.getStatusFromString(xmlProperty.getStatus());
 
@@ -61,7 +61,7 @@ public class XmlPropertyAssembler {
 		return property;
 	}
 
-	private void setPropertySaleDate(XmlUser xmlProperty, Property property) {
+	private void setPropertySaleDate(XmlProperty xmlProperty, Property property) {
 		try {
 			property.setSaleDate(dateFormatter.parse(xmlProperty.getSaleDate()));
 		} catch (ParseException e) {
@@ -69,7 +69,7 @@ public class XmlPropertyAssembler {
 		}
 	}
 
-	private void setPropertyCreationDate(XmlUser xmlProperty, Property property) {
+	private void setPropertyCreationDate(XmlProperty xmlProperty, Property property) {
 		try {
 			property.setCreationDate(dateFormatter.parse(xmlProperty.getCreationDate()));
 		} catch (ParseException e) {
@@ -77,13 +77,13 @@ public class XmlPropertyAssembler {
 		}
 	}
 
-	private PropertyAddress createPropertyAddress(XmlUser xmlProperty) {
+	private PropertyAddress createPropertyAddress(XmlProperty xmlProperty) {
 		PropertyAddress propertyAddress = new PropertyAddress(xmlProperty.getStreetAddress(),
 				xmlProperty.getCityAddress(), xmlProperty.getProvinceAddress(), xmlProperty.getZipCodeAddress());
 		return propertyAddress;
 	}
 
-	private PropertyFeatures createPropertyFeatures(XmlUser xmlProperty) {
+	private PropertyFeatures createPropertyFeatures(XmlProperty xmlProperty) {
 		PropertyFeatures propertyFeatures = new PropertyFeatures(Integer.parseInt(xmlProperty.getNumberOfBathrooms()),
 				Integer.parseInt(xmlProperty.getNumberOfBedrooms()),
 				Integer.parseInt(xmlProperty.getTotalNumberOfRooms()), Integer.parseInt(xmlProperty.getNumberOfLevel()),

@@ -36,7 +36,7 @@ public class XmlPropertyAssemblerTest {
 	private final String A_SALE_DATE = "2015-10-31-01:30:05";
 
 	private XmlPropertyAssembler assembler;
-	private XmlUser xmlProperty;
+	private XmlProperty xmlProperty;
 	private Property property;
 	private SimpleDateFormat dateFormatter;
 
@@ -49,7 +49,7 @@ public class XmlPropertyAssemblerTest {
 	@Test
 	public void givenAPropertyWhenAssemblingXmlPropertyThenXmlPropertyHasIdenticalFields() {
 		createProperty();
-		XmlUser result = assembler.fromProperty(property);
+		XmlProperty result = assembler.fromProperty(property);
 
 		assertEquals(A_TYPE, PropertyType.getTypeFromString(result.getType()));
 		assertEquals(A_PRICE, Double.parseDouble(result.getPrice()), DELTA);
@@ -93,7 +93,7 @@ public class XmlPropertyAssemblerTest {
 	}
 
 	private void createXmlProperty() {
-		xmlProperty = new XmlUser();
+		xmlProperty = new XmlProperty();
 		xmlProperty.setType(PropertyType.getStringFromType(A_TYPE));
 		xmlProperty.setPrice(String.valueOf(A_PRICE));
 		xmlProperty.setOwnerUserName(A_OWNER_NAME);
