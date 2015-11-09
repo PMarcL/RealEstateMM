@@ -2,13 +2,17 @@ package org.RealEstateMM.domain.statistics;
 
 import org.RealEstateMM.domain.property.PropertyFilter;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.user.UserFilter;
+import org.RealEstateMM.domain.user.UserRepository;
 
 public class Statistics {
 
 	private PropertyFilter propertyFilter;
+	private UserFilter userFilter;
 
-	public Statistics(PropertyRepository propertyRepository) {
+	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository) {
 		propertyFilter = new PropertyFilter(propertyRepository);
+		userFilter = new UserFilter(userRepository);
 	}
 
 	public int getNumberOfPropertiesSoldThisYear() {
@@ -21,8 +25,7 @@ public class Statistics {
 	}
 
 	public int getNumberOfActiveBuyer() {
-		// TODO Auto-generated method stub
-		return 0;
+		return userFilter.getActiveBuyer().size();
 	}
 
 }

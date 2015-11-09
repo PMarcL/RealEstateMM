@@ -2,6 +2,7 @@ package org.RealEstateMM.services.statistics;
 
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.statistics.Statistics;
+import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 
 public class StatisticService {
@@ -10,7 +11,8 @@ public class StatisticService {
 
 	public StatisticService() {
 		PropertyRepository propertyRepository = ServiceLocator.getInstance().getService(PropertyRepository.class);
-		statistics = new Statistics(propertyRepository);
+		UserRepository userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
+		statistics = new Statistics(propertyRepository, userRepository);
 	}
 
 	public int getNumberOfPropertiesSoldThisYear() {

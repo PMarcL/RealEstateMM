@@ -73,4 +73,9 @@ public class User {
 		isLocked = true;
 	}
 
+	public boolean isActive() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
