@@ -20,8 +20,8 @@ public class Statistics {
 	private PropertyRepository propertyRepository;
 	private UserRepository userRepository;
 
-	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository ) {
-		propertyFilter = new PropertyFilter(propertyRepository);
+	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository) {
+		propertyFilter = new PropertyFilter();
 		this.propertyRepository = propertyRepository;
 		this.userRepository = userRepository;
 

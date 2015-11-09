@@ -13,10 +13,6 @@ import org.RealEstateMM.services.statistics.StatisticService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonAnyFormatVisitor;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 @Path("/stats")
 public class StatisticResource {
