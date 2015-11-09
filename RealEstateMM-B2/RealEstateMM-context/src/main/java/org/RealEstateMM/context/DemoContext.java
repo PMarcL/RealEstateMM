@@ -21,6 +21,7 @@ import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
+import org.RealEstateMM.services.statistics.StatisticService;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
@@ -39,12 +40,26 @@ public class DemoContext extends Context {
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
+
 	private PropertyServiceHandler propertyService;
 	private UserServiceHandler userService;
+	private StatisticService statisticService;
 
 	public DemoContext() {
 		File xmlUsers = new File(usersFilePath());
 		File xmlProperty = new File(propertiesFilePath());
+		initializeRepositories(xmlUsers, xmlProperty);
+		initializeServices();
+	}
+
+	private void initializeServices() {
+		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
+				new PropertyInformationsValidator());
+		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
+		this.statisticService = new StatisticService();
+	}
+
+	private void initializeRepositories(File xmlUsers, File xmlProperty) {
 		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
@@ -61,12 +76,9 @@ public class DemoContext extends Context {
 	@Override
 	protected void registerServices() {
 		registerServiceDependencies();
-		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
-				new PropertyInformationsValidator());
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
-
-		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
+		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
 		// propertyDTOAssembler); //TODO Comment choisir entre les deux
 		// constructeurs de PropertyDTOAssembler?
 	}
