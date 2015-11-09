@@ -7,6 +7,7 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserFilter;
 import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.UserType;
 
 public class Statistics {
 
@@ -29,13 +30,13 @@ public class Statistics {
 
 	public int getNumberOfActiveSeller() {
 		Collection<User> users = userRepository.getAll();
-		Collection<User> sellers = userFilter.getSellers(users);
+		Collection<User> sellers = userFilter.getUsersWithUserType(users, UserType.SELLER);
 		return userFilter.getActiveUsers(sellers).size();
 	}
 
 	public int getNumberOfActiveBuyer() {
 		Collection<User> users = userRepository.getAll();
-		Collection<User> buyers = userFilter.getBuyers(users);
+		Collection<User> buyers = userFilter.getUsersWithUserType(users, UserType.BUYER);
 		return userFilter.getActiveUsers(buyers).size();
 	}
 
