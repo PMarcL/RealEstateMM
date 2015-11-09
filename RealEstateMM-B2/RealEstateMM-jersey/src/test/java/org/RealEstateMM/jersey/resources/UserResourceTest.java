@@ -54,7 +54,7 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenAValidUserWhenAUserIsRegisteredThenTheServerShouldReturnResponseStatusOK() {
+	public void givenAValidUserWhenAUserIsRegisteredThenTheServerThenReturnResponseStatusOK() {
 		StatusType statusType = userConnectionResource.signup(A_USER_DTO).getStatusInfo();
 		assertEquals(Status.OK, statusType);
 	}
@@ -150,8 +150,8 @@ public class UserResourceTest {
 	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest()
 			throws ImpossibleToConfirmEmailAddressException {
 		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
-		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userServiceAC).confirmEmailAddress(
-				alreadyConfirmedCode);
+		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userServiceAC)
+				.confirmEmailAddress(alreadyConfirmedCode);
 
 		Response response = userConnectionResource.confirmEmail(alreadyConfirmedCode);
 

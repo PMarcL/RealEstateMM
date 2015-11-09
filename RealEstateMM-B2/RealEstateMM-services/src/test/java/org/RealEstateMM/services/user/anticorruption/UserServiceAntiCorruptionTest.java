@@ -31,7 +31,7 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	private void setupInvalidFields() {
-		given(validator.stringIsValid(INVALID_STRING)).willReturn(false);
+		given(validator.isStringValid(INVALID_STRING)).willReturn(false);
 	}
 
 	@Test
@@ -49,19 +49,19 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS);
+		verify(validator).isEmailValid(UserBuilder.DEFAULT_EMAIL_ADDRESS);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER);
+		verify(validator).isPhoneNumberValid(UserBuilder.DEFAULT_PHONE_NUMBER);
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC);
+		verify(validator).isUserTypeValid(UserBuilder.DEFAULT_USER_TYPE_DESC);
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
-		given(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(false);
+		given(validator.isEmailValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
 
@@ -91,13 +91,13 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() throws Exception {
 		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
-		verify(validator).stringIsValid(VALID_PSEUDO);
+		verify(validator).isStringValid(VALID_PSEUDO);
 	}
 
 	@Test
 	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() throws Exception {
 		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
-		verify(validator).stringIsValid(VALID_PASSWORD);
+		verify(validator).isStringValid(VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
@@ -124,10 +124,10 @@ public class UserServiceAntiCorruptionTest {
 	private void allFieldsAreValid() {
 		given(validator.nameIsValid(UserBuilder.DEFAULT_FIRST_NAME)).willReturn(true);
 		given(validator.nameIsValid(UserBuilder.DEFAULT_LAST_NAME)).willReturn(true);
-		given(validator.phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER)).willReturn(true);
-		given(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
-		given(validator.stringIsValid(VALID_PASSWORD)).willReturn(true);
-		given(validator.stringIsValid(VALID_PSEUDO)).willReturn(true);
-		given(validator.userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC)).willReturn(true);
+		given(validator.isPhoneNumberValid(UserBuilder.DEFAULT_PHONE_NUMBER)).willReturn(true);
+		given(validator.isEmailValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
+		given(validator.isStringValid(VALID_PASSWORD)).willReturn(true);
+		given(validator.isStringValid(VALID_PSEUDO)).willReturn(true);
+		given(validator.isUserTypeValid(UserBuilder.DEFAULT_USER_TYPE_DESC)).willReturn(true);
 	}
 }

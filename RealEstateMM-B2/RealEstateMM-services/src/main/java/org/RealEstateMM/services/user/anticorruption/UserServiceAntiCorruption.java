@@ -31,11 +31,11 @@ public class UserServiceAntiCorruption implements UserServiceHandler {
 	}
 
 	@Override
-	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
-			UserDoesNotExistException, UnconfirmedEmailException {
-		if (!informationsValidator.stringIsValid(pseudonym)) {
+	public UserDTO authenticate(String pseudonym, String password)
+			throws InvalidPasswordException, UserDoesNotExistException, UnconfirmedEmailException {
+		if (!informationsValidator.isStringValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
-		} else if (!informationsValidator.stringIsValid(password)) {
+		} else if (!informationsValidator.isStringValid(password)) {
 			throw new InvalidUserInformationsException("Password");
 		}
 		return userService.authenticate(pseudonym, password);
@@ -48,13 +48,13 @@ public class UserServiceAntiCorruption implements UserServiceHandler {
 		if (!informationsValidator.nameIsValid(userDTO.getLastName())) {
 			throw new InvalidUserInformationsException("LastName");
 		}
-		if (!informationsValidator.emailIsValid(userDTO.getEmailAddress())) {
+		if (!informationsValidator.isEmailValid(userDTO.getEmailAddress())) {
 			throw new InvalidUserInformationsException("Email");
 		}
-		if (!informationsValidator.phoneNumberIsValid(userDTO.getPhoneNumber())) {
+		if (!informationsValidator.isPhoneNumberValid(userDTO.getPhoneNumber())) {
 			throw new InvalidUserInformationsException("PhoneNumber");
 		}
-		if (!informationsValidator.userTypeIsValid(userDTO.getUserType())) {
+		if (!informationsValidator.isUserTypeValid(userDTO.getUserType())) {
 			throw new InvalidUserInformationsException("User type");
 		}
 	}
