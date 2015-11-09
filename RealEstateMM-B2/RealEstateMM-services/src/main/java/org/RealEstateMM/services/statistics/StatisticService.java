@@ -17,4 +17,12 @@ public class StatisticService {
 		return statistics.getNumberOfPropertiesSoldThisYear();
 	}
 
+	public int getNumberOfActiveSeller() {
+		return statistics.getNumberOfActiveSeller();
+	}
+
+	public int getNumberOfActiveBuyer() {
+		return statistics.getNumberOfActiveBuyer();
+	}
+
 }

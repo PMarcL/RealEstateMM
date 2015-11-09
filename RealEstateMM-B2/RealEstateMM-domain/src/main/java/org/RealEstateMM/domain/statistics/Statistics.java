@@ -15,4 +15,14 @@ public class Statistics {
 		return propertyFilter.getPropertiesSoldThisYear().size();
 	}
 
+	public int getNumberOfActiveSeller() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getNumberOfActiveBuyer() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

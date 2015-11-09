@@ -6,7 +6,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.RealEstateMM.jersey.responses.NumberOfPropertiesSoldThisYearResponse;
+import org.RealEstateMM.jersey.responses.statistics.NumberOfActiveUserResponse;
+import org.RealEstateMM.jersey.responses.statistics.NumberOfPropertiesSoldThisYearResponse;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.statistics.StatisticService;
 
@@ -29,6 +30,15 @@ public class StatisticResource {
 		int numberOfPropertiesSoldThisYearResponse = statisticService.getNumberOfPropertiesSoldThisYear();
 		NumberOfPropertiesSoldThisYearResponse entity = new NumberOfPropertiesSoldThisYearResponse(
 				numberOfPropertiesSoldThisYearResponse);
+		return Response.ok().entity(entity).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNumberOfActiveUser() {
+		int numberOfActiveSeller = statisticService.getNumberOfActiveSeller();
+		int numberOfActiveBuyer = statisticService.getNumberOfActiveBuyer();
+		NumberOfActiveUserResponse entity = new NumberOfActiveUserResponse(numberOfActiveSeller, numberOfActiveBuyer);
 		return Response.ok().entity(entity).build();
 	}
 

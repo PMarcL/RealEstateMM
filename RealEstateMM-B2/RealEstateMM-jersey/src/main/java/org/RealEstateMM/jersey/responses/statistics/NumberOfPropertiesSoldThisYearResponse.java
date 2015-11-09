@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey.responses;
+package org.RealEstateMM.jersey.responses.statistics;
 
 public class NumberOfPropertiesSoldThisYearResponse {
 	private int numberOfPropertiesSoldThisYearResponse;
