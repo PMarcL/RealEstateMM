@@ -1,5 +1,7 @@
 package org.RealEstateMM.services.statistics;
 
+import java.util.HashMap;
+
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.statistics.Statistics;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -25,6 +27,11 @@ public class StatisticService {
 
 	public int getNumberOfActiveBuyer() {
 		return statistics.getNumberOfActiveBuyer();
+	}
+	
+	public HashMap<String, Integer> getNumberOfOnSalePropertiesPerCategory(){
+		
+		return statistics.getNumberOfPropertiesOnSalePerCategory();
 	}
 
 }
