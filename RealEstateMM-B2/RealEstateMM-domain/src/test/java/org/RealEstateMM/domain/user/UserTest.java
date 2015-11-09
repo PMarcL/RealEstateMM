@@ -108,7 +108,8 @@ public class UserTest {
 
 		Calendar dateOfLastLogin = Calendar.getInstance();
 		dateOfLastLogin.setTime(confirmedUser.getLastLoginDate());
-		assertTrue(dateBeforeAuthentication.before(dateOfLastLogin));
+		assertTrue(
+				dateBeforeAuthentication.before(dateOfLastLogin) || dateBeforeAuthentication.equals(dateOfLastLogin));
 	}
 
 	private User aConfirmedUserWithPassword(String password) {

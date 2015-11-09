@@ -6,9 +6,12 @@ public abstract class Context {
 	}
 
 	public void apply() {
+		registerServiceDependencies();
 		registerServices();
 		injectData();
 	}
+
+	protected abstract void registerServiceDependencies();
 
 	protected abstract void registerServices();
 

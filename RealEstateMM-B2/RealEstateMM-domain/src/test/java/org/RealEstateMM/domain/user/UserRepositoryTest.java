@@ -1,6 +1,8 @@
 package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
@@ -96,6 +98,11 @@ public class UserRepositoryTest {
 		protected void removeUserWithPseudonym(String pseudonym) {
 			removeCalledBeforeAdd = (!addCalled);
 			removeCalledPseudonym = pseudonym;
+		}
+
+		@Override
+		public ArrayList<User> getAll() {
+			return null;
 		}
 	}
 }

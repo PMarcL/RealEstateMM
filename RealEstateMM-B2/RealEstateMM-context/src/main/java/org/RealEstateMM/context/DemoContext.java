@@ -45,13 +45,6 @@ public class DemoContext extends Context {
 	private UserServiceHandler userService;
 	private StatisticService statisticService;
 
-	public DemoContext() {
-		File xmlUsers = new File(usersFilePath());
-		File xmlProperty = new File(propertiesFilePath());
-		initializeRepositories(xmlUsers, xmlProperty);
-		initializeServices();
-	}
-
 	private void initializeServices() {
 		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
 				new PropertyInformationsValidator());
@@ -59,7 +52,10 @@ public class DemoContext extends Context {
 		this.statisticService = new StatisticService();
 	}
 
-	private void initializeRepositories(File xmlUsers, File xmlProperty) {
+	private void initializeRepositories() {
+		File xmlUsers = new File(usersFilePath());
+		File xmlProperty = new File(propertiesFilePath());
+
 		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
@@ -75,7 +71,7 @@ public class DemoContext extends Context {
 
 	@Override
 	protected void registerServices() {
-		registerServiceDependencies();
+		initializeServices();
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
 		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
@@ -83,12 +79,14 @@ public class DemoContext extends Context {
 		// constructeurs de PropertyDTOAssembler?
 	}
 
-	private void registerServiceDependencies() {
+	@Override
+	protected void registerServiceDependencies() {
 		registerRepositories();
 		registerUserEmailValidator();
 	}
 
 	private void registerRepositories() {
+		initializeRepositories();
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
