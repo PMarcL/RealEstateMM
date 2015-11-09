@@ -9,6 +9,8 @@ public abstract class UserRepository {
 
 	public abstract Optional<User> getUserWithPseudonym(String pseudonym);
 
+	public abstract ArrayList<User> getAll();
+
 	public void addUser(User user) {
 		if (contains(user.getPseudonym())) {
 			throw new UserWithPseudonymAlreadyStoredException(user.getPseudonym());
@@ -28,8 +30,4 @@ public abstract class UserRepository {
 
 	protected abstract void removeUserWithPseudonym(String pseudonym);
 
-	public ArrayList<User> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -37,7 +37,7 @@ public class XmlPropertyRepository implements PropertyRepository {
 
 	@Override
 	public void add(Property newProperty) {
-		XmlProperty xmlProperty = propertyAssembler.fromProperty(newProperty);
+		XmlUser xmlProperty = propertyAssembler.fromProperty(newProperty);
 		propertyCache.add(xmlProperty);
 		marshaller.marshal(XmlPropertyCollection.class, propertyCache);
 	}
@@ -45,9 +45,9 @@ public class XmlPropertyRepository implements PropertyRepository {
 	@Override
 	public ArrayList<Property> getAll() {
 		ArrayList<Property> properties = new ArrayList<Property>();
-		List<XmlProperty> xmlProperties = propertyCache.getProperties();
+		List<XmlUser> xmlProperties = propertyCache.getProperties();
 
-		for (XmlProperty xmlProperty : xmlProperties) {
+		for (XmlUser xmlProperty : xmlProperties) {
 			properties.add(propertyAssembler.toProperty(xmlProperty));
 		}
 		return properties;
@@ -68,7 +68,7 @@ public class XmlPropertyRepository implements PropertyRepository {
 	@Override
 	public void updateProperty(Property property) {
 		propertyCache.removePropertyAtAddress(property.getAddress().streetAddress, property.getAddress().city);
-		XmlProperty xmlProperty = propertyAssembler.fromProperty(property);
+		XmlUser xmlProperty = propertyAssembler.fromProperty(property);
 		propertyCache.add(xmlProperty);
 		marshaller.marshal(XmlPropertyCollection.class, propertyCache);
 	}

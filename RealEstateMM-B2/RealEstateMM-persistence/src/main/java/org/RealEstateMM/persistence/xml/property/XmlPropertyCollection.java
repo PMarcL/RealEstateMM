@@ -10,19 +10,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "properties")
 public class XmlPropertyCollection {
 
-	private List<XmlProperty> properties;
+	private List<XmlUser> properties;
 
 	public XmlPropertyCollection() {
-		properties = new ArrayList<XmlProperty>();
+		properties = new ArrayList<XmlUser>();
 	}
 
 	public boolean contains(String streetAddress, String cityAddress) {
-		Optional<XmlProperty> foundProperty = find(streetAddress, cityAddress);
+		Optional<XmlUser> foundProperty = find(streetAddress, cityAddress);
 		return foundProperty.isPresent();
 	}
 
-	private Optional<XmlProperty> find(String streetAddress, String cityAddress) {
-		for (XmlProperty property : properties) {
+	private Optional<XmlUser> find(String streetAddress, String cityAddress) {
+		for (XmlUser property : properties) {
 			if ((property.getStreetAddress().equals(streetAddress) && property.getCityAddress().equals(cityAddress))) {
 				return Optional.of(property);
 			}
@@ -30,26 +30,26 @@ public class XmlPropertyCollection {
 		return Optional.empty();
 	}
 
-	public void add(XmlProperty newProperty) {
+	public void add(XmlUser newProperty) {
 		properties.add(newProperty);
 	}
 
 	public void removePropertyAtAddress(String streetAddress, String cityAddress) {
-		Optional<XmlProperty> property = find(streetAddress, cityAddress);
+		Optional<XmlUser> property = find(streetAddress, cityAddress);
 		properties.remove(property.get());
 	}
 
-	public XmlProperty getProperty(String streetAddress, String cityAddress) {
-		Optional<XmlProperty> foundProperty = find(streetAddress, cityAddress);
+	public XmlUser getProperty(String streetAddress, String cityAddress) {
+		Optional<XmlUser> foundProperty = find(streetAddress, cityAddress);
 		return foundProperty.get();
 	}
 
-	public List<XmlProperty> getProperties() {
+	public List<XmlUser> getProperties() {
 		return properties;
 	}
 
 	@XmlElement(name = "property")
-	public void setProperties(List<XmlProperty> properties) {
+	public void setProperties(List<XmlUser> properties) {
 		this.properties = properties;
 	}
 

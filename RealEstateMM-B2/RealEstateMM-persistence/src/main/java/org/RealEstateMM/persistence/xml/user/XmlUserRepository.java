@@ -1,5 +1,7 @@
 package org.RealEstateMM.persistence.xml.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
@@ -40,6 +42,17 @@ public class XmlUserRepository extends UserRepository {
 		User user = userAssembler.toUser(xmlUser);
 		return Optional.of(user);
 	}
+
+	@Override
+	public java.util.ArrayList<User> getAll() {
+		ArrayList<User> users = new ArrayList<User>();
+		List<XmlUser> xmlUsers = usersCache.getUsers();
+
+		for (XmlUser xmlUser : xmlUsers) {
+			users.add(userAssembler.toUser(xmlUser));
+		}
+		return users;
+	};
 
 	private boolean isUserAbsentFromCache(String pseudonym) {
 		return !usersCache.contains(pseudonym);

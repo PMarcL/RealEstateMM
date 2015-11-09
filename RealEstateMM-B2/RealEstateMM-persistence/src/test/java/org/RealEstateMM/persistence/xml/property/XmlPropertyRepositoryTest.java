@@ -10,7 +10,7 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.persistence.xml.XmlMarshallingException;
-import org.RealEstateMM.persistence.xml.property.XmlProperty;
+import org.RealEstateMM.persistence.xml.property.XmlUser;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyCollection;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
@@ -24,7 +24,7 @@ public class XmlPropertyRepositoryTest {
 	private XmlMarshaller marshaller;
 	private XmlPropertyCollection propertyCollection;
 	private XmlPropertyAssembler assembler;
-	private XmlProperty xmlProperty;
+	private XmlUser xmlProperty;
 	private PropertyAddress address;
 
 	private XmlPropertyRepository repository;
@@ -67,7 +67,7 @@ public class XmlPropertyRepositoryTest {
 	}
 
 	private void setupMocks() {
-		xmlProperty = mock(XmlProperty.class);
+		xmlProperty = mock(XmlUser.class);
 		assembler = mock(XmlPropertyAssembler.class);
 		given(assembler.fromProperty(any(Property.class))).willReturn(xmlProperty);
 		propertyCollection = mock(XmlPropertyCollection.class);
