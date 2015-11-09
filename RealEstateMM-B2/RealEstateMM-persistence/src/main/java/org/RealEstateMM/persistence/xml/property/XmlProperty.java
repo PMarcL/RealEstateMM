@@ -11,6 +11,7 @@ public class XmlProperty {
 	private String ownerUserName;
 	private String status;
 	private String creationDate;
+	private String saleDate;
 
 	private String streetAddress;
 	private String cityAddress;
@@ -65,6 +66,15 @@ public class XmlProperty {
 
 	public String getStreetAddress() {
 		return streetAddress;
+	}
+
+	public String getSaleDate() {
+		return saleDate;
+	}
+
+	@XmlElement(name = "creationDate")
+	public void setSaleDate(String saleDate) {
+		this.saleDate = saleDate;
 	}
 
 	public String getCreationDate() {

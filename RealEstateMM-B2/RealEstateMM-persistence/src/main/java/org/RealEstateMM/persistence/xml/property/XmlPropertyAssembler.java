@@ -12,7 +12,7 @@ import org.RealEstateMM.persistence.xml.InvalidXmlFileException;
 
 public class XmlPropertyAssembler {
 
-	private final String DATE_FORMAT_NOW = "yyyy-MM-dd-HH:mm:ss";
+	public final static String DATE_FORMAT_NOW = "yyyy-MM-dd-HH:mm:ss";
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT_NOW);
 
 	public XmlProperty fromProperty(Property property) {
@@ -22,6 +22,7 @@ public class XmlPropertyAssembler {
 
 		newProperty.setType(PropertyType.getStringFromType(property.getType()));
 		newProperty.setCreationDate(dateFormatter.format(property.getCreationDate()));
+		newProperty.setSaleDate(dateFormatter.format(property.getSaleDate()));
 		newProperty.setStreetAddress(propertyAddress.streetAddress);
 		newProperty.setCityAddress(propertyAddress.city);
 		newProperty.setProvinceAddress(propertyAddress.province);
@@ -55,8 +56,17 @@ public class XmlPropertyAssembler {
 
 		property.updateFeatures(propertyFeatures);
 		setPropertyCreationDate(xmlProperty, property);
+		setPropertySaleDate(xmlProperty, property);
 
 		return property;
+	}
+
+	private void setPropertySaleDate(XmlProperty xmlProperty, Property property) {
+		try {
+			property.setSaleDate(dateFormatter.parse(xmlProperty.getSaleDate()));
+		} catch (ParseException e) {
+			throw new InvalidXmlFileException();
+		}
 	}
 
 	private void setPropertyCreationDate(XmlProperty xmlProperty, Property property) {
@@ -75,11 +85,12 @@ public class XmlPropertyAssembler {
 
 	private PropertyFeatures createPropertyFeatures(XmlProperty xmlProperty) {
 		PropertyFeatures propertyFeatures = new PropertyFeatures(Integer.parseInt(xmlProperty.getNumberOfBathrooms()),
-				Integer.parseInt(xmlProperty.getNumberOfBedrooms()), Integer.parseInt(xmlProperty
-						.getTotalNumberOfRooms()), Integer.parseInt(xmlProperty.getNumberOfLevel()),
+				Integer.parseInt(xmlProperty.getNumberOfBedrooms()),
+				Integer.parseInt(xmlProperty.getTotalNumberOfRooms()), Integer.parseInt(xmlProperty.getNumberOfLevel()),
 				Double.parseDouble(xmlProperty.getLotDimension()),
-				Integer.parseInt(xmlProperty.getYearOfConstruction()), Double.parseDouble(xmlProperty
-						.getLivingSpaceArea()), xmlProperty.getBackyardDirection(), xmlProperty.getDescription());
+				Integer.parseInt(xmlProperty.getYearOfConstruction()),
+				Double.parseDouble(xmlProperty.getLivingSpaceArea()), xmlProperty.getBackyardDirection(),
+				xmlProperty.getDescription());
 		return propertyFeatures;
 	}
 }
