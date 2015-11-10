@@ -32,7 +32,7 @@ public class StatisticResource {
 	}
 
 	@GET
-	@Path("number_of_properties_sold_this_year")
+	@Path("numberofsoldproperties")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfPropertiesSoldThisYear() {
 		int numberOfPropertiesSoldThisYearResponse = statisticService.getNumberOfPropertiesSoldThisYear();
@@ -42,7 +42,7 @@ public class StatisticResource {
 	}
 
 	@GET
-	@Path("number_of_active_users")
+	@Path("numberofactiveusers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfActiveUser() {
 		int numberOfActiveSeller = statisticService.getNumberOfActiveSeller();
@@ -52,7 +52,7 @@ public class StatisticResource {
 	}
 
 	@GET
-	@Path("onsaleproperties")
+	@Path("numberofonsaleproperties")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfOnSalePropertiesByCategory() {
 		try {
