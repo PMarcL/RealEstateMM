@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
@@ -23,7 +24,6 @@ import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsExce
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
-import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -62,7 +62,7 @@ public class UserResource {
 			UserDTO userDTO = userService.authenticate(pseudonym, password);
 			Session session = sessionService.open(userDTO);
 			return generateLoginResponse(userDTO, session);
-		} catch (InvalidPasswordException | UserDoesNotExistException | UnconfirmedEmailException exception) {
+		} catch (InvalidPasswordException | UserNotFoundException | UnconfirmedEmailException exception) {
 			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
@@ -125,7 +125,7 @@ public class UserResource {
 		try {
 			UserDTO userProfile = userService.getUserProfile(pseudonym);
 			return Response.status(Status.OK).entity(userProfile).build();
-		} catch (UserDoesNotExistException e) {
+		} catch (UserNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
 		}
 	}

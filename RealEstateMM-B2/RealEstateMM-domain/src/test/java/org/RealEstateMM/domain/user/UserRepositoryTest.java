@@ -1,8 +1,7 @@
 package org.RealEstateMM.domain.user;
 
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
-import java.util.Optional;
-
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +11,13 @@ public class UserRepositoryTest {
 
 	private UserRepositoryFake repository;
 	private User user;
+	private User foundUser;
 
 	@Before
 	public void setup() {
 		repository = new UserRepositoryFake();
 		user = new UserBuilder().withPseudonym(PSEUDONYM).build();
+		foundUser = mock(User.class);
 	}
 
 	@Test
@@ -39,6 +40,18 @@ public class UserRepositoryTest {
 
 		repository.verifyRemoveCalledBeforeAdd(user);
 		repository.verifyRemoveCalledWithPseudonym(PSEUDONYM);
+	}
+
+	@Test
+	public void givenAnExistingUserWhenGetUserWithPseudonymShouldFindUserWithPseudonym() {
+		repository.addExistingUser(user);
+		User result = repository.getUserWithPseudonym(PSEUDONYM);
+		assertSame(foundUser, result);
+	}
+
+	@Test(expected = UserNotFoundException.class)
+	public void givenAnUnexistingUserWhenGetUserWithPseudonymShouldThrowException() {
+		repository.getUserWithPseudonym(PSEUDONYM);
 	}
 
 	private class UserRepositoryFake extends UserRepository {
@@ -67,11 +80,6 @@ public class UserRepositoryTest {
 		}
 
 		@Override
-		public Optional<User> getUserWithPseudonym(String pseudonym) {
-			return null;
-		}
-
-		@Override
 		protected boolean contains(String pseudonym) {
 			if (existingUserPseudo == null) {
 				return false;
@@ -95,6 +103,11 @@ public class UserRepositoryTest {
 		protected void removeUserWithPseudonym(String pseudonym) {
 			removeCalledBeforeAdd = (!addCalled);
 			removeCalledPseudonym = pseudonym;
+		}
+
+		@Override
+		protected User findUserWithPseudonym(String pseudonym) {
+			return foundUser;
 		}
 	}
 }

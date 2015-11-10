@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
@@ -16,7 +17,6 @@ import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +75,7 @@ public class UserServiceTest {
 		assertEquals(USER_DTO, actual);
 	}
 
-	@Test(expected = UserDoesNotExistException.class)
+	@Test(expected = UserNotFoundException.class)
 	public void givenNoUserWhenAuthenticateThenThrowUserNotFoundException() throws Exception {
 		userDoesNotExists();
 		userService.authenticate(PSEUDONYM, PASSWORD);
@@ -114,7 +114,7 @@ public class UserServiceTest {
 		inOrder.verify(userRepository).replaceUser(user);
 	}
 
-	@Test(expected = UserDoesNotExistException.class)
+	@Test(expected = UserNotFoundException.class)
 	public void givenAnUnexistingUserWhenEditUserProfileShouldThrowException() {
 		userDoesNotExists();
 		userService.updateUserProfile(USER_DTO);
@@ -151,7 +151,7 @@ public class UserServiceTest {
 		assertSame(USER_DTO, result);
 	}
 
-	@Test(expected = UserDoesNotExistException.class)
+	@Test(expected = UserNotFoundException.class)
 	public void givenUserDoesNotExistsWhenGetUserProfileShouldThrowException() {
 		userDoesNotExists();
 		userService.getUserProfile(PSEUDONYM);

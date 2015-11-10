@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response.StatusType;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
@@ -15,7 +16,6 @@ import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -82,7 +82,7 @@ public class UserResourceTest {
 
 	@Test
 	public void givenInvalidPseudonymWhenLoginThenReturnResponseUnauthorizedError() throws Exception {
-		doThrow(UserDoesNotExistException.class).when(userService).authenticate(UNEXISTING_PSEUDONYM,
+		doThrow(UserNotFoundException.class).when(userService).authenticate(UNEXISTING_PSEUDONYM,
 				AN_INVALID_PASSWORD);
 		Response response = userConnectionResource.login(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
@@ -167,7 +167,7 @@ public class UserResourceTest {
 
 	@Test
 	public void givenUserDoesNotExistWhenGetUserProfileThenReturnBadRequest() {
-		given(userService.getUserProfile(anyString())).willThrow(new UserDoesNotExistException());
+		given(userService.getUserProfile(anyString())).willThrow(new UserNotFoundException());
 		Response response = userConnectionResource.getUserProfile(A_PSEUDONYM);
 		assertEquals(Status.NOT_FOUND, response.getStatusInfo());
 	}

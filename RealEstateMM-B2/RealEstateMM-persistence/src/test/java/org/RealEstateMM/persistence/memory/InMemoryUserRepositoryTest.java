@@ -2,8 +2,6 @@ package org.RealEstateMM.persistence.memory;
 
 import static org.junit.Assert.*;
 
-import java.util.Optional;
-
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.junit.Before;
@@ -58,13 +56,7 @@ public class InMemoryUserRepositoryTest {
 	public void canRetrieveAddedUserWithPseudonym() {
 		User newUser = aUser().withPseudonym(PSEUDONYM).build();
 		repository.add(newUser);
-		assertSame(newUser, repository.getUserWithPseudonym(PSEUDONYM).get());
-	}
-
-	@Test
-	public void givenNotAddedUserWhenRetrivingWithPseudonymShouldReturnEmptyResult() {
-		Optional<User> returnedUser = repository.getUserWithPseudonym(PSEUDONYM);
-		assertFalse(returnedUser.isPresent());
+		assertSame(newUser, repository.findUserWithPseudonym(PSEUDONYM));
 	}
 
 	@Test

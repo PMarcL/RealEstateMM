@@ -1,7 +1,5 @@
 package org.RealEstateMM.domain.user;
 
-import java.util.Optional;
-
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 
 public class UserAuthorizations {
@@ -13,12 +11,8 @@ public class UserAuthorizations {
 	}
 
 	public boolean isUserAuthorized(String pseudonym, AccessLevel accessLevel) {
-		Optional<User> user = userRepository.getUserWithPseudonym(pseudonym);
-		if (user.isPresent()) {
-			return user.get().isAuthorized(accessLevel);
-		} else {
-			return false;
-		}
+		User user = userRepository.getUserWithPseudonym(pseudonym);
+		return user.isAuthorized(accessLevel);
 	}
 
 }

@@ -3,8 +3,6 @@ package org.RealEstateMM.domain.user;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import java.util.Optional;
-
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +19,7 @@ public class UserAuthorizationsTest {
 	public void setup() {
 		user = mock(User.class);
 		userRepository = mock(UserRepository.class);
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(user);
 		authorizations = new UserAuthorizations(userRepository);
 	}
 
@@ -40,12 +38,6 @@ public class UserAuthorizationsTest {
 	@Test
 	public void givenUserDoesNotHaveAuthorizationsWhenChekingIfUserIsAuthorizedThenShouldReturnFalse() {
 		given(user.isAuthorized(ACCESS_LEVEL)).willReturn(false);
-		assertFalse(authorizations.isUserAuthorized(PSEUDONYM, ACCESS_LEVEL));
-	}
-
-	@Test
-	public void givenUserNotPresentInRepositoryWhenCheckingIfUserIsAuthorizedThenShouldReturnFalse() {
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.empty());
 		assertFalse(authorizations.isUserAuthorized(PSEUDONYM, ACCESS_LEVEL));
 	}
 
