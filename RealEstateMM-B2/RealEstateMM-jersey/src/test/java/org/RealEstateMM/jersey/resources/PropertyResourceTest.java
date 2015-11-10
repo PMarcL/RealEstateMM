@@ -9,8 +9,6 @@ import org.junit.Test;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
 import org.RealEstateMM.domain.property.search.InvalidFilterException;
@@ -73,11 +71,10 @@ public class PropertyResourceTest {
 	public void whenGetAllPropertiesWithNoQueryParamThenConvertToJsonPropertyDTOs() {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
 		given(service.getAllProperties()).willReturn(dtos);
-		String json = new Gson().toJson(dtos);
 
 		Response result = propertyResource.getProperties(NO_QUERY_PARAM);
 
-		assertEquals(json, result.getEntity());
+		assertEquals(dtos, result.getEntity());
 	}
 
 	@Test
@@ -128,11 +125,10 @@ public class PropertyResourceTest {
 	public void givenAnOwnerWhenGetPropertiesFromUserThenConvertPropertiesToJson() {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
 		given(service.getPropertiesFromOwner(OWNER)).willReturn(dtos);
-		String json = new Gson().toJson(dtos);
 
 		Response result = propertyResource.getPropertiesFromOwner(OWNER);
 
-		assertEquals(json, result.getEntity());
+		assertEquals(dtos, result.getEntity());
 	}
 
 	private ArrayList<PropertyDTO> createPropertyDTOsList() {

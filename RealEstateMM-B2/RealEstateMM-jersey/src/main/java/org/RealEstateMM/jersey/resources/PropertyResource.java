@@ -14,8 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.gson.Gson;
-
 import org.RealEstateMM.domain.property.search.InvalidFilterException;
 import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -40,13 +38,13 @@ public class PropertyResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProperties(@QueryParam("orderBy") PropertySearchFilter orderBy) {
 		try {
-			String json;
-			if (orderBy == null) { // TODO test sans GSON
-				json = getJsonFromPropertyDTOs(propertyService.getAllProperties());
+			ArrayList<PropertyDTO> properties;
+			if (orderBy == null) {
+				properties = propertyService.getAllProperties();
 			} else {
-				json = getJsonFromPropertyDTOs(propertyService.getOrderedProperties(orderBy));
+				properties = propertyService.getOrderedProperties(orderBy);
 			}
-			return Response.ok(Status.OK).entity(json).build();
+			return Response.ok(Status.OK).entity(properties).build();
 		} catch (InvalidFilterException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
@@ -56,13 +54,8 @@ public class PropertyResource {
 	@Path("/{owner}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPropertiesFromOwner(@PathParam("owner") String owner) {
-		String json = getJsonFromPropertyDTOs(propertyService.getPropertiesFromOwner(owner));
-		return Response.ok(Status.OK).entity(json).build();
-	}
-
-	private String getJsonFromPropertyDTOs(ArrayList<PropertyDTO> propertyJSON) {
-		Gson gson = new Gson();
-		return gson.toJson(propertyJSON);
+		ArrayList<PropertyDTO> properties = propertyService.getPropertiesFromOwner(owner);
+		return Response.ok(Status.OK).entity(properties).build();
 	}
 
 	@PUT
