@@ -4,8 +4,8 @@ import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
+import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 public class UserServiceAntiCorruption implements UserServiceHandler {
@@ -33,9 +33,9 @@ public class UserServiceAntiCorruption implements UserServiceHandler {
 	@Override
 	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
 			UserDoesNotExistException, UnconfirmedEmailException {
-		if (!informationsValidator.stringIsValid(pseudonym)) {
+		if (!informationsValidator.isStringValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
-		} else if (!informationsValidator.stringIsValid(password)) {
+		} else if (!informationsValidator.isStringValid(password)) {
 			throw new InvalidUserInformationsException("Password");
 		}
 		return userService.authenticate(pseudonym, password);
@@ -48,10 +48,10 @@ public class UserServiceAntiCorruption implements UserServiceHandler {
 		if (!informationsValidator.nameIsValid(userDTO.getLastName())) {
 			throw new InvalidUserInformationsException("LastName");
 		}
-		if (!informationsValidator.emailIsValid(userDTO.getEmailAddress())) {
+		if (!informationsValidator.isEmailValid(userDTO.getEmailAddress())) {
 			throw new InvalidUserInformationsException("Email");
 		}
-		if (!informationsValidator.phoneNumberIsValid(userDTO.getPhoneNumber())) {
+		if (!informationsValidator.isPhoneNumberValid(userDTO.getPhoneNumber())) {
 			throw new InvalidUserInformationsException("PhoneNumber");
 		}
 		if (!informationsValidator.userTypeIsValid(userDTO.getUserRole())) {

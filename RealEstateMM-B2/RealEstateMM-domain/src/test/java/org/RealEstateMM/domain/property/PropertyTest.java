@@ -40,7 +40,7 @@ public class PropertyTest {
 	private Property property;
 
 	private static final double A_PROPERTY_PRICE = 200000.00;
-	private static final PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
+	private static final PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ON_SALE;
 	private static final String OWNER_USERNAME = "Bob";
 	private static final String NOT_THE_OWNER_USERNAME = "NotBob";
 	private static final PropertyType A_PROPERTY_TYPE = PropertyType.HOUSE;
@@ -103,6 +103,32 @@ public class PropertyTest {
 		Date creationDate = Calendar.getInstance().getTime();
 		property.setCreationDate(creationDate);
 		assertEquals(creationDate, property.getCreationDate());
+	}
+
+	@Test
+	public void giventAPropertyOnSaleWhenCheckingIfSoldThisYearThenReturnsFalse() {
+		assertFalse(property.isSoldThisYear());
+	}
+
+	@Test
+	public void givenAPropertySoldOnAPassedYearWhenCheckingIfSoldThisYearThenReturnsFalse() {
+		Property propertySoldOnAPassedYear = new Property(null, null, 0, null, PropertyStatus.SOLD);
+		propertySoldOnAPassedYear.setSaleDate(aPassedYearDate());
+		assertFalse(propertySoldOnAPassedYear.isSoldThisYear());
+	}
+
+	@Test
+	public void givenAPropertySoldThisYearWhenCheckingIfSoldThisYearThenReturnsTrue() {
+		Property propertySoldOnAPassedYear = new Property(null, null, 0, null, PropertyStatus.SOLD);
+		propertySoldOnAPassedYear.setSaleDate(new Date());
+		assertTrue(propertySoldOnAPassedYear.isSoldThisYear());
+	}
+
+	private Date aPassedYearDate() {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(0);
+		Date aPassedYearDate = c.getTime();
+		return aPassedYearDate;
 	}
 
 }

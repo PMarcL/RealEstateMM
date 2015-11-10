@@ -32,7 +32,7 @@ public class PropertyDTOAssembler {
 		dto.setPropertyFeatures(featuresDTO);
 		dto.setPropertyPrice(property.getPrice());
 		dto.setPropertyOwner(property.getOwner());
-		dto.setPropertyStatus(PropertyStatus.getStringFromStatus(property.getPropertyStatus()));
+		dto.setPropertyStatus(PropertyStatus.getStringFromStatus(property.getStatus()));
 		return dto;
 	}
 

@@ -1,10 +1,15 @@
 package org.RealEstateMM.domain.user;
 
+import java.util.ArrayList;
 import java.util.Optional;
+
+import org.RealEstateMM.domain.user.exceptions.UserWithPseudonymAlreadyStoredException;
 
 public abstract class UserRepository {
 
 	public abstract Optional<User> getUserWithPseudonym(String pseudonym);
+
+	public abstract ArrayList<User> getAll();
 
 	public void addUser(User user) {
 		if (contains(user.getPseudonym())) {
@@ -24,4 +29,5 @@ public abstract class UserRepository {
 	}
 
 	protected abstract void removeUserWithPseudonym(String pseudonym);
+
 }

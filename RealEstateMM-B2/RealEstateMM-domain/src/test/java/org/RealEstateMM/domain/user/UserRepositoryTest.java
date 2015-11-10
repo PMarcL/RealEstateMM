@@ -1,9 +1,12 @@
 package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
+import org.RealEstateMM.domain.user.exceptions.UserWithPseudonymAlreadyStoredException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -95,6 +98,11 @@ public class UserRepositoryTest {
 		protected void removeUserWithPseudonym(String pseudonym) {
 			removeCalledBeforeAdd = (!addCalled);
 			removeCalledPseudonym = pseudonym;
+		}
+
+		@Override
+		public ArrayList<User> getAll() {
+			return null;
 		}
 	}
 }

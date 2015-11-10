@@ -20,7 +20,7 @@ import org.junit.Test;
 public class PropertyDTOAssemblerTest {
 	private final double DELTA = 0.001;
 	private final double A_PRICE = 200000.00;
-	private final PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ONSALE;
+	private final PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ON_SALE;
 	private final PropertyType A_PROPERTY_TYPE = PropertyType.HOUSE;
 	private final String OWNER_PSEUDO = "John90";
 
@@ -72,7 +72,7 @@ public class PropertyDTOAssemblerTest {
 
 		assertEquals(A_PROPERTY_TYPE, result.getType());
 		assertEquals(dto.getPropertyPrice(), result.getPrice(), DELTA);
-		assertEquals(A_PROPERTY_STATUS, result.getPropertyStatus());
+		assertEquals(A_PROPERTY_STATUS, result.getStatus());
 		assertEquals(propertyAddress, result.getAddress());
 	}
 
@@ -127,7 +127,7 @@ public class PropertyDTOAssemblerTest {
 		given(property.getOwner()).willReturn(OWNER_PSEUDO);
 		given(property.getType()).willReturn(A_PROPERTY_TYPE);
 		given(property.getPrice()).willReturn(A_PRICE);
-		given(property.getPropertyStatus()).willReturn(A_PROPERTY_STATUS);
+		given(property.getStatus()).willReturn(A_PROPERTY_STATUS);
 	}
 
 	private void configurePropertyDTOMock() {

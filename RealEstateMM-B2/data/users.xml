@@ -40,4 +40,14 @@
         <pseudonym>ADMIN</pseudonym>
         <userType>ADMIN</userType>
     </user>
+    <user>
+        <email>abc@abed.com</email>
+        <firstName>guillaume</firstName>
+        <lastName>lambert</lastName>
+        <isLocked>true</isLocked>
+        <password>123</password>
+        <phoneNumber>124-124-1344</phoneNumber>
+        <pseudonym>allo</pseudonym>
+        <userType>seller</userType>
+    </user>
 </users>

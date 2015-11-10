@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user.exceptions;
+package org.RealEstateMM.domain.user.exceptions;
 
 public class UnconfirmedEmailException extends Exception{
 	private static final long serialVersionUID = 1L;

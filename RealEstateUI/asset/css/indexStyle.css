@@ -26,8 +26,19 @@ section a {
   filter: grayscale(100%);
   position: relative; }
 
-.welcome-page img:hover {
-  opacity: 0.8; }
+.stats-section {
+  position: absolute;
+  left: 0%;
+  top: 10%;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  padding-right: 10px;
+  font-size: 1.25em;
+  font-weight: 300; }
+
+.stats-list-item {
+  padding-left: 10px;
+  color: white; }
 
 h3 {
   position: absolute;

@@ -13,7 +13,7 @@ public class PropertyStatusTest {
 	@Test
 	public void givenAStatusDescriptionWhenConvertToEnumReturnsGoodEnum() {
 		PropertyStatus status = PropertyStatus.getStatusFromString(ONSALE);
-		assertEquals(PropertyStatus.ONSALE, status);
+		assertEquals(PropertyStatus.ON_SALE, status);
 
 		status = PropertyStatus.getStatusFromString(SOLD);
 		assertEquals(PropertyStatus.SOLD, status);
@@ -21,7 +21,7 @@ public class PropertyStatusTest {
 
 	@Test
 	public void givenAStatusWhenConvertToStringReturnsCorrectString() {
-		String description = PropertyStatus.getStringFromStatus(PropertyStatus.ONSALE);
+		String description = PropertyStatus.getStringFromStatus(PropertyStatus.ON_SALE);
 		assertEquals(ONSALE, description);
 
 		description = PropertyStatus.getStringFromStatus(PropertyStatus.SOLD);

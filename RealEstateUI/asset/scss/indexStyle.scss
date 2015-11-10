@@ -1,6 +1,5 @@
 @import '../../jeet/index';
 
-
 .toolbar
 {
   @include j-cf();
@@ -28,9 +27,22 @@ section a
   position:relative;
 }
 
-.welcome-page img:hover
+.stats-section
 {
-  opacity: 0.8;
+  position: absolute;
+  left: 0%;
+  top: 10%;
+  background-color: rgba(0, 0, 0, 0.3);
+  color:white;
+  padding-right: 10px;
+  font-size: 1.25em;
+  font-weight: 300;
+}
+
+.stats-list-item
+{
+  padding-left: 10px;
+  color: rgba(255, 255, 255, 1);
 }
 
 h3 {

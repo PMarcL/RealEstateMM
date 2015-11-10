@@ -15,14 +15,15 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
-import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
+import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
+import org.RealEstateMM.domain.user.exceptions.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.jersey.responses.LoginResponse;
 import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
 
 @Path("/")
