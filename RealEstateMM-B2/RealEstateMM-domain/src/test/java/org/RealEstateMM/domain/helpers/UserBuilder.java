@@ -2,6 +2,8 @@ package org.RealEstateMM.domain.helpers;
 
 import static org.mockito.BDDMockito.*;
 
+import java.util.Date;
+
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 
@@ -14,6 +16,7 @@ public class UserBuilder {
 	public static final String DEFAULT_PASSWORD = "JD1234";
 	public static final String DEFAULT_USER_TYPE_DESC = "seller";
 	public static final boolean DEFAULT_LOCK_STATE = true;
+	public static final Date DEFAULT_LAST_LOGIN_DATE = new Date();
 
 	private User user;
 	private String pseudonym;
@@ -26,6 +29,12 @@ public class UserBuilder {
 		withPseudonym(DEFAULT_PSEUDONYM);
 		withUserType(DEFAULT_USER_TYPE_DESC);
 		withLockState(DEFAULT_LOCK_STATE);
+		withLastLoginDate(DEFAULT_LAST_LOGIN_DATE);
+	}
+
+	public UserBuilder withLastLoginDate(Date lastLoginDate) {
+		given(user.getLastLoginDate()).willReturn(lastLoginDate);
+		return this;
 	}
 
 	public UserBuilder withLockState(boolean lockState) {

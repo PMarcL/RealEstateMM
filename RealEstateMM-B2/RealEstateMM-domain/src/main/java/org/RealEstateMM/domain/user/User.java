@@ -78,4 +78,8 @@ public class User {
 		return false;
 	}
 
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
 }

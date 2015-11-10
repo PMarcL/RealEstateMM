@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "property")
-public class XmlUser {
+public class XmlProperty {
 
 	private String type;
 	private String price;

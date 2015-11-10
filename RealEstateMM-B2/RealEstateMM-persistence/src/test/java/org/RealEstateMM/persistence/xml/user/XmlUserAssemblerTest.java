@@ -2,15 +2,16 @@ package org.RealEstateMM.persistence.xml.user;
 
 import static org.junit.Assert.*;
 
+import java.text.SimpleDateFormat;
+
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.persistence.xml.user.XmlUser;
-import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
 public class XmlUserAssemblerTest {
+	private SimpleDateFormat dateFormatter = new SimpleDateFormat(XmlUserAssembler.DATE_FORMAT_NOW);
 
 	private XmlUserAssembler assembler;
 	private XmlUser xmlUser;
@@ -33,6 +34,7 @@ public class XmlUserAssemblerTest {
 		assertEquals(UserBuilder.DEFAULT_PHONE_NUMBER, result.getPhoneNumber());
 		assertEquals(UserBuilder.DEFAULT_USER_TYPE_DESC, result.getUserType());
 		assertEquals(UserBuilder.DEFAULT_LOCK_STATE, result.getLocked());
+		assertEquals(dateFormatter.format(UserBuilder.DEFAULT_LAST_LOGIN_DATE), result.getLastLoginDate());
 	}
 
 	@Test
@@ -47,6 +49,7 @@ public class XmlUserAssemblerTest {
 		assertEquals(xmlUser.getPhoneNumber(), userInfo.phoneNumber);
 		assertEquals(xmlUser.getPseudonym(), userInfo.pseudonym);
 		assertEquals(xmlUser.getUserType(), result.getUserTypeDescription());
+		assertEquals(xmlUser.getLastLoginDate(), dateFormatter.format(result.getLastLoginDate()));
 	}
 
 	@Test
@@ -76,5 +79,6 @@ public class XmlUserAssemblerTest {
 		xmlUser.setPseudonym(UserBuilder.DEFAULT_PSEUDONYM);
 		xmlUser.setUserType(UserBuilder.DEFAULT_USER_TYPE_DESC);
 		xmlUser.setLocked(UserBuilder.DEFAULT_LOCK_STATE);
+		xmlUser.setLastLoginDate(dateFormatter.format(UserBuilder.DEFAULT_LAST_LOGIN_DATE));
 	}
 }

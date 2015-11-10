@@ -11,6 +11,14 @@ import org.junit.Test;
 
 public class UserFilterTest {
 
+	private final User A_SELLER = aUserMockReturningUserType(UserType.SELLER);
+	private final User ANOTHER_SELLER = aUserMockReturningUserType(UserType.SELLER);
+	private final User A_BUYER = aUserMockReturningUserType(UserType.BUYER);
+	private final User AN_ADMIN = aUserMockReturningUserType(UserType.ADMIN);
+
+	private final User AN_ACTIVE_USER = aUserMockReturningIsActive(true);
+	private final User AN_INACTIVE_USER = aUserMockReturningIsActive(false);
+
 	private UserFilter userFilter;
 
 	@Before
@@ -20,21 +28,52 @@ public class UserFilterTest {
 
 	@Test
 	public void givenAListOfUsersWhenGetOnlyUserTypeBuyerThenReturnsTheBuyerOnly() {
-		User aSeller = aUserMockReturningUserType(UserType.SELLER);
-		User aBuyer = aUserMockReturningUserType(UserType.BUYER);
-		User anAdmin = aUserMockReturningUserType(UserType.ADMIN);
-
 		Collection<User> users = new ArrayList<>();
-		users.add(aSeller);
-		users.add(aBuyer);
-		users.add(anAdmin);
-		int numberOfActiveBuyer = 1;
+		users.add(A_SELLER);
+		users.add(A_BUYER);
+		users.add(AN_ADMIN);
+		int numberOfBuyer = 1;
 
 		Collection<User> actual = userFilter.getUsersWithUserType(users, UserType.BUYER);
 
-		assertTrue(actual.contains(aBuyer));
-		assertEquals(numberOfActiveBuyer, actual.size());
+		assertTrue(actual.contains(A_BUYER));
+		assertEquals(numberOfBuyer, actual.size());
+	}
 
+	@Test
+	public void givenAListOfUsersWhenGetOnlyUserTypeSellerThenReturnsTheSellerOnly() {
+		Collection<User> users = new ArrayList<>();
+		users.add(A_SELLER);
+		users.add(ANOTHER_SELLER);
+		users.add(A_BUYER);
+		users.add(AN_ADMIN);
+		int numberOfSeller = 2;
+
+		Collection<User> actual = userFilter.getUsersWithUserType(users, UserType.SELLER);
+
+		assertTrue(actual.contains(A_SELLER));
+		assertTrue(actual.contains(ANOTHER_SELLER));
+		assertEquals(numberOfSeller, actual.size());
+	}
+
+	@Test
+	public void givenAListOfUsersWhenGetActiveUsersThenReturnsOnlyActiveUser() {
+		Collection<User> users = new ArrayList<>();
+		users.add(AN_ACTIVE_USER);
+		users.add(AN_INACTIVE_USER);
+		int numberOfActiveUser = 1;
+
+		Collection<User> actual = userFilter.getActiveUsers(users);
+
+		assertTrue(actual.contains(AN_ACTIVE_USER));
+		assertEquals(numberOfActiveUser, actual.size());
+
+	}
+
+	private User aUserMockReturningIsActive(boolean isActive) {
+		User user = mock(User.class);
+		given(user.isActive()).willReturn(isActive);
+		return user;
 	}
 
 	private User aUserMockReturningUserType(String userType) {
