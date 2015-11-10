@@ -56,8 +56,6 @@ public class DemoContext extends Context {
 
 	@Override
 	protected void registerServices() {
-		registerServiceDependencies();
-
 		initializeServices();
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
