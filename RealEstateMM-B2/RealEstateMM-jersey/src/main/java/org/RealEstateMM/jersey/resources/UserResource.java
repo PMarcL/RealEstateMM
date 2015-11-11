@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.authentication.session.TokenInvalidException;
 import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -71,16 +72,18 @@ public class UserResource {
 	}
 
 	@PUT
-	@Path("user")
+	@Path("user/{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editUserProfile(UserDTO userProfile) {
+	public Response editUserProfile(UserDTO userProfile, @PathParam("token") String token) {
 		try {
+			String pseudo = sessionService.validate(token);
 			userService.updateUserProfile(userProfile);
-			Session session = sessionService.open(userProfile);
-			return generateLoginResponse(userProfile, session);
+			return Response.status(Status.OK).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		} catch (TokenInvalidException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		}
 	}
 
@@ -120,14 +123,17 @@ public class UserResource {
 	}
 
 	@GET
-	@Path("user/{pseudonym}")
+	@Path("user/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserProfile(@PathParam("pseudonym") String pseudonym) {
+	public Response getUserProfile(@PathParam("token") String token) {
 		try {
+			String pseudonym = sessionService.validate(token);
 			UserDTO userProfile = userService.getUserProfile(pseudonym);
 			return Response.status(Status.OK).entity(userProfile).build();
 		} catch (UserNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+		} catch (TokenInvalidException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		}
 	}
 }
