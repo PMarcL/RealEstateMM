@@ -100,27 +100,27 @@ public class UserResourceTest {
 
 	@Test
 	public void givenAValidTokenWhenEditUserProfileThenGetUserPseudoWithSessionService() throws Exception {
-		userConnectionResource.editUserProfile(A_USER_DTO, A_VALID_TOKEN);
+		userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
 		verify(sessionService).validate(A_VALID_TOKEN);
 	}
 
 	@Test
 	public void givenAnInvalidTokenWhenEditUserProfileThenReturnsUnauthorizedStatusCode() throws Exception {
 		doThrow(TokenInvalidException.class).when(sessionService).validate(A_VALID_TOKEN);
-		Response response = userConnectionResource.editUserProfile(A_USER_DTO, A_VALID_TOKEN);
+		Response response = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
 	@Test
 	public void givenValidCredentialsWhenEditUserProfileThenReturnStatusOK() throws Exception {
-		StatusType statusType = userConnectionResource.editUserProfile(A_USER_DTO, A_VALID_TOKEN).getStatusInfo();
+		StatusType statusType = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO).getStatusInfo();
 		assertEquals(Status.OK, statusType);
 	}
 
 	@Test
 	public void givenInvalidCredentialsWhenEditUserProfileThenReturnResponseBadRequest() throws Exception {
 		doThrow(InvalidUserInformationsException.class).when(userService).updateUserProfile(A_USER_DTO);
-		StatusType statusType = userConnectionResource.editUserProfile(A_USER_DTO, A_VALID_TOKEN).getStatusInfo();
+		StatusType statusType = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO).getStatusInfo();
 		assertEquals(Status.BAD_REQUEST, statusType);
 	}
 

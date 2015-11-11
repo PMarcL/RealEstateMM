@@ -75,7 +75,7 @@ public class UserResource {
 	@Path("user/{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editUserProfile(UserDTO userProfile, @PathParam("token") String token) {
+	public Response editUserProfile(@PathParam("token") String token, UserDTO userProfile) {
 		try {
 			String pseudo = sessionService.validate(token);
 			userService.updateUserProfile(userProfile);
