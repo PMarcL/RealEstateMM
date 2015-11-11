@@ -40,7 +40,7 @@ public class PropertyResource {
 	}
 
 	@GET
-	@Path("/search/{token}")
+	@Path("{token}/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProperties(@PathParam("token") String token, @QueryParam("orderBy") PropertySearchFilter orderBy) {
 		try {
