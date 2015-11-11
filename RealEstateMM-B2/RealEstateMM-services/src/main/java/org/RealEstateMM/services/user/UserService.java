@@ -39,15 +39,6 @@ public class UserService implements UserServiceHandler {
 		return userAssembler.toDTO(user);
 	}
 
-	// private User findUserWithPseudonym(String pseudonym) throws
-	// UserNotFoundException {
-	// Optional<User> user = userRepository.getUserWithPseudonym(pseudonym);
-	// if (!(user.isPresent())) {
-	// throw new UserNotFoundException();
-	// }
-	// return user.get();
-	// }
-
 	@Override
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
 		try {
