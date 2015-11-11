@@ -11,7 +11,7 @@ function TokenCookie() {
         return (value != null) ? decodeURI(value[1]) : null;
     }
 
-    this.setTokenCookie = function setAccountTypeCookie(token) {
+    this.setTokenCookie = function setTokenCookie(token) {
         document.cookie = COOKIE_NAME + "=" + token;
     }
 

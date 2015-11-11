@@ -1,8 +1,12 @@
 package org.RealEstateMM.domain.user;
 
-import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import java.util.List;
+
 import org.RealEstateMM.domain.helpers.UserBuilder;
+import org.RealEstateMM.domain.user.exceptions.UserWithPseudonymAlreadyStoredException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -108,6 +112,11 @@ public class UserRepositoryTest {
 		@Override
 		protected User findUserWithPseudonym(String pseudonym) {
 			return foundUser;
+		}
+
+		@Override
+		public List<User> getAll() {
+			return null;
 		}
 	}
 }

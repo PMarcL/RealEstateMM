@@ -9,11 +9,11 @@ import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
+import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
+import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
 
 public class UserService implements UserServiceHandler {
 
@@ -34,17 +34,10 @@ public class UserService implements UserServiceHandler {
 		emailAddressValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
 	}
 
-	@Override
 	public UserDTO authenticate(String pseudonym, String password)
 			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException {
-
 		User user = findUserWithPseudonym(pseudonym);
-		if (user.isLocked()) {
-			throw new UnconfirmedEmailException();
-		}
-		if (!user.hasPassword(password)) {
-			throw new InvalidPasswordException();
-		}
+		user.authenticate(password);
 		return userAssembler.toDTO(user);
 	}
 

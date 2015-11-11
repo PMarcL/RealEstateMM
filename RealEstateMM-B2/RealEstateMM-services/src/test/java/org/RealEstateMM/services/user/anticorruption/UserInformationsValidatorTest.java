@@ -16,9 +16,10 @@ public class UserInformationsValidatorTest {
 	private final String INVALID_PHONENUMBER = "(819) 44-435";
 	private final String VALID_NAME = "John";
 	private final String INVALID_NAME1 = "";
-	private final String INVALID_NAME2 = null;
-	private final String INVALID_NAME3 = "bob123";
-	private final String INVALID_USER_TYPE = "";
+	private final String INVALID_NAME2 = "bob123";
+	private final String INVALID_USER_TYPE = "abc";
+
+	private final String EMPTY_STRING = "";
 
 	private UserInformationsValidator validator;
 
@@ -29,24 +30,26 @@ public class UserInformationsValidatorTest {
 
 	@Test
 	public void givenAValidEmailWhenVerifyEmailThenReturnsTrue() {
-		assertTrue(validator.emailIsValid(VALID_EMAIL));
+		assertTrue(validator.isEmailValid(VALID_EMAIL));
 	}
 
 	@Test
 	public void givenAnInvalidEmailWhenVerifyEmailThenReturnsFalse() {
-		assertFalse(validator.emailIsValid(INVALID_EMAIL));
+		assertFalse(validator.isEmailValid(INVALID_EMAIL));
+		assertFalse(validator.isEmailValid(null));
+		assertFalse(validator.isEmailValid(EMPTY_STRING));
 	}
 
 	@Test
 	public void givenAValidPhoneNumberWhenVerifyPhoneNumberThenReturnsTrue() {
-		assertTrue(validator.phoneNumberIsValid(VALID_PHONENUMBER1));
-		assertTrue(validator.phoneNumberIsValid(VALID_PHONENUMBER2));
-		assertTrue(validator.phoneNumberIsValid(VALID_PHONENUMBER3));
+		assertTrue(validator.isPhoneNumberValid(VALID_PHONENUMBER1));
+		assertTrue(validator.isPhoneNumberValid(VALID_PHONENUMBER2));
+		assertTrue(validator.isPhoneNumberValid(VALID_PHONENUMBER3));
 	}
 
 	@Test
 	public void givenAnInvalidPhoneNumberWhenVerifyPhoneNumberThenReturnsFalse() {
-		assertFalse(validator.phoneNumberIsValid(INVALID_PHONENUMBER));
+		assertFalse(validator.isPhoneNumberValid(INVALID_PHONENUMBER));
 	}
 
 	@Test
@@ -58,7 +61,8 @@ public class UserInformationsValidatorTest {
 	public void givenAnInvalidNameWhenVerifyNameThenReturnsFalse() {
 		assertFalse(validator.nameIsValid(INVALID_NAME1));
 		assertFalse(validator.nameIsValid(INVALID_NAME2));
-		assertFalse(validator.nameIsValid(INVALID_NAME3));
+		assertFalse(validator.nameIsValid(EMPTY_STRING));
+		assertFalse(validator.nameIsValid(null));
 	}
 
 	@Test
@@ -69,7 +73,10 @@ public class UserInformationsValidatorTest {
 	}
 
 	@Test
-	public void givenAnInvalidUserTypeWhenVerifyUserTypeThenReturnsFalse() {
+	public void givenNullWhenVerifyUserTypeThenReturnsFalse() {
 		assertFalse(validator.userTypeIsValid(INVALID_USER_TYPE));
+		assertFalse(validator.userTypeIsValid(EMPTY_STRING));
+		assertFalse(validator.userTypeIsValid(null));
 	}
+
 }

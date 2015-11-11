@@ -30,7 +30,7 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	private void setupInvalidFields() {
-		given(validator.stringIsValid(INVALID_STRING)).willReturn(false);
+		given(validator.isStringValid(INVALID_STRING)).willReturn(false);
 	}
 
 	@Test
@@ -48,13 +48,13 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).emailIsValid(A_USER_DTO.getEmailAddress());
+		verify(validator).isEmailValid(A_USER_DTO.getEmailAddress());
 	}
 
 	@Test
 	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).phoneNumberIsValid(A_USER_DTO.getPhoneNumber());
+		verify(validator).isPhoneNumberValid(A_USER_DTO.getPhoneNumber());
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test(expected = InvalidUserInformationsException.class)
 	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
-		given(validator.emailIsValid(A_USER_DTO.getEmailAddress())).willReturn(false);
+		given(validator.isEmailValid(A_USER_DTO.getEmailAddress())).willReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
 
@@ -90,13 +90,13 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() throws Exception {
 		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
-		verify(validator).stringIsValid(VALID_PSEUDO);
+		verify(validator).isStringValid(VALID_PSEUDO);
 	}
 
 	@Test
 	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() throws Exception {
 		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
-		verify(validator).stringIsValid(VALID_PASSWORD);
+		verify(validator).isStringValid(VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
@@ -123,10 +123,10 @@ public class UserServiceAntiCorruptionTest {
 	private void allFieldsAreValid() {
 		given(validator.nameIsValid(A_USER_DTO.getFirstName())).willReturn(true);
 		given(validator.nameIsValid(A_USER_DTO.getLastName())).willReturn(true);
-		given(validator.phoneNumberIsValid(A_USER_DTO.getPhoneNumber())).willReturn(true);
-		given(validator.emailIsValid(A_USER_DTO.getEmailAddress())).willReturn(true);
-		given(validator.stringIsValid(VALID_PASSWORD)).willReturn(true);
-		given(validator.stringIsValid(VALID_PSEUDO)).willReturn(true);
+		given(validator.isPhoneNumberValid(A_USER_DTO.getPhoneNumber())).willReturn(true);
+		given(validator.isEmailValid(A_USER_DTO.getEmailAddress())).willReturn(true);
+		given(validator.isStringValid(VALID_PASSWORD)).willReturn(true);
+		given(validator.isStringValid(VALID_PSEUDO)).willReturn(true);
 		given(validator.userTypeIsValid(A_USER_DTO.getUserRole())).willReturn(true);
 	}
 }

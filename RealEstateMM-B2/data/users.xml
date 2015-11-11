@@ -34,10 +34,20 @@
         <email>olivierD@admin.com</email>
         <firstName>Olivier</firstName>
         <lastName>Dugas</lastName>
-        <isLocked>true</isLocked>
+        <isLocked>false</isLocked>
         <password>admin1234</password>
         <phoneNumber>418 892-3940</phoneNumber>
         <pseudonym>ADMIN</pseudonym>
         <userType>ADMIN</userType>
+    </user>
+    <user>
+        <email>abc@abed.com</email>
+        <firstName>guillaume</firstName>
+        <lastName>lambert</lastName>
+        <isLocked>false</isLocked>
+        <password>123</password>
+        <phoneNumber>124-124-1344</phoneNumber>
+        <pseudonym>allo</pseudonym>
+        <userType>SELLER</userType>
     </user>
 </users>

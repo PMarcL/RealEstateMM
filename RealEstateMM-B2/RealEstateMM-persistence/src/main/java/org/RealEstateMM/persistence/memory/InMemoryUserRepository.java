@@ -1,6 +1,7 @@
 package org.RealEstateMM.persistence.memory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.RealEstateMM.domain.user.User;
@@ -40,6 +41,12 @@ public class InMemoryUserRepository extends UserRepository {
 	@Override
 	protected User findUserWithPseudonym(String pseudonym) {
 		return users.get(pseudonym);
+	}
+
+	@Override
+	public List<User> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

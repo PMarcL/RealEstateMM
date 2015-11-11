@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user.exceptions;
+package org.RealEstateMM.domain.user.exceptions;
 
 public class InvalidPasswordException extends Exception {
 

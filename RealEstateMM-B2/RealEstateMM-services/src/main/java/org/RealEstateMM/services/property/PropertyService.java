@@ -23,8 +23,7 @@ public class PropertyService implements PropertyServiceHandler {
 
 	public PropertyService() {
 		propertyRepository = ServiceLocator.getInstance().getService(PropertyRepository.class);
-		propertyAssembler = new PropertyDTOAssembler(); // TODO push this to
-														// service locator
+		propertyAssembler = new PropertyDTOAssembler();
 		orderingFactory = new PropertyOrderingFactory();
 	}
 
@@ -44,7 +43,7 @@ public class PropertyService implements PropertyServiceHandler {
 
 	@Override
 	public ArrayList<PropertyDTO> getAllProperties() {
-		ArrayList<Property> properties = propertyRepository.getAllProperties();
+		ArrayList<Property> properties = propertyRepository.getAll();
 		return buildDTOsFromProperties(properties);
 	}
 

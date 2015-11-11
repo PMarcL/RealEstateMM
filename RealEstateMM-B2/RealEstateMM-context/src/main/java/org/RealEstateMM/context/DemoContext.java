@@ -26,6 +26,7 @@ import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
+import org.RealEstateMM.services.statistics.StatisticService;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
@@ -43,15 +44,7 @@ public class DemoContext extends Context {
 	private SessionRepository sessionRepository;
 	private PropertyServiceHandler propertyService;
 	private UserServiceHandler userService;
-
-	public DemoContext() {
-		File xmlUsers = new File(usersFilePath());
-		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
-				new UserRoleFactory()));
-		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
-		this.sessionRepository = new InMemorySessionRepository();
-	}
+	private StatisticService statisticService;
 
 	private String propertiesFilePath() {
 		return XML_FILES_LOCATION + PROPERTY_REPOSITORY_FILE;
@@ -63,20 +56,33 @@ public class DemoContext extends Context {
 
 	@Override
 	protected void registerServices() {
-		registerServiceDependencies();
-
-		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
-				new PropertyInformationsValidator());
+		initializeServices();
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
-
-		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
+		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
 	}
 
-	private void registerServiceDependencies() {
+	@Override
+	protected void registerServiceDependencies() {
 		registerRepositories();
 		registerUserEmailValidator();
 		registerAssemblers();
+	}
+
+	private void initializeServices() {
+		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
+				new PropertyInformationsValidator());
+		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
+		this.statisticService = new StatisticService();
+	}
+
+	private void initializeRepositories() {
+		File xmlUsers = new File(usersFilePath());
+		File xmlProperty = new File(propertiesFilePath());
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
+				new UserRoleFactory()));
+		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
+		this.sessionRepository = new InMemorySessionRepository();
 	}
 
 	private void registerAssemblers() {
@@ -84,6 +90,7 @@ public class DemoContext extends Context {
 	}
 
 	private void registerRepositories() {
+		initializeRepositories();
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
