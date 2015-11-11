@@ -30,7 +30,7 @@ public class Property {
 		this.owner = ownerUsername;
 		this.status = status;
 		this.features = emptyFeatures;
-
+		this.creationDate = new Date();
 		this.saleDate = null;
 	}
 

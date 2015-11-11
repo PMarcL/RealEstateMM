@@ -2,6 +2,7 @@ package org.RealEstateMM.persistence.xml.property;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
@@ -12,8 +13,6 @@ import org.RealEstateMM.persistence.xml.InvalidXmlFileException;
 
 public class XmlPropertyAssembler {
 
-	public final static String DATE_FORMAT_NOW = "yyyy-MM-dd-HH:mm:ss";
-	private SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT_NOW);
 
 	public XmlProperty fromProperty(Property property) {
 		XmlProperty newProperty = new XmlProperty();
@@ -21,8 +20,8 @@ public class XmlPropertyAssembler {
 		PropertyFeatures propertyFeatures = property.getFeatures();
 
 		newProperty.setType(PropertyType.getStringFromType(property.getType()));
-		newProperty.setCreationDate(dateFormatter.format(property.getCreationDate()));
-		newProperty.setSaleDate(dateFormatter.format(property.getSaleDate()));
+		newProperty.setCreationDate(DateUtil.formatDate(property.getCreationDate()));
+		newProperty.setSaleDate(DateUtil.formatDate(property.getSaleDate()));
 		newProperty.setStreetAddress(propertyAddress.streetAddress);
 		newProperty.setCityAddress(propertyAddress.city);
 		newProperty.setProvinceAddress(propertyAddress.province);
@@ -63,7 +62,7 @@ public class XmlPropertyAssembler {
 
 	private void setPropertySaleDate(XmlProperty xmlProperty, Property property) {
 		try {
-			property.setSaleDate(dateFormatter.parse(xmlProperty.getSaleDate()));
+			property.setSaleDate(DateUtil.parseDate(xmlProperty.getSaleDate()));
 		} catch (ParseException e) {
 			throw new InvalidXmlFileException();
 		}
@@ -71,7 +70,7 @@ public class XmlPropertyAssembler {
 
 	private void setPropertyCreationDate(XmlProperty xmlProperty, Property property) {
 		try {
-			property.setCreationDate(dateFormatter.parse(xmlProperty.getCreationDate()));
+			property.setCreationDate(DateUtil.parseDate(xmlProperty.getCreationDate()));
 		} catch (ParseException e) {
 			throw new InvalidXmlFileException();
 		}
@@ -93,4 +92,5 @@ public class XmlPropertyAssembler {
 				xmlProperty.getDescription());
 		return propertyFeatures;
 	}
+	
 }

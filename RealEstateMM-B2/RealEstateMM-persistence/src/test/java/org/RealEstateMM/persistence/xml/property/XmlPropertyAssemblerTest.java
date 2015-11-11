@@ -38,11 +38,9 @@ public class XmlPropertyAssemblerTest {
 	private XmlPropertyAssembler assembler;
 	private XmlProperty xmlProperty;
 	private Property property;
-	private SimpleDateFormat dateFormatter;
 
 	@Before
 	public void init() {
-		dateFormatter = new SimpleDateFormat(XmlPropertyAssembler.DATE_FORMAT_NOW);
 		assembler = new XmlPropertyAssembler();
 	}
 
@@ -67,8 +65,8 @@ public class XmlPropertyAssemblerTest {
 		PropertyAddress address = new PropertyAddress(A_STREETADDRESS, A_CITY, A_PROVINCE, A_ZIPCODE);
 		property = new Property(A_TYPE, address, A_PRICE, A_OWNER_NAME, A_STATUS);
 		try {
-			property.setCreationDate(dateFormatter.parse(A_CREATION_DATE));
-			property.setSaleDate(dateFormatter.parse(A_SALE_DATE));
+			property.setCreationDate(DateUtil.parseDate(A_CREATION_DATE));
+			property.setSaleDate(DateUtil.parseDate(A_SALE_DATE));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -88,8 +86,8 @@ public class XmlPropertyAssemblerTest {
 		assertEquals(A_CITY, resultAddress.city);
 		assertEquals(A_PROVINCE, resultAddress.province);
 		assertEquals(A_ZIPCODE, resultAddress.zipCode);
-		assertEquals(A_CREATION_DATE, dateFormatter.format(result.getCreationDate()));
-		assertEquals(A_SALE_DATE, dateFormatter.format(result.getSaleDate()));
+		assertEquals(A_CREATION_DATE, DateUtil.formatDate(result.getCreationDate()));
+		assertEquals(A_SALE_DATE, DateUtil.formatDate(result.getSaleDate()));
 	}
 
 	private void createXmlProperty() {
