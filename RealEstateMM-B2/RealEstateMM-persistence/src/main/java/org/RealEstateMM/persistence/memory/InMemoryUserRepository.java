@@ -1,5 +1,6 @@
 package org.RealEstateMM.persistence.memory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +45,8 @@ public class InMemoryUserRepository extends UserRepository {
 	}
 
 	@Override
-	public List<User> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> getAllUsers() {
+		return new ArrayList<User>(users.values());
 	}
 
 }

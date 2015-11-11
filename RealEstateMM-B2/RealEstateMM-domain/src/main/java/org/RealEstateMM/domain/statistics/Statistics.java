@@ -49,13 +49,13 @@ public class Statistics {
 	}
 
 	public int getNumberOfActiveSeller() {
-		Collection<User> users = userRepository.getAll();
+		Collection<User> users = userRepository.getAllUsers();
 		Collection<User> sellers = userFilter.getUsersWithUserType(users, AccessLevel.SELLER);
 		return userFilter.getActiveUsers(sellers).size();
 	}
 
 	public int getNumberOfActiveBuyer() {
-		Collection<User> users = userRepository.getAll();
+		Collection<User> users = userRepository.getAllUsers();
 		Collection<User> buyers = userFilter.getUsersWithUserType(users, AccessLevel.BUYER);
 		return userFilter.getActiveUsers(buyers).size();
 	}

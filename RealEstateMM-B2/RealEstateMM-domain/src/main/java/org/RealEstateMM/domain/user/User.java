@@ -1,5 +1,6 @@
 package org.RealEstateMM.domain.user;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
@@ -16,6 +17,7 @@ public class User {
 	public User(UserInformations userInfo, UserRole role) {
 		this.userInformations = userInfo;
 		this.role = role;
+		this.lastLoginDate = Calendar.getInstance().getTime();
 		lock();
 	}
 

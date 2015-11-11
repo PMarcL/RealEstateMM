@@ -106,11 +106,6 @@ public class UserTest {
 	}
 
 	@Test
-	public void whenNewUserThenTheLastLoginDateIsNull() {
-		assertNull(user.getLastLoginDate());
-	}
-
-	@Test
 	public void givenTheCorrectPasswordWithAConfirmedUserWhenAuthenticateThenLogin() throws Exception {
 		User confirmedUser = aConfirmedUserWithPassword(PASSWORD);
 		Calendar dateBeforeAuthentication = Calendar.getInstance();

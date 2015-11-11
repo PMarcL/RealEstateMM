@@ -33,7 +33,7 @@ public class XmlUserRepository extends UserRepository {
 	}
 
 	@Override
-	public java.util.ArrayList<User> getAll() {
+	public java.util.ArrayList<User> getAllUsers() {
 		ArrayList<User> users = new ArrayList<User>();
 		List<XmlUser> xmlUsers = usersCache.getUsers();
 

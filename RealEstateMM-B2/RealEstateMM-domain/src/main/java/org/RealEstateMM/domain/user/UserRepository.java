@@ -18,7 +18,7 @@ public abstract class UserRepository {
 
 	protected abstract User findUserWithPseudonym(String pseudonym);
 
-	public abstract List<User> getAll();
+	public abstract List<User> getAllUsers();
 
 	public void addUser(User user) {
 		if (contains(user.getPseudonym())) {

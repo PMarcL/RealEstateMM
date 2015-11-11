@@ -11,4 +11,15 @@
         <pseudonym>ADMIN</pseudonym>
         <userType>ADMIN</userType>
     </user>
+    <user>
+        <email>pmleva2@gmail.com</email>
+        <firstName>Pierre-Marc</firstName>
+        <lastLoginDate>2015-11-11-10:37:19</lastLoginDate>
+        <lastName>Levasseur</lastName>
+        <isLocked>false</isLocked>
+        <password>pm</password>
+        <phoneNumber>8198181752</phoneNumber>
+        <pseudonym>PM</pseudonym>
+        <userType>BUYER</userType>
+    </user>
 </users>

@@ -32,14 +32,12 @@ function ajaxPutUser(formData)
         type: "PUT",
         contentType: "application/json",
         data: formData,
-        dataType: "json",
-        success: function (data, status, httpResponse) {
+        success: function () {
             window.location.href = 'index.html';
         },
         error: function (httpRequest) {
             $('form .card').attr('style','display:block');
             $('form .card').html("Invalid user information");
-            alert(formData);
         }
     });
 }

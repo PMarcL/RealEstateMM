@@ -115,7 +115,7 @@ public class UserRepositoryTest {
 		}
 
 		@Override
-		public List<User> getAll() {
+		public List<User> getAllUsers() {
 			return null;
 		}
 	}

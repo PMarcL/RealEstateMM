@@ -34,7 +34,7 @@ public class StatisticsTest {
 		userFilter = mock(UserFilter.class);
 		propertyFilter = mock(PropertyFilter.class);
 
-		given(userRepository.getAll()).willReturn(ALL_USERS);
+		given(userRepository.getAllUsers()).willReturn(ALL_USERS);
 		given(propertyRepository.getAll()).willReturn(ALL_PROPERTIES);
 
 		statistics = new Statistics(propertyRepository, userRepository, userFilter, propertyFilter);
