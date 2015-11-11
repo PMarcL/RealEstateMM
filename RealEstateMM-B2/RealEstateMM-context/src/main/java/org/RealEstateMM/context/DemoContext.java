@@ -3,6 +3,7 @@ package org.RealEstateMM.context;
 import java.io.File;
 
 import org.RealEstateMM.authentication.session.SessionRepository;
+import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.emailsender.GmailSender;
 import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
@@ -46,6 +47,7 @@ public class DemoContext extends Context {
 	private PropertyServiceHandler propertyService;
 	private UserServiceHandler userService;
 	private StatisticService statisticService;
+	private SessionService sessionService;
 
 	private String propertiesFilePath() {
 		return XML_FILES_LOCATION + PROPERTY_REPOSITORY_FILE;
@@ -61,6 +63,7 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
 		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
+		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
 	}
 
 	@Override
@@ -75,6 +78,7 @@ public class DemoContext extends Context {
 				new PropertyInformationsValidator());
 		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
 		this.statisticService = new StatisticService();
+		this.sessionService = new SessionService();
 	}
 
 	private void initializeRepositories() {

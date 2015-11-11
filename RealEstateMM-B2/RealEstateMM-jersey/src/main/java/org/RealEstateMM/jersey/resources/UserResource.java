@@ -37,7 +37,7 @@ public class UserResource {
 
 	public UserResource() {
 		this.userService = ServiceLocator.getInstance().getService(UserServiceHandler.class);
-		this.sessionService = new SessionService();
+		this.sessionService = ServiceLocator.getInstance().getService(SessionService.class);
 	}
 
 	public UserResource(UserServiceHandler userService, SessionService sessionService) {

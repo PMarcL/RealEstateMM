@@ -14,6 +14,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.authentication.session.TokenInvalidException;
 import org.RealEstateMM.domain.property.search.InvalidFilterException;
 import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -25,19 +27,24 @@ import org.RealEstateMM.services.property.dtos.PropertyDTO;
 public class PropertyResource {
 
 	private PropertyServiceHandler propertyService;
+	private SessionService sessionService;
 
 	public PropertyResource() {
 		propertyService = ServiceLocator.getInstance().getService(PropertyServiceHandler.class);
+		sessionService = ServiceLocator.getInstance().getService(SessionService.class);
 	}
 
-	public PropertyResource(PropertyServiceHandler service) {
+	public PropertyResource(PropertyServiceHandler service, SessionService sessionService) {
 		this.propertyService = service;
+		this.sessionService = sessionService;
 	}
 
 	@GET
+	@Path("/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProperties(@QueryParam("orderBy") PropertySearchFilter orderBy) {
+	public Response getProperties(@PathParam("token") String token, @QueryParam("orderBy") PropertySearchFilter orderBy) {
 		try {
+			String pseudo = sessionService.validate(token);
 			List<PropertyDTO> properties;
 			if (orderBy == null) {
 				properties = propertyService.getAllProperties();
@@ -47,38 +54,53 @@ public class PropertyResource {
 			return Response.ok(Status.OK).entity(properties).build();
 		} catch (InvalidFilterException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		} catch (TokenInvalidException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		}
 	}
 
 	@GET
-	@Path("/{owner}")
+	@Path("/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPropertiesFromOwner(@PathParam("owner") String owner) {
-		List<PropertyDTO> properties = propertyService.getPropertiesFromOwner(owner);
-		return Response.ok(Status.OK).entity(properties).build();
+	public Response getPropertiesFromOwner(@PathParam("token") String token) {
+		try {
+			String owner = sessionService.validate(token);
+			List<PropertyDTO> properties = propertyService.getPropertiesFromOwner(owner);
+			return Response.ok(Status.OK).entity(properties).build();
+		} catch (TokenInvalidException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		}
 	}
 
 	@PUT
+	@Path("/{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editProperty(PropertyDTO propertyDTO) {
+	public Response editProperty(@PathParam("token") String token, PropertyDTO propertyDTO) {
 		try {
+			String owner = sessionService.validate(token);
 			propertyService.editPropertyFeatures(propertyDTO);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		} catch (TokenInvalidException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		}
 	}
 
 	@POST
+	@Path("/{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response uploadProperty(PropertyDTO propertyInfos) {
+	public Response uploadProperty(@PathParam("token") String token, PropertyDTO propertyInfos) {
 		try {
+			String owner = sessionService.validate(token);
 			propertyService.uploadProperty(propertyInfos);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		} catch (TokenInvalidException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		}
 	}
 }
