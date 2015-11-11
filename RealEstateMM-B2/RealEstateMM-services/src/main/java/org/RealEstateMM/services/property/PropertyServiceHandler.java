@@ -1,19 +1,19 @@
 package org.RealEstateMM.services.property;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.domain.property.search.PropertySearchFilter;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
 
 public interface PropertyServiceHandler {
 
 	public void uploadProperty(PropertyDTO propertyInfos);
 
-	public ArrayList<PropertyDTO> getAllProperties();
+	public List<PropertyDTO> getAllProperties();
 
-	public ArrayList<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy);
+	public List<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy);
 
 	public void editPropertyFeatures(PropertyDTO propertyDTO);
 
-	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner);
+	public List<PropertyDTO> getPropertiesFromOwner(String owner);
 }

@@ -1,11 +1,11 @@
 package org.RealEstateMM.services.property;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
@@ -70,17 +70,17 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getAllProperties() {
+	public List<PropertyDTO> getAllProperties() {
 		return service.getAllProperties();
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner) {
+	public List<PropertyDTO> getPropertiesFromOwner(String owner) {
 		return service.getPropertiesFromOwner(owner);
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
+	public List<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
 		return service.getOrderedProperties(orderBy);
 	}
 }

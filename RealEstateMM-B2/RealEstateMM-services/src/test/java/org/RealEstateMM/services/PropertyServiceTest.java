@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.property.Property;
@@ -87,7 +88,7 @@ public class PropertyServiceTest {
 	public void whenGetAllPropertiesThenReturnsDTOsOfAllProperties() {
 		given(repository.getAll()).willReturn(buildPropertiesList());
 
-		ArrayList<PropertyDTO> returnedDTOs = propertyService.getAllProperties();
+		List<PropertyDTO> returnedDTOs = propertyService.getAllProperties();
 
 		assertTrue(returnedDTOs.contains(propertyDTO));
 	}
@@ -133,7 +134,7 @@ public class PropertyServiceTest {
 	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenConvertPropertiesWithAssembler() {
 		given(repository.getPropertiesFromOwner(OWNER)).willReturn(buildPropertiesList());
 
-		ArrayList<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
+		List<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
 
 		assertTrue(returnedDTOs.contains(propertyDTO));
 	}
@@ -141,7 +142,7 @@ public class PropertyServiceTest {
 	@Test
 	public void givenPropertyOwnerWhenGetPropertiesFromOwnerWithoutPropertiesThenReturnsEmptyPropertiesList() {
 		given(repository.getPropertiesFromOwner(OWNER)).willReturn(new ArrayList<Property>());
-		ArrayList<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
+		List<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
 		assertTrue(returnedDTOs.isEmpty());
 	}
 
@@ -158,7 +159,7 @@ public class PropertyServiceTest {
 	public void givenASearchFilterWhenGetOrderedPropertiesThenReturnsPropertiesOrderedByOrderingStrategy() {
 		configureSearchStrategy();
 
-		ArrayList<PropertyDTO> returnedDTOs = propertyService.getOrderedProperties(filter);
+		List<PropertyDTO> returnedDTOs = propertyService.getOrderedProperties(filter);
 
 		verify(orderingStrategy).getOrderedProperties(repository);
 		assertTrue(returnedDTOs.contains(propertyDTO));

@@ -1,6 +1,6 @@
 package org.RealEstateMM.jersey.resources;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -38,7 +38,7 @@ public class PropertyResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProperties(@QueryParam("orderBy") PropertySearchFilter orderBy) {
 		try {
-			ArrayList<PropertyDTO> properties;
+			List<PropertyDTO> properties;
 			if (orderBy == null) {
 				properties = propertyService.getAllProperties();
 			} else {
@@ -54,7 +54,7 @@ public class PropertyResource {
 	@Path("/{owner}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPropertiesFromOwner(@PathParam("owner") String owner) {
-		ArrayList<PropertyDTO> properties = propertyService.getPropertiesFromOwner(owner);
+		List<PropertyDTO> properties = propertyService.getPropertiesFromOwner(owner);
 		return Response.ok(Status.OK).entity(properties).build();
 	}
 

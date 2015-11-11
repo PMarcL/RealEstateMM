@@ -1,5 +1,10 @@
 package org.RealEstateMM.services.property;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
+
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
@@ -10,10 +15,6 @@ import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Optional;
 
 public class PropertyService implements PropertyServiceHandler {
 
@@ -42,7 +43,7 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getAllProperties() {
+	public List<PropertyDTO> getAllProperties() {
 		ArrayList<Property> properties = propertyRepository.getAll();
 		return buildDTOsFromProperties(properties);
 	}
@@ -63,12 +64,12 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner) {
-		ArrayList<Property> properties = propertyRepository.getPropertiesFromOwner(owner);
+	public List<PropertyDTO> getPropertiesFromOwner(String owner) {
+		List<Property> properties = propertyRepository.getPropertiesFromOwner(owner);
 		return buildDTOsFromProperties(properties);
 	}
 
-	private ArrayList<PropertyDTO> buildDTOsFromProperties(ArrayList<Property> properties) {
+	private List<PropertyDTO> buildDTOsFromProperties(List<Property> properties) {
 		ArrayList<PropertyDTO> propertiesDTO = new ArrayList<PropertyDTO>();
 		for (Property property : properties) {
 			PropertyDTO dto = propertyAssembler.toDTO(property);
@@ -78,9 +79,9 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
-		PropertyOrderingStrategy orderingStrategy = orderingFactory.getOrderingStrategy(orderBy
-				.getParsedSearchParameter());
+	public List<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
+		PropertyOrderingStrategy orderingStrategy = orderingFactory
+				.getOrderingStrategy(orderBy.getParsedSearchParameter());
 		ArrayList<Property> properties = orderingStrategy.getOrderedProperties(propertyRepository);
 		return buildDTOsFromProperties(properties);
 	}
