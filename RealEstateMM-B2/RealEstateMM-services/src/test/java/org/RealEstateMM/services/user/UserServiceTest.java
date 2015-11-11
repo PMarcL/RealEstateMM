@@ -3,8 +3,6 @@ package org.RealEstateMM.services.user;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import java.util.Optional;
-
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserNotFoundException;
@@ -154,7 +152,7 @@ public class UserServiceTest {
 	}
 
 	private void userDoesNotExists() {
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.empty());
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willThrow(new UserNotFoundException("pseudonym"));
 	}
 
 	private void validateUserProfile(UserInformations userInfos) {
@@ -180,7 +178,7 @@ public class UserServiceTest {
 		emailValidator = mock(UserEmailAddressValidator.class);
 
 		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(user);
 		given(user.getUserInformations()).willReturn(userInfos);
 		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
 	}

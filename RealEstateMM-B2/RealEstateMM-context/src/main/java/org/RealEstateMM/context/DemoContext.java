@@ -11,6 +11,7 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.user.Administrator;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
@@ -79,8 +80,8 @@ public class DemoContext extends Context {
 	private void initializeRepositories() {
 		File xmlUsers = new File(usersFilePath());
 		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
-				new UserRoleFactory()));
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
+				new XmlUserAssembler(new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
 	}
@@ -118,7 +119,12 @@ public class DemoContext extends Context {
 	}
 
 	private boolean isAdminExisting(String adminPseudonym) {
-		return userRepository.getUserWithPseudonym(adminPseudonym).isPresent();
+		try {
+			userRepository.getUserWithPseudonym(adminPseudonym);
+			return true;
+		} catch (UserNotFoundException e) {
+			return false;
+		}
 	}
 
 }

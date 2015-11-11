@@ -167,7 +167,7 @@ public class UserResourceTest {
 
 	@Test
 	public void givenUserDoesNotExistWhenGetUserProfileThenReturnBadRequest() {
-		given(userService.getUserProfile(anyString())).willThrow(new UserNotFoundException());
+		given(userService.getUserProfile(anyString())).willThrow(new UserNotFoundException(UNEXISTING_PSEUDONYM));
 		Response response = userConnectionResource.getUserProfile(A_PSEUDONYM);
 		assertEquals(Status.NOT_FOUND, response.getStatusInfo());
 	}

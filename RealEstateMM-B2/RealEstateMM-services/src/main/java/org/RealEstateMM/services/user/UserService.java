@@ -1,11 +1,9 @@
 package org.RealEstateMM.services.user;
 
-import java.util.Optional;
-
 import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
@@ -36,18 +34,19 @@ public class UserService implements UserServiceHandler {
 
 	public UserDTO authenticate(String pseudonym, String password)
 			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException {
-		User user = findUserWithPseudonym(pseudonym);
+		User user = userRepository.getUserWithPseudonym(pseudonym);
 		user.authenticate(password);
 		return userAssembler.toDTO(user);
 	}
 
-	private User findUserWithPseudonym(String pseudonym) throws UserNotFoundException {
-		Optional<User> user = userRepository.getUserWithPseudonym(pseudonym);
-		if (!(user.isPresent())) {
-			throw new UserNotFoundException();
-		}
-		return user.get();
-	}
+	// private User findUserWithPseudonym(String pseudonym) throws
+	// UserNotFoundException {
+	// Optional<User> user = userRepository.getUserWithPseudonym(pseudonym);
+	// if (!(user.isPresent())) {
+	// throw new UserNotFoundException();
+	// }
+	// return user.get();
+	// }
 
 	@Override
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
@@ -60,7 +59,7 @@ public class UserService implements UserServiceHandler {
 
 	@Override
 	public void updateUserProfile(UserDTO userProfile) throws UserNotFoundException {
-		User user = findUserWithPseudonym(userProfile.getPseudonym());
+		User user = userRepository.getUserWithPseudonym(userProfile.getPseudonym());
 		boolean emailChanged = !(user.hasEmailAddress(userProfile.getEmailAddress()));
 		user.updateUserInformations(createUserInfosFromDTO(userProfile));
 		if (emailChanged) {
@@ -77,7 +76,7 @@ public class UserService implements UserServiceHandler {
 
 	@Override
 	public UserDTO getUserProfile(String pseudonym) throws UserNotFoundException {
-		User user = findUserWithPseudonym(pseudonym);
+		User user = userRepository.getUserWithPseudonym(pseudonym);
 		return userAssembler.toDTO(user);
 	}
 
