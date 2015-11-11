@@ -22,4 +22,15 @@
         <pseudonym>PM</pseudonym>
         <userType>BUYER</userType>
     </user>
+    <user>
+        <email>paul@courriel.com</email>
+        <firstName>Paul</firstName>
+        <lastLoginDate>2015-11-11-11:35:11</lastLoginDate>
+        <lastName>paul</lastName>
+        <isLocked>false</isLocked>
+        <password>paul</password>
+        <phoneNumber>8198186547</phoneNumber>
+        <pseudonym>Paul</pseudonym>
+        <userType>SELLER</userType>
+    </user>
 </users>
