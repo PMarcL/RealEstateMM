@@ -18,10 +18,10 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void uploadProperty(PropertyDTO propertyInfos) {
+	public void uploadProperty(String owner, PropertyDTO propertyInfos) {
 		validatePropertyInformations(propertyInfos);
 		validatePropertyAddress(propertyInfos.getPropertyAddress());
-		service.uploadProperty(propertyInfos);
+		service.uploadProperty(owner, propertyInfos);
 	}
 
 	private void validatePropertyInformations(PropertyDTO propertyInfos) {
@@ -43,11 +43,11 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void editPropertyFeatures(PropertyDTO propertyDTO) {
+	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) {
 		PropertyFeaturesDTO features = propertyDTO.getPropertyFeatures();
 		verifyNumberOfRoomsValidity(features);
 		verifyYearOfConstructionValidity(features);
-		service.editPropertyFeatures(propertyDTO);
+		service.editPropertyFeatures(owner, propertyDTO);
 	}
 
 	private void verifyNumberOfRoomsValidity(PropertyFeaturesDTO features) {
@@ -70,8 +70,8 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getAllProperties() {
-		return service.getAllProperties();
+	public List<PropertyDTO> getAllProperties(String pseudo) {
+		return service.getAllProperties(pseudo);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
-		return service.getOrderedProperties(orderBy);
+	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy) {
+		return service.getOrderedProperties(pseudo, orderBy);
 	}
 }

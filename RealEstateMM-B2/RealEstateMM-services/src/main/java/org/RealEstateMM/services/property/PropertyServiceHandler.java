@@ -7,13 +7,13 @@ import org.RealEstateMM.services.property.dtos.PropertyDTO;
 
 public interface PropertyServiceHandler {
 
-	public void uploadProperty(PropertyDTO propertyInfos);
+	public void uploadProperty(String pseudo, PropertyDTO propertyInfos);
 
-	public List<PropertyDTO> getAllProperties();
+	public List<PropertyDTO> getAllProperties(String pseudo);
 
-	public List<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy);
+	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy);
 
-	public void editPropertyFeatures(PropertyDTO propertyDTO);
+	public void editPropertyFeatures(String pseudo, PropertyDTO propertyDTO);
 
 	public List<PropertyDTO> getPropertiesFromOwner(String owner);
 }

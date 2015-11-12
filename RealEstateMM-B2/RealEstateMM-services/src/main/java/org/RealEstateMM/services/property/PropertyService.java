@@ -36,20 +36,20 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void uploadProperty(PropertyDTO propertyInfos) {
+	public void uploadProperty(String owner, PropertyDTO propertyInfos) {
 		Property newProperty = propertyAssembler.fromDTO(propertyInfos);
 		newProperty.setCreationDate(Calendar.getInstance().getTime());
 		propertyRepository.add(newProperty);
 	}
 
 	@Override
-	public List<PropertyDTO> getAllProperties() {
+	public List<PropertyDTO> getAllProperties(String pseudo) {
 		ArrayList<Property> properties = propertyRepository.getAll();
 		return buildDTOsFromProperties(properties);
 	}
 
 	@Override
-	public void editPropertyFeatures(PropertyDTO propertyDTO) {
+	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) {
 		Property property = getPropertyWithDTO(propertyDTO);
 		PropertyFeatures features = propertyAssembler.getFeaturesFromDTO(propertyDTO);
 
@@ -79,9 +79,9 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
-		PropertyOrderingStrategy orderingStrategy = orderingFactory
-				.getOrderingStrategy(orderBy.getParsedSearchParameter());
+	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy) {
+		PropertyOrderingStrategy orderingStrategy = orderingFactory.getOrderingStrategy(orderBy
+				.getParsedSearchParameter());
 		ArrayList<Property> properties = orderingStrategy.getOrderedProperties(propertyRepository);
 		return buildDTOsFromProperties(properties);
 	}

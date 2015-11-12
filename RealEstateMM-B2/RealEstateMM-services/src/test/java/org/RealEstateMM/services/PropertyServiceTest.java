@@ -24,6 +24,7 @@ import org.junit.Test;
 public class PropertyServiceTest {
 
 	private final String OWNER = "owner90";
+	private final String PSEUDO = "pseudo32";
 	private final PropertySearchParameters PARAM = PropertySearchParameters.RECENTLY_UPLOADED_FIRST;
 
 	private PropertyDTOAssembler assembler;
@@ -55,32 +56,32 @@ public class PropertyServiceTest {
 
 	@Test
 	public void givenAPropertyDTOWhenUploadsPropertyThenUseAssemblerToBuildProperty() {
-		propertyService.uploadProperty(propertyDTO);
+		propertyService.uploadProperty(OWNER, propertyDTO);
 		verify(assembler).fromDTO(propertyDTO);
 	}
 
 	@Test
 	public void givenAPropertyDTOWhenUploadsPropertyThenUpdateCreationDateOfNewProperty() {
-		propertyService.uploadProperty(propertyDTO);
+		propertyService.uploadProperty(OWNER, propertyDTO);
 		verify(property).setCreationDate(anyObject());
 	}
 
 	@Test
 	public void givenAPropertyDTOWhenUploadsPropertyThenUseRepositoryToStoreNewProperty() {
-		propertyService.uploadProperty(propertyDTO);
+		propertyService.uploadProperty(OWNER, propertyDTO);
 		verify(repository).add(property);
 	}
 
 	@Test
 	public void whenGetAllPropertiesThenGetsAllPropertyFromRepository() {
-		propertyService.getAllProperties();
+		propertyService.getAllProperties(PSEUDO);
 		verify(repository).getAll();
 	}
 
 	@Test
 	public void whenGetAllPropertiesThenBuildDTOsFromPropertiesWithAssembler() {
 		given(repository.getAll()).willReturn(buildPropertiesList());
-		propertyService.getAllProperties();
+		propertyService.getAllProperties(PSEUDO);
 		verify(assembler).toDTO(property);
 	}
 
@@ -88,39 +89,39 @@ public class PropertyServiceTest {
 	public void whenGetAllPropertiesThenReturnsDTOsOfAllProperties() {
 		given(repository.getAll()).willReturn(buildPropertiesList());
 
-		List<PropertyDTO> returnedDTOs = propertyService.getAllProperties();
+		List<PropertyDTO> returnedDTOs = propertyService.getAllProperties(PSEUDO);
 
 		assertTrue(returnedDTOs.contains(propertyDTO));
 	}
 
 	@Test
 	public void givenPropertyDTOWhenEditPropertyThenAssemblesPropertyAddress() {
-		propertyService.editPropertyFeatures(propertyDTO);
+		propertyService.editPropertyFeatures(OWNER, propertyDTO);
 		verify(assembler).getPropertyAddressFromDTO(propertyDTO);
 	}
 
 	@Test
 	public void givenPropertyDTOWhenEditPropertyThenAssemblesPropertyFeatures() {
-		propertyService.editPropertyFeatures(propertyDTO);
+		propertyService.editPropertyFeatures(OWNER, propertyDTO);
 		verify(assembler).getFeaturesFromDTO(propertyDTO);
 	}
 
 	@Test
 	public void givenPropertyDTOWhenEditPropertyThenGetsPropertyWithAddress() {
 		given(assembler.getPropertyAddressFromDTO(propertyDTO)).willReturn(address);
-		propertyService.editPropertyFeatures(propertyDTO);
+		propertyService.editPropertyFeatures(OWNER, propertyDTO);
 		verify(repository).getPropertyAtAddress(address);
 	}
 
 	@Test
 	public void givenPropertyDTOWhenEditPropertyThenUpdatesPropertyWithNewFeatures() {
-		propertyService.editPropertyFeatures(propertyDTO);
+		propertyService.editPropertyFeatures(OWNER, propertyDTO);
 		verify(property).updateFeatures(features);
 	}
 
 	@Test
 	public void givenPropertyDTOWhenEditPropertyThenUpdatesPropertyInRepository() {
-		propertyService.editPropertyFeatures(propertyDTO);
+		propertyService.editPropertyFeatures(OWNER, propertyDTO);
 		verify(repository).updateProperty(property);
 	}
 
@@ -150,7 +151,7 @@ public class PropertyServiceTest {
 	public void givenASearchFilterWhenGetOrderedPropertiesThenUsesFactoryWithSearchParamToGetOrderingStrategy() {
 		configureSearchStrategy();
 
-		propertyService.getOrderedProperties(filter);
+		propertyService.getOrderedProperties(PSEUDO, filter);
 
 		verify(orderingFactory).getOrderingStrategy(PARAM);
 	}
@@ -159,7 +160,7 @@ public class PropertyServiceTest {
 	public void givenASearchFilterWhenGetOrderedPropertiesThenReturnsPropertiesOrderedByOrderingStrategy() {
 		configureSearchStrategy();
 
-		List<PropertyDTO> returnedDTOs = propertyService.getOrderedProperties(filter);
+		List<PropertyDTO> returnedDTOs = propertyService.getOrderedProperties(PSEUDO, filter);
 
 		verify(orderingStrategy).getOrderedProperties(repository);
 		assertTrue(returnedDTOs.contains(propertyDTO));

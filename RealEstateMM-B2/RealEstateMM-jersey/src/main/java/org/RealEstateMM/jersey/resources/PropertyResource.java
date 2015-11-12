@@ -47,9 +47,9 @@ public class PropertyResource {
 			String pseudo = sessionService.validate(token);
 			List<PropertyDTO> properties;
 			if (orderBy == null) {
-				properties = propertyService.getAllProperties();
+				properties = propertyService.getAllProperties(pseudo);
 			} else {
-				properties = propertyService.getOrderedProperties(orderBy);
+				properties = propertyService.getOrderedProperties(pseudo, orderBy);
 			}
 			return Response.ok(Status.OK).entity(properties).build();
 		} catch (InvalidFilterException exception) {
@@ -79,7 +79,7 @@ public class PropertyResource {
 	public Response editProperty(@PathParam("token") String token, PropertyDTO propertyDTO) {
 		try {
 			String owner = sessionService.validate(token);
-			propertyService.editPropertyFeatures(propertyDTO);
+			propertyService.editPropertyFeatures(owner, propertyDTO);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
@@ -95,7 +95,7 @@ public class PropertyResource {
 	public Response uploadProperty(@PathParam("token") String token, PropertyDTO propertyInfos) {
 		try {
 			String owner = sessionService.validate(token);
-			propertyService.uploadProperty(propertyInfos);
+			propertyService.uploadProperty(owner, propertyInfos);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
