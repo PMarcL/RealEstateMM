@@ -87,7 +87,7 @@ public class UserServiceTest {
 
 	@Test
 	public void givenAnExistingUserWhenEditUserProfileShouldUpdateUserInformationsInUserWithProperInfos() {
-		userService.updateUserProfile(USER_DTO);
+		userService.updateUserProfile(PSEUDONYM, USER_DTO);
 
 		ArgumentCaptor<UserInformations> argument = ArgumentCaptor.forClass(UserInformations.class);
 		verify(user).updateUserInformations(argument.capture());
@@ -96,7 +96,7 @@ public class UserServiceTest {
 
 	@Test
 	public void givenAnExistingUserWhenEditUserProfileShouldPersistUserAfterUpdatingUserInformations() {
-		userService.updateUserProfile(USER_DTO);
+		userService.updateUserProfile(PSEUDONYM, USER_DTO);
 
 		InOrder inOrder = inOrder(user, userRepository);
 		inOrder.verify(user).updateUserInformations(any(UserInformations.class));
@@ -106,13 +106,13 @@ public class UserServiceTest {
 	@Test(expected = UserNotFoundException.class)
 	public void givenAnUnexistingUserWhenEditUserProfileShouldThrowException() {
 		userDoesNotExists();
-		userService.updateUserProfile(USER_DTO);
+		userService.updateUserProfile(PSEUDONYM, USER_DTO);
 	}
 
 	@Test
 	public void givenNewEmailAddressDifferentFromUserEmailAddressWhenUpdateUserProfileShouldSendEmailAddressConfirmationEmail() {
 		given(user.hasEmailAddress(anyString())).willReturn(false);
-		userService.updateUserProfile(USER_DTO);
+		userService.updateUserProfile(PSEUDONYM, USER_DTO);
 		verify(emailValidator).sendEmailConfirmationMessage(userInfos);
 	}
 
@@ -120,7 +120,7 @@ public class UserServiceTest {
 	public void givenNewEmailAddressDifferentFromEmailAddressWhenUpdateUserProfileShouldLockUserBeforeReplacingItInRepository() {
 		given(user.hasEmailAddress(anyString())).willReturn(false);
 
-		userService.updateUserProfile(USER_DTO);
+		userService.updateUserProfile(PSEUDONYM, USER_DTO);
 
 		InOrder inOrder = inOrder(user, userRepository);
 		inOrder.verify(user).lock();
@@ -130,7 +130,7 @@ public class UserServiceTest {
 	@Test
 	public void givenEmailAddressIsSameAsCurrentEmailAddressWhenUdpateUserProfileShouldNotSendEmailAddressConfirmationEmail() {
 		given(user.hasEmailAddress(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
-		userService.updateUserProfile(USER_DTO);
+		userService.updateUserProfile(PSEUDONYM, USER_DTO);
 		verify(emailValidator, never()).sendEmailConfirmationMessage(any(UserInformations.class));
 	}
 

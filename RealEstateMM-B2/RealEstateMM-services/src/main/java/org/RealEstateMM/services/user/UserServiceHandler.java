@@ -10,12 +10,12 @@ public interface UserServiceHandler {
 
 	public void createUser(UserDTO userDTO) throws CouldNotSendMailException;
 
-	public UserDTO authenticate(String pseudonym, String password)
-			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException;
+	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
+			UserNotFoundException, UnconfirmedEmailException;
 
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException;
 
-	public void updateUserProfile(UserDTO userProfile) throws UserNotFoundException;
+	public void updateUserProfile(String pseudo, UserDTO userProfile) throws UserNotFoundException;
 
 	public UserDTO getUserProfile(String pseudonym) throws UserNotFoundException;
 }

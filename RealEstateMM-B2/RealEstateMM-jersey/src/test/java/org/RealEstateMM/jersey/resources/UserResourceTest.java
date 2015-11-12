@@ -118,8 +118,14 @@ public class UserResourceTest {
 	}
 
 	@Test
+	public void givenValidCredentialsWhenEditUserProfileThenUsesServiceHandlerWithPseudoAndDTO() {
+		userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
+		verify(userService).updateUserProfile(A_PSEUDONYM, A_USER_DTO);
+	}
+
+	@Test
 	public void givenInvalidCredentialsWhenEditUserProfileThenReturnResponseBadRequest() throws Exception {
-		doThrow(InvalidUserInformationsException.class).when(userService).updateUserProfile(A_USER_DTO);
+		doThrow(InvalidUserInformationsException.class).when(userService).updateUserProfile(A_PSEUDONYM, A_USER_DTO);
 		StatusType statusType = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO).getStatusInfo();
 		assertEquals(Status.BAD_REQUEST, statusType);
 	}

@@ -11,9 +11,9 @@ import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 public class UserServiceAntiCorruption implements UserServiceHandler {
 
 	private UserInformationsValidator informationsValidator;
-	private UserService userService;
+	private UserServiceHandler userService;
 
-	public UserServiceAntiCorruption(UserService service, UserInformationsValidator validator) {
+	public UserServiceAntiCorruption(UserServiceHandler service, UserInformationsValidator validator) {
 		userService = service;
 		informationsValidator = validator;
 	}
@@ -25,14 +25,14 @@ public class UserServiceAntiCorruption implements UserServiceHandler {
 	}
 
 	@Override
-	public void updateUserProfile(UserDTO userDTO) {
+	public void updateUserProfile(String pseudo, UserDTO userDTO) {
 		validateUserDTO(userDTO);
-		userService.updateUserProfile(userDTO);
+		userService.updateUserProfile(pseudo, userDTO);
 	}
 
 	@Override
-	public UserDTO authenticate(String pseudonym, String password)
-			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException {
+	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
+			UserNotFoundException, UnconfirmedEmailException {
 		if (!informationsValidator.isStringValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
 		} else if (!informationsValidator.isStringValid(password)) {

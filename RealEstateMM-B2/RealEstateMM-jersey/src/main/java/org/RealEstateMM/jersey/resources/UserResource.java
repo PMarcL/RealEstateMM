@@ -78,7 +78,7 @@ public class UserResource {
 	public Response editUserProfile(@PathParam("token") String token, UserDTO userProfile) {
 		try {
 			String pseudo = sessionService.validate(token);
-			userService.updateUserProfile(userProfile);
+			userService.updateUserProfile(pseudo, userProfile);
 			return Response.status(Status.OK).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();

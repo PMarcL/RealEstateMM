@@ -77,8 +77,8 @@ public class UserServiceAntiCorruptionTest {
 
 	@Test
 	public void givenUpdateInformationWhenUpdateInformationThenRegisterUserUpdatedWithService() {
-		userServiceAC.updateUserProfile(A_USER_DTO);
-		verify(service).updateUserProfile(A_USER_DTO);
+		userServiceAC.updateUserProfile(VALID_PSEUDO, A_USER_DTO);
+		verify(service).updateUserProfile(VALID_PSEUDO, A_USER_DTO);
 	}
 
 	@Test

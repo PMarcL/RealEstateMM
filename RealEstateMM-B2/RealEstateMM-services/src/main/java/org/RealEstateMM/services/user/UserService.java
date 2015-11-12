@@ -32,8 +32,8 @@ public class UserService implements UserServiceHandler {
 		emailAddressValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
 	}
 
-	public UserDTO authenticate(String pseudonym, String password)
-			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException {
+	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
+			UserNotFoundException, UnconfirmedEmailException {
 		User user = userRepository.getUserWithPseudonym(pseudonym);
 		user.authenticate(password);
 		return userAssembler.toDTO(user);
@@ -49,7 +49,7 @@ public class UserService implements UserServiceHandler {
 	}
 
 	@Override
-	public void updateUserProfile(UserDTO userProfile) throws UserNotFoundException {
+	public void updateUserProfile(String pseudo, UserDTO userProfile) throws UserNotFoundException {
 		User user = userRepository.getUserWithPseudonym(userProfile.getPseudonym());
 		boolean emailChanged = !(user.hasEmailAddress(userProfile.getEmailAddress()));
 		user.updateUserInformations(createUserInfosFromDTO(userProfile));
