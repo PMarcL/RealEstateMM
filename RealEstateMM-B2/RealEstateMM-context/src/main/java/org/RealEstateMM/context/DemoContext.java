@@ -8,7 +8,9 @@ import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.emailsender.GmailSender;
 import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
+import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.user.Administrator;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
@@ -44,6 +46,7 @@ public class DemoContext extends Context {
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
+	private Properties properties;
 	private PropertyServiceHandler propertyService;
 	private UserServiceHandler userService;
 	private StatisticService statisticService;
@@ -66,6 +69,14 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
 	}
 
+	private void initializeServices() {
+		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
+				new PropertyInformationsValidator());
+		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
+		this.statisticService = new StatisticService();
+		this.sessionService = new SessionService();
+	}
+
 	@Override
 	protected void registerServiceDependencies() {
 		registerRepositories();
@@ -73,12 +84,12 @@ public class DemoContext extends Context {
 		registerAssemblers();
 	}
 
-	private void initializeServices() {
-		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
-				new PropertyInformationsValidator());
-		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
-		this.statisticService = new StatisticService();
-		this.sessionService = new SessionService();
+	private void registerRepositories() {
+		initializeRepositories();
+		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
+		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
+		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
+		ServiceLocator.getInstance().registerService(Properties.class, properties);
 	}
 
 	private void initializeRepositories() {
@@ -88,17 +99,7 @@ public class DemoContext extends Context {
 				new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
-	}
-
-	private void registerAssemblers() {
-		ServiceLocator.getInstance().registerService(UserAssembler.class, new UserAssembler(new UserRoleFactory()));
-	}
-
-	private void registerRepositories() {
-		initializeRepositories();
-		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
-		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
-		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
+		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory());
 	}
 
 	private void registerUserEmailValidator() {
@@ -109,6 +110,10 @@ public class DemoContext extends Context {
 				emailSender);
 
 		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, validator);
+	}
+
+	private void registerAssemblers() {
+		ServiceLocator.getInstance().registerService(UserAssembler.class, new UserAssembler(new UserRoleFactory()));
 	}
 
 	@Override

@@ -1,16 +1,11 @@
 package org.RealEstateMM.services.property;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
+import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.PropertyRepository;
-import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
-import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
 import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -18,55 +13,46 @@ import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
 
 public class PropertyService implements PropertyServiceHandler {
 
-	private PropertyRepository propertyRepository;
 	private PropertyDTOAssembler propertyAssembler;
-	private PropertyOrderingFactory orderingFactory;
+	private Properties properties;
 
 	public PropertyService() {
-		propertyRepository = ServiceLocator.getInstance().getService(PropertyRepository.class);
+		properties = ServiceLocator.getInstance().getService(Properties.class);
 		propertyAssembler = new PropertyDTOAssembler();
-		orderingFactory = new PropertyOrderingFactory();
 	}
 
-	public PropertyService(PropertyRepository propertyRepository, PropertyDTOAssembler propertyAssembler,
-			PropertyOrderingFactory orderingFactory) {
-		this.propertyRepository = propertyRepository;
+	public PropertyService(PropertyDTOAssembler propertyAssembler, Properties properties) {
 		this.propertyAssembler = propertyAssembler;
-		this.orderingFactory = orderingFactory;
+		this.properties = properties;
 	}
 
 	@Override
 	public void uploadProperty(String owner, PropertyDTO propertyInfos) {
+		// TODO ajouter vérification des droits utilisateurs
 		Property newProperty = propertyAssembler.fromDTO(propertyInfos);
-		newProperty.setCreationDate(Calendar.getInstance().getTime());
-		propertyRepository.add(newProperty);
+		properties.addProperty(newProperty);
 	}
 
 	@Override
 	public List<PropertyDTO> getAllProperties(String pseudo) {
-		ArrayList<Property> properties = propertyRepository.getAll();
-		return buildDTOsFromProperties(properties);
+		// TODO ajouter vérification des droits utilisateurs
+		List<Property> allProperties = properties.getAllProperties();
+		return buildDTOsFromProperties(allProperties);
 	}
 
 	@Override
 	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) {
-		Property property = getPropertyWithDTO(propertyDTO);
+		// TODO ajouter vérification des droits utilisateurs
+		Property property = propertyAssembler.fromDTO(propertyDTO);
 		PropertyFeatures features = propertyAssembler.getFeaturesFromDTO(propertyDTO);
-
-		property.updateFeatures(features);
-		propertyRepository.updateProperty(property);
-	}
-
-	private Property getPropertyWithDTO(PropertyDTO propertyDTO) {
-		PropertyAddress address = propertyAssembler.getPropertyAddressFromDTO(propertyDTO);
-		Optional<Property> property = propertyRepository.getPropertyAtAddress(address);
-		return property.get();
+		properties.editPropertyFeatures(property, features);
 	}
 
 	@Override
 	public List<PropertyDTO> getPropertiesFromOwner(String owner) {
-		List<Property> properties = propertyRepository.getPropertiesFromOwner(owner);
-		return buildDTOsFromProperties(properties);
+		// TODO ajouter vérification des droits utilisateurs
+		List<Property> ownersProperties = properties.getPropertiesFromOwner(owner);
+		return buildDTOsFromProperties(ownersProperties);
 	}
 
 	private List<PropertyDTO> buildDTOsFromProperties(List<Property> properties) {
@@ -80,9 +66,7 @@ public class PropertyService implements PropertyServiceHandler {
 
 	@Override
 	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy) {
-		PropertyOrderingStrategy orderingStrategy = orderingFactory.getOrderingStrategy(orderBy
-				.getParsedSearchParameter());
-		ArrayList<Property> properties = orderingStrategy.getOrderedProperties(propertyRepository);
-		return buildDTOsFromProperties(properties);
+		List<Property> orderedProperties = properties.getOrderedProperties(orderBy);
+		return buildDTOsFromProperties(orderedProperties);
 	}
 }

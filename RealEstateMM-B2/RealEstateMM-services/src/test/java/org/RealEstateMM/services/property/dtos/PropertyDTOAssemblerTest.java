@@ -77,22 +77,6 @@ public class PropertyDTOAssemblerTest {
 	}
 
 	@Test
-	public void whenGetAddressFromDTOThenCallsAddressAssembler() {
-		assembler.getPropertyAddressFromDTO(propertyDTO);
-		verify(addressAssembler).fromDTO(addressDTO);
-	}
-
-	@Test
-	public void whenGetAddressFromDTOThenReturnsAddressBuiltByAddressAssembler() {
-		PropertyAddress address = mock(PropertyAddress.class);
-		given(addressAssembler.fromDTO(addressDTO)).willReturn(address);
-
-		PropertyAddress result = assembler.getPropertyAddressFromDTO(propertyDTO);
-
-		assertEquals(address, result);
-	}
-
-	@Test
 	public void whenGetFeaturesFromDTOThenCallsFeaturesAssembler() {
 		assembler.getFeaturesFromDTO(propertyDTO);
 		verify(featuresAssembler).fromDTO(featuresDTO);

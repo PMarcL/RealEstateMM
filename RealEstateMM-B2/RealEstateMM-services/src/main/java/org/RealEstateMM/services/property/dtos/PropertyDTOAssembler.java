@@ -44,10 +44,6 @@ public class PropertyDTOAssembler {
 		return new Property(type, address, propertyDTO.getPropertyPrice(), propertyDTO.getPropertyOwner(), status);
 	}
 
-	public PropertyAddress getPropertyAddressFromDTO(PropertyDTO propertyDTO) {
-		return addressAssembler.fromDTO(propertyDTO.getPropertyAddress());
-	}
-
 	public PropertyFeatures getFeaturesFromDTO(PropertyDTO propertyDTO) {
 		return featuresAssembler.fromDTO(propertyDTO.getPropertyFeatures());
 	}
