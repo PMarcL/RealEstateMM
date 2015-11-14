@@ -8,6 +8,7 @@ import org.RealEstateMM.domain.property.PropertyFilter;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.onsale.NumberOfOnSaleProperties;
 import org.RealEstateMM.domain.property.onsale.OnSaleProperties;
+import org.RealEstateMM.domain.property.onsale.SellersWithOnSaleProperty;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserFilter;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -58,6 +59,11 @@ public class Statistics {
 		Collection<User> users = userRepository.getAllUsers();
 		Collection<User> buyers = userFilter.getUsersWithUserType(users, AccessLevel.BUYER);
 		return userFilter.getActiveUsers(buyers).size();
+	}
+	
+	public int getNumberOfSellersWithOnSaleProperties(){
+		SellersWithOnSaleProperty sellers = new SellersWithOnSaleProperty(propertyRepository);
+		return sellers.findNumberOfSellerWithOnSaleProperty();
 	}
 
 }
