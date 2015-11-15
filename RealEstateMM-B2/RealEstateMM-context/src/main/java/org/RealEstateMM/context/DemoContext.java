@@ -31,6 +31,7 @@ import org.RealEstateMM.services.property.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
+import org.RealEstateMM.services.property.PropertyServiceSecurity;
 import org.RealEstateMM.services.statistics.StatisticService;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
@@ -72,8 +73,9 @@ public class DemoContext extends Context {
 	}
 
 	private void initializeServices() {
-		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
-				new PropertyInformationsValidator());
+		PropertyServiceSecurity propertySecurity = new PropertyServiceSecurity(new PropertyService(),
+				new UserAuthorizations(userRepository));
+		this.propertyService = new PropertyServiceAntiCorruption(propertySecurity, new PropertyInformationsValidator());
 		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(),
 				new UserAuthorizations(userRepository));
 		this.userService = new UserServiceAntiCorruption(userSecurity, new UserInformationsValidator());

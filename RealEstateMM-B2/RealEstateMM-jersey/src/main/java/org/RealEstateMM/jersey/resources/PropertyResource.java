@@ -22,6 +22,7 @@ import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.user.UnauthorizedAccessException;
 
 @Path("/property")
 public class PropertyResource {
@@ -42,7 +43,8 @@ public class PropertyResource {
 	@GET
 	@Path("{token}/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProperties(@PathParam("token") String token, @QueryParam("orderBy") PropertySearchFilter orderBy) {
+	public Response getProperties(@PathParam("token") String token,
+			@QueryParam("orderBy") PropertySearchFilter orderBy) {
 		try {
 			String pseudo = sessionService.validate(token);
 			List<PropertyDTO> properties;
@@ -56,6 +58,10 @@ public class PropertyResource {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		} catch (UnauthorizedAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -85,6 +91,10 @@ public class PropertyResource {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		} catch (UnauthorizedAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -101,6 +111,10 @@ public class PropertyResource {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		} catch (UnauthorizedAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

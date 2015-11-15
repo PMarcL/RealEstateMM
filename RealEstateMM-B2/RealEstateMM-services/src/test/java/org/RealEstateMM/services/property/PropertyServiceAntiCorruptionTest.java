@@ -43,73 +43,74 @@ public class PropertyServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenPropertyDTOWhenUploadPropertyThenChecksAddressValidity() {
+	public void givenPropertyDTOWhenUploadPropertyThenChecksAddressValidity() throws Throwable {
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(validator).zipCodeIsValid(ZIPCODE);
 	}
 
 	@Test
-	public void givenPropertyDTOWhenUploadPropertyThenCallsTheService() {
+	public void givenPropertyDTOWhenUploadPropertyThenCallsTheService() throws Throwable {
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(service).uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenPropertyDTOWhenUploadPropertyWithInvalidZipCodeThenThrowException() {
+	public void givenPropertyDTOWhenUploadPropertyWithInvalidZipCodeThenThrowException() throws Throwable {
 		when(validator.zipCodeIsValid(ZIPCODE)).thenReturn(false);
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenUploadPropertyThenChecksPriceValidity() {
+	public void givenAPropertyDTOWhenUploadPropertyThenChecksPriceValidity() throws Throwable {
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(validator).priceIsValid(VALID_PRICE);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenAPropertyDTOWhenUploadPropertyThenIfPriceIsInvalidThrowsException() {
+	public void givenAPropertyDTOWhenUploadPropertyThenIfPriceIsInvalidThrowsException() throws Throwable {
 		given(validator.priceIsValid(VALID_PRICE)).willReturn(false);
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyTypeValidity() {
+	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyTypeValidity() throws Throwable {
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(validator).propertyTypeIsValid(TYPE);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyTypeNotValidThrowException() {
+	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyTypeNotValidThrowException() throws Throwable {
 		when(validator.propertyTypeIsValid(TYPE)).thenReturn(false);
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyStatusValidity() {
+	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyStatusValidity() throws Throwable {
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(validator).propertyStatusIsValid(STATUS);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyStatusNotValidThrowException() {
+	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyStatusNotValidThrowException()
+			throws Throwable {
 		when(validator.propertyStatusIsValid(STATUS)).thenReturn(false);
 		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenPropertyFeaturesWhenEditPropertyThenCallsServiceToEditProperty() {
+	public void givenPropertyFeaturesWhenEditPropertyThenCallsServiceToEditProperty() throws Throwable {
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(service).editPropertyFeatures(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenCallsPropertyService() {
+	public void whenGetAllPropertiesThenCallsPropertyService() throws Throwable {
 		propertyAntiCorruption.getAllProperties(PSEUDO);
 		verify(service).getAllProperties(PSEUDO);
 	}
 
 	@Test
-	public void whenGetOrderedPropertiesThenCallsPropertyService() {
+	public void whenGetOrderedPropertiesThenCallsPropertyService() throws Throwable {
 		PropertySearchFilter filter = mock(PropertySearchFilter.class);
 		propertyAntiCorruption.getOrderedProperties(PSEUDO, filter);
 		verify(service).getOrderedProperties(PSEUDO, filter);
@@ -122,32 +123,32 @@ public class PropertyServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBedRoomsValidity() {
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBedRoomsValidity() throws Throwable {
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(2)).numberOfRoomsIsValid(NUMBER_OF_BEDROOMS);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBathRoomsValidity() {
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBathRoomsValidity() throws Throwable {
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(2)).numberOfRoomsIsValid(NUMBER_OF_BATHROOMS);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksTotalNumberOfRoomsValidity() {
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksTotalNumberOfRoomsValidity() throws Throwable {
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(1)).totalNumberOfRoomsIsValid(NUMBER_OF_BATHROOMS, NUMBER_OF_BEDROOMS,
 				VALID_TOTAL_NUMBER_OF_ROOMS);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenCheckYearOfConstructionValidity() {
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenCheckYearOfConstructionValidity() throws Throwable {
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(1)).yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenThrowExceptionIfNumberOfRoomsIsInvalid() {
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenThrowExceptionIfNumberOfRoomsIsInvalid() throws Throwable {
 		given(validator.numberOfRoomsIsValid(NUMBER_OF_BATHROOMS)).willReturn(false);
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 	}

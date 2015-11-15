@@ -57,7 +57,7 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void givenTokenAndPropertyInformationsWhenUploadPropertyThenCallsServiceAntiCorruption() {
+	public void givenTokenAndPropertyInformationsWhenUploadPropertyThenCallsServiceAntiCorruption() throws Throwable {
 		propertyResource.uploadProperty(TOKEN, propertyDTO);
 		verify(service).uploadProperty(OWNER, propertyDTO);
 	}
@@ -69,7 +69,7 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void givenTokenAndInvalidInformationsWhenUploadPropertyThenResponseIsBadRequest() {
+	public void givenTokenAndInvalidInformationsWhenUploadPropertyThenResponseIsBadRequest() throws Throwable {
 		doThrow(InvalidPropertyInformationException.class).when(service).uploadProperty(OWNER, propertyDTO);
 		Response result = propertyResource.uploadProperty(TOKEN, propertyDTO);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
@@ -89,7 +89,7 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void whenGetAllPropertiesWithNoQueryParamThenUsesTheServiceToGetProperties() {
+	public void whenGetAllPropertiesWithNoQueryParamThenUsesTheServiceToGetProperties() throws Throwable {
 		propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
 		verify(service).getAllProperties(OWNER);
 	}
@@ -101,7 +101,7 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void whenGetAllPropertiesWithNoQueryParamThenConvertToJsonPropertyDTOs() {
+	public void whenGetAllPropertiesWithNoQueryParamThenConvertToJsonPropertyDTOs() throws Throwable {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
 		given(service.getAllProperties(OWNER)).willReturn(dtos);
 
@@ -111,13 +111,13 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void whenGetAllPropertiesWithQueryParamThenUsesTheServiceToGetOrderedProperties() {
+	public void whenGetAllPropertiesWithQueryParamThenUsesTheServiceToGetOrderedProperties() throws Throwable {
 		propertyResource.getProperties(TOKEN, searchFilter);
 		verify(service).getOrderedProperties(OWNER, searchFilter);
 	}
 
 	@Test
-	public void whenGetAllPropertiesWithQueryParamThenReturnsInvalidRequestIfSearchFilterIsInvalid() {
+	public void whenGetAllPropertiesWithQueryParamThenReturnsInvalidRequestIfSearchFilterIsInvalid() throws Throwable {
 		doThrow(InvalidFilterException.class).when(service).getOrderedProperties(OWNER, searchFilter);
 		Response result = propertyResource.getProperties(TOKEN, searchFilter);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
@@ -138,13 +138,15 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void givenTokenAndPropertyDTOWhenEditPropertyThenUsesPropertyServiceAntiCorruptionToEditProperty() {
+	public void givenTokenAndPropertyDTOWhenEditPropertyThenUsesPropertyServiceAntiCorruptionToEditProperty()
+			throws Throwable {
 		propertyResource.editProperty(TOKEN, propertyDTO);
 		verify(service).editPropertyFeatures(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenTokenAndPropertyDTOWhenEditPropertyThenReturnsBadRequestIfServiceACThrowsException() {
+	public void givenTokenAndPropertyDTOWhenEditPropertyThenReturnsBadRequestIfServiceACThrowsException()
+			throws Throwable {
 		doThrow(InvalidPropertyInformationException.class).when(service).editPropertyFeatures(OWNER, propertyDTO);
 		Response result = propertyResource.editProperty(TOKEN, propertyDTO);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());

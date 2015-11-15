@@ -28,21 +28,18 @@ public class PropertyService implements PropertyServiceHandler {
 
 	@Override
 	public void uploadProperty(String owner, PropertyDTO propertyInfos) {
-		// TODO ajouter vérification des droits utilisateurs
 		Property newProperty = propertyAssembler.fromDTO(propertyInfos);
 		properties.addProperty(newProperty);
 	}
 
 	@Override
 	public List<PropertyDTO> getAllProperties(String pseudo) {
-		// TODO ajouter vérification des droits utilisateurs
 		List<Property> allProperties = properties.getAllProperties();
 		return buildDTOsFromProperties(allProperties);
 	}
 
 	@Override
 	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) {
-		// TODO ajouter vérification des droits utilisateurs
 		Property property = propertyAssembler.fromDTO(propertyDTO);
 		PropertyFeatures features = propertyAssembler.getFeaturesFromDTO(propertyDTO);
 		properties.editPropertyFeatures(property, features);
@@ -66,6 +63,7 @@ public class PropertyService implements PropertyServiceHandler {
 
 	@Override
 	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy) {
+		// TODO ajouter vérification des droits utilisateurs
 		List<Property> orderedProperties = properties.getOrderedProperties(orderBy);
 		return buildDTOsFromProperties(orderedProperties);
 	}

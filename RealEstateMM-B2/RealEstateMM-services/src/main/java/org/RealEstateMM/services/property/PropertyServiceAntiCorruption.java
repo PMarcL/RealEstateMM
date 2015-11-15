@@ -6,6 +6,7 @@ import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
+import org.RealEstateMM.services.user.UnauthorizedAccessException;
 
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
@@ -18,7 +19,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void uploadProperty(String owner, PropertyDTO propertyInfos) {
+	public void uploadProperty(String owner, PropertyDTO propertyInfos) throws UnauthorizedAccessException {
 		validatePropertyInformations(propertyInfos);
 		validatePropertyAddress(propertyInfos.getPropertyAddress());
 		service.uploadProperty(owner, propertyInfos);
@@ -43,7 +44,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) {
+	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) throws UnauthorizedAccessException {
 		PropertyFeaturesDTO features = propertyDTO.getPropertyFeatures();
 		verifyNumberOfRoomsValidity(features);
 		verifyYearOfConstructionValidity(features);
@@ -70,7 +71,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getAllProperties(String pseudo) {
+	public List<PropertyDTO> getAllProperties(String pseudo) throws UnauthorizedAccessException {
 		return service.getAllProperties(pseudo);
 	}
 
@@ -80,7 +81,8 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy) {
+	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy)
+			throws UnauthorizedAccessException {
 		return service.getOrderedProperties(pseudo, orderBy);
 	}
 }
