@@ -9,7 +9,8 @@ import org.junit.Test;
 
 public class UserAuthorizationsTest {
 	private final String PSEUDONYM = "bob134";
-	private final AccessLevel ACCESS_LEVEL = AccessLevel.ADMIN;
+	private final AccessLevel AUTHORIZED_ACCESS_LEVEL = AccessLevel.ADMIN;
+	private final AccessLevel REFUSED_ACCESS_LEVEL = AccessLevel.BUYER;
 
 	private User user;
 	private UserRepository userRepository;
@@ -18,27 +19,27 @@ public class UserAuthorizationsTest {
 	@Before
 	public void setup() {
 		user = mock(User.class);
+		given(user.isAuthorized(REFUSED_ACCESS_LEVEL)).willReturn(false);
+		given(user.isAuthorized(AUTHORIZED_ACCESS_LEVEL)).willReturn(true);
 		userRepository = mock(UserRepository.class);
 		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(user);
 		authorizations = new UserAuthorizations(userRepository);
 	}
 
 	@Test
-	public void whenCheckingIfUserIsAuthorizedThenShouldCheckIfUserWhithPseudonymIsAuthorized() {
-		authorizations.isUserAuthorized(PSEUDONYM, ACCESS_LEVEL);
-		verify(user).isAuthorized(ACCESS_LEVEL);
+	public void whenCheckingIfUserIsAuthorizedThenShouldCheckIfUserWhithPseudonymIsAuthorizedForEachAccessLevel() {
+		authorizations.isUserAuthorized(PSEUDONYM, REFUSED_ACCESS_LEVEL, REFUSED_ACCESS_LEVEL);
+		verify(user, times(2)).isAuthorized(REFUSED_ACCESS_LEVEL);
 	}
 
 	@Test
-	public void givenUserHasAuthorizationsWhenCheckingIfUserIsAuthorizedThenShouldReturnTrue() {
-		given(user.isAuthorized(ACCESS_LEVEL)).willReturn(true);
-		assertTrue(authorizations.isUserAuthorized(PSEUDONYM, ACCESS_LEVEL));
+	public void givenUserHasAuthorizationsForOneAccessLevelWhenCheckingIfUserIsAuthorizedThenShouldReturnTrue() {
+		assertTrue(authorizations.isUserAuthorized(PSEUDONYM, AUTHORIZED_ACCESS_LEVEL));
 	}
 
 	@Test
-	public void givenUserDoesNotHaveAuthorizationsWhenChekingIfUserIsAuthorizedThenShouldReturnFalse() {
-		given(user.isAuthorized(ACCESS_LEVEL)).willReturn(false);
-		assertFalse(authorizations.isUserAuthorized(PSEUDONYM, ACCESS_LEVEL));
+	public void givenUserDoesNotHaveAuthorizationsForAnyAccessLevelWhenChekingIfUserIsAuthorizedThenShouldReturnFalse() {
+		assertFalse(authorizations.isUserAuthorized(PSEUDONYM, REFUSED_ACCESS_LEVEL));
 	}
 
 }

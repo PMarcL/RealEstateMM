@@ -76,7 +76,7 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenUpdateInformationWhenUpdateInformationThenRegisterUserUpdatedWithService() {
+	public void givenUpdateInformationWhenUpdateInformationThenRegisterUserUpdatedWithService() throws Throwable {
 		userServiceAC.updateUserProfile(VALID_PSEUDO, A_USER_DTO);
 		verify(service).updateUserProfile(VALID_PSEUDO, A_USER_DTO);
 	}

@@ -13,6 +13,7 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.user.Administrator;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -33,6 +34,7 @@ import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.statistics.StatisticService;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
+import org.RealEstateMM.services.user.UserServiceSecurity;
 import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
 import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
@@ -72,7 +74,9 @@ public class DemoContext extends Context {
 	private void initializeServices() {
 		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
 				new PropertyInformationsValidator());
-		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
+		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(),
+				new UserAuthorizations(userRepository));
+		this.userService = new UserServiceAntiCorruption(userSecurity, new UserInformationsValidator());
 		this.statisticService = new StatisticService();
 		this.sessionService = new SessionService();
 	}
@@ -95,8 +99,8 @@ public class DemoContext extends Context {
 	private void initializeRepositories() {
 		File xmlUsers = new File(usersFilePath());
 		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
-				new UserRoleFactory()));
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
+				new XmlUserAssembler(new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
 		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory());

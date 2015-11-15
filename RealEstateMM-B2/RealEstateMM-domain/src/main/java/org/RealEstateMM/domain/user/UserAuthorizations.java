@@ -10,9 +10,15 @@ public class UserAuthorizations {
 		this.userRepository = userRepository;
 	}
 
-	public boolean isUserAuthorized(String pseudonym, AccessLevel accessLevel) {
+	public boolean isUserAuthorized(String pseudonym, AccessLevel... accessLevels) {
 		User user = userRepository.getUserWithPseudonym(pseudonym);
-		return user.isAuthorized(accessLevel);
+		for (AccessLevel level : accessLevels) {
+			if (user.isAuthorized(level)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

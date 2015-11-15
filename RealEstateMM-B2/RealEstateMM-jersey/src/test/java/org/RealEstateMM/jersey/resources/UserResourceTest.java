@@ -118,7 +118,7 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenValidCredentialsWhenEditUserProfileThenUsesServiceHandlerWithPseudoAndDTO() {
+	public void givenValidCredentialsWhenEditUserProfileThenUsesServiceHandlerWithPseudoAndDTO() throws Throwable {
 		userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
 		verify(userService).updateUserProfile(A_PSEUDONYM, A_USER_DTO);
 	}
@@ -172,8 +172,8 @@ public class UserResourceTest {
 	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest()
 			throws ImpossibleToConfirmEmailAddressException {
 		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
-		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userService).confirmEmailAddress(
-				alreadyConfirmedCode);
+		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userService)
+				.confirmEmailAddress(alreadyConfirmedCode);
 
 		Response response = userConnectionResource.confirmEmail(alreadyConfirmedCode);
 

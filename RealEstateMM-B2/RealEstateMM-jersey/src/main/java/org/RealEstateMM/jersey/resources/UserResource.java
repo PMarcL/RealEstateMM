@@ -19,6 +19,7 @@ import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.user.UnauthorizedAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
@@ -84,6 +85,14 @@ public class UserResource {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (UnauthorizedAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 
