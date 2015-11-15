@@ -1,13 +1,9 @@
 package org.RealEstateMM.services.user;
 
-import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.UserNotFoundException;
-import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
-import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
-import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -16,60 +12,42 @@ import org.RealEstateMM.services.user.dtos.UserDTO;
 
 public class UserService implements UserServiceHandler {
 
-	private UserRepository userRepository;
-	private UserAssembler userAssembler;
-	private UserEmailAddressValidator emailAddressValidator;
+	private UserAssembler assembler;
+	private Users users;
 
 	public UserService() {
-		userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
-		userAssembler = ServiceLocator.getInstance().getService(UserAssembler.class);
-		emailAddressValidator = ServiceLocator.getInstance().getService(UserEmailAddressValidator.class);
+		assembler = ServiceLocator.getInstance().getService(UserAssembler.class);
+		users = ServiceLocator.getInstance().getService(Users.class);
 	}
 
 	@Override
-	public void createUser(UserDTO userDTO) throws CouldNotSendMailException {
-		User newUser = userAssembler.fromDTO(userDTO);
-		userRepository.addUser(newUser);
-		emailAddressValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
+	public void createUser(UserDTO userDTO) {
+		User newUser = assembler.fromDTO(userDTO);
+		users.addUser(newUser);
 	}
 
+	@Override
 	public UserDTO authenticate(String pseudonym, String password)
-			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException {
-		User user = userRepository.getUserWithPseudonym(pseudonym);
-		user.authenticate(password);
-		return userAssembler.toDTO(user);
+			throws UnconfirmedEmailException, InvalidPasswordException {
+		User authendicatedUser = users.authenticate(pseudonym, password);
+		return assembler.toDTO(authendicatedUser);
 	}
 
 	@Override
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
-		try {
-			emailAddressValidator.confirmEmailAddress(confirmationCode, userRepository);
-		} catch (InvalidEmailConfirmationCodeException e) {
-			throw new ImpossibleToConfirmEmailAddressException(e);
-		}
+		users.confirmEmailAddress(confirmationCode);
 	}
 
 	@Override
 	public void updateUserProfile(String pseudo, UserDTO userProfile) {
-		User user = userRepository.getUserWithPseudonym(userProfile.getPseudonym());
-		boolean emailChanged = !(user.hasEmailAddress(userProfile.getEmailAddress()));
-		user.updateUserInformations(createUserInfosFromDTO(userProfile));
-		if (emailChanged) {
-			user.lock();
-			emailAddressValidator.sendEmailConfirmationMessage(user.getUserInformations());
-		}
-		userRepository.replaceUser(user);
-	}
-
-	private UserInformations createUserInfosFromDTO(UserDTO userProfile) {
-		return new UserInformations(userProfile.getPseudonym(), userProfile.getPassword(), userProfile.getFirstName(),
-				userProfile.getLastName(), userProfile.getEmailAddress(), userProfile.getPhoneNumber());
+		UserInformations userInfos = assembler.createUserInformations(userProfile);
+		users.updateUserProfile(userInfos);
 	}
 
 	@Override
 	public UserDTO getUserProfile(String pseudonym) {
-		User user = userRepository.getUserWithPseudonym(pseudonym);
-		return userAssembler.toDTO(user);
+		User user = users.getUser(pseudonym);
+		return assembler.toDTO(user);
 	}
 
 }

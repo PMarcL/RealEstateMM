@@ -3,45 +3,39 @@ package org.RealEstateMM.services.user;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserInformations;
-import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
-import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
-import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
+import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InOrder;
 
 public class UserServiceTest {
+	private final String PSEUDONYM = "bobby134";
+	private final String PASSWORD = "myTooOriginalPassword12345";
 
-	private final String INVALID_CONFIRMATION_CODE = "anInvalidCode";
-	private final String PSEUDONYM = "pseudo34";
-	private final String PASSWORD = "pw1234";
-	private final UserDTO USER_DTO = new UserDTOBuilder().withPseudonym(PSEUDONYM).withPassword(PASSWORD).build();
-
+	private UserDTO dto;
+	private UserAssembler assembler;
 	private User user;
-	private UserInformations userInfos;
-	private UserRepository userRepository;
-	private UserAssembler userAssembler;
-	private UserEmailAddressValidator emailValidator;
-
-	private UserService userService;
+	private Users users;
+	private UserService service;
 
 	@Before
 	public void setup() {
-		setupMocks();
-		registerServices();
+		dto = mock(UserDTO.class);
+		assembler = mock(UserAssembler.class);
+		user = mock(User.class);
+		given(assembler.fromDTO(dto)).willReturn(user);
+		given(assembler.toDTO(user)).willReturn(dto);
+		users = mock(Users.class);
 
-		userService = new UserService();
+		ServiceLocator.getInstance().registerService(UserAssembler.class, assembler);
+		ServiceLocator.getInstance().registerService(Users.class, users);
+
+		service = new UserService();
 	}
 
 	@After
@@ -50,132 +44,45 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void whenCreateUserThenAddNewUserToRepository() {
-		userService.createUser(USER_DTO);
-		verify(userRepository).addUser(user);
+	public void givenUserDTOWhenCreateUserShouldAskUsersToCreateAssembledUser() {
+		service.createUser(dto);
+		verify(users).addUser(user);
 	}
 
 	@Test
-	public void whenCreateUserThenSendEmailConfirmationWithCreatedUserEmailConfirmationCode() {
+	public void givenPseudonymAndPasswordWhenAuthenticateShouldReturnAuthenticatedUser() throws Throwable {
+		service.authenticate(PSEUDONYM, PASSWORD);
+		verify(users).authenticate(PSEUDONYM, PASSWORD);
+	}
+
+	@Test
+	public void givenPseudonymAndPasswordWhenAuthenticateShouldReturnAssembledDTO() throws Throwable {
+		given(users.authenticate(PSEUDONYM, PASSWORD)).willReturn(user);
+		UserDTO returnedDto = service.authenticate(PSEUDONYM, PASSWORD);
+		assertSame(dto, returnedDto);
+	}
+
+	@Test
+	public void givenAConfirmationCodeWhenConfirmEmailAddressThenShouldAskUsers() throws Throwable {
+		final String CONFIRMATION_CODE = "confirmMyEmailAddressPlease";
+		service.confirmEmailAddress(CONFIRMATION_CODE);
+		verify(users).confirmEmailAddress(CONFIRMATION_CODE);
+	}
+
+	@Test
+	public void givenPseudonymWhenGetUserShouldReturnAssembledUser() {
+		given(users.getUser(PSEUDONYM)).willReturn(user);
+		UserDTO returnedDto = service.getUserProfile(PSEUDONYM);
+		assertSame(dto, returnedDto);
+	}
+
+	@Test
+	public void givenDTOWhenUpdateUserProfileThenShouldUpdateUserProfile() {
 		UserInformations userInfos = mock(UserInformations.class);
-		given(user.getUserInformations()).willReturn(userInfos);
+		given(assembler.createUserInformations(dto)).willReturn(userInfos);
 
-		userService.createUser(USER_DTO);
+		service.updateUserProfile(PSEUDONYM, dto);
 
-		verify(emailValidator).sendEmailConfirmationMessage(userInfos);
+		verify(users).updateUserProfile(userInfos);
 	}
-
-	@Test
-	public void givenAPseudonymWithRightPassWordWhenAuthenticateThenReturnTheUserDTO() throws Exception {
-		given(user.hasPassword(PASSWORD)).willReturn(true);
-		UserDTO actual = userService.authenticate(PSEUDONYM, PASSWORD);
-		assertEquals(USER_DTO, actual);
-	}
-
-	@Test(expected = UserNotFoundException.class)
-	public void givenNoUserWhenAuthenticateThenThrowUserNotFoundException() throws Exception {
-		userDoesNotExists();
-		userService.authenticate(PSEUDONYM, PASSWORD);
-	}
-
-	@Test(expected = ImpossibleToConfirmEmailAddressException.class)
-	public void givenAnInvalidConfirmationCodeWhenConfirmEmailThenThrowAnImpossibleToConfirmEmailAddressException()
-			throws Exception {
-
-		confirmationCodeIsInvalid();
-		userService.confirmEmailAddress(INVALID_CONFIRMATION_CODE);
-	}
-
-	@Test
-	public void givenAnExistingUserWhenEditUserProfileShouldUpdateUserInformationsInUserWithProperInfos() {
-		userService.updateUserProfile(PSEUDONYM, USER_DTO);
-
-		ArgumentCaptor<UserInformations> argument = ArgumentCaptor.forClass(UserInformations.class);
-		verify(user).updateUserInformations(argument.capture());
-		validateUserProfile(argument.getValue());
-	}
-
-	@Test
-	public void givenAnExistingUserWhenEditUserProfileShouldPersistUserAfterUpdatingUserInformations() {
-		userService.updateUserProfile(PSEUDONYM, USER_DTO);
-
-		InOrder inOrder = inOrder(user, userRepository);
-		inOrder.verify(user).updateUserInformations(any(UserInformations.class));
-		inOrder.verify(userRepository).replaceUser(user);
-	}
-
-	@Test
-	public void givenNewEmailAddressDifferentFromUserEmailAddressWhenUpdateUserProfileShouldSendEmailAddressConfirmationEmail() {
-		given(user.hasEmailAddress(anyString())).willReturn(false);
-		userService.updateUserProfile(PSEUDONYM, USER_DTO);
-		verify(emailValidator).sendEmailConfirmationMessage(userInfos);
-	}
-
-	@Test
-	public void givenNewEmailAddressDifferentFromEmailAddressWhenUpdateUserProfileShouldLockUserBeforeReplacingItInRepository() {
-		given(user.hasEmailAddress(anyString())).willReturn(false);
-
-		userService.updateUserProfile(PSEUDONYM, USER_DTO);
-
-		InOrder inOrder = inOrder(user, userRepository);
-		inOrder.verify(user).lock();
-		inOrder.verify(userRepository).replaceUser(user);
-	}
-
-	@Test
-	public void givenEmailAddressIsSameAsCurrentEmailAddressWhenUdpateUserProfileShouldNotSendEmailAddressConfirmationEmail() {
-		given(user.hasEmailAddress(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
-		userService.updateUserProfile(PSEUDONYM, USER_DTO);
-		verify(emailValidator, never()).sendEmailConfirmationMessage(any(UserInformations.class));
-	}
-
-	@Test
-	public void givenExistingUserWhenGetUserProfileShouldReturnAssembledUserInformations() {
-		UserDTO result = userService.getUserProfile(PSEUDONYM);
-		assertSame(USER_DTO, result);
-	}
-
-	@Test(expected = UserNotFoundException.class)
-	public void givenUserDoesNotExistsWhenGetUserProfileShouldThrowException() {
-		userDoesNotExists();
-		userService.getUserProfile(PSEUDONYM);
-	}
-
-	private void confirmationCodeIsInvalid() {
-		doThrow(InvalidEmailConfirmationCodeException.class).when(emailValidator).confirmEmailAddress(anyString(),
-				any(UserRepository.class));
-	}
-
-	private void userDoesNotExists() {
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willThrow(new UserNotFoundException("pseudonym"));
-	}
-
-	private void validateUserProfile(UserInformations userInfos) {
-		assertEquals(USER_DTO.getPseudonym(), userInfos.pseudonym);
-		assertEquals(USER_DTO.getEmailAddress(), userInfos.emailAddress);
-		assertEquals(USER_DTO.getFirstName(), userInfos.firstName);
-		assertEquals(USER_DTO.getLastName(), userInfos.lastName);
-		assertEquals(USER_DTO.getPassword(), userInfos.password);
-		assertEquals(USER_DTO.getPhoneNumber(), userInfos.phoneNumber);
-	}
-
-	private void registerServices() {
-		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
-		ServiceLocator.getInstance().registerService(UserAssembler.class, userAssembler);
-		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, emailValidator);
-	}
-
-	private void setupMocks() {
-		user = mock(User.class);
-		userInfos = mock(UserInformations.class);
-		userRepository = mock(UserRepository.class);
-		userAssembler = mock(UserAssembler.class);
-		emailValidator = mock(UserEmailAddressValidator.class);
-
-		given(userAssembler.fromDTO(USER_DTO)).willReturn(user);
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(user);
-		given(user.getUserInformations()).willReturn(userInfos);
-		given(userAssembler.toDTO(user)).willReturn(USER_DTO);
-	}
-
 }

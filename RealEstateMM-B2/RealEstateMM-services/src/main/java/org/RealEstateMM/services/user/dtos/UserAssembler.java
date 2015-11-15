@@ -32,7 +32,7 @@ public class UserAssembler {
 		return new User(userInfo, role);
 	}
 
-	private UserInformations createUserInformations(UserDTO userDTO) {
+	public UserInformations createUserInformations(UserDTO userDTO) {
 		return new UserInformations(userDTO.getPseudonym(), userDTO.getPassword(), userDTO.getFirstName(),
 				userDTO.getLastName(), userDTO.getEmailAddress(), userDTO.getPhoneNumber());
 	}
