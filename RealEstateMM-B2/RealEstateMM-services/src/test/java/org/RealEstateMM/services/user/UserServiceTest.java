@@ -8,6 +8,7 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -101,12 +102,6 @@ public class UserServiceTest {
 		InOrder inOrder = inOrder(user, userRepository);
 		inOrder.verify(user).updateUserInformations(any(UserInformations.class));
 		inOrder.verify(userRepository).replaceUser(user);
-	}
-
-	@Test(expected = UserNotFoundException.class)
-	public void givenAnUnexistingUserWhenEditUserProfileShouldThrowException() {
-		userDoesNotExists();
-		userService.updateUserProfile(PSEUDONYM, USER_DTO);
 	}
 
 	@Test

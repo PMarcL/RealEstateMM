@@ -1,8 +1,7 @@
 package org.RealEstateMM.services.user.anticorruption;
 
 import org.RealEstateMM.domain.user.UserNotFoundException;
-import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
-import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
@@ -31,8 +30,8 @@ public class UserServiceAntiCorruption implements UserServiceHandler {
 	}
 
 	@Override
-	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
-			UserNotFoundException, UnconfirmedEmailException {
+	public UserDTO authenticate(String pseudonym, String password)
+			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException {
 		if (!informationsValidator.isStringValid(pseudonym)) {
 			throw new InvalidUserInformationsException("Pseudonym");
 		} else if (!informationsValidator.isStringValid(password)) {

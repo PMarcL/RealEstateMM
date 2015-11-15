@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user;
+package org.RealEstateMM.domain.user.emailconfirmation;
 
 public class ImpossibleToConfirmEmailAddressException extends Exception {
 

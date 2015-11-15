@@ -1,8 +1,6 @@
 package org.RealEstateMM.persistence.xml.property;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
@@ -12,7 +10,6 @@ import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.persistence.xml.InvalidXmlFileException;
 
 public class XmlPropertyAssembler {
-
 
 	public XmlProperty fromProperty(Property property) {
 		XmlProperty newProperty = new XmlProperty();
@@ -92,5 +89,5 @@ public class XmlPropertyAssembler {
 				xmlProperty.getDescription());
 		return propertyFeatures;
 	}
-	
+
 }

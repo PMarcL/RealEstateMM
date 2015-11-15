@@ -5,6 +5,7 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
+import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
@@ -32,8 +33,8 @@ public class UserService implements UserServiceHandler {
 		emailAddressValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
 	}
 
-	public UserDTO authenticate(String pseudonym, String password) throws InvalidPasswordException,
-			UserNotFoundException, UnconfirmedEmailException {
+	public UserDTO authenticate(String pseudonym, String password)
+			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException {
 		User user = userRepository.getUserWithPseudonym(pseudonym);
 		user.authenticate(password);
 		return userAssembler.toDTO(user);
@@ -49,7 +50,7 @@ public class UserService implements UserServiceHandler {
 	}
 
 	@Override
-	public void updateUserProfile(String pseudo, UserDTO userProfile) throws UserNotFoundException {
+	public void updateUserProfile(String pseudo, UserDTO userProfile) {
 		User user = userRepository.getUserWithPseudonym(userProfile.getPseudonym());
 		boolean emailChanged = !(user.hasEmailAddress(userProfile.getEmailAddress()));
 		user.updateUserInformations(createUserInfosFromDTO(userProfile));
@@ -66,7 +67,7 @@ public class UserService implements UserServiceHandler {
 	}
 
 	@Override
-	public UserDTO getUserProfile(String pseudonym) throws UserNotFoundException {
+	public UserDTO getUserProfile(String pseudonym) {
 		User user = userRepository.getUserWithPseudonym(pseudonym);
 		return userAssembler.toDTO(user);
 	}

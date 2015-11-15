@@ -3,7 +3,6 @@ package org.RealEstateMM.persistence.xml.property;
 import static org.junit.Assert.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
