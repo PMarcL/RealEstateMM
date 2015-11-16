@@ -16,6 +16,7 @@ import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
 import org.RealEstateMM.domain.user.exceptions.UserWithPseudonymAlreadyStoredException;
 import org.RealEstateMM.jersey.responses.LoginResponse;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
@@ -112,6 +113,21 @@ public class UserResourceTest {
 	}
 
 	@Test
+	public void givenAUserProfileOfANotExistingUserWhenEditUserProfileThenReturnsNoFoundStatusCode() throws Exception {
+		doThrow(UserNotFoundException.class).when(userService).updateUserProfile(A_PSEUDONYM, A_USER_DTO);
+		Response response = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
+		assertEquals(Status.NOT_FOUND, response.getStatusInfo());
+	}
+
+	@Test
+	public void givenAUserProfileWhenEditUserProfileThenReturnsForbiddenStatusCodeIfAccessIsForbidden()
+			throws Exception {
+		doThrow(ForbiddenAccessException.class).when(userService).updateUserProfile(A_PSEUDONYM, A_USER_DTO);
+		Response response = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
+		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
+	}
+
+	@Test
 	public void givenValidCredentialsWhenEditUserProfileThenReturnStatusOK() throws Exception {
 		StatusType statusType = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO).getStatusInfo();
 		assertEquals(Status.OK, statusType);
@@ -172,8 +188,8 @@ public class UserResourceTest {
 	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest()
 			throws ImpossibleToConfirmEmailAddressException {
 		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
-		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userService)
-				.confirmEmailAddress(alreadyConfirmedCode);
+		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userService).confirmEmailAddress(
+				alreadyConfirmedCode);
 
 		Response response = userConnectionResource.confirmEmail(alreadyConfirmedCode);
 
