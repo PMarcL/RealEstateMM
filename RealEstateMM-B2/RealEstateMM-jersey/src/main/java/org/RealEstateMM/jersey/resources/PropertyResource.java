@@ -71,6 +71,8 @@ public class PropertyResource {
 			return Response.ok(Status.OK).entity(properties).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		} catch (ForbiddenAccessException e) {
+			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
 		}
 	}
 

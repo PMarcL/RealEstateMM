@@ -107,6 +107,25 @@ public class PropertyServiceSecurityTest {
 		service.getOrderedProperties(PSEUDONYM, ORDER_BY);
 	}
 
+	@Test
+	public void givenAnOwnerWhenGetPropertiesFromOwnerThenValidateUserAccess() throws Exception {
+		service.getPropertiesFromOwner(PSEUDONYM);
+		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
+	}
+
+	@Test(expected = ForbiddenAccessException.class)
+	public void givenAnOwnerWhenGetPropertiesFromOwnerThenShouldThrowException() throws Throwable {
+		userIsNotAuthorized();
+		service.getPropertiesFromOwner(PSEUDONYM);
+	}
+
+	@Test
+	public void givenAnOwnerWhenGetPropertiesFromOwnerThenShouldAskService() throws Exception {
+		given(service.getPropertiesFromOwner(PSEUDONYM)).willReturn(propertyList);
+		List<PropertyDTO> result = service.getPropertiesFromOwner(PSEUDONYM);
+		assertSame(propertyList, result);
+	}
+
 	private void userIsAuthorized() {
 		given(authorizations.isUserAuthorized(anyString(), anyVararg())).willReturn(true);
 	}

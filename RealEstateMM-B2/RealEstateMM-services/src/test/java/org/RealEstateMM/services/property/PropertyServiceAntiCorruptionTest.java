@@ -1,6 +1,7 @@
 package org.RealEstateMM.services.property;
 
 import static org.mockito.BDDMockito.*;
+
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
@@ -116,7 +117,7 @@ public class PropertyServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenCallsService() {
+	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenCallsService() throws Throwable {
 		propertyAntiCorruption.getPropertiesFromOwner(OWNER);
 		verify(service).getPropertiesFromOwner(OWNER);
 	}

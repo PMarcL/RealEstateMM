@@ -48,9 +48,9 @@ public class PropertyServiceSecurity implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getPropertiesFromOwner(String owner) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException {
+		validateUserAccess(owner, AccessLevel.SELLER);
+		return service.getPropertiesFromOwner(owner);
 	}
 
 }

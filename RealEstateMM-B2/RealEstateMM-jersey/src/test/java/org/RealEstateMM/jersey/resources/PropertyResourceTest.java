@@ -202,19 +202,27 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void givenAnOwnersTokenWhenGetPropertiesFromUserThenCallsService() {
+	public void givenAnOwnersTokenWhenGetPropertiesFromOwnerThenCallsService() throws Exception {
 		propertyResource.getPropertiesFromOwner(TOKEN);
 		verify(service).getPropertiesFromOwner(OWNER);
 	}
 
 	@Test
-	public void givenAnOwnersTokenWhenGetPropertiesFromUserThenReturnsStatusOKIfNoExceptionThrown() {
+	public void givenAnOwnersTokenWhenGetPropertiesFromOwnerThenReturnsStatusOKIfNoExceptionThrown() {
 		Response result = propertyResource.getPropertiesFromOwner(TOKEN);
 		assertEquals(Status.OK, result.getStatusInfo());
 	}
 
 	@Test
-	public void givenAnOwnersTokenWhenGetPropertiesFromUserThenConvertPropertiesToJson() {
+	public void givenAnOwnersTokenWhenGetPropertiesFromOwnerThenReturnsForbiddenStatusIfAccessIsForbidden()
+			throws Exception {
+		doThrow(ForbiddenAccessException.class).when(service).getPropertiesFromOwner(OWNER);
+		Response result = propertyResource.getPropertiesFromOwner(TOKEN);
+		assertEquals(Status.FORBIDDEN, result.getStatusInfo());
+	}
+
+	@Test
+	public void givenAnOwnersTokenWhenGetPropertiesFromOwnerThenConvertPropertiesToJson() throws Exception {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
 		given(service.getPropertiesFromOwner(OWNER)).willReturn(dtos);
 

@@ -15,5 +15,5 @@ public interface PropertyServiceHandler {
 
 	public void editPropertyFeatures(String pseudo, PropertyDTO propertyDTO) throws ForbiddenAccessException;
 
-	public List<PropertyDTO> getPropertiesFromOwner(String owner);
+	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException;
 }

@@ -75,7 +75,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getPropertiesFromOwner(String owner) {
+	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException {
 		return service.getPropertiesFromOwner(owner);
 	}
 
