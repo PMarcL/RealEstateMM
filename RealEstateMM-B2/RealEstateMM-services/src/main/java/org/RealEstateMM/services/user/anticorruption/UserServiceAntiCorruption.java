@@ -2,7 +2,7 @@ package org.RealEstateMM.services.user.anticorruption;
 
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
-import org.RealEstateMM.services.user.UnauthorizedAccessException;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
@@ -26,7 +26,7 @@ public class UserServiceAntiCorruption implements UserServiceHandler {
 
 	@Override
 	public void updateUserProfile(String pseudo, UserDTO userDTO)
-			throws UserNotFoundException, UnauthorizedAccessException {
+			throws UserNotFoundException, ForbiddenAccessException {
 		validateUserDTO(userDTO);
 		userService.updateUserProfile(pseudo, userDTO);
 	}

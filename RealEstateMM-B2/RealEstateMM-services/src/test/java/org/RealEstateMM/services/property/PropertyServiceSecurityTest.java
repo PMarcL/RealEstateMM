@@ -10,7 +10,7 @@ import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.user.UnauthorizedAccessException;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,7 +45,7 @@ public class PropertyServiceSecurityTest {
 		verify(serviceHandler).uploadProperty(PSEUDONYM, dto);
 	}
 
-	@Test(expected = UnauthorizedAccessException.class)
+	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenUploadPropertyShouldThrowException() throws Throwable {
 		userIsNotAuthorized();
 		service.uploadProperty(PSEUDONYM, dto);
@@ -64,7 +64,7 @@ public class PropertyServiceSecurityTest {
 		assertSame(propertyList, result);
 	}
 
-	@Test(expected = UnauthorizedAccessException.class)
+	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenGetAllPropertiesShouldThrowException() throws Throwable {
 		userIsNotAuthorized();
 		service.getAllProperties(PSEUDONYM);
@@ -83,7 +83,7 @@ public class PropertyServiceSecurityTest {
 		verify(serviceHandler).editPropertyFeatures(PSEUDONYM, dto);
 	}
 
-	@Test(expected = UnauthorizedAccessException.class)
+	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenEditPropertyFeaturesShouldThrowException() throws Throwable {
 		userIsNotAuthorized();
 		service.editPropertyFeatures(PSEUDONYM, dto);
@@ -106,7 +106,7 @@ public class PropertyServiceSecurityTest {
 		assertSame(propertyList, result);
 	}
 
-	@Test(expected = UnauthorizedAccessException.class)
+	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenGetOrderedPropertiesShouldThrowException() throws Throwable {
 		userIsNotAuthorized();
 		service.getOrderedProperties(PSEUDONYM, mock(PropertySearchFilter.class));

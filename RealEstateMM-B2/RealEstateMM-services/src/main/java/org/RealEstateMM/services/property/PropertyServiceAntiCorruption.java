@@ -6,7 +6,7 @@ import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
-import org.RealEstateMM.services.user.UnauthorizedAccessException;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
@@ -19,7 +19,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void uploadProperty(String owner, PropertyDTO propertyInfos) throws UnauthorizedAccessException {
+	public void uploadProperty(String owner, PropertyDTO propertyInfos) throws ForbiddenAccessException {
 		validatePropertyInformations(propertyInfos);
 		validatePropertyAddress(propertyInfos.getPropertyAddress());
 		service.uploadProperty(owner, propertyInfos);
@@ -44,7 +44,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) throws UnauthorizedAccessException {
+	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) throws ForbiddenAccessException {
 		PropertyFeaturesDTO features = propertyDTO.getPropertyFeatures();
 		verifyNumberOfRoomsValidity(features);
 		verifyYearOfConstructionValidity(features);
@@ -71,7 +71,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getAllProperties(String pseudo) throws UnauthorizedAccessException {
+	public List<PropertyDTO> getAllProperties(String pseudo) throws ForbiddenAccessException {
 		return service.getAllProperties(pseudo);
 	}
 
@@ -82,7 +82,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
 	@Override
 	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy)
-			throws UnauthorizedAccessException {
+			throws ForbiddenAccessException {
 		return service.getOrderedProperties(pseudo, orderBy);
 	}
 }

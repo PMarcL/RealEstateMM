@@ -17,7 +17,7 @@ public interface UserServiceHandler {
 	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException;
 
 	public void updateUserProfile(String pseudo, UserDTO userProfile)
-			throws UserNotFoundException, UnauthorizedAccessException;
+			throws UserNotFoundException, ForbiddenAccessException;
 
 	public UserDTO getUserProfile(String pseudonym) throws UserNotFoundException;
 }

@@ -22,7 +22,7 @@ import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.user.UnauthorizedAccessException;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 @Path("/property")
 public class PropertyResource {
@@ -43,8 +43,7 @@ public class PropertyResource {
 	@GET
 	@Path("{token}/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProperties(@PathParam("token") String token,
-			@QueryParam("orderBy") PropertySearchFilter orderBy) {
+	public Response getProperties(@PathParam("token") String token, @QueryParam("orderBy") PropertySearchFilter orderBy) {
 		try {
 			String pseudo = sessionService.validate(token);
 			List<PropertyDTO> properties;
@@ -58,10 +57,8 @@ public class PropertyResource {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
-		} catch (UnauthorizedAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+		} catch (ForbiddenAccessException e) {
+			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
 		}
 	}
 
@@ -91,10 +88,8 @@ public class PropertyResource {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
-		} catch (UnauthorizedAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+		} catch (ForbiddenAccessException e) {
+			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
 		}
 	}
 
@@ -102,19 +97,17 @@ public class PropertyResource {
 	@Path("/{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response uploadProperty(@PathParam("token") String token, PropertyDTO propertyInfos) {
+	public Response uploadProperty(@PathParam("token") String token, PropertyDTO propertyDTO) {
 		try {
 			String owner = sessionService.validate(token);
-			propertyService.uploadProperty(owner, propertyInfos);
+			propertyService.uploadProperty(owner, propertyDTO);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
-		} catch (UnauthorizedAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+		} catch (ForbiddenAccessException e) {
+			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
 		}
 	}
 }

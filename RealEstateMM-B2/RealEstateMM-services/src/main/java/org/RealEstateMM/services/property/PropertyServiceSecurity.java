@@ -6,7 +6,7 @@ import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.user.UnauthorizedAccessException;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyServiceSecurity implements PropertyServiceHandler {
 
@@ -19,32 +19,32 @@ public class PropertyServiceSecurity implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void uploadProperty(String pseudo, PropertyDTO propertyInfos) throws UnauthorizedAccessException {
+	public void uploadProperty(String pseudo, PropertyDTO propertyInfos) throws ForbiddenAccessException {
 		validateUserAccess(pseudo, AccessLevel.SELLER);
 		service.uploadProperty(pseudo, propertyInfos);
 	}
 
-	private void validateUserAccess(String pseudo, AccessLevel... accessLevels) throws UnauthorizedAccessException {
+	private void validateUserAccess(String pseudo, AccessLevel... accessLevels) throws ForbiddenAccessException {
 		if (!(authorizations.isUserAuthorized(pseudo, accessLevels))) {
-			throw new UnauthorizedAccessException();
+			throw new ForbiddenAccessException();
 		}
 	}
 
 	@Override
-	public List<PropertyDTO> getAllProperties(String pseudo) throws UnauthorizedAccessException {
+	public List<PropertyDTO> getAllProperties(String pseudo) throws ForbiddenAccessException {
 		validateUserAccess(pseudo, AccessLevel.SELLER);
 		return service.getAllProperties(pseudo);
 	}
 
 	@Override
 	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy)
-			throws UnauthorizedAccessException {
+			throws ForbiddenAccessException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.getOrderedProperties(pseudo, orderBy);
 	}
 
 	@Override
-	public void editPropertyFeatures(String pseudo, PropertyDTO propertyDTO) throws UnauthorizedAccessException {
+	public void editPropertyFeatures(String pseudo, PropertyDTO propertyDTO) throws ForbiddenAccessException {
 		validateUserAccess(pseudo, AccessLevel.SELLER);
 		service.editPropertyFeatures(pseudo, propertyDTO);
 	}

@@ -37,14 +37,14 @@ public class UserServiceSecurity implements UserServiceHandler {
 
 	@Override
 	public void updateUserProfile(String pseudonym, UserDTO userProfile)
-			throws UserNotFoundException, UnauthorizedAccessException {
+			throws UserNotFoundException, ForbiddenAccessException {
 		validateUserAccess(pseudonym, AccessLevel.BUYER, AccessLevel.SELLER);
 		service.updateUserProfile(pseudonym, userProfile);
 	}
 
-	private void validateUserAccess(String pseudonym, AccessLevel... accessLevels) throws UnauthorizedAccessException {
+	private void validateUserAccess(String pseudonym, AccessLevel... accessLevels) throws ForbiddenAccessException {
 		if (!authorizations.isUserAuthorized(pseudonym, accessLevels)) {
-			throw new UnauthorizedAccessException();
+			throw new ForbiddenAccessException();
 		}
 	}
 

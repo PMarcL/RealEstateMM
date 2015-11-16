@@ -60,7 +60,7 @@ public class UserServiceSecurityTest {
 		verify(serviceHandler).updateUserProfile(PSEUDONYM, dto);
 	}
 
-	@Test(expected = UnauthorizedAccessException.class)
+	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenUpdateUserProfileShouldThrowException() throws Throwable {
 		given(authorizations.isUserAuthorized(anyString(), anyVararg())).willReturn(false);
 		userService.updateUserProfile(PSEUDONYM, dto);

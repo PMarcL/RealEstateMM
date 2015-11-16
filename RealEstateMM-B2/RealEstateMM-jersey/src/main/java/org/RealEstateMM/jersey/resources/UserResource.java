@@ -19,7 +19,7 @@ import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.user.UnauthorizedAccessException;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
@@ -89,7 +89,7 @@ public class UserResource {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-		} catch (UnauthorizedAccessException e) {
+		} catch (ForbiddenAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
