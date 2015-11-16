@@ -11,6 +11,7 @@ import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
+import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
 import org.RealEstateMM.domain.user.Administrator;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserAuthorizations;
@@ -18,6 +19,7 @@ import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRoleFactory;
+import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
@@ -50,10 +52,12 @@ public class DemoContext extends Context {
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
 	private Properties properties;
+	private Users users;
 	private PropertyServiceHandler propertyService;
 	private UserServiceHandler userService;
 	private StatisticService statisticService;
 	private SessionService sessionService;
+	private UserEmailAddressValidator validator;
 
 	private String propertiesFilePath() {
 		return XML_FILES_LOCATION + PROPERTY_REPOSITORY_FILE;
@@ -76,8 +80,8 @@ public class DemoContext extends Context {
 		PropertyServiceSecurity propertySecurity = new PropertyServiceSecurity(new PropertyService(),
 				new UserAuthorizations(userRepository));
 		this.propertyService = new PropertyServiceAntiCorruption(propertySecurity, new PropertyInformationsValidator());
-		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(),
-				new UserAuthorizations(userRepository));
+		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(), new UserAuthorizations(
+				userRepository));
 		this.userService = new UserServiceAntiCorruption(userSecurity, new UserInformationsValidator());
 		this.statisticService = new StatisticService();
 		this.sessionService = new SessionService();
@@ -85,9 +89,11 @@ public class DemoContext extends Context {
 
 	@Override
 	protected void registerServiceDependencies() {
-		registerRepositories();
 		registerUserEmailValidator();
+		registerRepositories();
 		registerAssemblers();
+		ServiceLocator.getInstance().registerService(PropertySearchParametersParser.class,
+				new PropertySearchParametersParser());
 	}
 
 	private void registerRepositories() {
@@ -96,24 +102,26 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
 		ServiceLocator.getInstance().registerService(Properties.class, properties);
+		ServiceLocator.getInstance().registerService(Users.class, users);
 	}
 
 	private void initializeRepositories() {
 		File xmlUsers = new File(usersFilePath());
 		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
-				new XmlUserAssembler(new UserRoleFactory()));
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
+				new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
 		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory());
+		this.users = new Users(userRepository, validator);
+
 	}
 
 	private void registerUserEmailValidator() {
 		ConfirmationCodeFactory confirmCodeFactory = new ConfirmationCodeFactory(new Base64Encoder());
 		EmailMessageFactory messageFactory = new EmailMessageFactory(BASE_URL);
 		EmailSender emailSender = new GmailSender();
-		UserEmailAddressValidator validator = new UserEmailAddressValidator(confirmCodeFactory, messageFactory,
-				emailSender);
+		this.validator = new UserEmailAddressValidator(confirmCodeFactory, messageFactory, emailSender);
 
 		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, validator);
 	}

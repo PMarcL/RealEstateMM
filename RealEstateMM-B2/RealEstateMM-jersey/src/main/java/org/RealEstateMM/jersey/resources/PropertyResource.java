@@ -16,8 +16,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.TokenInvalidException;
-import org.RealEstateMM.domain.property.search.InvalidFilterException;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
+import org.RealEstateMM.domain.property.search.InvalidSearchParameterException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
@@ -43,7 +42,7 @@ public class PropertyResource {
 	@GET
 	@Path("{token}/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProperties(@PathParam("token") String token, @QueryParam("orderBy") PropertySearchFilter orderBy) {
+	public Response getProperties(@PathParam("token") String token, @QueryParam("orderBy") String orderBy) {
 		try {
 			String pseudo = sessionService.validate(token);
 			List<PropertyDTO> properties;
@@ -53,7 +52,7 @@ public class PropertyResource {
 				properties = propertyService.getOrderedProperties(pseudo, orderBy);
 			}
 			return Response.ok(Status.OK).entity(properties).build();
-		} catch (InvalidFilterException exception) {
+		} catch (InvalidSearchParameterException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		} catch (TokenInvalidException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();

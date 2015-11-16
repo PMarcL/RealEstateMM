@@ -2,7 +2,6 @@ package org.RealEstateMM.services.property;
 
 import java.util.List;
 
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 
@@ -12,8 +11,7 @@ public interface PropertyServiceHandler {
 
 	public List<PropertyDTO> getAllProperties(String pseudo) throws ForbiddenAccessException;
 
-	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy)
-			throws ForbiddenAccessException;
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) throws ForbiddenAccessException;
 
 	public void editPropertyFeatures(String pseudo, PropertyDTO propertyDTO) throws ForbiddenAccessException;
 

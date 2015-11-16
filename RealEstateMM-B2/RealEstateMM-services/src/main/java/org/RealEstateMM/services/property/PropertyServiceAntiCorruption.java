@@ -2,7 +2,6 @@ package org.RealEstateMM.services.property;
 
 import java.util.List;
 
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
@@ -81,8 +80,7 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy)
-			throws ForbiddenAccessException {
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) throws ForbiddenAccessException {
 		return service.getOrderedProperties(pseudo, orderBy);
 	}
 }

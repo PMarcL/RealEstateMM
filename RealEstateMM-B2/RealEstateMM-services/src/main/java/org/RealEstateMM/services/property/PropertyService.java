@@ -6,7 +6,8 @@ import java.util.List;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
@@ -15,15 +16,19 @@ public class PropertyService implements PropertyServiceHandler {
 
 	private PropertyDTOAssembler propertyAssembler;
 	private Properties properties;
+	private PropertySearchParametersParser searchParameterParser;
 
 	public PropertyService() {
 		properties = ServiceLocator.getInstance().getService(Properties.class);
+		searchParameterParser = ServiceLocator.getInstance().getService(PropertySearchParametersParser.class);
 		propertyAssembler = new PropertyDTOAssembler();
 	}
 
-	public PropertyService(PropertyDTOAssembler propertyAssembler, Properties properties) {
+	public PropertyService(PropertyDTOAssembler propertyAssembler, Properties properties,
+			PropertySearchParametersParser searchParameterParser) {
 		this.propertyAssembler = propertyAssembler;
 		this.properties = properties;
+		this.searchParameterParser = searchParameterParser;
 	}
 
 	@Override
@@ -47,7 +52,6 @@ public class PropertyService implements PropertyServiceHandler {
 
 	@Override
 	public List<PropertyDTO> getPropertiesFromOwner(String owner) {
-		// TODO ajouter vérification des droits utilisateurs
 		List<Property> ownersProperties = properties.getPropertiesFromOwner(owner);
 		return buildDTOsFromProperties(ownersProperties);
 	}
@@ -62,9 +66,9 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy) {
-		// TODO ajouter vérification des droits utilisateurs
-		List<Property> orderedProperties = properties.getOrderedProperties(orderBy);
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) {
+		PropertySearchParameters searchParam = searchParameterParser.getParsedSearchParameter(orderBy);
+		List<Property> orderedProperties = properties.getOrderedProperties(searchParam);
 		return buildDTOsFromProperties(orderedProperties);
 	}
 }

@@ -4,7 +4,6 @@ import static org.mockito.BDDMockito.*;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +13,7 @@ public class PropertyServiceAntiCorruptionTest {
 	private final String STATUS = "on sale";
 	private final String OWNER = "owner90";
 	private final String PSEUDO = "pseudo32";
+	private final String ORDER_BY = "recently_uploaded_last";
 	private final int NUMBER_OF_BEDROOMS = 2;
 	private final int NUMBER_OF_BATHROOMS = 2;
 	private final int VALID_TOTAL_NUMBER_OF_ROOMS = 4;
@@ -111,9 +111,8 @@ public class PropertyServiceAntiCorruptionTest {
 
 	@Test
 	public void whenGetOrderedPropertiesThenCallsPropertyService() throws Throwable {
-		PropertySearchFilter filter = mock(PropertySearchFilter.class);
-		propertyAntiCorruption.getOrderedProperties(PSEUDO, filter);
-		verify(service).getOrderedProperties(PSEUDO, filter);
+		propertyAntiCorruption.getOrderedProperties(PSEUDO, ORDER_BY);
+		verify(service).getOrderedProperties(PSEUDO, ORDER_BY);
 	}
 
 	@Test

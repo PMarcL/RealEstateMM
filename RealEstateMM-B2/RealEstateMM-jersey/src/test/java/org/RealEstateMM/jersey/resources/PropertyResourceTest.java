@@ -13,8 +13,7 @@ import java.util.ArrayList;
 
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.TokenInvalidException;
-import org.RealEstateMM.domain.property.search.InvalidFilterException;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
+import org.RealEstateMM.domain.property.search.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -22,13 +21,13 @@ import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyResourceTest {
 
-	private final PropertySearchFilter NO_QUERY_PARAM = null;
+	private final String NO_QUERY_PARAM = null;
+	private final String QUERY_PARAM = "recently_uploaded_last";
 	private final String OWNER = "owner90";
 	private final String TOKEN = "token";
 
 	private PropertyResource propertyResource;
 	private PropertyDTO propertyDTO;
-	private PropertySearchFilter searchFilter;
 	private PropertyServiceHandler service;
 	private SessionService sessionService;
 
@@ -39,7 +38,6 @@ public class PropertyResourceTest {
 		propertyResource = new PropertyResource(service, sessionService);
 
 		propertyDTO = mock(PropertyDTO.class);
-		searchFilter = mock(PropertySearchFilter.class);
 		given(sessionService.validate(TOKEN)).willReturn(OWNER);
 	}
 
@@ -107,8 +105,8 @@ public class PropertyResourceTest {
 	@Test
 	public void givenATokenWhenGetOrderedPropertertiesThenReturnsForbiddenStatusCodeIfForbiddenAccess()
 			throws Exception {
-		doThrow(ForbiddenAccessException.class).when(service).getOrderedProperties(OWNER, searchFilter);
-		Response response = propertyResource.getProperties(TOKEN, searchFilter);
+		doThrow(ForbiddenAccessException.class).when(service).getOrderedProperties(OWNER, QUERY_PARAM);
+		Response response = propertyResource.getProperties(TOKEN, QUERY_PARAM);
 		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
 	}
 
@@ -136,14 +134,14 @@ public class PropertyResourceTest {
 
 	@Test
 	public void whenGetAllPropertiesWithQueryParamThenUsesTheServiceToGetOrderedProperties() throws Exception {
-		propertyResource.getProperties(TOKEN, searchFilter);
-		verify(service).getOrderedProperties(OWNER, searchFilter);
+		propertyResource.getProperties(TOKEN, QUERY_PARAM);
+		verify(service).getOrderedProperties(OWNER, QUERY_PARAM);
 	}
 
 	@Test
 	public void whenGetAllPropertiesWithQueryParamThenReturnsInvalidRequestIfSearchFilterIsInvalid() throws Exception {
-		doThrow(InvalidFilterException.class).when(service).getOrderedProperties(OWNER, searchFilter);
-		Response result = propertyResource.getProperties(TOKEN, searchFilter);
+		doThrow(InvalidSearchParameterException.class).when(service).getOrderedProperties(OWNER, QUERY_PARAM);
+		Response result = propertyResource.getProperties(TOKEN, QUERY_PARAM);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}
 

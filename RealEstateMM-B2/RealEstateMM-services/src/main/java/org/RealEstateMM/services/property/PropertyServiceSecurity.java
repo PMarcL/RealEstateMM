@@ -2,7 +2,6 @@ package org.RealEstateMM.services.property;
 
 import java.util.List;
 
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -32,13 +31,12 @@ public class PropertyServiceSecurity implements PropertyServiceHandler {
 
 	@Override
 	public List<PropertyDTO> getAllProperties(String pseudo) throws ForbiddenAccessException {
-		validateUserAccess(pseudo, AccessLevel.SELLER);
+		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.getAllProperties(pseudo);
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, PropertySearchFilter orderBy)
-			throws ForbiddenAccessException {
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) throws ForbiddenAccessException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.getOrderedProperties(pseudo, orderBy);
 	}

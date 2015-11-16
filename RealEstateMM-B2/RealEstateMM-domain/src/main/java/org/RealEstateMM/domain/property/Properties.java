@@ -6,7 +6,7 @@ import java.util.List;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 
 public class Properties {
 
@@ -36,8 +36,8 @@ public class Properties {
 		return repository.getPropertiesFromOwner(owner);
 	}
 
-	public List<Property> getOrderedProperties(PropertySearchFilter filter) {
-		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(filter.getParsedSearchParameter());
+	public List<Property> getOrderedProperties(PropertySearchParameters searchParameter) {
+		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParameter);
 		return strategy.getOrderedProperties(repository);
 	}
 

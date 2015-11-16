@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -15,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyServiceSecurityTest {
+	private final String ORDER_BY = "recently_uploaded_last";
 	private final String PSEUDONYM = "bobby134";
 	private PropertyDTO dto;
 	private UserAuthorizations authorizations;
@@ -54,7 +54,7 @@ public class PropertyServiceSecurityTest {
 	@Test
 	public void givenPseudonymWhenGetAllPropertiesShouldValidateIfUserIsAuthorized() throws Throwable {
 		service.getAllProperties(PSEUDONYM);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
+		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER);
 	}
 
 	@Test
@@ -71,8 +71,7 @@ public class PropertyServiceSecurityTest {
 	}
 
 	@Test
-	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized()
-			throws Throwable {
+	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized() throws Throwable {
 		service.editPropertyFeatures(PSEUDONYM, dto);
 		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
 	}
@@ -91,25 +90,21 @@ public class PropertyServiceSecurityTest {
 
 	@Test
 	public void givenPseudonymAndSearchFilterWhenGetOrderedPropertiesShouldValidateUserAccess() throws Throwable {
-		PropertySearchFilter filter = mock(PropertySearchFilter.class);
-		service.getOrderedProperties(PSEUDONYM, filter);
+		service.getOrderedProperties(PSEUDONYM, ORDER_BY);
 		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER);
 	}
 
 	@Test
 	public void givenUserIsAuthorizedWhenGetOrderedPropertiesShouldAskService() throws Throwable {
-		PropertySearchFilter filter = mock(PropertySearchFilter.class);
-		given(serviceHandler.getOrderedProperties(PSEUDONYM, filter)).willReturn(propertyList);
-
-		List<PropertyDTO> result = service.getOrderedProperties(PSEUDONYM, filter);
-
+		given(serviceHandler.getOrderedProperties(PSEUDONYM, ORDER_BY)).willReturn(propertyList);
+		List<PropertyDTO> result = service.getOrderedProperties(PSEUDONYM, ORDER_BY);
 		assertSame(propertyList, result);
 	}
 
 	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenGetOrderedPropertiesShouldThrowException() throws Throwable {
 		userIsNotAuthorized();
-		service.getOrderedProperties(PSEUDONYM, mock(PropertySearchFilter.class));
+		service.getOrderedProperties(PSEUDONYM, ORDER_BY);
 	}
 
 	private void userIsAuthorized() {
