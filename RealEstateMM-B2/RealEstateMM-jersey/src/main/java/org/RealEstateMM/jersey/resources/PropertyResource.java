@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.search.InvalidFilterException;
 import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.servicelocator.ServiceLocator;
@@ -50,6 +51,19 @@ public class PropertyResource {
 		} catch (InvalidFilterException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getPropertyAtAddress(@QueryParam("atAddress") PropertyAddress address){
+		String json;
+		json = getJsonFromPropertyDTO(propertyService.getPropertyAtAddress(address));
+		return Response.ok(Status.OK).entity(json).build();
+	}
+
+	private String getJsonFromPropertyDTO(PropertyDTO propertyAtAddress) {
+		Gson gson = new Gson();
+		return gson.toJson(propertyAtAddress);
 	}
 
 	@GET

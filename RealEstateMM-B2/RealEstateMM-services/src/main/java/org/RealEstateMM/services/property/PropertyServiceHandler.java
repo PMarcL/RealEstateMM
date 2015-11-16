@@ -2,6 +2,7 @@ package org.RealEstateMM.services.property;
 
 import java.util.ArrayList;
 
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.search.PropertySearchFilter;
 import org.RealEstateMM.services.dtos.property.PropertyDTO;
 
@@ -16,4 +17,6 @@ public interface PropertyServiceHandler {
 	public void editPropertyFeatures(PropertyDTO propertyDTO);
 
 	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner);
+
+	public PropertyDTO getPropertyAtAddress(PropertyAddress address);
 }

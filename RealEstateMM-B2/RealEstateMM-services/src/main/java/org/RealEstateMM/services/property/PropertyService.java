@@ -85,4 +85,12 @@ public class PropertyService implements PropertyServiceHandler {
 		ArrayList<Property> properties = orderingStrategy.getOrderedProperties(propertyRepository);
 		return buildDTOsFromProperties(properties);
 	}
+	
+	@Override
+	public PropertyDTO getPropertyAtAddress(PropertyAddress address){
+		Property returnedProperty = propertyRepository.getPropertyAtAddress(address).get();
+		PropertyDTO dto = propertyAssembler.toDTO(returnedProperty);
+		
+		return dto;
+	}
 }
