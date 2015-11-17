@@ -5,8 +5,10 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.mockito.InOrder;
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
@@ -22,6 +24,7 @@ public class PropertiesTest {
 	private Property property;
 	private PropertyRepository repository;
 	private PropertyFeatures propertyFeatures;
+	private PropertyAddress address;
 	private PropertyOrderingFactory factory;
 	private PropertyOrderingStrategy orderingStrategy;
 
@@ -34,9 +37,11 @@ public class PropertiesTest {
 		properties = new Properties(repository, factory);
 
 		property = mock(Property.class);
+		address = mock(PropertyAddress.class);
 		propertyFeatures = mock(PropertyFeatures.class);
 		orderingStrategy = mock(PropertyOrderingStrategy.class);
 		given(factory.getOrderingStrategy(SEARCH_PARAM)).willReturn(orderingStrategy);
+		given(repository.getPropertyAtAddress(address)).willReturn(Optional.of(property));
 	}
 
 	@Test
@@ -121,5 +126,23 @@ public class PropertiesTest {
 		List<Property> returnedProperties = properties.getOrderedProperties(SEARCH_PARAM);
 
 		assertEquals(orderedProperties, returnedProperties);
+	}
+
+	@Test
+	public void givenAnAddressWhenGetPropertyAtAddressThenUsesRepository() throws Exception {
+		properties.getPropertyAtAddress(address);
+		verify(repository).getPropertyAtAddress(address);
+	}
+
+	@Test
+	public void givenAnAddressWhenGetPropertyAtAddressThenReturnsPropertyGottenFromRepository() throws Exception {
+		Property result = properties.getPropertyAtAddress(address);
+		assertEquals(property, result);
+	}
+
+	@Test(expected = PropertyNotFoundException.class)
+	public void givenAnAddressWhenGetPropertyAtAddressThenThrowsExceptionIfNoPropertyIsFound() throws Exception {
+		given(repository.getPropertyAtAddress(address)).willReturn(Optional.empty());
+		properties.getPropertyAtAddress(address);
 	}
 }

@@ -2,7 +2,9 @@ package org.RealEstateMM.domain.property;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
@@ -39,6 +41,14 @@ public class Properties {
 	public List<Property> getOrderedProperties(PropertySearchParameters searchParameter) {
 		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParameter);
 		return strategy.getOrderedProperties(repository);
+	}
+
+	public Property getPropertyAtAddress(PropertyAddress address) throws PropertyNotFoundException {
+		Optional<Property> property = repository.getPropertyAtAddress(address);
+		if (!property.isPresent()) {
+			throw new PropertyNotFoundException();
+		}
+		return property.get();
 	}
 
 }

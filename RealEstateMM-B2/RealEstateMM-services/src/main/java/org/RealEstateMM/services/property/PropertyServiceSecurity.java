@@ -1,6 +1,8 @@
 package org.RealEstateMM.services.property;
 
 import java.util.List;
+
+import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
@@ -54,7 +56,8 @@ public class PropertyServiceSecurity implements PropertyServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException {
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
+			PropertyNotFoundException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.getPropertyAtAddress(pseudo, address);
 	}

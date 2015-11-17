@@ -47,4 +47,8 @@ public class PropertyDTOAssembler {
 	public PropertyFeatures getFeaturesFromDTO(PropertyDTO propertyDTO) {
 		return featuresAssembler.fromDTO(propertyDTO.getPropertyFeatures());
 	}
+
+	public PropertyAddress getAddressFromDTO(PropertyAddressDTO addressDTO) {
+		return addressAssembler.fromDTO(addressDTO);
+	}
 }

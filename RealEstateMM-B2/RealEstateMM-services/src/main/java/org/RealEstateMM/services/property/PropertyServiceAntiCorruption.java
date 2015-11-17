@@ -2,6 +2,7 @@ package org.RealEstateMM.services.property;
 
 import java.util.List;
 
+import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
@@ -85,7 +86,8 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException {
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
+			PropertyNotFoundException {
 		validatePropertyAddress(address);
 		return service.getPropertyAtAddress(pseudo, address);
 	}

@@ -92,6 +92,21 @@ public class PropertyDTOAssemblerTest {
 	}
 
 	@Test
+	public void whenGetAddressFromDTOThenCallsAddressAssembler() {
+		assembler.getAddressFromDTO(addressDTO);
+		verify(addressAssembler).fromDTO(addressDTO);
+	}
+
+	@Test
+	public void whenGetAddressFromDTOThenReturnsBuiltAddressByAddressAssembler() {
+		given(addressAssembler.fromDTO(addressDTO)).willReturn(propertyAddress);
+
+		PropertyAddress result = assembler.getAddressFromDTO(addressDTO);
+
+		assertEquals(propertyAddress, result);
+	}
+
+	@Test
 	public void givenAPropertyWhenBuildingDTOThenBuildPropertyFeaturesDTO() {
 		assembler.toDTO(property);
 		verify(featuresAssembler).toDTO(features);

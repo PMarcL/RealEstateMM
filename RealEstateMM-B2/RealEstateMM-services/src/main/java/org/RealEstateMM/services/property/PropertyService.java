@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
+import org.RealEstateMM.domain.property.PropertyNotFoundException;
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
@@ -74,13 +76,10 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) {
-		// TODO implement this using Properties class and assembler
-		// Property returnedProperty =
-		// propertyRepository.getPropertyAtAddress(address).get();
-		// PropertyDTO dto = propertyAssembler.toDTO(returnedProperty);
-		//
-		// return dto;
-		return null;
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO addressDTO)
+			throws PropertyNotFoundException {
+		PropertyAddress address = propertyAssembler.getAddressFromDTO(addressDTO);
+		Property property = properties.getPropertyAtAddress(address);
+		return propertyAssembler.toDTO(property);
 	}
 }

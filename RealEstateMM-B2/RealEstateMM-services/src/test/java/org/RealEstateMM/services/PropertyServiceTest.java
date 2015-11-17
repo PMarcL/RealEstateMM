@@ -8,11 +8,13 @@ import java.util.List;
 
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
+import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.InvalidSearchParameterException;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
 import org.RealEstateMM.services.property.PropertyService;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
 import org.junit.Before;
@@ -27,7 +29,9 @@ public class PropertyServiceTest {
 
 	private PropertyDTOAssembler assembler;
 	private PropertyDTO propertyDTO;
+	private PropertyAddressDTO addressDTO;
 	private Property property;
+	private PropertyAddress address;
 	private PropertyFeatures features;
 	private PropertySearchParametersParser searchParameterParser;
 	private Properties properties;
@@ -43,8 +47,10 @@ public class PropertyServiceTest {
 
 		given(searchParameterParser.getParsedSearchParameter(ORDER_BY)).willReturn(SEARCH_PARAM);
 		propertyDTO = mock(PropertyDTO.class);
+		addressDTO = mock(PropertyAddressDTO.class);
 		property = mock(Property.class);
 		features = mock(PropertyFeatures.class);
+		address = mock(PropertyAddress.class);
 		configureAssembler();
 	}
 
@@ -130,10 +136,33 @@ public class PropertyServiceTest {
 		propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
 	}
 
+	@Test
+	public void givenAnAddressWhenGetPropertyAtAddressThenUsesAssemblerToGetAddress() throws Exception {
+		propertyService.getPropertyAtAddress(PSEUDO, addressDTO);
+		verify(assembler).getAddressFromDTO(addressDTO);
+	}
+
+	@Test
+	public void givenAnAddressWhenGetPropertyAtAddressThenUsesPropertiesWithAddress() throws Exception {
+		propertyService.getPropertyAtAddress(PSEUDO, addressDTO);
+		verify(properties).getPropertyAtAddress(address);
+	}
+
+	@Test
+	public void givenAnAddressWhenGetPropertyAtAddressThenUsesAssemblerAndReturnsPropertyDTO() throws Exception {
+		given(properties.getPropertyAtAddress(address)).willReturn(property);
+
+		PropertyDTO result = propertyService.getPropertyAtAddress(PSEUDO, addressDTO);
+
+		verify(assembler).toDTO(property);
+		assertEquals(propertyDTO, result);
+	}
+
 	private void configureAssembler() {
 		given(assembler.toDTO(property)).willReturn(propertyDTO);
 		given(assembler.fromDTO(propertyDTO)).willReturn(property);
 		given(assembler.getFeaturesFromDTO(propertyDTO)).willReturn(features);
+		given(assembler.getAddressFromDTO(addressDTO)).willReturn(address);
 	}
 
 	private ArrayList<Property> buildPropertiesList() {
