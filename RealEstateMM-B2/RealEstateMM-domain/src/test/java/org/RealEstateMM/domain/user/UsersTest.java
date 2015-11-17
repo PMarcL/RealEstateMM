@@ -3,7 +3,6 @@ package org.RealEstateMM.domain.user;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.junit.Before;
@@ -47,13 +46,13 @@ public class UsersTest {
 	}
 
 	@Test
-	public void givenPseudonymAndPasswordWhenAuthenticateShouldAuthenticateUserWithSamePseudonym() throws Throwable {
+	public void givenPseudonymAndPasswordWhenAuthenticateShouldAuthenticateUserWithSamePseudonym() {
 		users.authenticate(PSEUDONYM, PASSWORD);
 		verify(user).authenticate(PASSWORD);
 	}
 
 	@Test
-	public void givenPseudonymAndPasswordWhenAuthenticateShouldReturnAuthenticatedUser() throws Throwable {
+	public void givenPseudonymAndPasswordWhenAuthenticateShouldReturnAuthenticatedUser() {
 		User returnedUser = users.authenticate(PSEUDONYM, PASSWORD);
 		assertSame(user, returnedUser);
 	}
@@ -66,7 +65,7 @@ public class UsersTest {
 	}
 
 	@Test(expected = ImpossibleToConfirmEmailAddressException.class)
-	public void givenAnInvalidConfirmationCodeWhenConfirmEmailAddressShouldThrowException() throws Throwable {
+	public void givenAnInvalidConfirmationCodeWhenConfirmEmailAddressShouldThrowException() {
 		doThrow(new InvalidEmailConfirmationCodeException()).when(emailValidator).confirmEmailAddress(CONFIRMATION_CODE,
 				userRepository);
 		users.confirmEmailAddress(CONFIRMATION_CODE);

@@ -23,7 +23,7 @@ public class InMemorySessionRepositoryTest {
 	private InMemorySessionRepository repository;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		map = spy(new HashMap<String, Session>());
 		repository = new InMemorySessionRepository(map);
 	}

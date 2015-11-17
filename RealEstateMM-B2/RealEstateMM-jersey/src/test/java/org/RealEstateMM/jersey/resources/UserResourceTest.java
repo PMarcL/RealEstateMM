@@ -10,10 +10,10 @@ import javax.ws.rs.core.Response.StatusType;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
+import org.RealEstateMM.domain.user.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.domain.user.InvalidPasswordException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
-import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.jersey.responses.LoginResponse;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
@@ -41,7 +41,7 @@ public class UserResourceTest {
 	private SessionService sessionService;
 
 	@Before
-	public void setup() throws Exception {
+	public void setup() throws Throwable {
 		userService = mock(UserServiceHandler.class);
 		sessionService = mock(SessionService.class);
 
@@ -79,41 +79,41 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenInvalidPasswordWhenLoginThenReturnResponseUnauthorizedError() throws Exception {
+	public void givenInvalidPasswordWhenLoginThenReturnResponseUnauthorizedError() {
 		doThrow(InvalidPasswordException.class).when(userService).authenticate(A_PSEUDONYM, AN_INVALID_PASSWORD);
 		Response response = userConnectionResource.login(A_PSEUDONYM, AN_INVALID_PASSWORD);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenInvalidPseudonymWhenLoginThenReturnResponseUnauthorizedError() throws Exception {
+	public void givenInvalidPseudonymWhenLoginThenReturnResponseUnauthorizedError() {
 		doThrow(UserNotFoundException.class).when(userService).authenticate(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
 		Response response = userConnectionResource.login(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenValidCredentialsWhenLoginThenReturnUserTypeAndToken() throws Exception {
+	public void givenValidCredentialsWhenLoginThenReturnUserTypeAndToken() {
 		Response response = userConnectionResource.login(A_PSEUDONYM, A_VALID_PASSWORD);
 		LoginResponse expected = new LoginResponse(A_USER_DTO.getUserRole(), A_VALID_TOKEN);
 		assertTrue(expected.equals((LoginResponse) response.getEntity()));
 	}
 
 	@Test
-	public void givenAValidTokenWhenEditUserProfileThenGetUserPseudoWithSessionService() throws Exception {
+	public void givenAValidTokenWhenEditUserProfileThenGetUserPseudoWithSessionService() throws Throwable {
 		userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
 		verify(sessionService).validate(A_VALID_TOKEN);
 	}
 
 	@Test
-	public void givenAnInvalidTokenWhenEditUserProfileThenReturnsUnauthorizedStatusCode() throws Exception {
+	public void givenAnInvalidTokenWhenEditUserProfileThenReturnsUnauthorizedStatusCode() throws Throwable {
 		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(A_VALID_TOKEN);
 		Response response = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenAUserProfileOfANotExistingUserWhenEditUserProfileThenReturnsNoFoundStatusCode() throws Exception {
+	public void givenAUserProfileOfANotExistingUserWhenEditUserProfileThenReturnsNoFoundStatusCode() throws Throwable {
 		doThrow(UserNotFoundException.class).when(userService).updateUserProfile(A_PSEUDONYM, A_USER_DTO);
 		Response response = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
 		assertEquals(Status.NOT_FOUND, response.getStatusInfo());
@@ -128,7 +128,7 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenValidCredentialsWhenEditUserProfileThenReturnStatusOK() throws Exception {
+	public void givenValidCredentialsWhenEditUserProfileThenReturnStatusOK() {
 		StatusType statusType = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO).getStatusInfo();
 		assertEquals(Status.OK, statusType);
 	}
@@ -140,7 +140,7 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenInvalidCredentialsWhenEditUserProfileThenReturnResponseBadRequest() throws Exception {
+	public void givenInvalidCredentialsWhenEditUserProfileThenReturnResponseBadRequest() throws Throwable {
 		doThrow(InvalidUserInformationsException.class).when(userService).updateUserProfile(A_PSEUDONYM, A_USER_DTO);
 		StatusType statusType = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO).getStatusInfo();
 		assertEquals(Status.BAD_REQUEST, statusType);
@@ -153,7 +153,7 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenCredentialsWithInvalidInformationWhenloginThenReturnsResponseBadRequest() throws Exception {
+	public void givenCredentialsWithInvalidInformationWhenloginThenReturnsResponseBadRequest() {
 		doThrow(InvalidUserInformationsException.class).when(userService).authenticate(null, null);
 		Response response = userConnectionResource.login(null, null);
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
@@ -185,11 +185,10 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest()
-			throws ImpossibleToConfirmEmailAddressException {
+	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() {
 		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
-		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userService).confirmEmailAddress(
-				alreadyConfirmedCode);
+		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userService)
+				.confirmEmailAddress(alreadyConfirmedCode);
 
 		Response response = userConnectionResource.confirmEmail(alreadyConfirmedCode);
 
@@ -197,13 +196,13 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenConnectedUserWhenGetUserProfileThenUsesSessionServiceToGetUserPseudo() throws Exception {
+	public void givenConnectedUserWhenGetUserProfileThenUsesSessionServiceToGetUserPseudo() throws Throwable {
 		userConnectionResource.getUserProfile(A_VALID_TOKEN);
 		verify(sessionService).validate(A_VALID_TOKEN);
 	}
 
 	@Test
-	public void givenInvalidTokenWhenGetUserProfileThenReturnUnauthorizedStatusCode() throws Exception {
+	public void givenInvalidTokenWhenGetUserProfileThenReturnUnauthorizedStatusCode() throws Throwable {
 		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(A_VALID_TOKEN);
 		Response response = userConnectionResource.getUserProfile(A_VALID_TOKEN);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());

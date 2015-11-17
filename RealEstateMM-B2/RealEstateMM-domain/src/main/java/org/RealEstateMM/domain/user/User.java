@@ -19,7 +19,7 @@ public class User {
 		lock();
 	}
 
-	public void authenticate(String password) throws UnconfirmedEmailException, InvalidPasswordException {
+	public void authenticate(String password) {
 		if (isLocked()) {
 			throw new UnconfirmedEmailException();
 		}

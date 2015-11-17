@@ -20,7 +20,7 @@ public class StatisticResourceTest {
 	private StatisticResource statisticResource;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp()  {
 		StatisticService statisticService = mock(StatisticService.class);
 		given(statisticService.getNumberOfPropertiesSoldThisYear()).willReturn(NUMBER_OF_PROPERTIES_SOLD_THIS_YEAR);
 		given(statisticService.getNumberOfActiveSeller()).willReturn(NUMBER_OF_ACTIVE_SELLER);

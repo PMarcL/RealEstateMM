@@ -1,23 +1,16 @@
 package org.RealEstateMM.services.user;
 
-import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
-import org.RealEstateMM.domain.user.InvalidPasswordException;
-import org.RealEstateMM.domain.user.UnconfirmedEmailException;
-import org.RealEstateMM.domain.user.UserNotFoundException;
-import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 
 public interface UserServiceHandler {
 
-	public void createUser(UserDTO userDTO) throws CouldNotSendMailException;
+	public void createUser(UserDTO userDTO);
 
-	public UserDTO authenticate(String pseudonym, String password)
-			throws InvalidPasswordException, UserNotFoundException, UnconfirmedEmailException;
+	public UserDTO authenticate(String pseudonym, String password);
 
-	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException;
+	public void confirmEmailAddress(String confirmationCode);
 
-	public void updateUserProfile(String pseudo, UserDTO userProfile)
-			throws UserNotFoundException, ForbiddenAccessException;
+	public void updateUserProfile(String pseudo, UserDTO userProfile) throws ForbiddenAccessException;
 
-	public UserDTO getUserProfile(String pseudonym) throws UserNotFoundException;
+	public UserDTO getUserProfile(String pseudonym);
 }

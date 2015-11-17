@@ -23,13 +23,14 @@ public class GmailSender implements EmailSender {
 	private static final String PASSWORD = "awesometeam2";
 	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
-	public void sendEmail(EmailMessage email) throws CouldNotSendMailException {
+	public void sendEmail(EmailMessage email) {
 		Session session = createMailSession();
 
 		try {
 			MimeMessage message = setMessageContent(email, session);
 			sendMessage(session, message);
 		} catch (MessagingException | NoSuchProviderException e) {
+			// TODO refactor exception class name and add cause to exception
 			throw new CouldNotSendMailException();
 		}
 	}
@@ -43,7 +44,8 @@ public class GmailSender implements EmailSender {
 		t.close();
 	}
 
-	private MimeMessage setMessageContent(EmailMessage email, Session session) throws MessagingException, AddressException {
+	private MimeMessage setMessageContent(EmailMessage email, Session session)
+			throws MessagingException, AddressException {
 		MimeMessage message = new MimeMessage(session);
 
 		message.setFrom(new InternetAddress(USERNAME + "@gmail.com"));

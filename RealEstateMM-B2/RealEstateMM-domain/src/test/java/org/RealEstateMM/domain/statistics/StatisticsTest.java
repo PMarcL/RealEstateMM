@@ -28,7 +28,7 @@ public class StatisticsTest {
 	private Statistics statistics;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		userRepository = mock(UserRepository.class);
 		propertyRepository = mock(PropertyRepository.class);
 		userFilter = mock(UserFilter.class);

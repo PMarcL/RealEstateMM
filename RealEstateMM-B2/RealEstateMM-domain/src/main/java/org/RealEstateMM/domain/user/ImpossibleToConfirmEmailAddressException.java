@@ -1,6 +1,6 @@
-package org.RealEstateMM.domain.user.emailconfirmation;
+package org.RealEstateMM.domain.user;
 
-public class ImpossibleToConfirmEmailAddressException extends Exception {
+public class ImpossibleToConfirmEmailAddressException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

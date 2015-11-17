@@ -1,6 +1,5 @@
 package org.RealEstateMM.domain.user;
 
-import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 
@@ -19,14 +18,13 @@ public class Users {
 		emailValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
 	}
 
-	public User authenticate(String pseudonym, String password)
-			throws UnconfirmedEmailException, InvalidPasswordException {
+	public User authenticate(String pseudonym, String password) {
 		User user = userRepository.getUserWithPseudonym(pseudonym);
 		user.authenticate(password);
 		return user;
 	}
 
-	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
+	public void confirmEmailAddress(String confirmationCode) {
 		try {
 			emailValidator.confirmEmailAddress(confirmationCode, userRepository);
 		} catch (InvalidEmailConfirmationCodeException e) {

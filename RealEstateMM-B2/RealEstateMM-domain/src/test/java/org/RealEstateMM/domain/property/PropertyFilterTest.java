@@ -14,7 +14,7 @@ public class PropertyFilterTest {
 	private PropertyFilter propertyFilter;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		propertyFilter = new PropertyFilter();
 	}
 

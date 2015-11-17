@@ -104,7 +104,7 @@ public class UserTest {
 	}
 
 	@Test
-	public void givenTheCorrectPasswordWithAConfirmedUserWhenAuthenticateThenLogin() throws Exception {
+	public void givenTheCorrectPasswordWithAConfirmedUserWhenAuthenticateThenLogin() {
 		User confirmedUser = aConfirmedUserWithPassword(PASSWORD);
 		Calendar dateBeforeAuthentication = Calendar.getInstance();
 
@@ -112,7 +112,8 @@ public class UserTest {
 
 		Calendar dateOfLastLogin = Calendar.getInstance();
 		dateOfLastLogin.setTime(confirmedUser.getLastLoginDate());
-		assertTrue(dateBeforeAuthentication.before(dateOfLastLogin) || dateBeforeAuthentication.equals(dateOfLastLogin));
+		assertTrue(
+				dateBeforeAuthentication.before(dateOfLastLogin) || dateBeforeAuthentication.equals(dateOfLastLogin));
 	}
 
 	private User aConfirmedUserWithPassword(String password) {
@@ -123,14 +124,14 @@ public class UserTest {
 	}
 
 	@Test(expected = UnconfirmedEmailException.class)
-	public void givenALockedUserWhenAuthenticateThrowUnconfirmedEmailException() throws Exception {
+	public void givenALockedUserWhenAuthenticateThrowUnconfirmedEmailException() {
 		User unconfirmedUser = user;
 		unconfirmedUser.authenticate(PASSWORD);
 		assertNull(unconfirmedUser.getLastLoginDate());
 	}
 
 	@Test(expected = InvalidPasswordException.class)
-	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() throws Exception {
+	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() {
 		String invalidPassword = "posdf33";
 		User confirmedUser = aConfirmedUserWithPassword(PASSWORD);
 		confirmedUser.authenticate(invalidPassword);

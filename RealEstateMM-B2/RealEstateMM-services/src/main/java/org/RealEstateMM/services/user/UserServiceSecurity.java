@@ -1,12 +1,10 @@
 package org.RealEstateMM.services.user;
 
-import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.InvalidPasswordException;
 import org.RealEstateMM.domain.user.UnconfirmedEmailException;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
-import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 
 public class UserServiceSecurity implements UserServiceHandler {
@@ -20,7 +18,7 @@ public class UserServiceSecurity implements UserServiceHandler {
 	}
 
 	@Override
-	public void createUser(UserDTO userDTO) throws CouldNotSendMailException {
+	public void createUser(UserDTO userDTO) {
 		service.createUser(userDTO);
 	}
 
@@ -31,13 +29,12 @@ public class UserServiceSecurity implements UserServiceHandler {
 	}
 
 	@Override
-	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
+	public void confirmEmailAddress(String confirmationCode) {
 		service.confirmEmailAddress(confirmationCode);
 	}
 
 	@Override
-	public void updateUserProfile(String pseudonym, UserDTO userProfile)
-			throws UserNotFoundException, ForbiddenAccessException {
+	public void updateUserProfile(String pseudonym, UserDTO userProfile) throws ForbiddenAccessException {
 		validateUserAccess(pseudonym, AccessLevel.BUYER, AccessLevel.SELLER);
 		service.updateUserProfile(pseudonym, userProfile);
 	}
@@ -49,7 +46,7 @@ public class UserServiceSecurity implements UserServiceHandler {
 	}
 
 	@Override
-	public UserDTO getUserProfile(String pseudonym) throws UserNotFoundException {
+	public UserDTO getUserProfile(String pseudonym) {
 		return service.getUserProfile(pseudonym);
 	}
 

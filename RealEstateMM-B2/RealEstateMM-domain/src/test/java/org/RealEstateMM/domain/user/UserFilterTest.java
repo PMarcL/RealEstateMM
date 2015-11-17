@@ -23,7 +23,7 @@ public class UserFilterTest {
 	private UserFilter userFilter;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		userFilter = new UserFilter();
 	}
 

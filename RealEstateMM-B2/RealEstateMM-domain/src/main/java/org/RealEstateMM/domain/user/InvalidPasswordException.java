@@ -1,6 +1,6 @@
 package org.RealEstateMM.domain.user;
 
-public class InvalidPasswordException extends Exception {
+public class InvalidPasswordException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

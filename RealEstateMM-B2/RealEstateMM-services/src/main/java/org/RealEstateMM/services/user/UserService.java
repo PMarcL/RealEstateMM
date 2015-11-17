@@ -5,7 +5,6 @@ import org.RealEstateMM.domain.user.UnconfirmedEmailException;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.Users;
-import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
@@ -34,7 +33,7 @@ public class UserService implements UserServiceHandler {
 	}
 
 	@Override
-	public void confirmEmailAddress(String confirmationCode) throws ImpossibleToConfirmEmailAddressException {
+	public void confirmEmailAddress(String confirmationCode) {
 		users.confirmEmailAddress(confirmationCode);
 	}
 
