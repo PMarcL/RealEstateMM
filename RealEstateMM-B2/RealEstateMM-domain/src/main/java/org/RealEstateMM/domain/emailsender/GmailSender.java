@@ -30,8 +30,7 @@ public class GmailSender implements EmailSender {
 			MimeMessage message = setMessageContent(email, session);
 			sendMessage(session, message);
 		} catch (MessagingException | NoSuchProviderException e) {
-			// TODO refactor exception class name and add cause to exception
-			throw new CouldNotSendMailException();
+			throw new EmailException(e);
 		}
 	}
 
