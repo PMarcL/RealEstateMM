@@ -24,13 +24,13 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	public void givenANonExistingUserWhenAddUserShouldAddToRepository() {
+	public void givenANonExistingUserWhenAddUserShouldAddToRepository() throws Throwable {
 		repository.addUser(user);
 		repository.verifyAddCalledWithUser(user);
 	}
 
-	@Test(expected = UserWithPseudonymAlreadyStoredException.class)
-	public void givenAnExistingUserWhenAddUserWithSamePseudonymShouldThrowException() {
+	@Test(expected = ExistingUserException.class)
+	public void givenAnExistingUserWhenAddUserWithSamePseudonymShouldThrowException() throws Throwable {
 		repository.addExistingUser(user);
 		repository.addUser(user);
 	}
@@ -46,14 +46,14 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	public void givenAnExistingUserWhenGetUserWithPseudonymShouldFindUserWithPseudonym() {
+	public void givenAnExistingUserWhenGetUserWithPseudonymShouldFindUserWithPseudonym() throws Throwable {
 		repository.addExistingUser(user);
 		User result = repository.getUserWithPseudonym(PSEUDONYM);
 		assertSame(foundUser, result);
 	}
 
 	@Test(expected = UserNotFoundException.class)
-	public void givenAnUnexistingUserWhenGetUserWithPseudonymShouldThrowException() {
+	public void givenAnUnexistingUserWhenGetUserWithPseudonymShouldThrowException() throws Throwable {
 		repository.getUserWithPseudonym(PSEUDONYM);
 	}
 

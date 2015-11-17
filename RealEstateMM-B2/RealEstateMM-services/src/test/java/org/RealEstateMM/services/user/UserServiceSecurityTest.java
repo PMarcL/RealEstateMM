@@ -28,7 +28,7 @@ public class UserServiceSecurityTest {
 	}
 
 	@Test
-	public void givenUserDTOWhenCreateUserShouldAskServiceHandlerToCreateUser() {
+	public void givenUserDTOWhenCreateUserShouldAskServiceHandlerToCreateUser() throws Throwable {
 		userService.createUser(dto);
 		verify(serviceHandler).createUser(dto);
 	}
@@ -67,7 +67,7 @@ public class UserServiceSecurityTest {
 	}
 
 	@Test
-	public void givenPseudonymWhenGetUserProfileThenSholdAskServiceForProfile() {
+	public void givenPseudonymWhenGetUserProfileThenSholdAskServiceForProfile() throws Throwable {
 		given(serviceHandler.getUserProfile(PSEUDONYM)).willReturn(dto);
 		UserDTO returnedDTO = userService.getUserProfile(PSEUDONYM);
 		assertSame(dto, returnedDTO);

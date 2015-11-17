@@ -34,43 +34,43 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyFirstName() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyFirstName() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).nameIsValid(A_USER_DTO.getFirstName());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).nameIsValid(A_USER_DTO.getLastName());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).isEmailValid(A_USER_DTO.getEmailAddress());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).isPhoneNumberValid(A_USER_DTO.getPhoneNumber());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).userTypeIsValid(A_USER_DTO.getUserRole());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenRegisterUserWithService() {
+	public void givenNewUserInformationsWhenCreateNewUserThenRegisterUserWithService() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(service).createUser(A_USER_DTO);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
-	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
+	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() throws Throwable {
 		given(validator.isEmailValid(A_USER_DTO.getEmailAddress())).willReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
@@ -115,7 +115,7 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenPseudonymWhenGetUserProfileThenGetUserProfileFromUserService() {
+	public void givenPseudonymWhenGetUserProfileThenGetUserProfileFromUserService() throws Throwable {
 		userServiceAC.getUserProfile(VALID_PSEUDO);
 		verify(service).getUserProfile(VALID_PSEUDO);
 	}

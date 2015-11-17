@@ -12,21 +12,19 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
-import org.RealEstateMM.domain.emailsender.EmailException;
-import org.RealEstateMM.domain.user.ImpossibleToConfirmEmailAddressException;
-import org.RealEstateMM.domain.user.InvalidPasswordException;
-import org.RealEstateMM.domain.user.UnconfirmedEmailException;
+import org.RealEstateMM.domain.user.AuthenticationFailedException;
+import org.RealEstateMM.domain.user.EmailAddressConfirmationException;
+import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
-import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.jersey.responses.LoginResponse;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.RealEstateMM.jersey.responses.LoginResponse;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -65,7 +63,7 @@ public class UserResource {
 			UserDTO userDTO = userService.authenticate(pseudonym, password);
 			Session session = sessionService.open(userDTO);
 			return generateLoginResponse(userDTO, session);
-		} catch (InvalidPasswordException | UserNotFoundException | UnconfirmedEmailException exception) {
+		} catch (AuthenticationFailedException exception) {
 			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
@@ -89,6 +87,8 @@ public class UserResource {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
 		} catch (ForbiddenAccessException e) {
 			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
+		} catch (EmailAddressConfirmationException e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -103,9 +103,9 @@ public class UserResource {
 			return generateLoginResponse(userDTO, session);
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (UserWithPseudonymAlreadyStoredException exception) {
-			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (EmailException exception) {
+		} catch (ExistingUserException exception) {
+			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
+		} catch (EmailAddressConfirmationException exception) {
 			return Response.status(Status.CREATED).build();
 		}
 	}
@@ -122,7 +122,7 @@ public class UserResource {
 		try {
 			userService.confirmEmailAddress(confirmationCode);
 			return Response.status(Status.OK).entity("Email Confirmed").build();
-		} catch (ImpossibleToConfirmEmailAddressException exception) {
+		} catch (EmailAddressConfirmationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
 	}

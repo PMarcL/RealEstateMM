@@ -17,7 +17,7 @@ public class UserAuthorizationsTest {
 	private UserAuthorizations authorizations;
 
 	@Before
-	public void setup() {
+	public void setup() throws Throwable {
 		user = mock(User.class);
 		given(user.isAuthorized(REFUSED_ACCESS_LEVEL)).willReturn(false);
 		given(user.isAuthorized(AUTHORIZED_ACCESS_LEVEL)).willReturn(true);
@@ -40,6 +40,12 @@ public class UserAuthorizationsTest {
 	@Test
 	public void givenUserDoesNotHaveAuthorizationsForAnyAccessLevelWhenChekingIfUserIsAuthorizedThenShouldReturnFalse() {
 		assertFalse(authorizations.isUserAuthorized(PSEUDONYM, REFUSED_ACCESS_LEVEL));
+	}
+
+	@Test
+	public void givenUserDoesNotExistWhenCheckingIfUserIsAuthorizedThenShouldReturnFalse() throws Throwable {
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willThrow(new UserNotFoundException(PSEUDONYM));
+		assertFalse(authorizations.isUserAuthorized(PSEUDONYM, AUTHORIZED_ACCESS_LEVEL));
 	}
 
 }

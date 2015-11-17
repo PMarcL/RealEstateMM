@@ -13,6 +13,7 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
 import org.RealEstateMM.domain.user.Administrator;
+import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserInformations;
@@ -80,8 +81,8 @@ public class DemoContext extends Context {
 		PropertyServiceSecurity propertySecurity = new PropertyServiceSecurity(new PropertyService(),
 				new UserAuthorizations(userRepository));
 		this.propertyService = new PropertyServiceAntiCorruption(propertySecurity, new PropertyInformationsValidator());
-		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(), new UserAuthorizations(
-				userRepository));
+		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(),
+				new UserAuthorizations(userRepository));
 		this.userService = new UserServiceAntiCorruption(userSecurity, new UserInformationsValidator());
 		this.statisticService = new StatisticService();
 		this.sessionService = new SessionService();
@@ -108,8 +109,8 @@ public class DemoContext extends Context {
 	private void initializeRepositories() {
 		File xmlUsers = new File(usersFilePath());
 		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
-				new UserRoleFactory()));
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
+				new XmlUserAssembler(new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
 		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory());
@@ -138,7 +139,12 @@ public class DemoContext extends Context {
 		UserInformations adminInfo = new UserInformations("ADMIN", "admin1234", "Olivier", "Dugas",
 				"olivierD@admin.com", "418 892-3940");
 		User admin = new User(adminInfo, new Administrator());
-		userRepository.addUser(admin);
+		try {
+			userRepository.addUser(admin);
+		} catch (ExistingUserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private boolean isAdminExisting(String adminPseudonym) {

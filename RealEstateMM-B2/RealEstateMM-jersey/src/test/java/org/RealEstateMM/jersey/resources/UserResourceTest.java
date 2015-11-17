@@ -10,10 +10,10 @@ import javax.ws.rs.core.Response.StatusType;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
-import org.RealEstateMM.domain.user.ImpossibleToConfirmEmailAddressException;
-import org.RealEstateMM.domain.user.InvalidPasswordException;
+import org.RealEstateMM.domain.user.AuthenticationFailedException;
+import org.RealEstateMM.domain.user.EmailAddressConfirmationException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
-import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
+import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.jersey.responses.LoginResponse;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
@@ -53,7 +53,7 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenAUserWhenRegisterUserThenShouldCallServiceLayer() {
+	public void givenAUserWhenRegisterUserThenShouldCallServiceLayer() throws Throwable {
 		userConnectionResource.signup(A_USER_DTO).getStatusInfo();
 		verify(userService).createUser(A_USER_DTO);
 	}
@@ -65,30 +65,24 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenAUserWithInvalidInformationWhenCreateUserThenReturnsResponseBadRequest() {
+	public void givenAUserWithInvalidInformationWhenCreateUserThenReturnsResponseBadRequest() throws Throwable {
 		doThrow(InvalidUserInformationsException.class).when(userService).createUser(A_USER_DTO);
 		StatusType statusType = userConnectionResource.signup(A_USER_DTO).getStatusInfo();
 		assertEquals(Status.BAD_REQUEST, statusType);
 	}
 
 	@Test
-	public void givenAUserWithValidInformationWhenUserWithSamePseudoAlreadyExistsThenReturnsResponseBadRequest() {
-		doThrow(UserWithPseudonymAlreadyStoredException.class).when(userService).createUser(A_USER_DTO);
+	public void givenAUserWithValidInformationWhenUserWithSamePseudoAlreadyExistsThenReturnsResponseUnauthorized()
+			throws Throwable {
+		doThrow(ExistingUserException.class).when(userService).createUser(A_USER_DTO);
 		StatusType statusType = userConnectionResource.signup(A_USER_DTO).getStatusInfo();
-		assertEquals(Status.BAD_REQUEST, statusType);
+		assertEquals(Status.UNAUTHORIZED, statusType);
 	}
 
 	@Test
-	public void givenInvalidPasswordWhenLoginThenReturnResponseUnauthorizedError() {
-		doThrow(InvalidPasswordException.class).when(userService).authenticate(A_PSEUDONYM, AN_INVALID_PASSWORD);
+	public void givenAuthenticationFailedWhenLoginThenReturnResponseUnauthorizedError() throws Throwable {
+		doThrow(AuthenticationFailedException.class).when(userService).authenticate(A_PSEUDONYM, AN_INVALID_PASSWORD);
 		Response response = userConnectionResource.login(A_PSEUDONYM, AN_INVALID_PASSWORD);
-		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
-	}
-
-	@Test
-	public void givenInvalidPseudonymWhenLoginThenReturnResponseUnauthorizedError() {
-		doThrow(UserNotFoundException.class).when(userService).authenticate(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
-		Response response = userConnectionResource.login(UNEXISTING_PSEUDONYM, AN_INVALID_PASSWORD);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
@@ -147,13 +141,21 @@ public class UserResourceTest {
 	}
 
 	@Test
+	public void givenErrorOccuredWhileEmailAddressConfirmationWhenEditUserProfileThenReturnResponseServerError()
+			throws Throwable {
+		doThrow(EmailAddressConfirmationException.class).when(userService).updateUserProfile(A_PSEUDONYM, A_USER_DTO);
+		StatusType statusType = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO).getStatusInfo();
+		assertEquals(Status.INTERNAL_SERVER_ERROR, statusType);
+	}
+
+	@Test
 	public void givenValidCredentialsWhenLoginThenCreateASession() {
 		userConnectionResource.login(A_PSEUDONYM, A_VALID_PASSWORD);
 		verify(sessionService, times(1)).open(A_USER_DTO);
 	}
 
 	@Test
-	public void givenCredentialsWithInvalidInformationWhenloginThenReturnsResponseBadRequest() {
+	public void givenCredentialsWithInvalidInformationWhenloginThenReturnsResponseBadRequest() throws Throwable {
 		doThrow(InvalidUserInformationsException.class).when(userService).authenticate(null, null);
 		Response response = userConnectionResource.login(null, null);
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
@@ -185,10 +187,10 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest() {
+	public void givenAnAlreadyConfirmedConfirmationCodeWhenConfirmEmailAddressThenReturnStatusBadRequest()
+			throws Throwable {
 		String alreadyConfirmedCode = "alreadyConfirmedConfirmationCode";
-		doThrow(ImpossibleToConfirmEmailAddressException.class).when(userService)
-				.confirmEmailAddress(alreadyConfirmedCode);
+		doThrow(EmailAddressConfirmationException.class).when(userService).confirmEmailAddress(alreadyConfirmedCode);
 
 		Response response = userConnectionResource.confirmEmail(alreadyConfirmedCode);
 
@@ -209,21 +211,21 @@ public class UserResourceTest {
 	}
 
 	@Test
-	public void givenExistingUserPseudonymWhenGetUserProfileThenReturnStatusOk() {
+	public void givenExistingUserPseudonymWhenGetUserProfileThenReturnStatusOk() throws Throwable {
 		given(userService.getUserProfile(A_PSEUDONYM)).willReturn(A_USER_DTO);
 		Response response = userConnectionResource.getUserProfile(A_VALID_TOKEN);
 		assertEquals(Status.OK, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenUserDoesNotExistWhenGetUserProfileThenReturnBadRequest() {
+	public void givenUserDoesNotExistWhenGetUserProfileThenReturnBadRequest() throws Throwable {
 		given(userService.getUserProfile(anyString())).willThrow(new UserNotFoundException(UNEXISTING_PSEUDONYM));
 		Response response = userConnectionResource.getUserProfile(A_VALID_TOKEN);
 		assertEquals(Status.NOT_FOUND, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenExistingUserPseudonymWhenGetUserProfileThenResponseContainsUserProfileInfos() {
+	public void givenExistingUserPseudonymWhenGetUserProfileThenResponseContainsUserProfileInfos() throws Throwable {
 		given(userService.getUserProfile(A_PSEUDONYM)).willReturn(A_USER_DTO);
 		Response response = userConnectionResource.getUserProfile(A_VALID_TOKEN);
 		assertSame(A_USER_DTO, response.getEntity());

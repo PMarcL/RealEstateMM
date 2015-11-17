@@ -29,7 +29,7 @@ public class UserEmailAddressValidatorTest {
 	private User user;
 
 	@Before
-	public void setup() {
+	public void setup() throws Throwable {
 		emailSender = mock(EmailSender.class);
 		confirmCodeFactory = mock(ConfirmationCodeFactory.class);
 		user = mock(User.class);
@@ -86,7 +86,7 @@ public class UserEmailAddressValidatorTest {
 	}
 
 	@Test
-	public void givenUserDoesNotExistWhenConfirmEmailAddressShouldNotUnlockAnyUser() {
+	public void givenUserDoesNotExistWhenConfirmEmailAddressShouldNotUnlockAnyUser() throws Throwable {
 		given(userRepository.getUserWithPseudonym(anyString())).willThrow(new UserNotFoundException(PSEUDONYM));
 		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
 		verify(user, never()).unlock();

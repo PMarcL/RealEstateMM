@@ -11,7 +11,16 @@ public class UserAuthorizations {
 	}
 
 	public boolean isUserAuthorized(String pseudonym, AccessLevel... accessLevels) {
-		User user = userRepository.getUserWithPseudonym(pseudonym);
+		try {
+			User user = userRepository.getUserWithPseudonym(pseudonym);
+			return verifyUserAccessLevel(user, accessLevels);
+		} catch (UserNotFoundException e) {
+			return false;
+		}
+
+	}
+
+	private boolean verifyUserAccessLevel(User user, AccessLevel... accessLevels) {
 		for (AccessLevel level : accessLevels) {
 			if (user.isAuthorized(level)) {
 				return true;

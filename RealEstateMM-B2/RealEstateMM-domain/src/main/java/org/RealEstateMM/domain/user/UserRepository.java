@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class UserRepository {
 
-	public User getUserWithPseudonym(String pseudonym) {
+	public User getUserWithPseudonym(String pseudonym) throws UserNotFoundException {
 		if (contains(pseudonym)) {
 			return findUserWithPseudonym(pseudonym);
 		} else {
@@ -18,9 +18,9 @@ public abstract class UserRepository {
 
 	public abstract List<User> getAllUsers();
 
-	public void addUser(User user) {
+	public void addUser(User user) throws ExistingUserException {
 		if (contains(user.getPseudonym())) {
-			throw new UserWithPseudonymAlreadyStoredException(user.getPseudonym());
+			throw new ExistingUserException(user.getPseudonym());
 		}
 
 		add(user);

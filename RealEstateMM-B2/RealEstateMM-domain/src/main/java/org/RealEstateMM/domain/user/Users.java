@@ -1,5 +1,6 @@
 package org.RealEstateMM.domain.user;
 
+import org.RealEstateMM.domain.emailsender.EmailException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 
@@ -13,37 +14,50 @@ public class Users {
 		this.emailValidator = emailValidator;
 	}
 
-	public void addUser(User newUser) {
+	public void addUser(User newUser) throws ExistingUserException, EmailAddressConfirmationException {
 		userRepository.addUser(newUser);
-		emailValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
+		askEmailAddressConfirmation(newUser.getUserInformations());
 	}
 
-	public User authenticate(String pseudonym, String password) {
-		User user = userRepository.getUserWithPseudonym(pseudonym);
-		user.authenticate(password);
-		return user;
-	}
-
-	public void confirmEmailAddress(String confirmationCode) {
+	private void askEmailAddressConfirmation(UserInformations userInfos) throws EmailAddressConfirmationException {
 		try {
-			emailValidator.confirmEmailAddress(confirmationCode, userRepository);
-		} catch (InvalidEmailConfirmationCodeException e) {
-			throw new ImpossibleToConfirmEmailAddressException(e);
+			emailValidator.sendEmailConfirmationMessage(userInfos);
+		} catch (EmailException e) {
+			throw new EmailAddressConfirmationException(e);
 		}
 	}
 
-	public User getUser(String pseudonym) {
+	public User authenticate(String pseudonym, String password) throws AuthenticationFailedException {
+		try {
+			User user = userRepository.getUserWithPseudonym(pseudonym);
+			user.authenticate(password);
+			return user;
+		} catch (UserNotFoundException | UnconfirmedEmailException | InvalidPasswordException e) {
+			throw new AuthenticationFailedException(e);
+		}
+	}
+
+	public void confirmEmailAddress(String confirmationCode) throws EmailAddressConfirmationException {
+		try {
+			emailValidator.confirmEmailAddress(confirmationCode, userRepository);
+		} catch (InvalidEmailConfirmationCodeException e) {
+			throw new EmailAddressConfirmationException(e);
+		}
+	}
+
+	public User getUser(String pseudonym) throws UserNotFoundException {
 		return userRepository.getUserWithPseudonym(pseudonym);
 	}
 
-	public void updateUserProfile(UserInformations userInformations) {
+	public void updateUserProfile(UserInformations userInformations)
+			throws UserNotFoundException, EmailAddressConfirmationException {
 		User user = userRepository.getUserWithPseudonym(userInformations.pseudonym);
 		boolean emailChanged = !(user.hasEmailAddress(userInformations.emailAddress));
 		user.updateUserInformations(userInformations);
 
 		if (emailChanged) {
 			user.lock();
-			emailValidator.sendEmailConfirmationMessage(userInformations);
+			askEmailAddressConfirmation(userInformations);
 		}
 
 		userRepository.replaceUser(user);

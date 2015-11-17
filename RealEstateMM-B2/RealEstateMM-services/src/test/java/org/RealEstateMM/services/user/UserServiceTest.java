@@ -44,7 +44,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void givenUserDTOWhenCreateUserShouldAskUsersToCreateAssembledUser() {
+	public void givenUserDTOWhenCreateUserShouldAskUsersToCreateAssembledUser() throws Throwable {
 		service.createUser(dto);
 		verify(users).addUser(user);
 	}
@@ -70,14 +70,14 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void givenPseudonymWhenGetUserShouldReturnAssembledUser() {
+	public void givenPseudonymWhenGetUserShouldReturnAssembledUser() throws Throwable {
 		given(users.getUser(PSEUDONYM)).willReturn(user);
 		UserDTO returnedDto = service.getUserProfile(PSEUDONYM);
 		assertSame(dto, returnedDto);
 	}
 
 	@Test
-	public void givenDTOWhenUpdateUserProfileThenShouldUpdateUserProfile() {
+	public void givenDTOWhenUpdateUserProfileThenShouldUpdateUserProfile() throws Throwable {
 		UserInformations userInfos = mock(UserInformations.class);
 		given(assembler.createUserInformations(dto)).willReturn(userInfos);
 
