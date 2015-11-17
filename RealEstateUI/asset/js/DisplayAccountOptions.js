@@ -16,15 +16,18 @@ function accountTypeOptions() {
     if (accountType == 'BUYER') {
         toggleElementVisibilityWithClass('buyer-option','inline-block');
         toggleElementVisibilityWithClass('seller-option','none');
+        toggleElementVisibilityWithClass('admin-option','none');
     }
 
     else if (accountType == 'SELLER') {
         toggleElementVisibilityWithClass('buyer-option','none');
         toggleElementVisibilityWithClass('seller-option','inline-block');
+        toggleElementVisibilityWithClass('admin-option','none');
     }
     else {
         toggleElementVisibilityWithClass('buyer-option','none');
         toggleElementVisibilityWithClass('seller-option','none');
+        toggleElementVisibilityWithClass('admin-option','inline-block');
     }
 }
 
