@@ -1,4 +1,6 @@
 
+var tokenCookie = new TokenCookie();
+
 function putProperty(propertyDetails) {
     propertyDetails.propertyFeatures = {
         "numberOfBathrooms" : $('#bathrooms').val(),
@@ -12,7 +14,7 @@ function putProperty(propertyDetails) {
         "description" : $('#description').val()
     };
     $.ajax({
-        url: "http://localhost:8080/property",
+        url: "http://localhost:8080/property/" + tokenCookie.cookie(),
         type: "PUT",
         contentType: "application/json",
         data: JSON.stringify(propertyDetails),

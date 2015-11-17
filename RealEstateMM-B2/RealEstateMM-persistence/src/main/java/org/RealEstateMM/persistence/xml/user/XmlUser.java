@@ -14,6 +14,7 @@ public class XmlUser {
 	private String phoneNumber;
 	private String userType;
 	private boolean isLocked;
+	private String lastLoginDate;
 
 	@XmlElement(name = "pseudonym")
 	public void setPseudonym(String pseudonym) {
@@ -85,6 +86,15 @@ public class XmlUser {
 	@XmlElement(name = "isLocked")
 	public void setLocked(boolean isLocked) {
 		this.isLocked = isLocked;
+	}
+
+	public String getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	@XmlElement(name = "lastLoginDate")
+	public void setLastLoginDate(String lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
 	}
 
 }

@@ -13,7 +13,7 @@ public class Base64EncoderTest {
 	private Base64Encoder encoder;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		encoder = new Base64Encoder();
 	}
 

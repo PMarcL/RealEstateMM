@@ -1,12 +1,11 @@
 package org.RealEstateMM.services.property;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
-import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
@@ -19,10 +18,10 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void uploadProperty(PropertyDTO propertyInfos) {
+	public void uploadProperty(String owner, PropertyDTO propertyInfos) throws ForbiddenAccessException {
 		validatePropertyInformations(propertyInfos);
 		validatePropertyAddress(propertyInfos.getPropertyAddress());
-		service.uploadProperty(propertyInfos);
+		service.uploadProperty(owner, propertyInfos);
 	}
 
 	private void validatePropertyInformations(PropertyDTO propertyInfos) {
@@ -44,11 +43,11 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void editPropertyFeatures(PropertyDTO propertyDTO) {
+	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) throws ForbiddenAccessException {
 		PropertyFeaturesDTO features = propertyDTO.getPropertyFeatures();
 		verifyNumberOfRoomsValidity(features);
 		verifyYearOfConstructionValidity(features);
-		service.editPropertyFeatures(propertyDTO);
+		service.editPropertyFeatures(owner, propertyDTO);
 	}
 
 	private void verifyNumberOfRoomsValidity(PropertyFeaturesDTO features) {
@@ -71,22 +70,22 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getAllProperties() {
-		return service.getAllProperties();
+	public List<PropertyDTO> getAllProperties(String pseudo) throws ForbiddenAccessException {
+		return service.getAllProperties(pseudo);
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner) {
+	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException {
 		return service.getPropertiesFromOwner(owner);
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
-		return service.getOrderedProperties(orderBy);
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) throws ForbiddenAccessException {
+		return service.getOrderedProperties(pseudo, orderBy);
 	}
-	
+
 	@Override
-	public PropertyDTO getPropertyAtAddress(PropertyAddress address){
+	public PropertyDTO getPropertyAtAddress(PropertyAddressDTO address) {
 		return service.getPropertyAtAddress(address);
 	}
 }

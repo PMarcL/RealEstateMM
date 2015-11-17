@@ -1,75 +1,63 @@
 package org.RealEstateMM.services.property;
 
-import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.PropertyRepository;
-import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
-import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
-import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
-
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Optional;
+import java.util.List;
+
+import org.RealEstateMM.domain.property.Properties;
+import org.RealEstateMM.domain.property.Property;
+import org.RealEstateMM.domain.property.informations.PropertyFeatures;
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
+import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
 
 public class PropertyService implements PropertyServiceHandler {
 
-	private PropertyRepository propertyRepository;
 	private PropertyDTOAssembler propertyAssembler;
-	private PropertyOrderingFactory orderingFactory;
+	private Properties properties;
+	private PropertySearchParametersParser searchParameterParser;
 
 	public PropertyService() {
-		propertyRepository = ServiceLocator.getInstance().getService(PropertyRepository.class);
-		propertyAssembler =  new PropertyDTOAssembler();//TODO push that
-														//in Service Locator
-		orderingFactory = new PropertyOrderingFactory();
+		properties = ServiceLocator.getInstance().getService(Properties.class);
+		searchParameterParser = ServiceLocator.getInstance().getService(PropertySearchParametersParser.class);
+		propertyAssembler = new PropertyDTOAssembler();
 	}
 
-	public PropertyService(PropertyRepository propertyRepository, PropertyDTOAssembler propertyAssembler,
-			PropertyOrderingFactory orderingFactory) {
-		this.propertyRepository = propertyRepository;
+	public PropertyService(PropertyDTOAssembler propertyAssembler, Properties properties,
+			PropertySearchParametersParser searchParameterParser) {
 		this.propertyAssembler = propertyAssembler;
-		this.orderingFactory = orderingFactory;
+		this.properties = properties;
+		this.searchParameterParser = searchParameterParser;
 	}
 
 	@Override
-	public void uploadProperty(PropertyDTO propertyInfos) {
+	public void uploadProperty(String owner, PropertyDTO propertyInfos) {
 		Property newProperty = propertyAssembler.fromDTO(propertyInfos);
-		newProperty.setCreationDate(Calendar.getInstance().getTime());
-		propertyRepository.add(newProperty);
+		properties.addProperty(newProperty);
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getAllProperties() {
-		ArrayList<Property> properties = propertyRepository.getAllProperties();
-		return buildDTOsFromProperties(properties);
+	public List<PropertyDTO> getAllProperties(String pseudo) {
+		List<Property> allProperties = properties.getAllProperties();
+		return buildDTOsFromProperties(allProperties);
 	}
 
 	@Override
-	public void editPropertyFeatures(PropertyDTO propertyDTO) {
-		Property property = getPropertyWithDTO(propertyDTO);
+	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) {
+		Property property = propertyAssembler.fromDTO(propertyDTO);
 		PropertyFeatures features = propertyAssembler.getFeaturesFromDTO(propertyDTO);
-
-		property.updateFeatures(features);
-		propertyRepository.updateProperty(property);
-	}
-
-	private Property getPropertyWithDTO(PropertyDTO propertyDTO) {
-		PropertyAddress address = propertyAssembler.getPropertyAddressFromDTO(propertyDTO);
-		Optional<Property> property = propertyRepository.getPropertyAtAddress(address);
-		return property.get();
+		properties.editPropertyFeatures(property, features);
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner) {
-		ArrayList<Property> properties = propertyRepository.getPropertiesFromOwner(owner);
-		return buildDTOsFromProperties(properties);
+	public List<PropertyDTO> getPropertiesFromOwner(String owner) {
+		List<Property> ownersProperties = properties.getPropertiesFromOwner(owner);
+		return buildDTOsFromProperties(ownersProperties);
 	}
 
-	private ArrayList<PropertyDTO> buildDTOsFromProperties(ArrayList<Property> properties) {
+	private List<PropertyDTO> buildDTOsFromProperties(List<Property> properties) {
 		ArrayList<PropertyDTO> propertiesDTO = new ArrayList<PropertyDTO>();
 		for (Property property : properties) {
 			PropertyDTO dto = propertyAssembler.toDTO(property);
@@ -79,18 +67,20 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public ArrayList<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy) {
-		PropertyOrderingStrategy orderingStrategy = orderingFactory.getOrderingStrategy(orderBy
-				.getParsedSearchParameter());
-		ArrayList<Property> properties = orderingStrategy.getOrderedProperties(propertyRepository);
-		return buildDTOsFromProperties(properties);
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) {
+		PropertySearchParameters searchParam = searchParameterParser.getParsedSearchParameter(orderBy);
+		List<Property> orderedProperties = properties.getOrderedProperties(searchParam);
+		return buildDTOsFromProperties(orderedProperties);
 	}
-	
+
 	@Override
-	public PropertyDTO getPropertyAtAddress(PropertyAddress address){
-		Property returnedProperty = propertyRepository.getPropertyAtAddress(address).get();
-		PropertyDTO dto = propertyAssembler.toDTO(returnedProperty);
-		
-		return dto;
+	public PropertyDTO getPropertyAtAddress(PropertyAddressDTO address) {
+		// TODO implement this using Properties class and assembler
+		// Property returnedProperty =
+		// propertyRepository.getPropertyAtAddress(address).get();
+		// PropertyDTO dto = propertyAssembler.toDTO(returnedProperty);
+		//
+		// return dto;
+		return null;
 	}
 }

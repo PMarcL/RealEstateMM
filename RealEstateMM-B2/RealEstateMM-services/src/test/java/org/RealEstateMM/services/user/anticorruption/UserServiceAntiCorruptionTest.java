@@ -2,10 +2,9 @@ package org.RealEstateMM.services.user.anticorruption;
 
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.helpers.UserBuilder;
-import org.RealEstateMM.services.dtos.user.UserDTO;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,55 +30,55 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	private void setupInvalidFields() {
-		given(validator.stringIsValid(INVALID_STRING)).willReturn(false);
+		given(validator.isStringValid(INVALID_STRING)).willReturn(false);
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyFirstName() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyFirstName() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(validator).nameIsValid(A_USER_DTO.getFirstName());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksForEmptyLastName() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).nameIsValid(UserBuilder.DEFAULT_LAST_NAME);
+		verify(validator).nameIsValid(A_USER_DTO.getLastName());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksEmailValidity() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS);
+		verify(validator).isEmailValid(A_USER_DTO.getEmailAddress());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksPhoneNumberValidity() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER);
+		verify(validator).isPhoneNumberValid(A_USER_DTO.getPhoneNumber());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() {
+	public void givenNewUserInformationsWhenCreateNewUserThenChecksUserTypeValidity() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
-		verify(validator).userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC);
+		verify(validator).userTypeIsValid(A_USER_DTO.getUserRole());
 	}
 
 	@Test
-	public void givenNewUserInformationsWhenCreateNewUserThenRegisterUserWithService() {
+	public void givenNewUserInformationsWhenCreateNewUserThenRegisterUserWithService() throws Throwable {
 		userServiceAC.createUser(A_USER_DTO);
 		verify(service).createUser(A_USER_DTO);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
-	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() {
-		given(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(false);
+	public void givenNewUserInformationsWhenUserInformationIsNotValidThenThrowException() throws Throwable {
+		given(validator.isEmailValid(A_USER_DTO.getEmailAddress())).willReturn(false);
 		userServiceAC.createUser(A_USER_DTO);
 	}
 
 	@Test
-	public void givenUpdateInformationWhenUpdateInformationThenRegisterUserUpdatedWithService() {
-		userServiceAC.updateUserProfile(A_USER_DTO);
-		verify(service).updateUserProfile(A_USER_DTO);
+	public void givenUpdateInformationWhenUpdateInformationThenRegisterUserUpdatedWithService() throws Throwable {
+		userServiceAC.updateUserProfile(VALID_PSEUDO, A_USER_DTO);
+		verify(service).updateUserProfile(VALID_PSEUDO, A_USER_DTO);
 	}
 
 	@Test
@@ -91,13 +90,13 @@ public class UserServiceAntiCorruptionTest {
 	@Test
 	public void givenAPseudonymWhenCheckingUserExistanceThenChecksPseudonymValidity() throws Exception {
 		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
-		verify(validator).stringIsValid(VALID_PSEUDO);
+		verify(validator).isStringValid(VALID_PSEUDO);
 	}
 
 	@Test
 	public void givenAPasswordWhenCheckingUserExistanceThenChecksPasswordValidity() throws Exception {
 		userServiceAC.authenticate(VALID_PSEUDO, VALID_PASSWORD);
-		verify(validator).stringIsValid(VALID_PASSWORD);
+		verify(validator).isStringValid(VALID_PASSWORD);
 	}
 
 	@Test(expected = InvalidUserInformationsException.class)
@@ -116,18 +115,18 @@ public class UserServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenPseudonymWhenGetUserProfileThenGetUserProfileFromUserService() {
+	public void givenPseudonymWhenGetUserProfileThenGetUserProfileFromUserService() throws Throwable {
 		userServiceAC.getUserProfile(VALID_PSEUDO);
 		verify(service).getUserProfile(VALID_PSEUDO);
 	}
 
 	private void allFieldsAreValid() {
-		given(validator.nameIsValid(UserBuilder.DEFAULT_FIRST_NAME)).willReturn(true);
-		given(validator.nameIsValid(UserBuilder.DEFAULT_LAST_NAME)).willReturn(true);
-		given(validator.phoneNumberIsValid(UserBuilder.DEFAULT_PHONE_NUMBER)).willReturn(true);
-		given(validator.emailIsValid(UserBuilder.DEFAULT_EMAIL_ADDRESS)).willReturn(true);
-		given(validator.stringIsValid(VALID_PASSWORD)).willReturn(true);
-		given(validator.stringIsValid(VALID_PSEUDO)).willReturn(true);
-		given(validator.userTypeIsValid(UserBuilder.DEFAULT_USER_TYPE_DESC)).willReturn(true);
+		given(validator.nameIsValid(A_USER_DTO.getFirstName())).willReturn(true);
+		given(validator.nameIsValid(A_USER_DTO.getLastName())).willReturn(true);
+		given(validator.isPhoneNumberValid(A_USER_DTO.getPhoneNumber())).willReturn(true);
+		given(validator.isEmailValid(A_USER_DTO.getEmailAddress())).willReturn(true);
+		given(validator.isStringValid(VALID_PASSWORD)).willReturn(true);
+		given(validator.isStringValid(VALID_PSEUDO)).willReturn(true);
+		given(validator.userTypeIsValid(A_USER_DTO.getUserRole())).willReturn(true);
 	}
 }

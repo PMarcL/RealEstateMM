@@ -1,7 +1,6 @@
 package org.RealEstateMM.persistence.xml.property;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
@@ -12,23 +11,21 @@ import org.RealEstateMM.persistence.xml.InvalidXmlFileException;
 
 public class XmlPropertyAssembler {
 
-	private final String DATE_FORMAT_NOW = "yyyy-MM-dd-HH:mm:ss";
-	private SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT_NOW);
-
 	public XmlProperty fromProperty(Property property) {
 		XmlProperty newProperty = new XmlProperty();
 		PropertyAddress propertyAddress = property.getAddress();
 		PropertyFeatures propertyFeatures = property.getFeatures();
 
 		newProperty.setType(PropertyType.getStringFromType(property.getType()));
-		newProperty.setCreationDate(dateFormatter.format(property.getCreationDate()));
+		newProperty.setCreationDate(DateUtil.formatDate(property.getCreationDate()));
+		newProperty.setSaleDate(DateUtil.formatDate(property.getSaleDate()));
 		newProperty.setStreetAddress(propertyAddress.streetAddress);
 		newProperty.setCityAddress(propertyAddress.city);
 		newProperty.setProvinceAddress(propertyAddress.province);
 		newProperty.setZipCodeAddress(propertyAddress.zipCode);
 		newProperty.setPrice(String.valueOf(property.getPrice()));
 		newProperty.setOwnerUserName(property.getOwner());
-		newProperty.setStatus(PropertyStatus.getStringFromStatus(property.getPropertyStatus()));
+		newProperty.setStatus(PropertyStatus.getStringFromStatus(property.getStatus()));
 
 		newProperty.setNumberOfBathrooms(String.valueOf(propertyFeatures.numberOfBathrooms));
 		newProperty.setNumberOfBedrooms(String.valueOf(propertyFeatures.numberOfBedrooms));
@@ -55,13 +52,22 @@ public class XmlPropertyAssembler {
 
 		property.updateFeatures(propertyFeatures);
 		setPropertyCreationDate(xmlProperty, property);
+		setPropertySaleDate(xmlProperty, property);
 
 		return property;
 	}
 
+	private void setPropertySaleDate(XmlProperty xmlProperty, Property property) {
+		try {
+			property.setSaleDate(DateUtil.parseDate(xmlProperty.getSaleDate()));
+		} catch (ParseException e) {
+			throw new InvalidXmlFileException();
+		}
+	}
+
 	private void setPropertyCreationDate(XmlProperty xmlProperty, Property property) {
 		try {
-			property.setCreationDate(dateFormatter.parse(xmlProperty.getCreationDate()));
+			property.setCreationDate(DateUtil.parseDate(xmlProperty.getCreationDate()));
 		} catch (ParseException e) {
 			throw new InvalidXmlFileException();
 		}
@@ -75,11 +81,13 @@ public class XmlPropertyAssembler {
 
 	private PropertyFeatures createPropertyFeatures(XmlProperty xmlProperty) {
 		PropertyFeatures propertyFeatures = new PropertyFeatures(Integer.parseInt(xmlProperty.getNumberOfBathrooms()),
-				Integer.parseInt(xmlProperty.getNumberOfBedrooms()), Integer.parseInt(xmlProperty
-						.getTotalNumberOfRooms()), Integer.parseInt(xmlProperty.getNumberOfLevel()),
+				Integer.parseInt(xmlProperty.getNumberOfBedrooms()),
+				Integer.parseInt(xmlProperty.getTotalNumberOfRooms()), Integer.parseInt(xmlProperty.getNumberOfLevel()),
 				Double.parseDouble(xmlProperty.getLotDimension()),
-				Integer.parseInt(xmlProperty.getYearOfConstruction()), Double.parseDouble(xmlProperty
-						.getLivingSpaceArea()), xmlProperty.getBackyardDirection(), xmlProperty.getDescription());
+				Integer.parseInt(xmlProperty.getYearOfConstruction()),
+				Double.parseDouble(xmlProperty.getLivingSpaceArea()), xmlProperty.getBackyardDirection(),
+				xmlProperty.getDescription());
 		return propertyFeatures;
 	}
+
 }

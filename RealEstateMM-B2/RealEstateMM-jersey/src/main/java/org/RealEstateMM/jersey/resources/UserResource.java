@@ -2,7 +2,6 @@ package org.RealEstateMM.jersey.resources;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -13,19 +12,19 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
-import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
-import org.RealEstateMM.services.dtos.user.UserDTO;
-import org.RealEstateMM.services.user.ImpossibleToConfirmEmailAddressException;
+import org.RealEstateMM.domain.user.AuthenticationFailedException;
+import org.RealEstateMM.domain.user.EmailAddressConfirmationException;
+import org.RealEstateMM.domain.user.ExistingUserException;
+import org.RealEstateMM.domain.user.UserNotFoundException;
+import org.RealEstateMM.jersey.responses.LoginResponse;
+import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
-import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
-import org.RealEstateMM.services.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.services.user.exceptions.UnconfirmedEmailException;
-import org.RealEstateMM.services.user.exceptions.UserDoesNotExistException;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -37,17 +36,17 @@ public class UserResource {
 
 	public UserResource() {
 		this.userService = ServiceLocator.getInstance().getService(UserServiceHandler.class);
-		this.sessionService = new SessionService();
+		this.sessionService = ServiceLocator.getInstance().getService(SessionService.class);
 	}
 
-	public UserResource(UserServiceAntiCorruption userServiceAC, SessionService sessionService) {
-		this.userService = userServiceAC;
+	public UserResource(UserServiceHandler userService, SessionService sessionService) {
+		this.userService = userService;
 		this.sessionService = sessionService;
 	}
 
 	@POST
-	@Path("logout")
-	public Response logout(@HeaderParam("Authorization") String token) {
+	@Path("logout/{token}")
+	public Response logout(@PathParam("token") String token) {
 		if (token == null) {
 			return Response.status(Status.BAD_REQUEST).entity(AUTHORIZATION_HEADER_MISSING).build();
 		}
@@ -64,7 +63,7 @@ public class UserResource {
 			UserDTO userDTO = userService.authenticate(pseudonym, password);
 			Session session = sessionService.open(userDTO);
 			return generateLoginResponse(userDTO, session);
-		} catch (InvalidPasswordException | UserDoesNotExistException | UnconfirmedEmailException exception) {
+		} catch (AuthenticationFailedException exception) {
 			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
@@ -72,16 +71,24 @@ public class UserResource {
 	}
 
 	@PUT
-	@Path("user")
+	@Path("user/{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editUserProfile(UserDTO userProfile) {
+	public Response editUserProfile(@PathParam("token") String token, UserDTO userProfile) {
 		try {
-			userService.updateUserProfile(userProfile);
-			Session session = sessionService.open(userProfile);
-			return generateLoginResponse(userProfile, session);
+			String pseudo = sessionService.validate(token);
+			userService.updateUserProfile(pseudo, userProfile);
+			return Response.status(Status.OK).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		} catch (UserNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+		} catch (ForbiddenAccessException e) {
+			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
+		} catch (EmailAddressConfirmationException e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -96,15 +103,15 @@ public class UserResource {
 			return generateLoginResponse(userDTO, session);
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (UserWithPseudonymAlreadyStoredException exception) {
-			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (CouldNotSendMailException exception) {
+		} catch (ExistingUserException exception) {
+			return Response.status(Status.UNAUTHORIZED).entity(exception.getMessage()).build();
+		} catch (EmailAddressConfirmationException exception) {
 			return Response.status(Status.CREATED).build();
 		}
 	}
 
 	private Response generateLoginResponse(UserDTO userDTO, Session session) {
-		LoginResponse response = new LoginResponse(userDTO.getUserType(), session.token);
+		LoginResponse response = new LoginResponse(userDTO.getUserRole(), session.token);
 		return Response.ok(Status.OK).entity(response).build();
 	}
 
@@ -115,20 +122,23 @@ public class UserResource {
 		try {
 			userService.confirmEmailAddress(confirmationCode);
 			return Response.status(Status.OK).entity("Email Confirmed").build();
-		} catch (ImpossibleToConfirmEmailAddressException exception) {
+		} catch (EmailAddressConfirmationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
 		}
 	}
 
 	@GET
-	@Path("user/{pseudonym}")
+	@Path("user/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserProfile(@PathParam("pseudonym") String pseudonym) {
+	public Response getUserProfile(@PathParam("token") String token) {
 		try {
+			String pseudonym = sessionService.validate(token);
 			UserDTO userProfile = userService.getUserProfile(pseudonym);
 			return Response.status(Status.OK).entity(userProfile).build();
-		} catch (UserDoesNotExistException e) {
+		} catch (UserNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		}
 	}
 }

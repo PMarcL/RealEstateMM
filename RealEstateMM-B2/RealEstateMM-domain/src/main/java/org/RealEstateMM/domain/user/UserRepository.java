@@ -1,20 +1,30 @@
 package org.RealEstateMM.domain.user;
 
-import java.util.Optional;
+import java.util.List;
 
 public abstract class UserRepository {
 
-	public abstract Optional<User> getUserWithPseudonym(String pseudonym);
+	public User getUserWithPseudonym(String pseudonym) throws UserNotFoundException {
+		if (contains(pseudonym)) {
+			return findUserWithPseudonym(pseudonym);
+		} else {
+			throw new UserNotFoundException(pseudonym);
+		}
+	}
 
-	public void addUser(User user) {
+	protected abstract boolean contains(String pseudonym);
+
+	protected abstract User findUserWithPseudonym(String pseudonym);
+
+	public abstract List<User> getAllUsers();
+
+	public void addUser(User user) throws ExistingUserException {
 		if (contains(user.getPseudonym())) {
-			throw new UserWithPseudonymAlreadyStoredException(user.getPseudonym());
+			throw new ExistingUserException(user.getPseudonym());
 		}
 
 		add(user);
 	}
-
-	protected abstract boolean contains(String pseudonym);
 
 	protected abstract void add(User user);
 
@@ -24,4 +34,5 @@ public abstract class UserRepository {
 	}
 
 	protected abstract void removeUserWithPseudonym(String pseudonym);
+
 }

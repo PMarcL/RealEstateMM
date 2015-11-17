@@ -1,6 +1,12 @@
 package org.RealEstateMM.domain.user;
 
+import static org.mockito.BDDMockito.*;
+
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
+
 import static org.junit.Assert.*;
+
+import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,17 +20,17 @@ public class UserTest {
 	private final String EMAIL_ADDRESS = "john@email.com";
 	private final String PHONENUMBER = "819 819-3904";
 	private final String PASSWORD = "jd1234";
-	private final String USERTYPE_DESCRIPTION = UserType.SELLER;
+	private final AccessLevel ACCESS_LEVEL = AccessLevel.SELLER;
 
 	private User user;
 	private UserInformations userInformations;
-	private UserType userType;
+	private UserRole role;
 
 	@Before
 	public void setup() {
 		userInformations = new UserInformations(PSEUDONYM, PASSWORD, FIRSTNAME, LASTNAME, EMAIL_ADDRESS, PHONENUMBER);
-		userType = new UserType(UserType.SELLER);
-		user = new User(userInformations, userType);
+		role = mock(UserRole.class);
+		user = new User(userInformations, role);
 	}
 
 	@Test
@@ -48,8 +54,9 @@ public class UserTest {
 	}
 
 	@Test
-	public void givenAUserWhenGettingHisUserTypeDescriptionThenReturnsTheCorrectDescription() {
-		assertEquals(USERTYPE_DESCRIPTION, user.getUserTypeDescription());
+	public void givenAUserWhenGettingRoleDescriptionThenReturnDescriptionFromRole() {
+		given(role.getRoleDescription()).willReturn(AccessLevel.SELLER);
+		assertEquals(AccessLevel.SELLER, user.getRoleDescription());
 	}
 
 	@Test
@@ -88,5 +95,46 @@ public class UserTest {
 		user.updateUserInformations(newInfos);
 
 		assertEquals(newInfos, user.getUserInformations());
+	}
+
+	@Test
+	public void whenCheckingIfUserIsAuthorizedThenShouldAskUserRole() {
+		given(role.isAuthorized(ACCESS_LEVEL)).willReturn(true);
+		assertTrue(user.isAuthorized(ACCESS_LEVEL));
+	}
+
+	@Test
+	public void givenTheCorrectPasswordWithAConfirmedUserWhenAuthenticateThenLogin() {
+		User confirmedUser = aConfirmedUserWithPassword(PASSWORD);
+		Calendar dateBeforeAuthentication = Calendar.getInstance();
+
+		confirmedUser.authenticate(PASSWORD);
+
+		Calendar dateOfLastLogin = Calendar.getInstance();
+		dateOfLastLogin.setTime(confirmedUser.getLastLoginDate());
+		assertTrue(
+				dateBeforeAuthentication.before(dateOfLastLogin) || dateBeforeAuthentication.equals(dateOfLastLogin));
+	}
+
+	private User aConfirmedUserWithPassword(String password) {
+		UserInformations userInfo = new UserInformations(null, password, null, null, null, null);
+		User confirmedUser = new User(userInfo, new Buyer());
+		confirmedUser.unlock();
+		return confirmedUser;
+	}
+
+	@Test(expected = UnconfirmedEmailException.class)
+	public void givenALockedUserWhenAuthenticateThrowUnconfirmedEmailException() {
+		User unconfirmedUser = user;
+		unconfirmedUser.authenticate(PASSWORD);
+		assertNull(unconfirmedUser.getLastLoginDate());
+	}
+
+	@Test(expected = InvalidPasswordException.class)
+	public void givenAnInvalidPasswordWhenAuthenticateThrowInvalidPasswordException() {
+		String invalidPassword = "posdf33";
+		User confirmedUser = aConfirmedUserWithPassword(PASSWORD);
+		confirmedUser.authenticate(invalidPassword);
+		assertNull(confirmedUser.getLastLoginDate());
 	}
 }

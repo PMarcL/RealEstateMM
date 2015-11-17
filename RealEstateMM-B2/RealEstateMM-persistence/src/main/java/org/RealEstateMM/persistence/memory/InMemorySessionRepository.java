@@ -20,7 +20,7 @@ public class InMemorySessionRepository implements SessionRepository {
 	}
 
 	@Override
-	public void saveOrOverwriteSession(Session session) {
+	public void addOrOverwriteSession(Session session) {
 		map.put(session.pseudonym, session);
 	}
 

@@ -1,12 +1,11 @@
 package org.RealEstateMM.domain.user.emailconfirmation;
 
-import java.util.Optional;
-
 import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.emailsender.email.EmailMessage;
 import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
 
 public class UserEmailAddressValidator {
@@ -34,15 +33,16 @@ public class UserEmailAddressValidator {
 
 	public void confirmEmailAddress(String confirmationCodeValue, UserRepository users) {
 		ConfirmationCode confirmationCode = confirmCodeFactory.createConfirmationCode(confirmationCodeValue);
-		Optional<User> optionalUser = users.getUserWithPseudonym(confirmationCode.getPseudonym());
-		if (!optionalUser.isPresent()) {
+		User user;
+		try {
+			user = users.getUserWithPseudonym(confirmationCode.getPseudonym());
+		} catch (UserNotFoundException e) {
 			return;
 		}
 
-		User realUser = optionalUser.get();
-		if (realUser.hasEmailAddress(confirmationCode.getEmailAddress())) {
-			realUser.unlock();
-			users.replaceUser(realUser);
+		if (user.hasEmailAddress(confirmationCode.getEmailAddress())) {
+			user.unlock();
+			users.replaceUser(user);
 		}
 	}
 

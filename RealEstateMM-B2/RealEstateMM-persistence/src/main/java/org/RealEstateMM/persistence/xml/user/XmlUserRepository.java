@@ -1,6 +1,7 @@
 package org.RealEstateMM.persistence.xml.user;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -32,18 +33,15 @@ public class XmlUserRepository extends UserRepository {
 	}
 
 	@Override
-	public Optional<User> getUserWithPseudonym(String pseudonym) {
-		if (isUserAbsentFromCache(pseudonym))
-			return Optional.empty();
+	public java.util.ArrayList<User> getAllUsers() {
+		ArrayList<User> users = new ArrayList<User>();
+		List<XmlUser> xmlUsers = usersCache.getUsers();
 
-		XmlUser xmlUser = usersCache.getUser(pseudonym);
-		User user = userAssembler.toUser(xmlUser);
-		return Optional.of(user);
-	}
-
-	private boolean isUserAbsentFromCache(String pseudonym) {
-		return !usersCache.contains(pseudonym);
-	}
+		for (XmlUser xmlUser : xmlUsers) {
+			users.add(userAssembler.toUser(xmlUser));
+		}
+		return users;
+	};
 
 	@Override
 	protected boolean contains(String pseudonym) {
@@ -65,6 +63,12 @@ public class XmlUserRepository extends UserRepository {
 	protected void removeUserWithPseudonym(String pseudonym) {
 		usersCache.removeUserWithPseudonym(pseudonym);
 		marshalUsers();
+	}
+
+	@Override
+	protected User findUserWithPseudonym(String pseudonym) {
+		XmlUser xmlUser = usersCache.getUser(pseudonym);
+		return userAssembler.toUser(xmlUser);
 	}
 
 }

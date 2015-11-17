@@ -1,5 +1,6 @@
 var userCookie = new LoginCookie();
 var accountCookie = new AccountTypeCookie();
+var tokenCookie = new TokenCookie();
 
 $(document).ready(displayUserOptions());
 
@@ -7,24 +8,26 @@ $(document).ready(displayUserOptions());
 function displayUserOptions() {
     loggedInDisplay();
     accountTypeOptions();
-
 }
 
 function accountTypeOptions() {
     var accountType = accountCookie.cookie();
 
-    if (accountType == 'buyer') {
+    if (accountType == 'BUYER') {
         toggleElementVisibilityWithClass('buyer-option','inline-block');
         toggleElementVisibilityWithClass('seller-option','none');
+        toggleElementVisibilityWithClass('admin-option','none');
     }
 
-    else if (accountType == 'seller') {
+    else if (accountType == 'SELLER') {
         toggleElementVisibilityWithClass('buyer-option','none');
         toggleElementVisibilityWithClass('seller-option','inline-block');
+        toggleElementVisibilityWithClass('admin-option','none');
     }
     else {
         toggleElementVisibilityWithClass('buyer-option','none');
         toggleElementVisibilityWithClass('seller-option','none');
+        toggleElementVisibilityWithClass('admin-option','inline-block');
     }
 }
 
@@ -44,12 +47,17 @@ function loggedInDisplay() {
 function signout() {
     userCookie.delete();
     accountCookie.delete();
+    $.ajax({
+        url: "http://localhost:8080/user/" + tokenCookie.cookie(),
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json"
+    });
     displayUserOptions();
     window.location.href = "index.html";
 }
 
 function toggleElementVisibilityWithClass(elemClass, visibility) {
-
     var elements = new Array();
     elements = document.getElementsByClassName(elemClass);
     for (var i = 0; i < elements.length; i += 1) {

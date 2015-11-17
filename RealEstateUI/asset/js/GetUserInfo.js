@@ -1,18 +1,12 @@
 
-
 function getUserInfo()
 {
-    var loginCookie = new LoginCookie();
-
+    var tokenCookie = new TokenCookie();
 
     $.ajax({
-        url: "http://localhost:8080/user/" + loginCookie.cookie(),
+        url: "http://localhost:8080/user/" + tokenCookie.cookie(),
         type: "GET",
         contentType: "application/json",
-        data:
-        {
-            "Pseudonym": loginCookie.cookie()
-        },
         success: function (data, status, httpResponse) {
 
             $('#phone').val(data.phoneNumber);
@@ -25,7 +19,6 @@ function getUserInfo()
         error: function (data, textStatus, xhr) {
             $('.card').attr('style','display:block');
             $('.card').html(data.responseText);
-
         }
     });
 }

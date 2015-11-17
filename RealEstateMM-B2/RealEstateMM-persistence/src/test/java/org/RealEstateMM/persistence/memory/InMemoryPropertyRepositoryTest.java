@@ -52,7 +52,7 @@ public class InMemoryPropertyRepositoryTest {
 	@Test
 	public void givenARepositoryWithPropertiesWhenGetAllPropertiesThenReturnsArrayListWithSameNumberOfProperties() {
 		repository.add(property);
-		ArrayList<Property> properties = repository.getAllProperties();
+		ArrayList<Property> properties = repository.getAll();
 		assertEquals(repository.getSize(), properties.size());
 	}
 

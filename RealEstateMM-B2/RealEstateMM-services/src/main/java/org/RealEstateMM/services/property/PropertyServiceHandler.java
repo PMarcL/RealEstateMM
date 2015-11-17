@@ -1,22 +1,21 @@
 package org.RealEstateMM.services.property;
 
-import java.util.ArrayList;
-
-import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
+import java.util.List;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public interface PropertyServiceHandler {
 
-	public void uploadProperty(PropertyDTO propertyInfos);
+	public void uploadProperty(String pseudo, PropertyDTO propertyInfos) throws ForbiddenAccessException;
 
-	public ArrayList<PropertyDTO> getAllProperties();
+	public List<PropertyDTO> getAllProperties(String pseudo) throws ForbiddenAccessException;
 
-	public ArrayList<PropertyDTO> getOrderedProperties(PropertySearchFilter orderBy);
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) throws ForbiddenAccessException;
 
-	public void editPropertyFeatures(PropertyDTO propertyDTO);
+	public void editPropertyFeatures(String pseudo, PropertyDTO propertyDTO) throws ForbiddenAccessException;
 
-	public ArrayList<PropertyDTO> getPropertiesFromOwner(String owner);
+	public PropertyDTO getPropertyAtAddress(PropertyAddressDTO address);
 
-	public PropertyDTO getPropertyAtAddress(PropertyAddress address);
+	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException;
 }

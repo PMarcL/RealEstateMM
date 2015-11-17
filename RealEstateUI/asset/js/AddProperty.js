@@ -1,10 +1,11 @@
 var loginCookie = new LoginCookie();
+var tokenCookie = new TokenCookie();
 
 var propertyAddress;
 var propertyDetails;
 
 var Property = Backbone.Model.extend({
-    url: 'http://localhost:8080/property'
+    url: 'http://localhost:8080/property/' + tokenCookie.cookie()
 })
 
 var EditPropertyView = Backbone.View.extend({

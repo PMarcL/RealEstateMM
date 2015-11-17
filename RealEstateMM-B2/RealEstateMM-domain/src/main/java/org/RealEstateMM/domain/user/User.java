@@ -1,15 +1,36 @@
 package org.RealEstateMM.domain.user;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
+
 public class User {
 
 	private UserInformations userInformations;
-	private UserType userType;
+	private UserRole role;
+	private Date lastLoginDate;
 	private boolean isLocked;
 
-	public User(UserInformations userInfo, UserType type) {
+	public User(UserInformations userInfo, UserRole role) {
 		this.userInformations = userInfo;
-		this.userType = type;
+		this.role = role;
+		this.lastLoginDate = Calendar.getInstance().getTime();
 		lock();
+	}
+
+	public void authenticate(String password) {
+		if (isLocked()) {
+			throw new UnconfirmedEmailException();
+		}
+		if (!hasPassword(password)) {
+			throw new InvalidPasswordException();
+		}
+		login();
+	}
+
+	private void login() {
+		this.lastLoginDate = new Date();
 	}
 
 	public UserInformations getUserInformations() {
@@ -24,8 +45,8 @@ public class User {
 		return userInformations.password.equals(password);
 	}
 
-	public String getUserTypeDescription() {
-		return userType.userTypeDescription;
+	public Date getLastLoginDate() {
+		return lastLoginDate;
 	}
 
 	public boolean isLocked() {
@@ -46,6 +67,23 @@ public class User {
 
 	public void lock() {
 		isLocked = true;
+	}
+
+	public AccessLevel getRoleDescription() {
+		return role.getRoleDescription();
+	}
+
+	public boolean isAuthorized(AccessLevel accessLevel) {
+		return role.isAuthorized(accessLevel);
+	}
+
+	public boolean isActive() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
 	}
 
 }

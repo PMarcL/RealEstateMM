@@ -1,8 +1,9 @@
 package org.RealEstateMM.persistence.memory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -24,15 +25,6 @@ public class InMemoryUserRepository extends UserRepository {
 	}
 
 	@Override
-	public Optional<User> getUserWithPseudonym(String pseudonym) {
-		if (!contains(pseudonym)) {
-			return Optional.empty();
-		}
-
-		return Optional.of(users.get(pseudonym));
-	}
-
-	@Override
 	protected boolean contains(String pseudonym) {
 		return users.containsKey(pseudonym);
 	}
@@ -45,6 +37,16 @@ public class InMemoryUserRepository extends UserRepository {
 	@Override
 	protected void removeUserWithPseudonym(String pseudonym) {
 		users.remove(pseudonym);
+	}
+
+	@Override
+	protected User findUserWithPseudonym(String pseudonym) {
+		return users.get(pseudonym);
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		return new ArrayList<User>(users.values());
 	}
 
 }

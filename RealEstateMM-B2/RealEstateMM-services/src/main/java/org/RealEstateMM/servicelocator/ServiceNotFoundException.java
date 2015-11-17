@@ -4,6 +4,6 @@ package org.RealEstateMM.servicelocator;
 public class ServiceNotFoundException extends RuntimeException {
 
 	public ServiceNotFoundException(String className) {
-		super("The service " + " was not registered.");
+		super("The service " + className + " was not registered.");
 	}
 }

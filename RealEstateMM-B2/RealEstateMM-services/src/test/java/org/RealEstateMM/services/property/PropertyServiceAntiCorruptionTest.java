@@ -2,10 +2,9 @@ package org.RealEstateMM.services.property;
 
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.property.search.PropertySearchFilter;
-import org.RealEstateMM.services.dtos.property.PropertyAddressDTO;
-import org.RealEstateMM.services.dtos.property.PropertyDTO;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTO;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +13,8 @@ public class PropertyServiceAntiCorruptionTest {
 	private final String TYPE = "house";
 	private final String STATUS = "on sale";
 	private final String OWNER = "owner90";
+	private final String PSEUDO = "pseudo32";
+	private final String ORDER_BY = "recently_uploaded_last";
 	private final int NUMBER_OF_BEDROOMS = 2;
 	private final int NUMBER_OF_BATHROOMS = 2;
 	private final int VALID_TOTAL_NUMBER_OF_ROOMS = 4;
@@ -43,113 +44,113 @@ public class PropertyServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void givenPropertyDTOWhenUploadPropertyThenChecksAddressValidity() {
-		propertyAntiCorruption.uploadProperty(propertyDTO);
+	public void givenPropertyDTOWhenUploadPropertyThenChecksAddressValidity() throws Throwable {
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(validator).zipCodeIsValid(ZIPCODE);
 	}
 
 	@Test
-	public void givenPropertyDTOWhenUploadPropertyThenCallsTheService() {
-		propertyAntiCorruption.uploadProperty(propertyDTO);
-		verify(service).uploadProperty(propertyDTO);
+	public void givenPropertyDTOWhenUploadPropertyThenCallsTheService() throws Throwable {
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
+		verify(service).uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenPropertyDTOWhenUploadPropertyWithInvalidZipCodeThenThrowException() {
+	public void givenPropertyDTOWhenUploadPropertyWithInvalidZipCodeThenThrowException() throws Throwable {
 		when(validator.zipCodeIsValid(ZIPCODE)).thenReturn(false);
-		propertyAntiCorruption.uploadProperty(propertyDTO);
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenUploadPropertyThenChecksPriceValidity() {
-		propertyAntiCorruption.uploadProperty(propertyDTO);
+	public void givenAPropertyDTOWhenUploadPropertyThenChecksPriceValidity() throws Throwable {
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(validator).priceIsValid(VALID_PRICE);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenAPropertyDTOWhenUploadPropertyThenIfPriceIsInvalidThrowsException() {
+	public void givenAPropertyDTOWhenUploadPropertyThenIfPriceIsInvalidThrowsException() throws Throwable {
 		given(validator.priceIsValid(VALID_PRICE)).willReturn(false);
-		propertyAntiCorruption.uploadProperty(propertyDTO);
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyTypeValidity() {
-		propertyAntiCorruption.uploadProperty(propertyDTO);
+	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyTypeValidity() throws Throwable {
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(validator).propertyTypeIsValid(TYPE);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyTypeNotValidThrowException() {
+	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyTypeNotValidThrowException() throws Throwable {
 		when(validator.propertyTypeIsValid(TYPE)).thenReturn(false);
-		propertyAntiCorruption.uploadProperty(propertyDTO);
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyStatusValidity() {
-		propertyAntiCorruption.uploadProperty(propertyDTO);
+	public void givenPropertyInformationsWhenUploadPropertyThenChecksPropertyStatusValidity() throws Throwable {
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 		verify(validator).propertyStatusIsValid(STATUS);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyStatusNotValidThrowException() {
+	public void givenPropertyInformationsWhenUploadPropertyThenIfPropertyStatusNotValidThrowException()
+			throws Throwable {
 		when(validator.propertyStatusIsValid(STATUS)).thenReturn(false);
-		propertyAntiCorruption.uploadProperty(propertyDTO);
+		propertyAntiCorruption.uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void givenPropertyFeaturesWhenEditPropertyThenCallsServiceToEditProperty() {
-		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
-		verify(service).editPropertyFeatures(propertyDTO);
+	public void givenPropertyFeaturesWhenEditPropertyThenCallsServiceToEditProperty() throws Throwable {
+		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
+		verify(service).editPropertyFeatures(OWNER, propertyDTO);
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenCallsPropertyService() {
-		propertyAntiCorruption.getAllProperties();
-		verify(service).getAllProperties();
+	public void whenGetAllPropertiesThenCallsPropertyService() throws Throwable {
+		propertyAntiCorruption.getAllProperties(PSEUDO);
+		verify(service).getAllProperties(PSEUDO);
 	}
 
 	@Test
-	public void whenGetOrderedPropertiesThenCallsPropertyService() {
-		PropertySearchFilter filter = mock(PropertySearchFilter.class);
-		propertyAntiCorruption.getOrderedProperties(filter);
-		verify(service).getOrderedProperties(filter);
+	public void whenGetOrderedPropertiesThenCallsPropertyService() throws Throwable {
+		propertyAntiCorruption.getOrderedProperties(PSEUDO, ORDER_BY);
+		verify(service).getOrderedProperties(PSEUDO, ORDER_BY);
 	}
 
 	@Test
-	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenCallsService() {
+	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenCallsService() throws Throwable {
 		propertyAntiCorruption.getPropertiesFromOwner(OWNER);
 		verify(service).getPropertiesFromOwner(OWNER);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBedRoomsValidity() {
-		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBedRoomsValidity() throws Throwable {
+		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(2)).numberOfRoomsIsValid(NUMBER_OF_BEDROOMS);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBathRoomsValidity() {
-		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBathRoomsValidity() throws Throwable {
+		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(2)).numberOfRoomsIsValid(NUMBER_OF_BATHROOMS);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksTotalNumberOfRoomsValidity() {
-		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksTotalNumberOfRoomsValidity() throws Throwable {
+		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(1)).totalNumberOfRoomsIsValid(NUMBER_OF_BATHROOMS, NUMBER_OF_BEDROOMS,
 				VALID_TOTAL_NUMBER_OF_ROOMS);
 	}
 
 	@Test
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenCheckYearOfConstructionValidity() {
-		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenCheckYearOfConstructionValidity() throws Throwable {
+		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(1)).yearOfConstructionIsValid(A_VALID_YEAR_OF_CONSTRUCTION);
 	}
 
 	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenAPropertyDTOWhenEditPropertyFeaturesThenThrowExceptionIfNumberOfRoomsIsInvalid() {
+	public void givenAPropertyDTOWhenEditPropertyFeaturesThenThrowExceptionIfNumberOfRoomsIsInvalid() throws Throwable {
 		given(validator.numberOfRoomsIsValid(NUMBER_OF_BATHROOMS)).willReturn(false);
-		propertyAntiCorruption.editPropertyFeatures(propertyDTO);
+		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 	}
 
 	private void propertyDTOReturnsValidInfos() {

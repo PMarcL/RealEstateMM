@@ -3,36 +3,45 @@ package org.RealEstateMM.context;
 import java.io.File;
 
 import org.RealEstateMM.authentication.session.SessionRepository;
+import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.emailsender.GmailSender;
 import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
+import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
+import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
+import org.RealEstateMM.domain.user.Administrator;
+import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.User;
+import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.domain.user.UserType;
+import org.RealEstateMM.domain.user.UserRoleFactory;
+import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
-import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.dtos.property.PropertyAddressDTOAssembler;
-import org.RealEstateMM.services.dtos.property.PropertyDTOAssembler;
-import org.RealEstateMM.services.dtos.property.PropertyFeaturesDTOAssembler;
-import org.RealEstateMM.services.property.PropertyInformationsValidator;
-import org.RealEstateMM.services.property.PropertyService;
-import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
-import org.RealEstateMM.services.property.PropertyServiceHandler;
-import org.RealEstateMM.services.user.UserService;
-import org.RealEstateMM.services.user.UserServiceHandler;
-import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
-import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
+import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.property.PropertyInformationsValidator;
+import org.RealEstateMM.services.property.PropertyService;
+import org.RealEstateMM.services.property.PropertyServiceAntiCorruption;
+import org.RealEstateMM.services.property.PropertyServiceHandler;
+import org.RealEstateMM.services.property.PropertyServiceSecurity;
+import org.RealEstateMM.services.statistics.StatisticService;
+import org.RealEstateMM.services.user.UserService;
+import org.RealEstateMM.services.user.UserServiceHandler;
+import org.RealEstateMM.services.user.UserServiceSecurity;
+import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
+import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
+import org.RealEstateMM.services.user.dtos.UserAssembler;
 
 public class DemoContext extends Context {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;
@@ -43,17 +52,13 @@ public class DemoContext extends Context {
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
+	private Properties properties;
+	private Users users;
 	private PropertyServiceHandler propertyService;
 	private UserServiceHandler userService;
-	private PropertyDTOAssembler propertyDTOAssembler;
-
-	public DemoContext() {
-		File xmlUsers = new File(usersFilePath());
-		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler());
-		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
-		this.sessionRepository = new InMemorySessionRepository();
-	}
+	private StatisticService statisticService;
+	private SessionService sessionService;
+	private UserEmailAddressValidator validator;
 
 	private String propertiesFilePath() {
 		return XML_FILES_LOCATION + PROPERTY_REPOSITORY_FILE;
@@ -65,49 +70,90 @@ public class DemoContext extends Context {
 
 	@Override
 	protected void registerServices() {
-		registerServiceDependencies();
-		this.propertyService = new PropertyServiceAntiCorruption(new PropertyService(),
-				new PropertyInformationsValidator());
+		initializeServices();
 		ServiceLocator.getInstance().registerService(PropertyServiceHandler.class, propertyService);
-
-		this.userService = new UserServiceAntiCorruption(new UserService(), new UserInformationsValidator());
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
+		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
+		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
 	}
 
-	private void registerServiceDependencies() {
-		registerRepositories();
+	private void initializeServices() {
+		PropertyServiceSecurity propertySecurity = new PropertyServiceSecurity(new PropertyService(),
+				new UserAuthorizations(userRepository));
+		this.propertyService = new PropertyServiceAntiCorruption(propertySecurity, new PropertyInformationsValidator());
+		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(),
+				new UserAuthorizations(userRepository));
+		this.userService = new UserServiceAntiCorruption(userSecurity, new UserInformationsValidator());
+		this.statisticService = new StatisticService();
+		this.sessionService = new SessionService();
+	}
+
+	@Override
+	protected void registerServiceDependencies() {
 		registerUserEmailValidator();
+		registerRepositories();
+		registerAssemblers();
+		ServiceLocator.getInstance().registerService(PropertySearchParametersParser.class,
+				new PropertySearchParametersParser());
 	}
 
 	private void registerRepositories() {
+		initializeRepositories();
 		ServiceLocator.getInstance().registerService(UserRepository.class, userRepository);
 		ServiceLocator.getInstance().registerService(PropertyRepository.class, propertyRepository);
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
+		ServiceLocator.getInstance().registerService(Properties.class, properties);
+		ServiceLocator.getInstance().registerService(Users.class, users);
+	}
+
+	private void initializeRepositories() {
+		File xmlUsers = new File(usersFilePath());
+		File xmlProperty = new File(propertiesFilePath());
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
+				new XmlUserAssembler(new UserRoleFactory()));
+		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
+		this.sessionRepository = new InMemorySessionRepository();
+		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory());
+		this.users = new Users(userRepository, validator);
+
 	}
 
 	private void registerUserEmailValidator() {
 		ConfirmationCodeFactory confirmCodeFactory = new ConfirmationCodeFactory(new Base64Encoder());
 		EmailMessageFactory messageFactory = new EmailMessageFactory(BASE_URL);
 		EmailSender emailSender = new GmailSender();
-		UserEmailAddressValidator validator = new UserEmailAddressValidator(confirmCodeFactory, messageFactory,
-				emailSender);
+		this.validator = new UserEmailAddressValidator(confirmCodeFactory, messageFactory, emailSender);
 
 		ServiceLocator.getInstance().registerService(UserEmailAddressValidator.class, validator);
 	}
 
+	private void registerAssemblers() {
+		ServiceLocator.getInstance().registerService(UserAssembler.class, new UserAssembler(new UserRoleFactory()));
+	}
+
 	@Override
 	protected void injectData() {
-		if (isAdminExisting("admin"))
+		if (isAdminExisting("ADMIN"))
 			return;
 
-		UserInformations adminInfo = new UserInformations("admin", "admin1234", "Olivier", "Dugas",
+		UserInformations adminInfo = new UserInformations("ADMIN", "admin1234", "Olivier", "Dugas",
 				"olivierD@admin.com", "418 892-3940");
-		User admin = new User(adminInfo, new UserType("admin"));
-		userRepository.addUser(admin);
+		User admin = new User(adminInfo, new Administrator());
+		try {
+			userRepository.addUser(admin);
+		} catch (ExistingUserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private boolean isAdminExisting(String adminPseudonym) {
-		return userRepository.getUserWithPseudonym(adminPseudonym).isPresent();
+		try {
+			userRepository.getUserWithPseudonym(adminPseudonym);
+			return true;
+		} catch (UserNotFoundException e) {
+			return false;
+		}
 	}
 
 }
