@@ -8,8 +8,6 @@ import static org.junit.Assert.*;
 
 import java.util.Calendar;
 
-import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 import org.junit.Before;
 import org.junit.Test;
 

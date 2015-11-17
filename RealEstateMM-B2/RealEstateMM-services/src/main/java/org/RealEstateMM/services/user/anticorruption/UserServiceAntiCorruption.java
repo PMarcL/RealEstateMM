@@ -1,12 +1,12 @@
 package org.RealEstateMM.services.user.anticorruption;
 
+import org.RealEstateMM.domain.user.InvalidPasswordException;
+import org.RealEstateMM.domain.user.UnconfirmedEmailException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 
 public class UserServiceAntiCorruption implements UserServiceHandler {
 

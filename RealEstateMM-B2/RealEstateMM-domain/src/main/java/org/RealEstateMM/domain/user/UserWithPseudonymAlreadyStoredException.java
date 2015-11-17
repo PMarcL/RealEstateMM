@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.user.exceptions;
+package org.RealEstateMM.domain.user;
 
 public class UserWithPseudonymAlreadyStoredException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

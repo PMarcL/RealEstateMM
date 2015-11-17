@@ -1,11 +1,11 @@
 package org.RealEstateMM.services.user;
 
+import org.RealEstateMM.domain.user.InvalidPasswordException;
+import org.RealEstateMM.domain.user.UnconfirmedEmailException;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
-import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;

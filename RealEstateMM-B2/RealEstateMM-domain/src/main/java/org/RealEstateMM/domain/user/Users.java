@@ -3,8 +3,6 @@ package org.RealEstateMM.domain.user;
 import org.RealEstateMM.domain.user.emailconfirmation.ImpossibleToConfirmEmailAddressException;
 import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
-import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 
 public class Users {
 

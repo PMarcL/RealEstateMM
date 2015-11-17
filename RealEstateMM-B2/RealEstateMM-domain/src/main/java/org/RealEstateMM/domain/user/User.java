@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
-import org.RealEstateMM.domain.user.exceptions.InvalidPasswordException;
-import org.RealEstateMM.domain.user.exceptions.UnconfirmedEmailException;
 
 public class User {
 
