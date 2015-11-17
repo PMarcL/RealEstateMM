@@ -37,7 +37,7 @@ public class UsersTest {
 	@Test
 	public void givenAUserWhenAddUserThenShouldPersistToRespository() {
 		users.addUser(user);
-		verify(userRepository).add(user);
+		verify(userRepository).addUser(user);
 	}
 
 	@Test

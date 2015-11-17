@@ -17,7 +17,7 @@ public class Users {
 	}
 
 	public void addUser(User newUser) {
-		userRepository.add(newUser);
+		userRepository.addUser(newUser);
 		emailValidator.sendEmailConfirmationMessage(newUser.getUserInformations());
 	}
 
