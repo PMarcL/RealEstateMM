@@ -30,12 +30,12 @@ public class SessionService {
 		sessionRepository.removeSesionWithToken(token);
 	}
 
-	public String validate(String token) throws TokenInvalidException {
+	public String validate(String token) throws InvalidSessionTokenException {
 		Optional<Session> session = sessionRepository.getByToken(token);
 		if (session.isPresent()) {
 			return session.get().pseudonym;
 		} else {
-			throw new TokenInvalidException();
+			throw new InvalidSessionTokenException();
 		}
 	}
 

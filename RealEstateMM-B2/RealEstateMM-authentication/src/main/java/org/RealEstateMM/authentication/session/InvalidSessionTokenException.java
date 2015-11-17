@@ -1,10 +1,10 @@
 package org.RealEstateMM.authentication.session;
 
-public class TokenInvalidException extends Exception {
+public class InvalidSessionTokenException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public TokenInvalidException() {
+	public InvalidSessionTokenException() {
 		super("Invalid Token. No session associated.");
 	}
 

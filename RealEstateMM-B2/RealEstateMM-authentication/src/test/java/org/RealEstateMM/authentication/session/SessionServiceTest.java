@@ -57,7 +57,7 @@ public class SessionServiceTest {
 	}
 
 	@Test
-	public void givenAValidTokenWhenValidateThenReturnTheUsername() throws TokenInvalidException {
+	public void givenAValidTokenWhenValidateThenReturnTheUsername() throws InvalidSessionTokenException {
 		String aPseudonym = "Joe";
 		String aValidToken = "valid19b1290";
 		Session aSession = new Session(aPseudonym, aValidToken);
@@ -68,8 +68,8 @@ public class SessionServiceTest {
 		assertEquals(aPseudonym, actual);
 	}
 
-	@Test(expected = TokenInvalidException.class)
-	public void givenAnInvalidTokenWhenValidateThenThrowATokenInvalidException() throws TokenInvalidException {
+	@Test(expected = InvalidSessionTokenException.class)
+	public void givenAnInvalidTokenWhenValidateThenThrowATokenInvalidException() throws InvalidSessionTokenException {
 		String anInvalidToken = "invalid1289n";
 		given(sessionRepository.getByToken(anInvalidToken)).willReturn(Optional.empty());
 		sessionService.validate(anInvalidToken);

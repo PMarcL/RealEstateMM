@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.authentication.session.TokenInvalidException;
+import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.property.search.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
@@ -32,7 +32,7 @@ public class PropertyResourceTest {
 	private SessionService sessionService;
 
 	@Before
-	public void setup() throws TokenInvalidException {
+	public void setup() throws InvalidSessionTokenException {
 		service = mock(PropertyServiceHandler.class);
 		sessionService = mock(SessionService.class);
 		propertyResource = new PropertyResource(service, sessionService);
@@ -50,7 +50,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenTokenAndPropertyDTOWhenUploadPropertyThenReturnsUnauthorizedStatusCodeIfInvalidToken()
 			throws Exception {
-		doThrow(TokenInvalidException.class).when(sessionService).validate(TOKEN);
+		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(TOKEN);
 		Response response = propertyResource.uploadProperty(TOKEN, propertyDTO);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
@@ -90,7 +90,7 @@ public class PropertyResourceTest {
 
 	@Test
 	public void givenATokenWhenGetAllPropertiesThenReturnsUnauthorizedStatusCodeIfInvalidToken() throws Exception {
-		doThrow(TokenInvalidException.class).when(sessionService).validate(TOKEN);
+		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(TOKEN);
 		Response response = propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
@@ -154,7 +154,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenTokenAndPropertyDTOWhenEditPropertyThenReturnsUnauthorizedStatusCodeIfInvalidToken()
 			throws Exception {
-		doThrow(TokenInvalidException.class).when(sessionService).validate(TOKEN);
+		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(TOKEN);
 		Response response = propertyResource.editProperty(TOKEN, propertyDTO);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
@@ -196,7 +196,7 @@ public class PropertyResourceTest {
 
 	@Test
 	public void givenATokenWhenGetPropertiesFromUserThenReturnsUnauthorizedStatusCodeIfInvalidToken() throws Exception {
-		doThrow(TokenInvalidException.class).when(sessionService).validate(TOKEN);
+		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(TOKEN);
 		Response response = propertyResource.getPropertiesFromOwner(TOKEN);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}

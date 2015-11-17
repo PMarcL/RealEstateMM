@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.authentication.session.TokenInvalidException;
+import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.emailsender.CouldNotSendMailException;
 import org.RealEstateMM.domain.user.InvalidPasswordException;
 import org.RealEstateMM.domain.user.UnconfirmedEmailException;
@@ -83,7 +83,7 @@ public class UserResource {
 			return Response.status(Status.OK).build();
 		} catch (InvalidUserInformationsException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (TokenInvalidException e) {
+		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		} catch (UserNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
@@ -137,7 +137,7 @@ public class UserResource {
 			return Response.status(Status.OK).entity(userProfile).build();
 		} catch (UserNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
-		} catch (TokenInvalidException e) {
+		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		}
 	}

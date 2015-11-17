@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.authentication.session.TokenInvalidException;
+import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.property.search.InvalidSearchParameterException;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
@@ -54,7 +54,7 @@ public class PropertyResource {
 			return Response.ok(Status.OK).entity(properties).build();
 		} catch (InvalidSearchParameterException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (TokenInvalidException e) {
+		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		} catch (ForbiddenAccessException e) {
 			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
@@ -69,7 +69,7 @@ public class PropertyResource {
 			String owner = sessionService.validate(token);
 			List<PropertyDTO> properties = propertyService.getPropertiesFromOwner(owner);
 			return Response.ok(Status.OK).entity(properties).build();
-		} catch (TokenInvalidException e) {
+		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		} catch (ForbiddenAccessException e) {
 			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
@@ -87,7 +87,7 @@ public class PropertyResource {
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (TokenInvalidException e) {
+		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		} catch (ForbiddenAccessException e) {
 			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
@@ -105,7 +105,7 @@ public class PropertyResource {
 			return Response.ok(Status.OK).build();
 		} catch (InvalidPropertyInformationException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
-		} catch (TokenInvalidException e) {
+		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		} catch (ForbiddenAccessException e) {
 			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();

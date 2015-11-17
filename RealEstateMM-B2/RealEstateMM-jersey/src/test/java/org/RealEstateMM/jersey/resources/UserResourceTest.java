@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response.StatusType;
 
 import org.RealEstateMM.authentication.session.Session;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.authentication.session.TokenInvalidException;
+import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.user.InvalidPasswordException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserWithPseudonymAlreadyStoredException;
@@ -107,7 +107,7 @@ public class UserResourceTest {
 
 	@Test
 	public void givenAnInvalidTokenWhenEditUserProfileThenReturnsUnauthorizedStatusCode() throws Exception {
-		doThrow(TokenInvalidException.class).when(sessionService).validate(A_VALID_TOKEN);
+		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(A_VALID_TOKEN);
 		Response response = userConnectionResource.editUserProfile(A_VALID_TOKEN, A_USER_DTO);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
@@ -204,7 +204,7 @@ public class UserResourceTest {
 
 	@Test
 	public void givenInvalidTokenWhenGetUserProfileThenReturnUnauthorizedStatusCode() throws Exception {
-		doThrow(TokenInvalidException.class).when(sessionService).validate(A_VALID_TOKEN);
+		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(A_VALID_TOKEN);
 		Response response = userConnectionResource.getUserProfile(A_VALID_TOKEN);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
