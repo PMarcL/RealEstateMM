@@ -1,7 +1,6 @@
 package org.RealEstateMM.services.property;
 
 import static org.mockito.BDDMockito.*;
-
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
@@ -24,7 +23,7 @@ public class PropertyServiceAntiCorruptionTest {
 	private PropertyServiceAntiCorruption propertyAntiCorruption;
 	private PropertyServiceHandler service;
 	private PropertyInformationsValidator validator;
-	private PropertyAddressDTO addressInfos;
+	private PropertyAddressDTO addressDTO;
 	private PropertyDTO propertyDTO;
 	private PropertyFeaturesDTO featuresDTO;
 
@@ -33,7 +32,7 @@ public class PropertyServiceAntiCorruptionTest {
 		service = mock(PropertyServiceHandler.class);
 		validator = mock(PropertyInformationsValidator.class);
 		propertyDTO = mock(PropertyDTO.class);
-		addressInfos = mock(PropertyAddressDTO.class);
+		addressDTO = mock(PropertyAddressDTO.class);
 		featuresDTO = mock(PropertyFeaturesDTO.class);
 
 		propertyAntiCorruption = new PropertyServiceAntiCorruption(service, validator);
@@ -153,12 +152,24 @@ public class PropertyServiceAntiCorruptionTest {
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 	}
 
+	@Test
+	public void givenAddressDTOAndOwnerWhenGetPropertyAtAddressThenUsesService() throws Exception {
+		propertyAntiCorruption.getPropertyAtAddress(PSEUDO, addressDTO);
+		verify(service).getPropertyAtAddress(PSEUDO, addressDTO);
+	}
+
+	@Test(expected = InvalidPropertyInformationException.class)
+	public void givenAddressDTOWhenGetPropertyAtAddressWithInvalidZipCodeThenThrowsException() throws Throwable {
+		when(validator.zipCodeIsValid(ZIPCODE)).thenReturn(false);
+		propertyAntiCorruption.getPropertyAtAddress(PSEUDO, addressDTO);
+	}
+
 	private void propertyDTOReturnsValidInfos() {
-		given(propertyDTO.getPropertyAddress()).willReturn(addressInfos);
+		given(propertyDTO.getPropertyAddress()).willReturn(addressDTO);
 		given(propertyDTO.getPropertyType()).willReturn(TYPE);
 		given(propertyDTO.getPropertyStatus()).willReturn(STATUS);
 		given(propertyDTO.getPropertyPrice()).willReturn(VALID_PRICE);
-		given(addressInfos.getZipCode()).willReturn(ZIPCODE);
+		given(addressDTO.getZipCode()).willReturn(ZIPCODE);
 		given(validator.zipCodeIsValid(ZIPCODE)).willReturn(true);
 		given(validator.propertyTypeIsValid(TYPE)).willReturn(true);
 		given(validator.propertyStatusIsValid(STATUS)).willReturn(true);

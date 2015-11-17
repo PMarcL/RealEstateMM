@@ -54,9 +54,9 @@ public class PropertyServiceSecurity implements PropertyServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(PropertyAddressDTO address) {
-		// TODO Auto-generated method stub
-		return null;
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException {
+		validateUserAccess(pseudo, AccessLevel.BUYER);
+		return service.getPropertyAtAddress(pseudo, address);
 	}
 
 }

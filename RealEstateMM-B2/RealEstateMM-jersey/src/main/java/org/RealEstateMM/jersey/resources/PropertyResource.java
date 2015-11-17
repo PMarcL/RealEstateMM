@@ -67,8 +67,15 @@ public class PropertyResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPropertyAtAddress(@PathParam("token") String token, PropertyAddressDTO address) {
-		PropertyDTO propertyDTO = propertyService.getPropertyAtAddress(address);
-		return Response.ok(Status.OK).entity(propertyDTO).build();
+		try {
+			String pseudo = sessionService.validate(token);
+			PropertyDTO propertyDTO = propertyService.getPropertyAtAddress(pseudo, address);
+			return Response.ok(Status.OK).entity(propertyDTO).build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		} catch (ForbiddenAccessException e) {
+			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
+		}
 	}
 
 	@GET

@@ -74,7 +74,7 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(PropertyAddressDTO address) {
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) {
 		// TODO implement this using Properties class and assembler
 		// Property returnedProperty =
 		// propertyRepository.getPropertyAtAddress(address).get();

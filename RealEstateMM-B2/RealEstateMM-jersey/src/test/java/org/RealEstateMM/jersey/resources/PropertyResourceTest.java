@@ -16,6 +16,7 @@ import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.property.search.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 
@@ -28,6 +29,7 @@ public class PropertyResourceTest {
 
 	private PropertyResource propertyResource;
 	private PropertyDTO propertyDTO;
+	private PropertyAddressDTO addressDTO;
 	private PropertyServiceHandler service;
 	private SessionService sessionService;
 
@@ -38,6 +40,7 @@ public class PropertyResourceTest {
 		propertyResource = new PropertyResource(service, sessionService);
 
 		propertyDTO = mock(PropertyDTO.class);
+		addressDTO = mock(PropertyAddressDTO.class);
 		given(sessionService.validate(TOKEN)).willReturn(OWNER);
 	}
 
@@ -229,6 +232,29 @@ public class PropertyResourceTest {
 		Response result = propertyResource.getPropertiesFromOwner(TOKEN);
 
 		assertEquals(dtos, result.getEntity());
+	}
+
+	@Test
+	public void givenTokenAndAddressDTOWhenGetPropertyAtAddressThenCheckIfTokenIsValid() throws Exception {
+		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(TOKEN);
+		Response result = propertyResource.getPropertyAtAddress(TOKEN, addressDTO);
+		assertEquals(Status.UNAUTHORIZED, result.getStatusInfo());
+	}
+
+	@Test
+	public void givenTokenAndAddressDTOWhenGetPropertyAtAddressThenReturnsForbiddenStatusIfAccessIsForbidden()
+			throws Exception {
+		doThrow(ForbiddenAccessException.class).when(service).getPropertyAtAddress(OWNER, addressDTO);
+		Response result = propertyResource.getPropertyAtAddress(TOKEN, addressDTO);
+		assertEquals(Status.FORBIDDEN, result.getStatusInfo());
+	}
+
+	@Test
+	public void givenTokenAndAddressDTOWhenGetPropertyAtAddressThenReturnsPropertyDTOAndOkStatus() throws Exception {
+		given(service.getPropertyAtAddress(OWNER, addressDTO)).willReturn(propertyDTO);
+		Response result = propertyResource.getPropertyAtAddress(TOKEN, addressDTO);
+		assertEquals(propertyDTO, result.getEntity());
+		assertEquals(Status.OK, result.getStatusInfo());
 	}
 
 	private ArrayList<PropertyDTO> createPropertyDTOsList() {

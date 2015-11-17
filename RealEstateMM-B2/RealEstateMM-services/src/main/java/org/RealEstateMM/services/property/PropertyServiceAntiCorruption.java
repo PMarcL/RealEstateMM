@@ -85,7 +85,8 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(PropertyAddressDTO address) {
-		return service.getPropertyAtAddress(address);
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException {
+		validatePropertyAddress(address);
+		return service.getPropertyAtAddress(pseudo, address);
 	}
 }

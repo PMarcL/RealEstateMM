@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
+import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.junit.Before;
@@ -16,7 +17,9 @@ import org.junit.Test;
 public class PropertyServiceSecurityTest {
 	private final String ORDER_BY = "recently_uploaded_last";
 	private final String PSEUDONYM = "bobby134";
+
 	private PropertyDTO dto;
+	private PropertyAddressDTO addressDTO;
 	private UserAuthorizations authorizations;
 	private PropertyServiceHandler serviceHandler;
 	private PropertyServiceSecurity service;
@@ -25,6 +28,7 @@ public class PropertyServiceSecurityTest {
 	@Before
 	public void setup() {
 		dto = mock(PropertyDTO.class);
+		addressDTO = mock(PropertyAddressDTO.class);
 		authorizations = mock(UserAuthorizations.class);
 		userIsAuthorized();
 		serviceHandler = mock(PropertyServiceHandler.class);
@@ -83,7 +87,7 @@ public class PropertyServiceSecurityTest {
 	}
 
 	@Test(expected = ForbiddenAccessException.class)
-	public void givenUserIsNotAuthorizedWhenEditPropertyFeaturesShouldThrowException() throws Throwable {
+	public void givenUserIsNotAuthorizedWhenEditPropertyFeaturesShouldThrowExceptionIfNotAuthorized() throws Throwable {
 		userIsNotAuthorized();
 		service.editPropertyFeatures(PSEUDONYM, dto);
 	}
@@ -102,7 +106,7 @@ public class PropertyServiceSecurityTest {
 	}
 
 	@Test(expected = ForbiddenAccessException.class)
-	public void givenUserIsNotAuthorizedWhenGetOrderedPropertiesShouldThrowException() throws Throwable {
+	public void givenUserIsNotAuthorizedWhenGetOrderedPropertiesShouldThrowExceptionIfNotAuthorized() throws Throwable {
 		userIsNotAuthorized();
 		service.getOrderedProperties(PSEUDONYM, ORDER_BY);
 	}
@@ -114,7 +118,7 @@ public class PropertyServiceSecurityTest {
 	}
 
 	@Test(expected = ForbiddenAccessException.class)
-	public void givenAnOwnerWhenGetPropertiesFromOwnerThenShouldThrowException() throws Throwable {
+	public void givenAnOwnerWhenGetPropertiesFromOwnerThenShouldThrowExceptionIfNotAuthorized() throws Throwable {
 		userIsNotAuthorized();
 		service.getPropertiesFromOwner(PSEUDONYM);
 	}
@@ -124,6 +128,26 @@ public class PropertyServiceSecurityTest {
 		given(service.getPropertiesFromOwner(PSEUDONYM)).willReturn(propertyList);
 		List<PropertyDTO> result = service.getPropertiesFromOwner(PSEUDONYM);
 		assertSame(propertyList, result);
+	}
+
+	@Test
+	public void givenAnOwnerAndAddressWhenGetPropertyAtAddressThenValidateUserAccess() throws Exception {
+		service.getPropertyAtAddress(PSEUDONYM, addressDTO);
+		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER);
+	}
+
+	@Test
+	public void givenAnOwnerAndAddressWhenGetPropertyAtAddressThenAskService() throws Exception {
+		given(service.getPropertyAtAddress(PSEUDONYM, addressDTO)).willReturn(dto);
+		PropertyDTO result = service.getPropertyAtAddress(PSEUDONYM, addressDTO);
+		assertEquals(dto, result);
+	}
+
+	@Test(expected = ForbiddenAccessException.class)
+	public void givenAnOwnerAndAddressWhenGetPropertyAtAddressThenShouldThrowExceptionIfNotAuthorized()
+			throws Throwable {
+		userIsNotAuthorized();
+		service.getPropertyAtAddress(PSEUDONYM, addressDTO);
 	}
 
 	private void userIsAuthorized() {
