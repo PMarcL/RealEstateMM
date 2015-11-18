@@ -1,7 +1,9 @@
-package org.RealEstateMM.domain.property.search;
+package org.RealEstateMM.services.property;
 
 import static org.junit.Assert.*;
 
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.services.property.PropertySearchParametersParser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,31 +23,35 @@ public class PropertySearchParametersParserTest {
 	}
 
 	@Test
-	public void givenANewSearchFilterWhenInitializeWithRecentlyAddedFirstStringThenGetReturnsCorrespondingEnum() {
+	public void givenANewSearchFilterWhenInitializeWithRecentlyAddedFirstStringThenGetReturnsCorrespondingEnum()
+			throws Throwable {
 		assertEquals(PropertySearchParameters.RECENTLY_UPLOADED_FIRST,
 				propertyFilter.getParsedSearchParameter(RECENTLY_UPLOADED_FIRST));
 	}
 
 	@Test
-	public void givenANewSearchFilterWhenInitializeWithRecentlyAddedLastStringThenGetReturnsCorrespondingEnum() {
+	public void givenANewSearchFilterWhenInitializeWithRecentlyAddedLastStringThenGetReturnsCorrespondingEnum()
+			throws Throwable {
 		assertEquals(PropertySearchParameters.RECENTLY_UPLOADED_LAST,
 				propertyFilter.getParsedSearchParameter(RECENTLY_UPLOADED_LAST));
 	}
 
 	@Test
-	public void givenANewSearchFilterWhenInitializeWithHighestPriceFirstStringThenGetReturnsCorrespondingEnum() {
+	public void givenANewSearchFilterWhenInitializeWithHighestPriceFirstStringThenGetReturnsCorrespondingEnum()
+			throws Throwable {
 		assertEquals(PropertySearchParameters.HIGHEST_PRICE_FIRST,
 				propertyFilter.getParsedSearchParameter(HIGHEST_PRICE_FIRST));
 	}
 
 	@Test
-	public void givenANewSearchFilterWhenInitializeWithHighestPriceLastStringThenGetReturnsCorrespondingEnum() {
+	public void givenANewSearchFilterWhenInitializeWithHighestPriceLastStringThenGetReturnsCorrespondingEnum()
+			throws Throwable {
 		assertEquals(PropertySearchParameters.HIGHEST_PRICE_LAST,
 				propertyFilter.getParsedSearchParameter(HIGHEST_PRICE_LAST));
 	}
 
 	@Test(expected = InvalidSearchParameterException.class)
-	public void givenANewSearchFilterWhenInitializeWithInvalidStringThenThrowsException() {
+	public void givenANewSearchFilterWhenInitializeWithInvalidStringThenThrowsException() throws Throwable {
 		propertyFilter.getParsedSearchParameter(INVALID_FILTER);
 	}
 }

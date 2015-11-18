@@ -81,13 +81,14 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) throws ForbiddenAccessException {
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy)
+			throws ForbiddenAccessException, InvalidSearchParameterException {
 		return service.getOrderedProperties(pseudo, orderBy);
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
-			PropertyNotFoundException {
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address)
+			throws ForbiddenAccessException, PropertyNotFoundException {
 		validatePropertyAddress(address);
 		return service.getPropertyAtAddress(pseudo, address);
 	}

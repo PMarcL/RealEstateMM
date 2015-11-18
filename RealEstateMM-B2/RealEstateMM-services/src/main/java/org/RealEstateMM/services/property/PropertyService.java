@@ -9,7 +9,6 @@ import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
-import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -69,7 +68,8 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) {
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy)
+			throws InvalidSearchParameterException {
 		PropertySearchParameters searchParam = searchParameterParser.getParsedSearchParameter(orderBy);
 		List<Property> orderedProperties = properties.getOrderedProperties(searchParam);
 		return buildDTOsFromProperties(orderedProperties);

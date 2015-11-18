@@ -13,12 +13,13 @@ public interface PropertyServiceHandler {
 
 	public List<PropertyDTO> getAllProperties(String pseudo) throws ForbiddenAccessException;
 
-	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) throws ForbiddenAccessException;
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy)
+			throws ForbiddenAccessException, InvalidSearchParameterException;
 
 	public void editPropertyFeatures(String pseudo, PropertyDTO propertyDTO) throws ForbiddenAccessException;
 
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
-			PropertyNotFoundException;
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address)
+			throws ForbiddenAccessException, PropertyNotFoundException;
 
 	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException;
 }

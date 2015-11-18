@@ -1,4 +1,6 @@
-package org.RealEstateMM.domain.property.search;
+package org.RealEstateMM.services.property;
+
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 
 public class PropertySearchParametersParser {
 
@@ -8,7 +10,7 @@ public class PropertySearchParametersParser {
 	private static final String HIGHEST_PRICE_FIRST = "highest_price_first";
 	private static final String HIGHEST_PRICE_LAST = "highest_price_last";
 
-	public PropertySearchParameters getParsedSearchParameter(String toParse) {
+	public PropertySearchParameters getParsedSearchParameter(String toParse) throws InvalidSearchParameterException {
 		PropertySearchParameters param;
 
 		if (toParse == null) {

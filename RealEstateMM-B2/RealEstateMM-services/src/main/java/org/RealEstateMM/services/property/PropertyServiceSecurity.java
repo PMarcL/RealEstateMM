@@ -38,7 +38,8 @@ public class PropertyServiceSecurity implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy) throws ForbiddenAccessException {
+	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy)
+			throws ForbiddenAccessException, InvalidSearchParameterException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.getOrderedProperties(pseudo, orderBy);
 	}
@@ -56,8 +57,8 @@ public class PropertyServiceSecurity implements PropertyServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
-			PropertyNotFoundException {
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address)
+			throws ForbiddenAccessException, PropertyNotFoundException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.getPropertyAtAddress(pseudo, address);
 	}

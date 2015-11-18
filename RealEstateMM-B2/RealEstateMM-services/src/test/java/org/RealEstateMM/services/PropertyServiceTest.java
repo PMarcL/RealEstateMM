@@ -10,9 +10,9 @@ import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.domain.property.search.InvalidSearchParameterException;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
-import org.RealEstateMM.domain.property.search.PropertySearchParametersParser;
+import org.RealEstateMM.services.property.InvalidSearchParameterException;
+import org.RealEstateMM.services.property.PropertySearchParametersParser;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -39,7 +39,7 @@ public class PropertyServiceTest {
 	private PropertyService propertyService;
 
 	@Before
-	public void setup() {
+	public void setup() throws Throwable {
 		assembler = mock(PropertyDTOAssembler.class);
 		properties = mock(Properties.class);
 		searchParameterParser = mock(PropertySearchParametersParser.class);
@@ -112,26 +112,27 @@ public class PropertyServiceTest {
 	}
 
 	@Test
-	public void givenASearchParamWhenGetOrderedPropertiesThenParseSearchParamWithParser() {
+	public void givenASearchParamWhenGetOrderedPropertiesThenParseSearchParamWithParser() throws Throwable {
 		propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
 		verify(searchParameterParser).getParsedSearchParameter(ORDER_BY);
 	}
 
 	@Test
-	public void givenASearchParamWhenGetOrderedPropertiesThenUsesPropertiesWithParsedSearchParam() {
+	public void givenASearchParamWhenGetOrderedPropertiesThenUsesPropertiesWithParsedSearchParam() throws Throwable {
 		propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
 		verify(properties).getOrderedProperties(SEARCH_PARAM);
 	}
 
 	@Test
-	public void givenASearchParamWhenGetOrderedPropertiesThenReturnsPropertiesOrderedByProperties() {
+	public void givenASearchParamWhenGetOrderedPropertiesThenReturnsPropertiesOrderedByProperties() throws Throwable {
 		given(properties.getOrderedProperties(SEARCH_PARAM)).willReturn(buildPropertiesList());
 		List<PropertyDTO> returnedDTOs = propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
 		assertTrue(returnedDTOs.contains(propertyDTO));
 	}
 
 	@Test(expected = InvalidSearchParameterException.class)
-	public void givenAnInvalidSearchParamWhenGetOrderedPropertiesThenThrowsInvalidSearchParamException() {
+	public void givenAnInvalidSearchParamWhenGetOrderedPropertiesThenThrowsInvalidSearchParamException()
+			throws Throwable {
 		doThrow(InvalidSearchParameterException.class).when(searchParameterParser).getParsedSearchParameter(ORDER_BY);
 		propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
 	}
