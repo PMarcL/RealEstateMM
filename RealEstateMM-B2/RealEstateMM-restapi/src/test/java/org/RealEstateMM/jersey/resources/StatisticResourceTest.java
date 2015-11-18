@@ -8,7 +8,9 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.jersey.responses.statistics.NumberOfActiveUserResponse;
 import org.RealEstateMM.jersey.responses.statistics.NumberOfPropertiesSoldThisYearResponse;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.statistics.StatisticService;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,13 +22,19 @@ public class StatisticResourceTest {
 	private StatisticResource statisticResource;
 
 	@Before
-	public void setUp()  {
+	public void setUp() {
 		StatisticService statisticService = mock(StatisticService.class);
 		given(statisticService.getNumberOfPropertiesSoldThisYear()).willReturn(NUMBER_OF_PROPERTIES_SOLD_THIS_YEAR);
 		given(statisticService.getNumberOfActiveSeller()).willReturn(NUMBER_OF_ACTIVE_SELLER);
 		given(statisticService.getNumberOfActiveBuyer()).willReturn(NUMBER_OF_ACTIVE_BUYER);
 
-		statisticResource = new StatisticResource(statisticService);
+		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
+		statisticResource = new StatisticResource();
+	}
+
+	@After
+	public void tearDown() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test

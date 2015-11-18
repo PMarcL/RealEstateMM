@@ -24,10 +24,6 @@ public class StatisticResource {
 		this.statisticService = ServiceLocator.getInstance().getService(StatisticService.class);
 	}
 
-	public StatisticResource(StatisticService statisticService) {
-		this.statisticService = statisticService;
-	}
-
 	@GET
 	@Path("numberofsoldproperties")
 	@Produces(MediaType.APPLICATION_JSON)
