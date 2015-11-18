@@ -55,7 +55,7 @@
 		<module>RealEstateMM-domain</module>
 		<module>RealEstateMM-services</module>
 		<module>RealEstateMM-persistence</module>
-		<module>RealEstateMM-jersey</module>
+		<module>RealEstateMM-restapi</module>
 		<module>RealEstateMM-authentication</module>
 		<module>RealEstateMM-context</module>
 	</modules>
