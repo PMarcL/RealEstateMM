@@ -22,6 +22,7 @@ import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
+import org.RealEstateMM.domain.user.filters.UserFilterFactory;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
@@ -95,6 +96,7 @@ public class DemoContext extends Context {
 		registerAssemblers();
 		ServiceLocator.getInstance().registerService(PropertySearchParametersParser.class,
 				new PropertySearchParametersParser());
+		ServiceLocator.getInstance().registerService(UserFilterFactory.class, new UserFilterFactory());
 	}
 
 	private void registerRepositories() {
