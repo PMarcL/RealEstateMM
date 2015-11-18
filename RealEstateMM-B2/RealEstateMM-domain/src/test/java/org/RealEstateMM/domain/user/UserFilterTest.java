@@ -17,9 +17,6 @@ public class UserFilterTest {
 	private final User A_BUYER = aUserMockReturningUserType(AccessLevel.BUYER);
 	private final User AN_ADMIN = aUserMockReturningUserType(AccessLevel.ADMIN);
 
-	private final User AN_ACTIVE_USER = aUserMockReturningIsActive(true);
-	private final User AN_INACTIVE_USER = aUserMockReturningIsActive(false);
-
 	private UserFilter userFilter;
 
 	@Before
@@ -58,22 +55,25 @@ public class UserFilterTest {
 	}
 
 	@Test
-	public void givenAListOfUsersWhenGetActiveUsersThenReturnsOnlyActiveUser() {
+	public void givenAListOfUsersWhenGetLastLoggedInTheLast6MonthsThenReturnsListOfUserLastLoggedInTheLast6Months() {
+		User lastLoggedThisWeek = aUserMockLastLoggedInTheLastSixMonths(true);
+		User lastLoggedLastYearUser = aUserMockLastLoggedInTheLastSixMonths(false);
+
 		Collection<User> users = new ArrayList<>();
-		users.add(AN_ACTIVE_USER);
-		users.add(AN_INACTIVE_USER);
+		users.add(lastLoggedLastYearUser);
+		users.add(lastLoggedThisWeek);
 		int numberOfActiveUser = 1;
 
-		Collection<User> actual = userFilter.getActiveUsers(users);
+		Collection<User> actual = userFilter.getUsersLastLoggedInTheLast6Months(users);
 
-		assertTrue(actual.contains(AN_ACTIVE_USER));
+		assertTrue(actual.contains(lastLoggedThisWeek));
 		assertEquals(numberOfActiveUser, actual.size());
 
 	}
 
-	private User aUserMockReturningIsActive(boolean isActive) {
+	private User aUserMockLastLoggedInTheLastSixMonths(boolean hasLoggedInTheLastSixMonths) {
 		User user = mock(User.class);
-		given(user.isActive()).willReturn(isActive);
+		given(user.hasLoggedLastAfter(any())).willReturn(hasLoggedInTheLastSixMonths);
 		return user;
 	}
 

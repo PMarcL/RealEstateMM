@@ -1,6 +1,8 @@
 package org.RealEstateMM.domain.user;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,8 +15,11 @@ public class UserFilter {
 		return userOfGivenTypeStream.collect(Collectors.toList());
 	}
 
-	public Collection<User> getActiveUsers(Collection<User> users) {
-		return users.stream().filter(u -> u.isActive()).collect(Collectors.toList());
+	public Collection<User> getUsersLastLoggedInTheLast6Months(Collection<User> users) {
+		Calendar calendarSixMonthsAgo = Calendar.getInstance();
+		calendarSixMonthsAgo.add(Calendar.MONTH, -6);
+		Date sixMonthsAgo = calendarSixMonthsAgo.getTime();
+		return users.stream().filter(u -> u.hasLoggedLastAfter(sixMonthsAgo)).collect(Collectors.toList());
 	}
 
 }

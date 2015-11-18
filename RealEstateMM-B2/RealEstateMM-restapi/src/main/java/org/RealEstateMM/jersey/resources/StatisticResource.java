@@ -60,9 +60,9 @@ public class StatisticResource {
 	@GET
 	@Path("numberofsellerswithaproperty")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getNumberOfSellersWithAnOnsaleProperty() {
+	public Response getNumberOfSellersWithAnOnsaleProperties() {
 		try {
-			String numberOfActiveSellers = String.valueOf(statisticService.getNumberOfSellerWithAnOnSaleProperty());
+			String numberOfActiveSellers = String.valueOf(statisticService.getNumberOfSellerWithAnOnSaleProperties());
 			return Response.ok().entity(JsonFormatter.fieldToJSON("numberOfSellerWithAProperty", numberOfActiveSellers))
 					.build();
 		} catch (Exception e) {

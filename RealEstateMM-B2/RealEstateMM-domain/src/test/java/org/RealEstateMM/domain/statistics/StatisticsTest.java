@@ -62,7 +62,7 @@ public class StatisticsTest {
 		ACTIVE_BUYERS.add(mock(User.class));
 
 		given(userFilter.getUsersWithUserType(ALL_USERS, AccessLevel.SELLER)).willReturn(BUYERS);
-		given(userFilter.getActiveUsers(BUYERS)).willReturn(ACTIVE_BUYERS);
+		given(userFilter.getUsersLastLoggedInTheLast6Months(BUYERS)).willReturn(ACTIVE_BUYERS);
 
 		int actual = statistics.getNumberOfActiveBuyer();
 
@@ -77,7 +77,7 @@ public class StatisticsTest {
 		ACTIVE_SELLERS.add(mock(User.class));
 
 		given(userFilter.getUsersWithUserType(ALL_USERS, AccessLevel.SELLER)).willReturn(SELLERS);
-		given(userFilter.getActiveUsers(SELLERS)).willReturn(ACTIVE_SELLERS);
+		given(userFilter.getUsersLastLoggedInTheLast6Months(SELLERS)).willReturn(ACTIVE_SELLERS);
 
 		int actual = statistics.getNumberOfActiveSeller();
 

@@ -52,16 +52,17 @@ public class Statistics {
 	public int getNumberOfActiveSeller() {
 		Collection<User> users = userRepository.getAllUsers();
 		Collection<User> sellers = userFilter.getUsersWithUserType(users, AccessLevel.SELLER);
-		return userFilter.getActiveUsers(sellers).size();
+		return userFilter.getUsersLastLoggedInTheLast6Months(sellers).size();
 	}
 
 	public int getNumberOfActiveBuyer() {
 		Collection<User> users = userRepository.getAllUsers();
 		Collection<User> buyers = userFilter.getUsersWithUserType(users, AccessLevel.BUYER);
-		return userFilter.getActiveUsers(buyers).size();
+		return userFilter.getUsersLastLoggedInTheLast6Months(buyers).size();
 	}
-	
-	public int getNumberOfSellersWithOnSaleProperties(){
+
+	// TODO remove this for getNumberOfActiveSeller
+	public int getNumberOfSellersWithOnSaleProperties() {
 		SellersWithOnSaleProperty sellers = new SellersWithOnSaleProperty(propertyRepository);
 		return sellers.findNumberOfSellerWithOnSaleProperty();
 	}

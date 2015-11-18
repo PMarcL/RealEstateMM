@@ -34,7 +34,7 @@ public class StatisticService {
 		return statistics.getNumberOfPropertiesOnSalePerCategory();
 	}
 	
-	public int getNumberOfSellerWithAnOnSaleProperty(){
+	public int getNumberOfSellerWithAnOnSaleProperties(){
 		return statistics.getNumberOfSellersWithOnSaleProperties();
 	}
 
