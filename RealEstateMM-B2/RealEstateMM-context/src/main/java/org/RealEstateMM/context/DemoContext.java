@@ -33,15 +33,15 @@ import org.RealEstateMM.services.property.PropertySearchParametersParser;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.PropertyServiceSecurity;
-import org.RealEstateMM.services.property.anticorruption.PropertyInformationsValidator;
-import org.RealEstateMM.services.property.anticorruption.PropertyServiceAntiCorruption;
+import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
+import org.RealEstateMM.services.property.validation.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.statistics.StatisticService;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.UserServiceSecurity;
-import org.RealEstateMM.services.user.anticorruption.UserInformationsValidator;
-import org.RealEstateMM.services.user.anticorruption.UserServiceAntiCorruption;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
+import org.RealEstateMM.services.user.validation.UserInformationsValidator;
+import org.RealEstateMM.services.user.validation.UserServiceAntiCorruption;
 
 public class DemoContext extends Context {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;

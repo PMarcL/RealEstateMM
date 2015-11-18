@@ -16,9 +16,9 @@ import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
-import org.RealEstateMM.services.property.anticorruption.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.validation.InvalidPropertyInformationException;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyResourceTest {

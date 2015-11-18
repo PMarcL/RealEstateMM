@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.property.anticorruption;
+package org.RealEstateMM.services.property.validation;
 
 import java.util.Calendar;
 import java.util.regex.Matcher;

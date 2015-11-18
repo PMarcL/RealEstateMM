@@ -6,8 +6,8 @@ import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
-import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
+import org.RealEstateMM.services.user.validation.InvalidUserInformationsException;
 
 public class UserServiceSecurity implements UserServiceHandler {
 

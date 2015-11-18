@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user.anticorruption;
+package org.RealEstateMM.services.user.validation;
 
 import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.UserNotFoundException;

@@ -1,8 +1,9 @@
-package org.RealEstateMM.services.user.anticorruption;
+package org.RealEstateMM.services.user.validation;
 
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
+import org.RealEstateMM.services.user.validation.UserInformationsValidator;
 import org.junit.Before;
 import org.junit.Test;
 

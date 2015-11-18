@@ -23,8 +23,8 @@ import org.RealEstateMM.jersey.responses.LoginResponse;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
-import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
+import org.RealEstateMM.services.user.validation.InvalidUserInformationsException;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

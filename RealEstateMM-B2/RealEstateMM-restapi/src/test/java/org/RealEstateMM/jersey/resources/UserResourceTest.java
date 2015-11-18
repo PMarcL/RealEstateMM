@@ -18,8 +18,8 @@ import org.RealEstateMM.jersey.responses.LoginResponse;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
-import org.RealEstateMM.services.user.anticorruption.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.dtos.UserDTO;
+import org.RealEstateMM.services.user.validation.InvalidUserInformationsException;
 import org.junit.Before;
 import org.junit.Test;
 
