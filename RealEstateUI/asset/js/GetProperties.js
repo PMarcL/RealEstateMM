@@ -38,19 +38,21 @@ function createHtmlPropertyList(propertiesJSON) {
             + "<div class='zipCode'>" + this.propertyAddress.zipCode + "</div>"
             + "<div class='status'>" + this.propertyStatus + "</div>"
             + "<div class='owner'>" + this.propertyOwner + "</div>"
-            + "<div class='features'>  "
-            + "<div class='featureTitle'>Features: </div>"
-            +   "<div class='featuresAttribute'> Number of bathrooms : " + this.propertyFeatures.numberOfBathrooms + "</div>"
-            +   "<div class='featuresAttribute'> Number of bedrooms : " + this.propertyFeatures.numberOfBedrooms + "</div>"
-            +   "<div class='featuresAttribute'> Total number of rooms : " + this.propertyFeatures.totalNumberOfRooms + "</div>"
-            +   "<div class='featuresAttribute'> Number of levels : " + this.propertyFeatures.numberOfLevels + "</div>"
-            +   "<div class='featuresAttribute'> Lot dimension : " + this.propertyFeatures.lotDimensions + "</div>"
-            +   "<div class='featuresAttribute'> Year of construction : " + this.propertyFeatures.yearOfConstruction + "</div>"
-            +   "<div class='featuresAttribute'> Living space area : " + this.propertyFeatures.livingSpaceArea + "</div>"
-            +   "<div class='featuresAttribute'> Backyard direction : " + this.propertyFeatures.backyardDirection + "</div>"
-            +   "<div class='featuresAttribute'> Description : " + this.propertyFeatures.description + "</div>"
-            +"</div><br>"
+            + "<div class='see-details'><a class='waves-effect waves-light btn editProperty'>See details</a></div>"
             + "<li>";
         $('#propertylist').html(buffer);
     });
 }
+
+$('#propertylist').on('click', '.editProperty', function(){
+    var infoContainer = $(this).parent().parent();
+    var propertyAddress = {
+        "streetAddress": infoContainer.find('.streetAddress').text(),
+        "city": infoContainer.find('.city').text(),
+        "province": infoContainer.find('.province').text(),
+        "zipCode": infoContainer.find('.zipCode').text()
+    };
+
+    $.cookie("currentPropertyAddress", JSON.stringify(propertyAddress));
+    window.location.href = 'propertyDetails.html';
+});
