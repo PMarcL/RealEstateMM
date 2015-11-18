@@ -1,8 +1,10 @@
-package org.RealEstateMM.services.property;
+package org.RealEstateMM.services.property.anticorruption;
 
 import java.util.List;
 
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
+import org.RealEstateMM.services.property.InvalidSearchParameterException;
+import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;

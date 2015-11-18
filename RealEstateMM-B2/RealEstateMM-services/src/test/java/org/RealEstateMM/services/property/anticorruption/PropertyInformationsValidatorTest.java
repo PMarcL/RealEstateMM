@@ -1,10 +1,10 @@
-package org.RealEstateMM.services.property;
+package org.RealEstateMM.services.property.anticorruption;
 
 import static org.junit.Assert.*;
 
 import java.util.Calendar;
 
-import org.RealEstateMM.services.property.PropertyInformationsValidator;
+import org.RealEstateMM.services.property.anticorruption.PropertyInformationsValidator;
 import org.junit.Before;
 import org.junit.Test;
 
