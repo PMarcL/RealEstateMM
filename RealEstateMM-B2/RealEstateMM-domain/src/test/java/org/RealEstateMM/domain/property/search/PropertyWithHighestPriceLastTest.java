@@ -1,8 +1,7 @@
 package org.RealEstateMM.domain.property.search;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
 
@@ -12,10 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyWithHighestPriceLastTest {
-	
+
 	private static final Double HIGH_PRICE = 200000.00;
 	private static final Double LOW_PRICE = 100000.00;
-	
+
 	private PropertyRepository propertyRepository;
 	private Property mostExpensiveProperty;
 	private Property leastExpensiveProperty;

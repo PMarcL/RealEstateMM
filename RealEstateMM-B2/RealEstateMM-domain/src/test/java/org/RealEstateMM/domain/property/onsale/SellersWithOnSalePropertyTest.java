@@ -1,8 +1,7 @@
 package org.RealEstateMM.domain.property.onsale;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
 
@@ -13,31 +12,31 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SellersWithOnSalePropertyTest {
-	
+
 	private PropertyRepository repository;
 	private Property firstProperty;
 	private Property secondProperty;
-	
+
 	private static final String PROPERTY_OWNER = "bob";
 	private static final String SECOND_OWNER = "Banana guy";
 
 	@Before
-	public void setup(){
+	public void setup() {
 		repository = mock(PropertyRepository.class);
 	}
-	
+
 	@Test
-	public void givenAnEmptyRepositoryNumberOfSellerShouldBeZero(){
+	public void givenAnEmptyRepositoryNumberOfSellerShouldBeZero() {
 		given(repository.getAll()).willReturn(new ArrayList<Property>());
 		SellersWithOnSaleProperty sellers = new SellersWithOnSaleProperty(repository);
-		
+
 		int numberOfSellers = sellers.findNumberOfSellerWithOnSaleProperty();
-		
+
 		assertEquals(0, numberOfSellers);
 	}
-	
+
 	@Test
-	public void givenARepositoryWithOneOnSalePropertyThenNumberOfSellerShouldReturnOne(){
+	public void givenARepositoryWithOneOnSalePropertyThenNumberOfSellerShouldReturnOne() {
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
 		given(firstProperty.getStatus()).willReturn(PropertyStatus.ON_SALE);
@@ -45,14 +44,14 @@ public class SellersWithOnSalePropertyTest {
 		allProperties.add(firstProperty);
 		given(repository.getAll()).willReturn(allProperties);
 		SellersWithOnSaleProperty sellers = new SellersWithOnSaleProperty(repository);
-		
+
 		int numberOfSellers = sellers.findNumberOfSellerWithOnSaleProperty();
-		
+
 		assertEquals(1, numberOfSellers);
 	}
-	
+
 	@Test
-	public void givenArepositoryWithTwoPropertiesWithSameOwnerThenNumberOfSellerShouldReturnOne(){
+	public void givenArepositoryWithTwoPropertiesWithSameOwnerThenNumberOfSellerShouldReturnOne() {
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
 		secondProperty = mock(Property.class);
@@ -64,15 +63,14 @@ public class SellersWithOnSalePropertyTest {
 		allProperties.add(secondProperty);
 		given(repository.getAll()).willReturn(allProperties);
 		SellersWithOnSaleProperty sellers = new SellersWithOnSaleProperty(repository);
-		
+
 		int numberOfSellers = sellers.findNumberOfSellerWithOnSaleProperty();
-		
+
 		assertEquals(1, numberOfSellers);
 	}
-	
-	
+
 	@Test
-	public void givenArepositoryWithTwoPropertiesWithDifferentOwnersThenNumberOfSellerShouldReturnTwo(){
+	public void givenArepositoryWithTwoPropertiesWithDifferentOwnersThenNumberOfSellerShouldReturnTwo() {
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
 		secondProperty = mock(Property.class);
@@ -84,14 +82,14 @@ public class SellersWithOnSalePropertyTest {
 		allProperties.add(secondProperty);
 		given(repository.getAll()).willReturn(allProperties);
 		SellersWithOnSaleProperty sellers = new SellersWithOnSaleProperty(repository);
-		
+
 		int numberOfSellers = sellers.findNumberOfSellerWithOnSaleProperty();
-		
+
 		assertEquals(2, numberOfSellers);
 	}
-	
+
 	@Test
-	public void givenARepositoryWithASoldPropertyThenNumberOfSellerShouldReturnZero(){
+	public void givenARepositoryWithASoldPropertyThenNumberOfSellerShouldReturnZero() {
 		ArrayList<Property> allProperties = new ArrayList<Property>();
 		firstProperty = mock(Property.class);
 		given(firstProperty.getStatus()).willReturn(PropertyStatus.SOLD);
@@ -99,9 +97,9 @@ public class SellersWithOnSalePropertyTest {
 		allProperties.add(firstProperty);
 		given(repository.getAll()).willReturn(allProperties);
 		SellersWithOnSaleProperty sellers = new SellersWithOnSaleProperty(repository);
-		
+
 		int numberOfSellers = sellers.findNumberOfSellerWithOnSaleProperty();
-		
+
 		assertEquals(0, numberOfSellers);
 	}
 }

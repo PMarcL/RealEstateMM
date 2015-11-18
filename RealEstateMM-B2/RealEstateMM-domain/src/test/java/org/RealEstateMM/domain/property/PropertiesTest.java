@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.mockito.InOrder;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
@@ -15,6 +14,7 @@ import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 public class PropertiesTest {
 

@@ -75,7 +75,8 @@ public class PropertyServiceSecurityTest {
 	}
 
 	@Test
-	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized() throws Throwable {
+	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized()
+			throws Throwable {
 		service.editPropertyFeatures(PSEUDONYM, dto);
 		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
 	}

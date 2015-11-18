@@ -3,8 +3,6 @@ package org.RealEstateMM.services.property.dtos;
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
-import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTOAssembler;
 import org.junit.Before;
 import org.junit.Test;
 

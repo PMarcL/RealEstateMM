@@ -1,13 +1,11 @@
 package org.RealEstateMM.domain.user;
 
-import static org.mockito.BDDMockito.*;
-
-import org.RealEstateMM.domain.user.UserRole.AccessLevel;
-
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import java.util.Calendar;
 
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.junit.Before;
 import org.junit.Test;
 

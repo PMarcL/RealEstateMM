@@ -3,7 +3,6 @@ package org.RealEstateMM.services.property;
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
-import org.RealEstateMM.services.property.PropertySearchParametersParser;
 import org.junit.Before;
 import org.junit.Test;
 

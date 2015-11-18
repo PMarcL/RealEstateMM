@@ -1,7 +1,7 @@
 package org.RealEstateMM.persistence.xml.user;
 
-import static org.mockito.BDDMockito.*;
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import java.text.SimpleDateFormat;
 
@@ -9,10 +9,8 @@ import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRole;
-import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
-import org.RealEstateMM.persistence.xml.user.XmlUser;
-import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
+import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.junit.Before;
 import org.junit.Test;
 

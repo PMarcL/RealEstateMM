@@ -1,9 +1,9 @@
 package org.RealEstateMM.services.user.validation;
 
-import org.RealEstateMM.domain.user.ExistingUserException;
-import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.AuthenticationFailedException;
 import org.RealEstateMM.domain.user.EmailAddressConfirmationException;
+import org.RealEstateMM.domain.user.ExistingUserException;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
