@@ -1,8 +1,8 @@
 package org.RealEstateMM.domain.user.emailconfirmation;
 
+import org.RealEstateMM.domain.emailsender.EmailMessage;
+import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
-import org.RealEstateMM.domain.emailsender.email.EmailMessage;
-import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserNotFoundException;

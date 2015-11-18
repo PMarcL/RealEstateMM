@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.emailsender.email;
+package org.RealEstateMM.domain.emailsender;
 
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCode;
 

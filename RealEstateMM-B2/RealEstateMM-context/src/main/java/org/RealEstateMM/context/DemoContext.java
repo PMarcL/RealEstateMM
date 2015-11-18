@@ -4,8 +4,8 @@ import java.io.File;
 
 import org.RealEstateMM.authentication.session.SessionRepository;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
-import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.gmail.GmailSender;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.RealEstateMM.domain.property.Properties;

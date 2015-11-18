@@ -14,8 +14,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.RealEstateMM.domain.emailsender.EmailException;
+import org.RealEstateMM.domain.emailsender.EmailMessage;
 import org.RealEstateMM.domain.emailsender.EmailSender;
-import org.RealEstateMM.domain.emailsender.email.EmailMessage;
 
 import com.sun.mail.smtp.SMTPTransport;
 

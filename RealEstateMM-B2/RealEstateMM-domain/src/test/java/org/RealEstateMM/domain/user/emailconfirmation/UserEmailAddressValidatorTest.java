@@ -2,9 +2,9 @@ package org.RealEstateMM.domain.user.emailconfirmation;
 
 import static org.mockito.BDDMockito.*;
 
+import org.RealEstateMM.domain.emailsender.EmailAddressConfirmationMessage;
+import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
-import org.RealEstateMM.domain.emailsender.email.EmailAddressConfirmationMessage;
-import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserNotFoundException;
