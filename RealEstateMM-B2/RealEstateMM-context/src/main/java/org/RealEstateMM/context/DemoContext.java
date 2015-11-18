@@ -10,6 +10,7 @@ import org.RealEstateMM.domain.emailsender.gmail.GmailSender;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.user.Administrator;
 import org.RealEstateMM.domain.user.ExistingUserException;
@@ -97,6 +98,7 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(PropertySearchParametersParser.class,
 				new PropertySearchParametersParser());
 		ServiceLocator.getInstance().registerService(UserFilterFactory.class, new UserFilterFactory());
+		ServiceLocator.getInstance().registerService(PropertyFilterFactory.class, new PropertyFilterFactory());
 	}
 
 	private void registerRepositories() {

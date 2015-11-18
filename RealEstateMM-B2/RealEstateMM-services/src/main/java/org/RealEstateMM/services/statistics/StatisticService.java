@@ -17,8 +17,9 @@ public class StatisticService {
 		PropertyRepository propertyRepository = ServiceLocator.getInstance().getService(PropertyRepository.class);
 		UserRepository userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
 		UserFilterFactory userFilterFactory = ServiceLocator.getInstance().getService(UserFilterFactory.class);
-		// TODO remove new
-		statistics = new Statistics(propertyRepository, userRepository, userFilterFactory, new PropertyFilterFactory());
+		PropertyFilterFactory propertyFilterFactory = ServiceLocator.getInstance()
+				.getService(PropertyFilterFactory.class);
+		statistics = new Statistics(propertyRepository, userRepository, userFilterFactory, propertyFilterFactory);
 	}
 
 	public int getNumberOfPropertiesSoldThisYear() {

@@ -88,8 +88,6 @@ public class User {
 		lastLoginCalendar.setTime(lastLoginDate);
 		whenCalendar.setTime(when);
 
-		// TODO TEST
-
 		return lastLoginCalendar.after(whenCalendar);
 	}
 

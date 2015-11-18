@@ -10,6 +10,8 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertiesSoldThisYearFilter;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
+import org.RealEstateMM.domain.property.filters.PropertyStatusFilter;
+import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
@@ -32,6 +34,7 @@ public class StatisticsTest {
 	private UserFilterFactory userFilterFactory;
 
 	private PropertiesSoldThisYearFilter propertiesSoldThisYearFilter;
+	private PropertyStatusFilter propertyStatusFilter;
 	private PropertyFilterFactory propertyFilterFactory;
 
 	private Statistics statistics;
@@ -52,9 +55,11 @@ public class StatisticsTest {
 
 	private void setMocksOfPropertiesFilterFactory() {
 		propertiesSoldThisYearFilter = mock(PropertiesSoldThisYearFilter.class);
+		propertyStatusFilter = mock(PropertyStatusFilter.class);
 		propertyFilterFactory = mock(PropertyFilterFactory.class);
 
 		given(propertyFilterFactory.createPropertiesSoldThisYearFilter()).willReturn(propertiesSoldThisYearFilter);
+		given(propertyFilterFactory.createPropertyStatusFilter()).willReturn(propertyStatusFilter);
 	}
 
 	private void setMocksOfUserFilterFactory() {
@@ -97,19 +102,28 @@ public class StatisticsTest {
 	}
 
 	@Test
-	public void whenGetNumberOfActiveSellerThenReturnsTheSizeOfTheFilteredList() {
-		final Collection<User> SELLERS = new ArrayList<User>();
-		final Collection<User> ACTIVE_SELLERS = new ArrayList<User>();
-		ACTIVE_SELLERS.add(mock(User.class));
-		ACTIVE_SELLERS.add(mock(User.class));
+	public void whenGetNumberOfActiveSellerThenReturnsTheNumberOfSellerWithAtLeastOnePropertyOnSale() {
+		String owner = "Joe The Owner";
+		Property aProperty = aMockPropertyWithOwner(owner);
+		Property anotherPropertyWithTheSameOwner = aMockPropertyWithOwner(owner);
 
-		given(userTypeFilter.filter(ALL_USERS, AccessLevel.SELLER)).willReturn(SELLERS);
-		// given(userFilter.filter(SELLERS)).willReturn(ACTIVE_SELLERS);
-		// TODO this test and ~
+		Collection<Property> onSaleProperties = new ArrayList<Property>();
+		onSaleProperties.add(aProperty);
+		onSaleProperties.add(anotherPropertyWithTheSameOwner);
+		int differentSellerWithOnePropertyOnSale = 1;
 
-		// int actual = statistics.getNumberOfActiveSeller();
+		given(propertyStatusFilter.filter(ALL_PROPERTIES, PropertyStatus.ON_SALE)).willReturn(onSaleProperties);
 
-		// assertEquals(ACTIVE_SELLERS.size(), actual);
+		int actual = statistics.getNumberOfActiveSeller();
+
+		assertEquals(differentSellerWithOnePropertyOnSale, actual);
+
+	}
+
+	private Property aMockPropertyWithOwner(String owner) {
+		Property property = mock(Property.class);
+		given(property.getOwner()).willReturn(owner);
+		return property;
 	}
 
 }
