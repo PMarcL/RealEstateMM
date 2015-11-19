@@ -3,11 +3,11 @@ package org.RealEstateMM.services.property;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
+import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyServiceSecurity implements PropertyServiceHandler {
 
@@ -26,9 +26,7 @@ public class PropertyServiceSecurity implements PropertyServiceHandler {
 	}
 
 	private void validateUserAccess(String pseudo, AccessLevel... accessLevels) throws ForbiddenAccessException {
-		if (!(authorizations.isUserAuthorized(pseudo, accessLevels))) {
-			throw new ForbiddenAccessException();
-		}
+		authorizations.validateUserAuthorizations(pseudo, accessLevels);
 	}
 
 	@Override

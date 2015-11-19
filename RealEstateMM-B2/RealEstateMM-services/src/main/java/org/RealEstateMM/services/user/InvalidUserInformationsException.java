@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user.validation;
+package org.RealEstateMM.services.user;
 
 @SuppressWarnings("serial")
 public class InvalidUserInformationsException extends Exception {

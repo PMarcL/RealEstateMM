@@ -3,11 +3,11 @@ package org.RealEstateMM.services.user;
 import org.RealEstateMM.domain.user.AuthenticationFailedException;
 import org.RealEstateMM.domain.user.EmailAddressConfirmationException;
 import org.RealEstateMM.domain.user.ExistingUserException;
+import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.RealEstateMM.services.user.validation.InvalidUserInformationsException;
 
 public class UserServiceSecurity implements UserServiceHandler {
 
@@ -44,9 +44,7 @@ public class UserServiceSecurity implements UserServiceHandler {
 	}
 
 	private void validateUserAccess(String pseudonym, AccessLevel... accessLevels) throws ForbiddenAccessException {
-		if (!authorizations.isUserAuthorized(pseudonym, accessLevels)) {
-			throw new ForbiddenAccessException();
-		}
+		authorizations.validateUserAuthorizations(pseudonym, accessLevels);
 	}
 
 	@Override

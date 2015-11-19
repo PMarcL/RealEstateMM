@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.user;
+package org.RealEstateMM.domain.user;
 
 public class ForbiddenAccessException extends Exception {
 

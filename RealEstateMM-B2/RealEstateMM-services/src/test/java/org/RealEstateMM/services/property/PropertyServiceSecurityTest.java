@@ -10,9 +10,9 @@ import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 public class PropertyServiceSecurityTest {
 	private final String ORDER_BY = "recently_uploaded_last";
@@ -30,7 +30,6 @@ public class PropertyServiceSecurityTest {
 		dto = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
 		authorizations = mock(UserAuthorizations.class);
-		userIsAuthorized();
 		serviceHandler = mock(PropertyServiceHandler.class);
 		propertyList = new ArrayList<PropertyDTO>();
 
@@ -38,27 +37,19 @@ public class PropertyServiceSecurityTest {
 	}
 
 	@Test
-	public void givenAPseudonymAndPropertyDTOWhenUploadPropertyShouldValidateIfUserIsAuthorized() throws Throwable {
+	public void givenAPseudonymAndPropertyDTOWhenUploadPropertyShouldValidateIfUserIsAuthorizedBeforeUploadingPropery()
+			throws Throwable {
 		service.uploadProperty(PSEUDONYM, dto);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
-	}
 
-	@Test
-	public void givenUserIsAuthorizedWhenUploadPropertyShouldAskServiceToUploadProperty() throws Throwable {
-		service.uploadProperty(PSEUDONYM, dto);
-		verify(serviceHandler).uploadProperty(PSEUDONYM, dto);
-	}
-
-	@Test(expected = ForbiddenAccessException.class)
-	public void givenUserIsNotAuthorizedWhenUploadPropertyShouldThrowException() throws Throwable {
-		userIsNotAuthorized();
-		service.uploadProperty(PSEUDONYM, dto);
+		InOrder inOrder = inOrder(authorizations, serviceHandler);
+		inOrder.verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.SELLER);
+		inOrder.verify(serviceHandler).uploadProperty(PSEUDONYM, dto);
 	}
 
 	@Test
 	public void givenPseudonymWhenGetAllPropertiesShouldValidateIfUserIsAuthorized() throws Throwable {
 		service.getAllProperties(PSEUDONYM);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER);
+		verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
 	}
 
 	@Test
@@ -68,34 +59,20 @@ public class PropertyServiceSecurityTest {
 		assertSame(propertyList, result);
 	}
 
-	@Test(expected = ForbiddenAccessException.class)
-	public void givenUserIsNotAuthorizedWhenGetAllPropertiesShouldThrowException() throws Throwable {
-		userIsNotAuthorized();
-		service.getAllProperties(PSEUDONYM);
-	}
-
 	@Test
-	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized() throws Throwable {
+	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorizedBeforeEditingProperty()
+			throws Throwable {
 		service.editPropertyFeatures(PSEUDONYM, dto);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
-	}
 
-	@Test
-	public void givenUserIsAuthorizedWhenEditPropertyFeaturesShouldAskService() throws Throwable {
-		service.editPropertyFeatures(PSEUDONYM, dto);
-		verify(serviceHandler).editPropertyFeatures(PSEUDONYM, dto);
-	}
-
-	@Test(expected = ForbiddenAccessException.class)
-	public void givenUserIsNotAuthorizedWhenEditPropertyFeaturesShouldThrowExceptionIfNotAuthorized() throws Throwable {
-		userIsNotAuthorized();
-		service.editPropertyFeatures(PSEUDONYM, dto);
+		InOrder inOrder = inOrder(authorizations, serviceHandler);
+		inOrder.verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.SELLER);
+		inOrder.verify(serviceHandler).editPropertyFeatures(PSEUDONYM, dto);
 	}
 
 	@Test
 	public void givenPseudonymAndSearchFilterWhenGetOrderedPropertiesShouldValidateUserAccess() throws Throwable {
 		service.getOrderedProperties(PSEUDONYM, ORDER_BY);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER);
+		verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
 	}
 
 	@Test
@@ -105,22 +82,10 @@ public class PropertyServiceSecurityTest {
 		assertSame(propertyList, result);
 	}
 
-	@Test(expected = ForbiddenAccessException.class)
-	public void givenUserIsNotAuthorizedWhenGetOrderedPropertiesShouldThrowExceptionIfNotAuthorized() throws Throwable {
-		userIsNotAuthorized();
-		service.getOrderedProperties(PSEUDONYM, ORDER_BY);
-	}
-
 	@Test
 	public void givenAnOwnerWhenGetPropertiesFromOwnerThenValidateUserAccess() throws Exception {
 		service.getPropertiesFromOwner(PSEUDONYM);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
-	}
-
-	@Test(expected = ForbiddenAccessException.class)
-	public void givenAnOwnerWhenGetPropertiesFromOwnerThenShouldThrowExceptionIfNotAuthorized() throws Throwable {
-		userIsNotAuthorized();
-		service.getPropertiesFromOwner(PSEUDONYM);
+		verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.SELLER);
 	}
 
 	@Test
@@ -133,7 +98,7 @@ public class PropertyServiceSecurityTest {
 	@Test
 	public void givenAnOwnerAndAddressWhenGetPropertyAtAddressThenValidateUserAccess() throws Exception {
 		service.getPropertyAtAddress(PSEUDONYM, addressDTO);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER);
+		verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
 	}
 
 	@Test
@@ -141,20 +106,5 @@ public class PropertyServiceSecurityTest {
 		given(service.getPropertyAtAddress(PSEUDONYM, addressDTO)).willReturn(dto);
 		PropertyDTO result = service.getPropertyAtAddress(PSEUDONYM, addressDTO);
 		assertEquals(dto, result);
-	}
-
-	@Test(expected = ForbiddenAccessException.class)
-	public void givenAnOwnerAndAddressWhenGetPropertyAtAddressThenShouldThrowExceptionIfNotAuthorized()
-			throws Throwable {
-		userIsNotAuthorized();
-		service.getPropertyAtAddress(PSEUDONYM, addressDTO);
-	}
-
-	private void userIsAuthorized() {
-		given(authorizations.isUserAuthorized(anyString(), anyVararg())).willReturn(true);
-	}
-
-	private void userIsNotAuthorized() {
-		given(authorizations.isUserAuthorized(anyString(), anyVararg())).willReturn(false);
 	}
 }
