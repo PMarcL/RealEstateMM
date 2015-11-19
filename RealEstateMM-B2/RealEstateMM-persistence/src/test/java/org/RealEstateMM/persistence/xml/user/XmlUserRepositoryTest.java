@@ -3,16 +3,10 @@ package org.RealEstateMM.persistence.xml.user;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import java.util.Optional;
-
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.persistence.xml.XmlMarshallingException;
-import org.RealEstateMM.persistence.xml.user.XmlUser;
-import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
-import org.RealEstateMM.persistence.xml.user.XmlUserCollection;
-import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -69,16 +63,9 @@ public class XmlUserRepositoryTest {
 		User assembledUser = mock(User.class);
 		given(assembler.toUser(xmlUser)).willReturn(assembledUser);
 
-		Optional<User> returnedUser = repository.getUserWithPseudonym(PSEUDONYM);
+		User returnedUser = repository.findUserWithPseudonym(PSEUDONYM);
 
-		assertSame(assembledUser, returnedUser.get());
-	}
-
-	@Test
-	public void givenNonExistingUserPseudonymWhenRetrievingItWithPseudonymShouldReturnEmptyResult() {
-		final String NON_EXISTING_PSEUDONYM = "ronald25";
-		Optional<User> returnedUser = repository.getUserWithPseudonym(NON_EXISTING_PSEUDONYM);
-		assertFalse(returnedUser.isPresent());
+		assertSame(assembledUser, returnedUser);
 	}
 
 	@Test

@@ -2,13 +2,12 @@ package org.RealEstateMM.domain.user.emailconfirmation;
 
 import static org.mockito.BDDMockito.*;
 
-import java.util.Optional;
-
+import org.RealEstateMM.domain.emailsender.EmailAddressConfirmationMessage;
+import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
-import org.RealEstateMM.domain.emailsender.email.EmailAddressConfirmationMessage;
-import org.RealEstateMM.domain.emailsender.email.EmailMessageFactory;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,12 +29,12 @@ public class UserEmailAddressValidatorTest {
 	private User user;
 
 	@Before
-	public void setup() {
+	public void setup() throws Throwable {
 		emailSender = mock(EmailSender.class);
 		confirmCodeFactory = mock(ConfirmationCodeFactory.class);
 		user = mock(User.class);
 		userRepository = mock(UserRepository.class);
-		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(Optional.of(user));
+		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willReturn(user);
 		messageFactory = mock(EmailMessageFactory.class);
 		confirmationCode = mock(ConfirmationCode.class);
 		given(confirmationCode.getPseudonym()).willReturn(PSEUDONYM);
@@ -87,8 +86,8 @@ public class UserEmailAddressValidatorTest {
 	}
 
 	@Test
-	public void givenUserDoesNotExistWhenConfirmEmailAddressShouldNotUnlockAnyUser() {
-		given(userRepository.getUserWithPseudonym(anyString())).willReturn(Optional.empty());
+	public void givenUserDoesNotExistWhenConfirmEmailAddressShouldNotUnlockAnyUser() throws Throwable {
+		given(userRepository.getUserWithPseudonym(anyString())).willThrow(new UserNotFoundException(PSEUDONYM));
 		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
 		verify(user, never()).unlock();
 	}

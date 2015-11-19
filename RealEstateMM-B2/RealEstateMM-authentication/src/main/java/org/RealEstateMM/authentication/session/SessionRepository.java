@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface SessionRepository {
 
-	public void saveOrOverwriteSession(Session session);
+	public void addOrOverwriteSession(Session session);
 
 	public void removeSesionWithToken(String token);
 

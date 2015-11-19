@@ -5,20 +5,35 @@
     <title>Browse Properties</title>
 
     <link rel="stylesheet" href="asset/css/browseProperties.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+    <link rel="stylesheet" href="materialize/css/materialize.min.css">
 </head>
 <body>
 
 <header></header>
 
+<div class="row section">
+    <h4 style="margin:0;">Search options</h4>
+    <div class="input-field select col s3">
+        <select style="display:block" id="orderBy">
+            <option value="" disabled selected>Order by</option>
+            <option value="recently_uploaded_first">Recently uploaded first</option>
+            <option value="recently_uploaded_last">Recently uploaded last</option>
+            <option value="highest_price_first">Highest price first</option>
+            <option value="highest_price_last">Highest price last</option>
+        </select>
+    </div>
+</div>
+<div class="divider"></div>
+
 <ul id="propertylist" style="margin:0;">
 
 </ul>
 
-
 <script src="jquery/jquery-2.1.4.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
-<script src="asset/js/GetProperties.js"></script>
 <script src="asset/js/LoadMainMenu.js"></script>
+<script src="jquery-cookie/jquerycookie.js"></script>
+<script src="materialize/js/materialize.min.js"></script>
+<script src="asset/js/TokenCookie.js"></script>
+<script src="asset/js/GetProperties.js"></script>
 </body>
 </html>

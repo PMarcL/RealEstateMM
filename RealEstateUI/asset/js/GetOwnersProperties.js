@@ -2,7 +2,7 @@
 
 function getOwnersProperties() {
     $.ajax({
-        url: "http://localhost:8080/property/" + new LoginCookie().cookie(),
+        url: "http://localhost:8080/property/" + new TokenCookie().cookie(),
         type: "GET",
         contentType: "application/json",
 

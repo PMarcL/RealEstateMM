@@ -26,7 +26,7 @@ public class InMemoryPropertyRepository implements PropertyRepository {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Property> getAllProperties() {
+	public ArrayList<Property> getAll() {
 		return (ArrayList<Property>) properties.clone();
 	}
 

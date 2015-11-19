@@ -10,12 +10,14 @@ public class XmlProperty {
 	private String price;
 	private String ownerUserName;
 	private String status;
+	private String creationDate;
+	private String saleDate;
 
 	private String streetAddress;
 	private String cityAddress;
 	private String provinceAddress;
 	private String zipCodeAddress;
-	
+
 	private String numberOfBathrooms;
 	private String numberOfBedrooms;
 	private String totalNumberOfRooms;
@@ -64,6 +66,24 @@ public class XmlProperty {
 
 	public String getStreetAddress() {
 		return streetAddress;
+	}
+
+	public String getSaleDate() {
+		return saleDate;
+	}
+
+	@XmlElement(name = "creationDate")
+	public void setSaleDate(String saleDate) {
+		this.saleDate = saleDate;
+	}
+
+	public String getCreationDate() {
+		return creationDate;
+	}
+
+	@XmlElement(name = "creationDate")
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	@XmlElement(name = "streetAddress")
@@ -178,7 +198,4 @@ public class XmlProperty {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-
-	
 }

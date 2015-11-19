@@ -1,7 +1,7 @@
 package org.RealEstateMM.services.helpers;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
-import org.RealEstateMM.services.dtos.user.UserDTO;
+import org.RealEstateMM.services.user.dtos.UserDTO;
 
 public class UserDTOBuilder {
 
@@ -20,7 +20,7 @@ public class UserDTOBuilder {
 		this.lastName = UserBuilder.DEFAULT_LAST_NAME;
 		this.email = UserBuilder.DEFAULT_EMAIL_ADDRESS;
 		this.phoneNumber = UserBuilder.DEFAULT_PHONE_NUMBER;
-		this.userType = UserBuilder.DEFAULT_USER_TYPE_DESC;
+		this.userType = UserBuilder.DEFAULT_USER_ROLE.toString();
 	}
 
 	public UserDTOBuilder withPseudonym(String pseudonym) {

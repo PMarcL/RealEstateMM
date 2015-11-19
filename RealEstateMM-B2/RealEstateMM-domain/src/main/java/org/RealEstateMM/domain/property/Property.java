@@ -1,5 +1,8 @@
 package org.RealEstateMM.domain.property;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
@@ -13,6 +16,8 @@ public class Property {
 	private String owner;
 	private PropertyStatus status;
 	private PropertyFeatures features;
+	private Date creationDate;
+	private Date saleDate;
 
 	private PropertyFeatures emptyFeatures = new PropertyFeatures(0, 0, 0, 0, 0.00, 0, 0.00, "", "");
 
@@ -25,6 +30,8 @@ public class Property {
 		this.owner = ownerUsername;
 		this.status = status;
 		this.features = emptyFeatures;
+		this.creationDate = new Date();
+		this.saleDate = null;
 	}
 
 	public PropertyType getType() {
@@ -43,7 +50,7 @@ public class Property {
 		return owner;
 	}
 
-	public PropertyStatus getPropertyStatus() {
+	public PropertyStatus getStatus() {
 		return status;
 	}
 
@@ -61,5 +68,32 @@ public class Property {
 
 	public boolean isOwnedBy(String owner) {
 		return this.owner.equals(owner);
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public Date getSaleDate() {
+		return saleDate;
+	}
+
+	public void setSaleDate(Date saleDate) {
+		this.saleDate = saleDate;
+	}
+
+	public Boolean isSoldThisYear() {
+		if (getStatus() == PropertyStatus.SOLD) {
+			Calendar now = Calendar.getInstance();
+			Calendar soldDate = Calendar.getInstance();
+			soldDate.setTime(getSaleDate());
+			return soldDate.get(Calendar.YEAR) == now.get(Calendar.YEAR);
+		} else {
+			return false;
+		}
 	}
 }

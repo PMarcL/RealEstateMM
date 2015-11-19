@@ -2,7 +2,6 @@ package org.RealEstateMM.domain.encoder;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +12,7 @@ public class Base64EncoderTest {
 	private Base64Encoder encoder;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		encoder = new Base64Encoder();
 	}
 
