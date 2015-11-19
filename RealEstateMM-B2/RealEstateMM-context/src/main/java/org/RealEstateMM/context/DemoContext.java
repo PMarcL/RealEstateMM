@@ -143,6 +143,7 @@ public class DemoContext extends Context {
 		UserInformations adminInfo = new UserInformations("ADMIN", "admin1234", "Olivier", "Dugas",
 				"olivierD@admin.com", "418 892-3940");
 		User admin = new User(adminInfo, new Administrator());
+		admin.unlock();
 		try {
 			userRepository.addUser(admin);
 		} catch (ExistingUserException e) {
