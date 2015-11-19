@@ -150,8 +150,6 @@ public class StatisticsTest {
 
 		int actualNumberOfOnSaleCommercials = statistics.getNumberOfPropertiesOnSalePerType(PropertyType.COMMERCIAL);
 		int actualNumberOfOnSaleHouses = statistics.getNumberOfPropertiesOnSalePerType(PropertyType.HOUSE);
-		System.out.println(actualNumberOfOnSaleCommercials);
-		System.out.println(actualNumberOfOnSaleHouses);
 
 		assertEquals(2, actualNumberOfOnSaleCommercials);
 		assertEquals(0, actualNumberOfOnSaleHouses);
