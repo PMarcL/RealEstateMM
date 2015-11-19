@@ -21,7 +21,7 @@ import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.jersey.responses.LoginResponse;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.user.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.dtos.UserDTO;

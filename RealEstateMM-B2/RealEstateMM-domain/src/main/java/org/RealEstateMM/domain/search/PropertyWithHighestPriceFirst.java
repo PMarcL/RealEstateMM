@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.property.search;
+package org.RealEstateMM.domain.search;
 
 import java.util.ArrayList;
 import java.util.Collections;

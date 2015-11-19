@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.property.search;
+package org.RealEstateMM.domain.search;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -8,10 +8,11 @@ import java.util.ArrayList;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.search.PropertyWithHighestPriceLast;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PropertyWithHighestPriceFirstTest {
+public class PropertyWithHighestPriceLastTest {
 	
 	private static final Double HIGH_PRICE = 200000.00;
 	private static final Double LOW_PRICE = 100000.00;
@@ -21,11 +22,11 @@ public class PropertyWithHighestPriceFirstTest {
 	private Property leastExpensiveProperty;
 	private ArrayList<Property> properties;
 
-	private PropertyWithHighestPriceFirst orderingStrategy;
+	private PropertyWithHighestPriceLast orderingStrategy;
 
 	@Before
 	public void setup() {
-		orderingStrategy = new PropertyWithHighestPriceFirst();
+		orderingStrategy = new PropertyWithHighestPriceLast();
 
 		createPropertyList();
 		makeNewPropertyMoreRecentThanOldProperty();
@@ -34,10 +35,10 @@ public class PropertyWithHighestPriceFirstTest {
 	}
 
 	@Test
-	public void givenTwoPropertiesWhenOrderingThenReturnsArraylistWithHighestPricePropertyFirst() {
+	public void givenTwoPropertiesWhenOrderingThenReturnsArraylistWithHighestPricePropertyLast() {
 		ArrayList<Property> returnedProperties = orderingStrategy.getOrderedProperties(propertyRepository);
-		assertEquals(mostExpensiveProperty, returnedProperties.get(0));
-		assertEquals(leastExpensiveProperty, returnedProperties.get(1));
+		assertEquals(leastExpensiveProperty, returnedProperties.get(0));
+		assertEquals(mostExpensiveProperty, returnedProperties.get(1));
 	}
 
 	private void createPropertyList() {

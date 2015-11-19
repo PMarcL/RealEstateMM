@@ -15,11 +15,12 @@ import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
-import org.RealEstateMM.services.property.InvalidSearchParameterException;
+import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.validation.InvalidPropertyInformationException;
+import org.RealEstateMM.services.search.InvalidSearchParameterException;
+import org.RealEstateMM.services.search.SearchServiceHandler;
 
 public class PropertyResourceTest {
 
@@ -31,14 +32,16 @@ public class PropertyResourceTest {
 	private PropertyResource propertyResource;
 	private PropertyDTO propertyDTO;
 	private PropertyAddressDTO addressDTO;
-	private PropertyServiceHandler service;
+	private PropertyServiceHandler propertyService;
 	private SessionService sessionService;
+	private SearchServiceHandler searchService;
 
 	@Before
 	public void setup() throws Throwable {
-		service = mock(PropertyServiceHandler.class);
+		propertyService = mock(PropertyServiceHandler.class);
 		sessionService = mock(SessionService.class);
-		propertyResource = new PropertyResource(service, sessionService);
+		searchService = mock(SearchServiceHandler.class);
+		propertyResource = new PropertyResource(propertyService, sessionService, searchService);
 
 		propertyDTO = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
@@ -62,7 +65,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenTokenAndPropertyDTOWhenUploadPropertyThenReturnsForbiddenStatusCodeIfAccessIsForbidden()
 			throws Exception {
-		doThrow(ForbiddenAccessException.class).when(service).uploadProperty(OWNER, propertyDTO);
+		doThrow(ForbiddenAccessException.class).when(propertyService).uploadProperty(OWNER, propertyDTO);
 		Response response = propertyResource.uploadProperty(TOKEN, propertyDTO);
 		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
 	}
@@ -70,7 +73,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenTokenAndPropertyDTOWhenUploadPropertyThenCallsServiceAntiCorruption() throws Throwable {
 		propertyResource.uploadProperty(TOKEN, propertyDTO);
-		verify(service).uploadProperty(OWNER, propertyDTO);
+		verify(propertyService).uploadProperty(OWNER, propertyDTO);
 	}
 
 	@Test
@@ -81,7 +84,7 @@ public class PropertyResourceTest {
 
 	@Test
 	public void givenTokenAndInvalidInformationsWhenUploadPropertyThenResponseIsBadRequest() throws Throwable {
-		doThrow(InvalidPropertyInformationException.class).when(service).uploadProperty(OWNER, propertyDTO);
+		doThrow(InvalidPropertyInformationException.class).when(propertyService).uploadProperty(OWNER, propertyDTO);
 		Response result = propertyResource.uploadProperty(TOKEN, propertyDTO);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}
@@ -101,7 +104,7 @@ public class PropertyResourceTest {
 
 	@Test
 	public void givenATokenWhenGetAllPropertertiesThenReturnsForbiddenStatusCodeIfForbiddenAccess() throws Throwable {
-		doThrow(ForbiddenAccessException.class).when(service).getAllProperties(OWNER);
+		doThrow(ForbiddenAccessException.class).when(searchService).getAllProperties(OWNER);
 		Response response = propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
 		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
 	}
@@ -109,7 +112,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenATokenWhenGetOrderedPropertertiesThenReturnsForbiddenStatusCodeIfForbiddenAccess()
 			throws Throwable {
-		doThrow(ForbiddenAccessException.class).when(service).getOrderedProperties(OWNER, QUERY_PARAM);
+		doThrow(ForbiddenAccessException.class).when(searchService).getOrderedProperties(OWNER, QUERY_PARAM);
 		Response response = propertyResource.getProperties(TOKEN, QUERY_PARAM);
 		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
 	}
@@ -117,7 +120,7 @@ public class PropertyResourceTest {
 	@Test
 	public void whenGetAllPropertiesWithNoQueryParamThenUsesTheServiceToGetProperties() throws Throwable {
 		propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
-		verify(service).getAllProperties(OWNER);
+		verify(searchService).getAllProperties(OWNER);
 	}
 
 	@Test
@@ -129,7 +132,7 @@ public class PropertyResourceTest {
 	@Test
 	public void whenGetAllPropertiesWithNoQueryParamThenConvertToJsonPropertyDTOs() throws Throwable {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
-		given(service.getAllProperties(OWNER)).willReturn(dtos);
+		given(searchService.getAllProperties(OWNER)).willReturn(dtos);
 
 		Response result = propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
 
@@ -139,12 +142,12 @@ public class PropertyResourceTest {
 	@Test
 	public void whenGetAllPropertiesWithQueryParamThenUsesTheServiceToGetOrderedProperties() throws Throwable {
 		propertyResource.getProperties(TOKEN, QUERY_PARAM);
-		verify(service).getOrderedProperties(OWNER, QUERY_PARAM);
+		verify(searchService).getOrderedProperties(OWNER, QUERY_PARAM);
 	}
 
 	@Test
 	public void whenGetAllPropertiesWithQueryParamThenReturnsInvalidRequestIfSearchFilterIsInvalid() throws Throwable {
-		doThrow(InvalidSearchParameterException.class).when(service).getOrderedProperties(OWNER, QUERY_PARAM);
+		doThrow(InvalidSearchParameterException.class).when(searchService).getOrderedProperties(OWNER, QUERY_PARAM);
 		Response result = propertyResource.getProperties(TOKEN, QUERY_PARAM);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}
@@ -166,7 +169,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenTokenAndPropertyDTOWhenEditPropertyThenReturnsForbiddenStatusCodeIfAccessIsForbidden()
 			throws Throwable {
-		doThrow(ForbiddenAccessException.class).when(service).editPropertyFeatures(OWNER, propertyDTO);
+		doThrow(ForbiddenAccessException.class).when(propertyService).editPropertyFeatures(OWNER, propertyDTO);
 		Response response = propertyResource.editProperty(TOKEN, propertyDTO);
 		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
 	}
@@ -175,13 +178,14 @@ public class PropertyResourceTest {
 	public void givenTokenAndPropertyDTOWhenEditPropertyThenUsesPropertyServiceAntiCorruptionToEditProperty()
 			throws Throwable {
 		propertyResource.editProperty(TOKEN, propertyDTO);
-		verify(service).editPropertyFeatures(OWNER, propertyDTO);
+		verify(propertyService).editPropertyFeatures(OWNER, propertyDTO);
 	}
 
 	@Test
 	public void givenTokenAndPropertyDTOWhenEditPropertyThenReturnsBadRequestIfServiceACThrowsException()
 			throws Throwable {
-		doThrow(InvalidPropertyInformationException.class).when(service).editPropertyFeatures(OWNER, propertyDTO);
+		doThrow(InvalidPropertyInformationException.class).when(propertyService).editPropertyFeatures(OWNER,
+				propertyDTO);
 		Response result = propertyResource.editProperty(TOKEN, propertyDTO);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}
@@ -208,7 +212,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenAnOwnersTokenWhenGetPropertiesFromOwnerThenCallsService() throws Throwable {
 		propertyResource.getPropertiesFromOwner(TOKEN);
-		verify(service).getPropertiesFromOwner(OWNER);
+		verify(searchService).getPropertiesFromOwner(OWNER);
 	}
 
 	@Test
@@ -220,7 +224,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenAnOwnersTokenWhenGetPropertiesFromOwnerThenReturnsForbiddenStatusIfAccessIsForbidden()
 			throws Exception {
-		doThrow(ForbiddenAccessException.class).when(service).getPropertiesFromOwner(OWNER);
+		doThrow(ForbiddenAccessException.class).when(searchService).getPropertiesFromOwner(OWNER);
 		Response result = propertyResource.getPropertiesFromOwner(TOKEN);
 		assertEquals(Status.FORBIDDEN, result.getStatusInfo());
 	}
@@ -228,7 +232,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenAnOwnersTokenWhenGetPropertiesFromOwnerThenConvertPropertiesToJson() throws Throwable {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
-		given(service.getPropertiesFromOwner(OWNER)).willReturn(dtos);
+		given(searchService.getPropertiesFromOwner(OWNER)).willReturn(dtos);
 
 		Response result = propertyResource.getPropertiesFromOwner(TOKEN);
 
@@ -245,7 +249,7 @@ public class PropertyResourceTest {
 	@Test
 	public void givenTokenAndAddressDTOWhenGetPropertyAtAddressThenReturnsForbiddenStatusIfAccessIsForbidden()
 			throws Exception {
-		doThrow(ForbiddenAccessException.class).when(service).getPropertyAtAddress(OWNER, addressDTO);
+		doThrow(ForbiddenAccessException.class).when(searchService).getPropertyAtAddress(OWNER, addressDTO);
 		Response result = propertyResource.getPropertyAtAddress(TOKEN, addressDTO);
 		assertEquals(Status.FORBIDDEN, result.getStatusInfo());
 	}
@@ -253,14 +257,14 @@ public class PropertyResourceTest {
 	@Test
 	public void givenTokenAndAddressDTOWhenGetPropertyAtAddressThenReturnsNotFoundStatusIfNoPropertyIsFound()
 			throws Exception {
-		doThrow(PropertyNotFoundException.class).when(service).getPropertyAtAddress(OWNER, addressDTO);
+		doThrow(PropertyNotFoundException.class).when(searchService).getPropertyAtAddress(OWNER, addressDTO);
 		Response result = propertyResource.getPropertyAtAddress(TOKEN, addressDTO);
 		assertEquals(Status.NOT_FOUND, result.getStatusInfo());
 	}
 
 	@Test
 	public void givenTokenAndAddressDTOWhenGetPropertyAtAddressThenReturnsPropertyDTOAndOkStatus() throws Exception {
-		given(service.getPropertyAtAddress(OWNER, addressDTO)).willReturn(propertyDTO);
+		given(searchService.getPropertyAtAddress(OWNER, addressDTO)).willReturn(propertyDTO);
 		Response result = propertyResource.getPropertyAtAddress(TOKEN, addressDTO);
 		assertEquals(propertyDTO, result.getEntity());
 		assertEquals(Status.OK, result.getStatusInfo());

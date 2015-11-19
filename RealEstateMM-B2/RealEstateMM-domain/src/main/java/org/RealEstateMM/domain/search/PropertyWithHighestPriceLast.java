@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.property.search;
+package org.RealEstateMM.domain.search;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,14 +7,14 @@ import java.util.Comparator;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
 
-public class PropertyRecentlyUploadedLast implements PropertyOrderingStrategy {
+public class PropertyWithHighestPriceLast implements PropertyOrderingStrategy {
 
 	@Override
 	public ArrayList<Property> getOrderedProperties(PropertyRepository propertyRepository) {
 		ArrayList<Property> properties = propertyRepository.getAll();
-		Comparator<Property> mostRecentPropertyLast = Comparator.comparing(Property::getCreationDate);
+		Comparator<Property> highestPriceLast = Comparator.comparing(Property::getPrice);
 
-		Collections.sort(properties, mostRecentPropertyLast);
+		Collections.sort(properties, highestPriceLast);
 
 		return properties;
 	}

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.statistics.Statistics;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 
 public class StatisticService {
 

@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.jersey.responses.statistics.NumberOfActiveUserResponse;
 import org.RealEstateMM.jersey.responses.statistics.NumberOfPropertiesSoldThisYearResponse;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.statistics.StatisticService;
 import org.junit.After;
 import org.junit.Before;

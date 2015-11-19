@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.property;
+package org.RealEstateMM.services.search;
 
 public class InvalidSearchParameterException extends Exception {
 

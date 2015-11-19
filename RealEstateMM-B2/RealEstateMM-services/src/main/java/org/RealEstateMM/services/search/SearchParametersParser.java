@@ -1,8 +1,8 @@
-package org.RealEstateMM.services.property;
+package org.RealEstateMM.services.search;
 
-import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.domain.search.PropertySearchParameters;
 
-public class PropertySearchParametersParser {
+public class SearchParametersParser {
 
 	private static final String RECENTLY_UPLOADED_FIRST = "recently_uploaded_first";
 	private static final String RECENTLY_UPLOADED_LAST = "recently_uploaded_last";

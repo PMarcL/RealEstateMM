@@ -18,27 +18,33 @@ import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
-import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.property.InvalidSearchParameterException;
+import org.RealEstateMM.services.locator.ServiceLocator;
+import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.validation.InvalidPropertyInformationException;
+import org.RealEstateMM.services.search.InvalidSearchParameterException;
+import org.RealEstateMM.services.search.SearchServiceHandler;
 
 @Path("/property")
 public class PropertyResource {
 
+	private SearchServiceHandler searchService;
 	private PropertyServiceHandler propertyService;
 	private SessionService sessionService;
 
 	public PropertyResource() {
 		propertyService = ServiceLocator.getInstance().getService(PropertyServiceHandler.class);
 		sessionService = ServiceLocator.getInstance().getService(SessionService.class);
+		searchService = ServiceLocator.getInstance().getService(SearchServiceHandler.class);
 	}
 
-	public PropertyResource(PropertyServiceHandler service, SessionService sessionService) {
-		this.propertyService = service;
+	public PropertyResource(PropertyServiceHandler propertyService, SessionService sessionService,
+			SearchServiceHandler searchService) {
+		// TODO remove constructor
+		this.propertyService = propertyService;
 		this.sessionService = sessionService;
+		this.searchService = searchService;
 	}
 
 	@GET
@@ -49,9 +55,9 @@ public class PropertyResource {
 			String pseudo = sessionService.validate(token);
 			List<PropertyDTO> properties;
 			if (orderBy == null) {
-				properties = propertyService.getAllProperties(pseudo);
+				properties = searchService.getAllProperties(pseudo);
 			} else {
-				properties = propertyService.getOrderedProperties(pseudo, orderBy);
+				properties = searchService.getOrderedProperties(pseudo, orderBy);
 			}
 			return Response.ok(Status.OK).entity(properties).build();
 		} catch (InvalidSearchParameterException exception) {
@@ -70,7 +76,7 @@ public class PropertyResource {
 	public Response getPropertyAtAddress(@PathParam("token") String token, PropertyAddressDTO address) {
 		try {
 			String pseudo = sessionService.validate(token);
-			PropertyDTO propertyDTO = propertyService.getPropertyAtAddress(pseudo, address);
+			PropertyDTO propertyDTO = searchService.getPropertyAtAddress(pseudo, address);
 			return Response.ok(Status.OK).entity(propertyDTO).build();
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
@@ -78,6 +84,10 @@ public class PropertyResource {
 			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
 		} catch (PropertyNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+		} catch (InvalidPropertyInformationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -87,7 +97,7 @@ public class PropertyResource {
 	public Response getPropertiesFromOwner(@PathParam("token") String token) {
 		try {
 			String owner = sessionService.validate(token);
-			List<PropertyDTO> properties = propertyService.getPropertiesFromOwner(owner);
+			List<PropertyDTO> properties = searchService.getPropertiesFromOwner(owner);
 			return Response.ok(Status.OK).entity(properties).build();
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();

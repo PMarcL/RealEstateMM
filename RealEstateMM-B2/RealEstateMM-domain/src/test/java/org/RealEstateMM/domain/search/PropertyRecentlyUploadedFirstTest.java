@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.property.search;
+package org.RealEstateMM.domain.search;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
@@ -8,6 +8,7 @@ import java.util.Date;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.search.PropertyRecentlyUploadedFirst;
 import org.junit.Before;
 import org.junit.Test;
 

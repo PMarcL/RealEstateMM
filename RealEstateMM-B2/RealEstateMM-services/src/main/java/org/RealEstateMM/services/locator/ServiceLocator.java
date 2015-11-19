@@ -1,4 +1,4 @@
-package org.RealEstateMM.servicelocator;
+package org.RealEstateMM.services.locator;
 
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
