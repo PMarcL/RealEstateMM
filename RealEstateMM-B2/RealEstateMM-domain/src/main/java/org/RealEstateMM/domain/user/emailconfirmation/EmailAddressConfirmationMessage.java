@@ -1,6 +1,6 @@
-package org.RealEstateMM.domain.emailsender;
+package org.RealEstateMM.domain.user.emailconfirmation;
 
-import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCode;
+import org.RealEstateMM.domain.emailsender.EmailMessage;
 
 public class EmailAddressConfirmationMessage extends EmailMessage {
 

@@ -1,6 +1,4 @@
-package org.RealEstateMM.domain.emailsender;
-
-import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCode;
+package org.RealEstateMM.domain.user.emailconfirmation;
 
 public class EmailMessageFactory {
 	private final String BASE_URL;

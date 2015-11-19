@@ -1,10 +1,10 @@
-package org.RealEstateMM.domain.emailsender;
+package org.RealEstateMM.domain.user.emailconfirmation;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.emailsender.EmailAddressConfirmationMessage;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCode;
+import org.RealEstateMM.domain.user.emailconfirmation.EmailAddressConfirmationMessage;
 import org.junit.Test;
 
 public class EmailAddressConfirmationMessageTest {

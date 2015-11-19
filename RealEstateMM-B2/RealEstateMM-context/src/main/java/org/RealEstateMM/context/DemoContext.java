@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.RealEstateMM.authentication.session.SessionRepository;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.emailsender.gmail.GmailSender;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
@@ -21,6 +20,7 @@ import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
+import org.RealEstateMM.domain.user.emailconfirmation.EmailMessageFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
