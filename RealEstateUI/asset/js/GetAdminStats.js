@@ -24,7 +24,7 @@ function getActiveSellers () {
     contentType: 'application/json',
 
     success: function (activeUsers) {
-      var htmlToAppend = "<li class ='stats-list-item'> Active Sellers in the last 6 months: " + activeUsers.numberOfActiveSeller + '</li>'
+      var htmlToAppend = "<li class ='stats-list-item'> Active buyers in the last 6 months: " + activeUsers.numberOfActiveSeller + '</li>'
 
       $('.stats-list').append(htmlToAppend)
     }
