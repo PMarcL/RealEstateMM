@@ -39,7 +39,7 @@ public class StatisticResource {
 	}
 
 	@GET
-	@Path("numberofactiveusers")
+	@Path("numberofactiveuser")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfActiveUser() {
 		int numberOfActiveSeller = statisticService.getNumberOfActiveSeller();
