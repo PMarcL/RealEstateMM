@@ -10,4 +10,8 @@ public class PropertyFilterFactory {
 		return new PropertyStatusFilter();
 	}
 
+	public PropertyTypeFilter createPropertyTypeFilter() {
+		return new PropertyTypeFilter();
+	}
+
 }

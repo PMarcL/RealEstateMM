@@ -1,11 +1,15 @@
 package org.RealEstateMM.jersey.resources;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.jersey.responses.JsonFormatter;
 import org.RealEstateMM.jersey.responses.statistics.NumberOfActiveUserResponse;
 import org.RealEstateMM.jersey.responses.statistics.NumberOfPropertiesSoldThisYearResponse;
@@ -48,9 +52,13 @@ public class StatisticResource {
 	@Path("numberofonsaleproperties")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfOnSalePropertiesByCategory() {
+		Map<String, Integer> resultsPerCategory = new HashMap<String, Integer>();
+		for (PropertyType type : PropertyType.values()) {
+			int numberOfPropertiesOfType = statisticService.getNumberOfOnSalePropertiesPerType(type);
+			resultsPerCategory.put(PropertyType.getStringFromType(type), numberOfPropertiesOfType);
+		}
 		try {
-			String propertiesAsJson = new ObjectMapper()
-					.writeValueAsString(statisticService.getNumberOfOnSalePropertiesPerCategory());
+			String propertiesAsJson = new ObjectMapper().writeValueAsString(resultsPerCategory);
 			return Response.ok().entity(propertiesAsJson).build();
 		} catch (JsonProcessingException e) {
 			return Response.serverError().build();
@@ -58,11 +66,11 @@ public class StatisticResource {
 	}
 
 	@GET
-	@Path("numberofsellerswithaproperty")
+	@Path("numberofactiveseller")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfSellersWithAnOnsaleProperties() {
 		try {
-			String numberOfActiveSellers = String.valueOf(statisticService.getNumberOfSellerWithAnOnSaleProperties());
+			String numberOfActiveSellers = String.valueOf(statisticService.getNumberOfActiveSeller());
 			return Response.ok().entity(JsonFormatter.fieldToJSON("numberOfSellerWithAProperty", numberOfActiveSellers))
 					.build();
 		} catch (Exception e) {

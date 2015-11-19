@@ -11,4 +11,5 @@ public class PropertyStatusFilter {
 	public Collection<Property> filter(Collection<Property> properties, PropertyStatus status) {
 		return properties.stream().filter(p -> p.getStatus() == status).collect(Collectors.toList());
 	}
+
 }

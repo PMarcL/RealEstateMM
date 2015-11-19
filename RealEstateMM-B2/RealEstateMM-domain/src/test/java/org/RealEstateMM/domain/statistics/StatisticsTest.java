@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.RealEstateMM.domain.property.Property;
@@ -11,7 +12,9 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertiesSoldThisYearFilter;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.property.filters.PropertyStatusFilter;
+import org.RealEstateMM.domain.property.filters.PropertyTypeFilter;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
+import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
@@ -35,6 +38,7 @@ public class StatisticsTest {
 
 	private PropertiesSoldThisYearFilter propertiesSoldThisYearFilter;
 	private PropertyStatusFilter propertyStatusFilter;
+	private PropertyTypeFilter propertyTypeFilter;
 	private PropertyFilterFactory propertyFilterFactory;
 
 	private Statistics statistics;
@@ -53,15 +57,6 @@ public class StatisticsTest {
 		statistics = new Statistics(propertyRepository, userRepository, userFilterFactory, propertyFilterFactory);
 	}
 
-	private void setMocksOfPropertiesFilterFactory() {
-		propertiesSoldThisYearFilter = mock(PropertiesSoldThisYearFilter.class);
-		propertyStatusFilter = mock(PropertyStatusFilter.class);
-		propertyFilterFactory = mock(PropertyFilterFactory.class);
-
-		given(propertyFilterFactory.createPropertiesSoldThisYearFilter()).willReturn(propertiesSoldThisYearFilter);
-		given(propertyFilterFactory.createPropertyStatusFilter()).willReturn(propertyStatusFilter);
-	}
-
 	private void setMocksOfUserFilterFactory() {
 		userTypeFilter = mock(UserTypeFilter.class);
 		userLoggedInTheLastSixMonthsFilter = mock(UserLoggedInTheLastSixMonthsFilter.class);
@@ -69,6 +64,17 @@ public class StatisticsTest {
 
 		given(userFilterFactory.createLoggedInTheLastSixMonthsFilter()).willReturn(userLoggedInTheLastSixMonthsFilter);
 		given(userFilterFactory.createUserTypeFilter()).willReturn(userTypeFilter);
+	}
+
+	private void setMocksOfPropertiesFilterFactory() {
+		propertiesSoldThisYearFilter = mock(PropertiesSoldThisYearFilter.class);
+		propertyStatusFilter = mock(PropertyStatusFilter.class);
+		propertyTypeFilter = mock(PropertyTypeFilter.class);
+		propertyFilterFactory = mock(PropertyFilterFactory.class);
+
+		given(propertyFilterFactory.createPropertiesSoldThisYearFilter()).willReturn(propertiesSoldThisYearFilter);
+		given(propertyFilterFactory.createPropertyStatusFilter()).willReturn(propertyStatusFilter);
+		given(propertyFilterFactory.createPropertyTypeFilter()).willReturn(propertyTypeFilter);
 	}
 
 	@Test
@@ -123,6 +129,37 @@ public class StatisticsTest {
 	private Property aMockPropertyWithOwner(String owner) {
 		Property property = mock(Property.class);
 		given(property.getOwner()).willReturn(owner);
+		return property;
+	}
+
+	@Test
+	public void givenAPropertiesWhenGetNumberOfPropertiesOnSalePerTypeThenReturnsTheCorrectAmountOfOnSalePropertyForEachType() {
+		Property aCommercialProperty = aMockPropertyWithType(PropertyType.COMMERCIAL);
+		Property anotherCommercialProperty = aMockPropertyWithType(PropertyType.COMMERCIAL);
+		Property aFarmProperty = aMockPropertyWithType(PropertyType.FARM);
+
+		Collection<Property> commercials = Arrays.asList(aCommercialProperty, anotherCommercialProperty);
+
+		Collection<Property> onSaleProperties = new ArrayList<Property>();
+		onSaleProperties.add(aCommercialProperty);
+		onSaleProperties.add(anotherCommercialProperty);
+		onSaleProperties.add(aFarmProperty);
+
+		given(propertyStatusFilter.filter(ALL_PROPERTIES, PropertyStatus.ON_SALE)).willReturn(onSaleProperties);
+		given(propertyTypeFilter.filter(onSaleProperties, PropertyType.COMMERCIAL)).willReturn(commercials);
+
+		int actualNumberOfOnSaleCommercials = statistics.getNumberOfPropertiesOnSalePerType(PropertyType.COMMERCIAL);
+		int actualNumberOfOnSaleHouses = statistics.getNumberOfPropertiesOnSalePerType(PropertyType.HOUSE);
+		System.out.println(actualNumberOfOnSaleCommercials);
+		System.out.println(actualNumberOfOnSaleHouses);
+
+		assertEquals(2, actualNumberOfOnSaleCommercials);
+		assertEquals(0, actualNumberOfOnSaleHouses);
+	}
+
+	private Property aMockPropertyWithType(PropertyType type) {
+		Property property = mock(Property.class);
+		given(property.getType()).willReturn(type);
 		return property;
 	}
 

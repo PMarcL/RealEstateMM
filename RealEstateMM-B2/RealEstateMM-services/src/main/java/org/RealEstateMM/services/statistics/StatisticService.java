@@ -1,9 +1,8 @@
 package org.RealEstateMM.services.statistics;
 
-import java.util.HashMap;
-
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
+import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.statistics.Statistics;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.filters.UserFilterFactory;
@@ -34,13 +33,8 @@ public class StatisticService {
 		return statistics.getNumberOfActiveBuyer();
 	}
 
-	public HashMap<String, Integer> getNumberOfOnSalePropertiesPerCategory() {
-
-		return statistics.getNumberOfPropertiesOnSalePerCategory();
-	}
-
-	public int getNumberOfSellerWithAnOnSaleProperties() {
-		return statistics.getNumberOfSellersWithOnSaleProperties();
+	public int getNumberOfOnSalePropertiesPerType(PropertyType type) {
+		return statistics.getNumberOfPropertiesOnSalePerType(type);
 	}
 
 }
