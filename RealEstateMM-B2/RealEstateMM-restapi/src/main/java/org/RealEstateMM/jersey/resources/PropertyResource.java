@@ -3,16 +3,17 @@ package org.RealEstateMM.jersey.resources;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
@@ -22,6 +23,7 @@ import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.property.validation.InvalidPropertyInformationException;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 
@@ -30,29 +32,29 @@ public class PropertyResource {
 
 	private PropertyServiceHandler propertyService;
 	private SessionService sessionService;
+	private PropertySearchParametersFactory searchParamFactory;
 
 	public PropertyResource() {
 		propertyService = ServiceLocator.getInstance().getService(PropertyServiceHandler.class);
 		sessionService = ServiceLocator.getInstance().getService(SessionService.class);
+		searchParamFactory = new PropertySearchParametersFactory();
 	}
 
-	public PropertyResource(PropertyServiceHandler service, SessionService sessionService) {
+	public PropertyResource(PropertyServiceHandler service, SessionService sessionService,
+			PropertySearchParametersFactory searchParamFactory) {
 		this.propertyService = service;
 		this.sessionService = sessionService;
+		this.searchParamFactory = searchParamFactory;
 	}
 
 	@GET
 	@Path("{token}/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProperties(@PathParam("token") String token, @QueryParam("orderBy") String orderBy) {
+	public Response searchProperties(@PathParam("token") String token, @Context UriInfo searchParam) {
 		try {
 			String pseudo = sessionService.validate(token);
-			List<PropertyDTO> properties;
-			if (orderBy == null) {
-				properties = propertyService.getAllProperties(pseudo);
-			} else {
-				properties = propertyService.getOrderedProperties(pseudo, orderBy);
-			}
+			PropertySearchParametersDTO searchParamDTO = searchParamFactory.getSearchParametersDTO(searchParam);
+			List<PropertyDTO> properties = propertyService.getPropertiesSearchResult(pseudo, searchParamDTO);
 			return Response.ok(Status.OK).entity(properties).build();
 		} catch (InvalidSearchParameterException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();

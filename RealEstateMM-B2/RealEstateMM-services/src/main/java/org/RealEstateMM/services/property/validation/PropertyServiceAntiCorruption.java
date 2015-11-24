@@ -8,6 +8,7 @@ import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
@@ -73,8 +74,9 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getAllProperties(String pseudo) throws ForbiddenAccessException {
-		return service.getAllProperties(pseudo);
+	public List<PropertyDTO> getPropertiesSearchResult(String pseudo, PropertySearchParametersDTO searchParams)
+			throws ForbiddenAccessException, InvalidSearchParameterException {
+		return service.getPropertiesSearchResult(pseudo, searchParams);
 	}
 
 	@Override
@@ -83,14 +85,8 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy)
-			throws ForbiddenAccessException, InvalidSearchParameterException {
-		return service.getOrderedProperties(pseudo, orderBy);
-	}
-
-	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address)
-			throws ForbiddenAccessException, PropertyNotFoundException {
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
+			PropertyNotFoundException {
 		validatePropertyAddress(address);
 		return service.getPropertyAtAddress(pseudo, address);
 	}

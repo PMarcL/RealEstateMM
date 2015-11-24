@@ -17,6 +17,7 @@ import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,6 +31,7 @@ public class PropertyServiceTest {
 	private PropertyDTOAssembler assembler;
 	private PropertyDTO propertyDTO;
 	private PropertyAddressDTO addressDTO;
+	private PropertySearchParametersDTO searchParamsDTO;
 	private Property property;
 	private PropertyAddress address;
 	private PropertyFeatures features;
@@ -48,6 +50,7 @@ public class PropertyServiceTest {
 		given(searchParameterParser.getParsedSearchParameter(ORDER_BY)).willReturn(SEARCH_PARAM);
 		propertyDTO = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
+		searchParamsDTO = mock(PropertySearchParametersDTO.class);
 		property = mock(Property.class);
 		features = mock(PropertyFeatures.class);
 		address = mock(PropertyAddress.class);
@@ -68,21 +71,21 @@ public class PropertyServiceTest {
 
 	@Test
 	public void whenGetAllPropertiesThenGetsAllPropertyFromProperties() {
-		propertyService.getAllProperties(PSEUDO);
+		propertyService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
 		verify(properties).getAllProperties();
 	}
 
 	@Test
 	public void whenGetAllPropertiesThenBuildDTOsFromPropertiesWithAssembler() {
 		given(properties.getAllProperties()).willReturn(buildPropertiesList());
-		propertyService.getAllProperties(PSEUDO);
+		propertyService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
 		verify(assembler).toDTO(property);
 	}
 
 	@Test
 	public void whenGetAllPropertiesThenReturnsDTOsOfAllProperties() {
 		given(properties.getAllProperties()).willReturn(buildPropertiesList());
-		List<PropertyDTO> returnedDTOs = propertyService.getAllProperties(PSEUDO);
+		List<PropertyDTO> returnedDTOs = propertyService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
 		assertTrue(returnedDTOs.contains(propertyDTO));
 	}
 
@@ -109,32 +112,6 @@ public class PropertyServiceTest {
 		given(properties.getPropertiesFromOwner(OWNER)).willReturn(buildPropertiesList());
 		List<PropertyDTO> returnedDTOs = propertyService.getPropertiesFromOwner(OWNER);
 		assertTrue(returnedDTOs.contains(propertyDTO));
-	}
-
-	@Test
-	public void givenASearchParamWhenGetOrderedPropertiesThenParseSearchParamWithParser() throws Throwable {
-		propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
-		verify(searchParameterParser).getParsedSearchParameter(ORDER_BY);
-	}
-
-	@Test
-	public void givenASearchParamWhenGetOrderedPropertiesThenUsesPropertiesWithParsedSearchParam() throws Throwable {
-		propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
-		verify(properties).getOrderedProperties(SEARCH_PARAM);
-	}
-
-	@Test
-	public void givenASearchParamWhenGetOrderedPropertiesThenReturnsPropertiesOrderedByProperties() throws Throwable {
-		given(properties.getOrderedProperties(SEARCH_PARAM)).willReturn(buildPropertiesList());
-		List<PropertyDTO> returnedDTOs = propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
-		assertTrue(returnedDTOs.contains(propertyDTO));
-	}
-
-	@Test(expected = InvalidSearchParameterException.class)
-	public void givenAnInvalidSearchParamWhenGetOrderedPropertiesThenThrowsInvalidSearchParamException()
-			throws Throwable {
-		doThrow(InvalidSearchParameterException.class).when(searchParameterParser).getParsedSearchParameter(ORDER_BY);
-		propertyService.getOrderedProperties(PSEUDO, ORDER_BY);
 	}
 
 	@Test

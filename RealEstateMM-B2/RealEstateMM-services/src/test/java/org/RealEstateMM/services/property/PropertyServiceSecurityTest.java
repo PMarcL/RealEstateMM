@@ -10,6 +10,7 @@ import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +19,9 @@ public class PropertyServiceSecurityTest {
 	private final String ORDER_BY = "recently_uploaded_last";
 	private final String PSEUDONYM = "bobby134";
 
-	private PropertyDTO dto;
+	private PropertyDTO propertyDTO;
 	private PropertyAddressDTO addressDTO;
+	private PropertySearchParametersDTO searchParamsDTO;
 	private UserAuthorizations authorizations;
 	private PropertyServiceHandler serviceHandler;
 	private PropertyServiceSecurity service;
@@ -27,8 +29,10 @@ public class PropertyServiceSecurityTest {
 
 	@Before
 	public void setup() {
-		dto = mock(PropertyDTO.class);
+		propertyDTO = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
+		searchParamsDTO = mock(PropertySearchParametersDTO.class);
+
 		authorizations = mock(UserAuthorizations.class);
 		userIsAuthorized();
 		serviceHandler = mock(PropertyServiceHandler.class);
@@ -39,77 +43,57 @@ public class PropertyServiceSecurityTest {
 
 	@Test
 	public void givenAPseudonymAndPropertyDTOWhenUploadPropertyShouldValidateIfUserIsAuthorized() throws Throwable {
-		service.uploadProperty(PSEUDONYM, dto);
+		service.uploadProperty(PSEUDONYM, propertyDTO);
 		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
 	}
 
 	@Test
 	public void givenUserIsAuthorizedWhenUploadPropertyShouldAskServiceToUploadProperty() throws Throwable {
-		service.uploadProperty(PSEUDONYM, dto);
-		verify(serviceHandler).uploadProperty(PSEUDONYM, dto);
+		service.uploadProperty(PSEUDONYM, propertyDTO);
+		verify(serviceHandler).uploadProperty(PSEUDONYM, propertyDTO);
 	}
 
 	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenUploadPropertyShouldThrowException() throws Throwable {
 		userIsNotAuthorized();
-		service.uploadProperty(PSEUDONYM, dto);
+		service.uploadProperty(PSEUDONYM, propertyDTO);
 	}
 
 	@Test
 	public void givenPseudonymWhenGetAllPropertiesShouldValidateIfUserIsAuthorized() throws Throwable {
-		service.getAllProperties(PSEUDONYM);
+		service.getPropertiesSearchResult(PSEUDONYM, searchParamsDTO);
 		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER);
 	}
 
 	@Test
 	public void givenUserIsAuthorizedWhenGetAllPropertiesSholdAskService() throws Throwable {
-		given(service.getAllProperties(PSEUDONYM)).willReturn(propertyList);
-		List<PropertyDTO> result = service.getAllProperties(PSEUDONYM);
+		given(service.getPropertiesSearchResult(PSEUDONYM, searchParamsDTO)).willReturn(propertyList);
+		List<PropertyDTO> result = service.getPropertiesSearchResult(PSEUDONYM, searchParamsDTO);
 		assertSame(propertyList, result);
 	}
 
 	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenGetAllPropertiesShouldThrowException() throws Throwable {
 		userIsNotAuthorized();
-		service.getAllProperties(PSEUDONYM);
+		service.getPropertiesSearchResult(PSEUDONYM, searchParamsDTO);
 	}
 
 	@Test
-	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized()
-			throws Throwable {
-		service.editPropertyFeatures(PSEUDONYM, dto);
+	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized() throws Throwable {
+		service.editPropertyFeatures(PSEUDONYM, propertyDTO);
 		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
 	}
 
 	@Test
 	public void givenUserIsAuthorizedWhenEditPropertyFeaturesShouldAskService() throws Throwable {
-		service.editPropertyFeatures(PSEUDONYM, dto);
-		verify(serviceHandler).editPropertyFeatures(PSEUDONYM, dto);
+		service.editPropertyFeatures(PSEUDONYM, propertyDTO);
+		verify(serviceHandler).editPropertyFeatures(PSEUDONYM, propertyDTO);
 	}
 
 	@Test(expected = ForbiddenAccessException.class)
 	public void givenUserIsNotAuthorizedWhenEditPropertyFeaturesShouldThrowExceptionIfNotAuthorized() throws Throwable {
 		userIsNotAuthorized();
-		service.editPropertyFeatures(PSEUDONYM, dto);
-	}
-
-	@Test
-	public void givenPseudonymAndSearchFilterWhenGetOrderedPropertiesShouldValidateUserAccess() throws Throwable {
-		service.getOrderedProperties(PSEUDONYM, ORDER_BY);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER);
-	}
-
-	@Test
-	public void givenUserIsAuthorizedWhenGetOrderedPropertiesShouldAskService() throws Throwable {
-		given(serviceHandler.getOrderedProperties(PSEUDONYM, ORDER_BY)).willReturn(propertyList);
-		List<PropertyDTO> result = service.getOrderedProperties(PSEUDONYM, ORDER_BY);
-		assertSame(propertyList, result);
-	}
-
-	@Test(expected = ForbiddenAccessException.class)
-	public void givenUserIsNotAuthorizedWhenGetOrderedPropertiesShouldThrowExceptionIfNotAuthorized() throws Throwable {
-		userIsNotAuthorized();
-		service.getOrderedProperties(PSEUDONYM, ORDER_BY);
+		service.editPropertyFeatures(PSEUDONYM, propertyDTO);
 	}
 
 	@Test
@@ -139,9 +123,9 @@ public class PropertyServiceSecurityTest {
 
 	@Test
 	public void givenAnOwnerAndAddressWhenGetPropertyAtAddressThenAskService() throws Exception {
-		given(service.getPropertyAtAddress(PSEUDONYM, addressDTO)).willReturn(dto);
+		given(service.getPropertyAtAddress(PSEUDONYM, addressDTO)).willReturn(propertyDTO);
 		PropertyDTO result = service.getPropertyAtAddress(PSEUDONYM, addressDTO);
-		assertEquals(dto, result);
+		assertEquals(propertyDTO, result);
 	}
 
 	@Test(expected = ForbiddenAccessException.class)

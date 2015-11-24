@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import java.util.ArrayList;
 
@@ -18,13 +19,12 @@ import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.property.validation.InvalidPropertyInformationException;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyResourceTest {
 
-	private final String NO_QUERY_PARAM = null;
-	private final String QUERY_PARAM = "recently_uploaded_last";
 	private final String OWNER = "owner90";
 	private final String TOKEN = "token";
 
@@ -33,16 +33,23 @@ public class PropertyResourceTest {
 	private PropertyAddressDTO addressDTO;
 	private PropertyServiceHandler service;
 	private SessionService sessionService;
+	private UriInfo searchParam;
+	private PropertySearchParametersDTO searchParamDTO;
+	private PropertySearchParametersFactory searchParamFactory;
 
 	@Before
 	public void setup() throws Throwable {
 		service = mock(PropertyServiceHandler.class);
 		sessionService = mock(SessionService.class);
-		propertyResource = new PropertyResource(service, sessionService);
+		searchParamFactory = mock(PropertySearchParametersFactory.class);
+		propertyResource = new PropertyResource(service, sessionService, searchParamFactory);
 
+		searchParam = mock(UriInfo.class);
 		propertyDTO = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
+		searchParamDTO = mock(PropertySearchParametersDTO.class);
 		given(sessionService.validate(TOKEN)).willReturn(OWNER);
+		given(searchParamFactory.getSearchParametersDTO(searchParam)).willReturn(searchParamDTO);
 	}
 
 	@Test
@@ -87,65 +94,51 @@ public class PropertyResourceTest {
 	}
 
 	@Test
-	public void givenATokenWhenGetAllPropertiesThenUsesSessionServiceToValidate() throws Throwable {
-		propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
+	public void givenATokenWhenSearchPropertiesThenUsesSessionServiceToValidate() throws Throwable {
+		propertyResource.searchProperties(TOKEN, searchParam);
 		verify(sessionService).validate(TOKEN);
 	}
 
 	@Test
-	public void givenATokenWhenGetAllPropertiesThenReturnsUnauthorizedStatusCodeIfInvalidToken() throws Throwable {
+	public void givenATokenWhenSearchPropertiesThenReturnsUnauthorizedStatusCodeIfInvalidToken() throws Throwable {
 		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(TOKEN);
-		Response response = propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
+		Response response = propertyResource.searchProperties(TOKEN, searchParam);
 		assertEquals(Status.UNAUTHORIZED, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenATokenWhenGetAllPropertertiesThenReturnsForbiddenStatusCodeIfForbiddenAccess() throws Throwable {
-		doThrow(ForbiddenAccessException.class).when(service).getAllProperties(OWNER);
-		Response response = propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
+	public void givenATokenWhenSearchPropertiesThenReturnsForbiddenStatusCodeIfForbiddenAccess() throws Throwable {
+		doThrow(ForbiddenAccessException.class).when(service).getPropertiesSearchResult(OWNER, searchParamDTO);
+		Response response = propertyResource.searchProperties(TOKEN, searchParam);
 		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
 	}
 
 	@Test
-	public void givenATokenWhenGetOrderedPropertertiesThenReturnsForbiddenStatusCodeIfForbiddenAccess()
-			throws Throwable {
-		doThrow(ForbiddenAccessException.class).when(service).getOrderedProperties(OWNER, QUERY_PARAM);
-		Response response = propertyResource.getProperties(TOKEN, QUERY_PARAM);
-		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
+	public void givenQueryParamsWhenSearchPropertiesThenUsesFactoryToBuildSearchParamDTO() throws Exception {
+		propertyResource.searchProperties(TOKEN, searchParam);
+		verify(searchParamFactory).getSearchParametersDTO(searchParam);
 	}
 
 	@Test
-	public void whenGetAllPropertiesWithNoQueryParamThenUsesTheServiceToGetProperties() throws Throwable {
-		propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
-		verify(service).getAllProperties(OWNER);
+	public void whenSearchPropertiesThenUsesTheServiceToGetProperties() throws Throwable {
+		propertyResource.searchProperties(TOKEN, searchParam);
+		verify(service).getPropertiesSearchResult(OWNER, searchParamDTO);
 	}
 
 	@Test
-	public void whenGetAllPropertiesWithNoQueryParamThenAlwaysReturnsStatusOK() {
-		Response result = propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
-		assertEquals(Status.OK, result.getStatusInfo());
-	}
-
-	@Test
-	public void whenGetAllPropertiesWithNoQueryParamThenConvertToJsonPropertyDTOs() throws Throwable {
+	public void whenSearchPropertiesThenConvertToJsonPropertyDTOs() throws Throwable {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
-		given(service.getAllProperties(OWNER)).willReturn(dtos);
+		given(service.getPropertiesSearchResult(OWNER, searchParamDTO)).willReturn(dtos);
 
-		Response result = propertyResource.getProperties(TOKEN, NO_QUERY_PARAM);
+		Response result = propertyResource.searchProperties(TOKEN, searchParam);
 
 		assertEquals(dtos, result.getEntity());
 	}
 
 	@Test
-	public void whenGetAllPropertiesWithQueryParamThenUsesTheServiceToGetOrderedProperties() throws Throwable {
-		propertyResource.getProperties(TOKEN, QUERY_PARAM);
-		verify(service).getOrderedProperties(OWNER, QUERY_PARAM);
-	}
-
-	@Test
-	public void whenGetAllPropertiesWithQueryParamThenReturnsInvalidRequestIfSearchFilterIsInvalid() throws Throwable {
-		doThrow(InvalidSearchParameterException.class).when(service).getOrderedProperties(OWNER, QUERY_PARAM);
-		Response result = propertyResource.getProperties(TOKEN, QUERY_PARAM);
+	public void whenSearchPropertiesThenReturnsInvalidRequestIfSearchFiltersAreInvalid() throws Throwable {
+		doThrow(InvalidSearchParameterException.class).when(service).getPropertiesSearchResult(OWNER, searchParamDTO);
+		Response result = propertyResource.searchProperties(TOKEN, searchParam);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
 	}
 

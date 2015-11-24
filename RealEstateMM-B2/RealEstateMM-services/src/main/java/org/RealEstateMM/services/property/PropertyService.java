@@ -13,6 +13,7 @@ import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 
 public class PropertyService implements PropertyServiceHandler {
 
@@ -40,7 +41,7 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getAllProperties(String pseudo) {
+	public List<PropertyDTO> getPropertiesSearchResult(String pseudo, PropertySearchParametersDTO searchParams) {
 		List<Property> allProperties = properties.getAllProperties();
 		return buildDTOsFromProperties(allProperties);
 	}
@@ -65,14 +66,6 @@ public class PropertyService implements PropertyServiceHandler {
 			propertiesDTO.add(dto);
 		}
 		return propertiesDTO;
-	}
-
-	@Override
-	public List<PropertyDTO> getOrderedProperties(String pseudo, String orderBy)
-			throws InvalidSearchParameterException {
-		PropertySearchParameters searchParam = searchParameterParser.getParsedSearchParameter(orderBy);
-		List<Property> orderedProperties = properties.getOrderedProperties(searchParam);
-		return buildDTOsFromProperties(orderedProperties);
 	}
 
 	@Override

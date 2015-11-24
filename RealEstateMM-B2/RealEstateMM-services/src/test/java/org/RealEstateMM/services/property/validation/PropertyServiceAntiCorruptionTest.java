@@ -6,6 +6,7 @@ import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +16,6 @@ public class PropertyServiceAntiCorruptionTest {
 	private final String STATUS = "on sale";
 	private final String OWNER = "owner90";
 	private final String PSEUDO = "pseudo32";
-	private final String ORDER_BY = "recently_uploaded_last";
 	private final int NUMBER_OF_BEDROOMS = 2;
 	private final int NUMBER_OF_BATHROOMS = 2;
 	private final int VALID_TOTAL_NUMBER_OF_ROOMS = 4;
@@ -28,6 +28,7 @@ public class PropertyServiceAntiCorruptionTest {
 	private PropertyAddressDTO addressDTO;
 	private PropertyDTO propertyDTO;
 	private PropertyFeaturesDTO featuresDTO;
+	private PropertySearchParametersDTO searchParamsDTO;
 
 	@Before
 	public void setup() {
@@ -36,6 +37,7 @@ public class PropertyServiceAntiCorruptionTest {
 		propertyDTO = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
 		featuresDTO = mock(PropertyFeaturesDTO.class);
+		searchParamsDTO = mock(PropertySearchParametersDTO.class);
 
 		propertyAntiCorruption = new PropertyServiceAntiCorruption(service, validator);
 
@@ -107,14 +109,8 @@ public class PropertyServiceAntiCorruptionTest {
 
 	@Test
 	public void whenGetAllPropertiesThenCallsPropertyService() throws Throwable {
-		propertyAntiCorruption.getAllProperties(PSEUDO);
-		verify(service).getAllProperties(PSEUDO);
-	}
-
-	@Test
-	public void whenGetOrderedPropertiesThenCallsPropertyService() throws Throwable {
-		propertyAntiCorruption.getOrderedProperties(PSEUDO, ORDER_BY);
-		verify(service).getOrderedProperties(PSEUDO, ORDER_BY);
+		propertyAntiCorruption.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
+		verify(service).getPropertiesSearchResult(PSEUDO, searchParamsDTO);
 	}
 
 	@Test
