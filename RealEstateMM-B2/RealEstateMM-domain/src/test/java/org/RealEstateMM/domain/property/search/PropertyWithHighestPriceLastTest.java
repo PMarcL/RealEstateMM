@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.PropertyRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,9 +15,8 @@ public class PropertyWithHighestPriceLastTest {
 	private static final Double HIGH_PRICE = 200000.00;
 	private static final Double LOW_PRICE = 100000.00;
 
-	private PropertyRepository propertyRepository;
-	private Property mostExpensiveProperty;
-	private Property leastExpensiveProperty;
+	private Property expensiveProperty;
+	private Property cheapProperty;
 	private ArrayList<Property> properties;
 
 	private PropertyWithHighestPriceLast orderingStrategy;
@@ -27,28 +26,26 @@ public class PropertyWithHighestPriceLastTest {
 		orderingStrategy = new PropertyWithHighestPriceLast();
 
 		createPropertyList();
-		makeNewPropertyMoreRecentThanOldProperty();
-		propertyRepository = mock(PropertyRepository.class);
-		given(propertyRepository.getAll()).willReturn(properties);
+		makeExpensivePropertyMoreExpensizeThanCheapProperty();
 	}
 
 	@Test
 	public void givenTwoPropertiesWhenOrderingThenReturnsArraylistWithHighestPricePropertyLast() {
-		ArrayList<Property> returnedProperties = orderingStrategy.getOrderedProperties(propertyRepository);
-		assertEquals(leastExpensiveProperty, returnedProperties.get(0));
-		assertEquals(mostExpensiveProperty, returnedProperties.get(1));
+		List<Property> returnedProperties = orderingStrategy.getOrderedProperties(properties);
+		assertEquals(cheapProperty, returnedProperties.get(0));
+		assertEquals(expensiveProperty, returnedProperties.get(1));
 	}
 
 	private void createPropertyList() {
-		mostExpensiveProperty = mock(Property.class);
-		leastExpensiveProperty = mock(Property.class);
+		expensiveProperty = mock(Property.class);
+		cheapProperty = mock(Property.class);
 		properties = new ArrayList<Property>();
-		properties.add(mostExpensiveProperty);
-		properties.add(leastExpensiveProperty);
+		properties.add(expensiveProperty);
+		properties.add(cheapProperty);
 	}
 
-	private void makeNewPropertyMoreRecentThanOldProperty() {
-		given(mostExpensiveProperty.getPrice()).willReturn(HIGH_PRICE);
-		given(leastExpensiveProperty.getPrice()).willReturn(LOW_PRICE);
+	private void makeExpensivePropertyMoreExpensizeThanCheapProperty() {
+		given(expensiveProperty.getPrice()).willReturn(HIGH_PRICE);
+		given(cheapProperty.getPrice()).willReturn(LOW_PRICE);
 	}
 }

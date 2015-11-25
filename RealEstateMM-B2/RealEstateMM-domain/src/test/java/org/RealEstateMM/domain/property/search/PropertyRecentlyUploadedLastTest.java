@@ -5,14 +5,14 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.PropertyRepository;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyRecentlyUploadedLastTest {
-	private PropertyRepository propertyRepository;
+
 	private Property newProperty;
 	private Property oldProperty;
 	private ArrayList<Property> properties;
@@ -25,13 +25,11 @@ public class PropertyRecentlyUploadedLastTest {
 
 		createPropertyList();
 		makeNewPropertyMoreRecentThanOldProperty();
-		propertyRepository = mock(PropertyRepository.class);
-		given(propertyRepository.getAll()).willReturn(properties);
 	}
 
 	@Test
 	public void givenTwoPropertiesWhenOrderingThenReturnsArraylistWithMostRecentPropertyLast() {
-		ArrayList<Property> returnedProperties = orderingStrategy.getOrderedProperties(propertyRepository);
+		List<Property> returnedProperties = orderingStrategy.getOrderedProperties(properties);
 		assertEquals(oldProperty, returnedProperties.get(0));
 		assertEquals(newProperty, returnedProperties.get(1));
 	}

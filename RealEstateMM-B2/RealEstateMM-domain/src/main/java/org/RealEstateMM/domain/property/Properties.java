@@ -38,9 +38,10 @@ public class Properties {
 		return repository.getPropertiesFromOwner(owner);
 	}
 
-	public List<Property> getOrderedProperties(PropertyOrderingParameters searchParameter) {
-		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParameter);
-		return strategy.getOrderedProperties(repository);
+	public List<Property> getPropertiesSearchResults(PropertyOrderingParameters searchParameter) {
+		PropertyOrderingStrategy orderingStrategy = factory.getOrderingStrategy(searchParameter);
+		List<Property> properties = repository.getAll();
+		return orderingStrategy.getOrderedProperties(properties);
 	}
 
 	public Property getPropertyAtAddress(PropertyAddress address) throws PropertyNotFoundException {

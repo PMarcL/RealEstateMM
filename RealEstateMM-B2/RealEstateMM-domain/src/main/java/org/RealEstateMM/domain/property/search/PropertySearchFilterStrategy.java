@@ -3,8 +3,8 @@ package org.RealEstateMM.domain.property.search;
 import java.util.List;
 import org.RealEstateMM.domain.property.Property;
 
-public interface PropertyOrderingStrategy {
+public interface PropertySearchFilterStrategy {
 
-	public List<Property> getOrderedProperties(List<Property> properties);
+	public List<Property> getFilteredProperties(List<Property> properties);
 
 }

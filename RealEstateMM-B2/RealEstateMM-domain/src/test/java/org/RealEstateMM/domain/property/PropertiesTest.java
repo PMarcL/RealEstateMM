@@ -20,6 +20,7 @@ public class PropertiesTest {
 
 	private final String OWNER = "owner90";
 	private final PropertyOrderingParameters SEARCH_PARAM = PropertyOrderingParameters.RECENTLY_UPLOADED_FIRST;
+	private ArrayList<Property> PROPERTIES = new ArrayList<Property>();
 
 	private Property property;
 	private PropertyRepository repository;
@@ -42,6 +43,7 @@ public class PropertiesTest {
 		orderingStrategy = mock(PropertyOrderingStrategy.class);
 		given(factory.getOrderingStrategy(SEARCH_PARAM)).willReturn(orderingStrategy);
 		given(repository.getPropertyAtAddress(address)).willReturn(Optional.of(property));
+		given(repository.getAll()).willReturn(PROPERTIES);
 	}
 
 	@Test
@@ -107,23 +109,29 @@ public class PropertiesTest {
 	}
 
 	@Test
-	public void givenAPseudoAndPropertyFilterWhenGetOrderedPropertiesThenUsesFactoryToGetOrderingStrategy() {
-		properties.getOrderedProperties(SEARCH_PARAM);
+	public void givenPropertySearchParametersWhenGetPropertiesSearchResultsThenUsesFactoryToGetOrderingStrategy() {
+		properties.getPropertiesSearchResults(SEARCH_PARAM);
 		verify(factory).getOrderingStrategy(SEARCH_PARAM);
 	}
 
 	@Test
+	public void givenPropertySearchParametersWhenGetPropertiesSearchResultsThenUsesRepositoryToGetAllProperties() {
+		properties.getPropertiesSearchResults(SEARCH_PARAM);
+		verify(repository).getAll();
+	}
+
+	@Test
 	public void givenPseudoAndPropertyFilterWhenGetOrderedPropertiesThenUsesOrderingStrategyToGetProperties() {
-		properties.getOrderedProperties(SEARCH_PARAM);
-		verify(orderingStrategy).getOrderedProperties(repository);
+		properties.getPropertiesSearchResults(SEARCH_PARAM);
+		verify(orderingStrategy).getOrderedProperties(PROPERTIES);
 	}
 
 	@Test
 	public void givenPseudoAndPropertyFilterWhenGetOrderedPropertiesThenReturnsOrderingStrategyProperties() {
 		ArrayList<Property> orderedProperties = new ArrayList<Property>();
-		given(orderingStrategy.getOrderedProperties(repository)).willReturn(orderedProperties);
+		given(orderingStrategy.getOrderedProperties(PROPERTIES)).willReturn(orderedProperties);
 
-		List<Property> returnedProperties = properties.getOrderedProperties(SEARCH_PARAM);
+		List<Property> returnedProperties = properties.getPropertiesSearchResults(SEARCH_PARAM);
 
 		assertEquals(orderedProperties, returnedProperties);
 	}
