@@ -31,7 +31,7 @@ import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
 import org.RealEstateMM.servicelocator.ServiceLocator;
-import org.RealEstateMM.services.property.PropertySearchParametersParser;
+import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.PropertyServiceSecurity;
@@ -92,13 +92,14 @@ public class DemoContext extends Context {
 
 	@Override
 	protected void registerServiceDependencies() {
+		ServiceLocator.getInstance().registerService(PropertyOrderingParametersParser.class,
+				new PropertyOrderingParametersParser());
+		ServiceLocator.getInstance().registerService(UserFilterFactory.class, new UserFilterFactory());
+		ServiceLocator.getInstance().registerService(PropertyFilterFactory.class, new PropertyFilterFactory());
+
 		registerUserEmailValidator();
 		registerRepositories();
 		registerAssemblers();
-		ServiceLocator.getInstance().registerService(PropertySearchParametersParser.class,
-				new PropertySearchParametersParser());
-		ServiceLocator.getInstance().registerService(UserFilterFactory.class, new UserFilterFactory());
-		ServiceLocator.getInstance().registerService(PropertyFilterFactory.class, new PropertyFilterFactory());
 	}
 
 	private void registerRepositories() {

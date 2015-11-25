@@ -6,7 +6,7 @@ import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PropertySearchParametersParserTest {
+public class PropertyOrderingParametersParserTest {
 
 	private final String RECENTLY_UPLOADED_FIRST = "recently_uploaded_first";
 	private final String RECENTLY_UPLOADED_LAST = "recently_uploaded_last";
@@ -14,11 +14,11 @@ public class PropertySearchParametersParserTest {
 	private static final String HIGHEST_PRICE_LAST = "highest_price_last";
 	private final String INVALID_FILTER = null;
 
-	private PropertySearchParametersParser propertyFilter;
+	private PropertyOrderingParametersParser propertyFilter;
 
 	@Before
 	public void setup() {
-		propertyFilter = new PropertySearchParametersParser();
+		propertyFilter = new PropertyOrderingParametersParser();
 	}
 
 	@Test

@@ -8,7 +8,6 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -19,19 +18,16 @@ public class PropertyService implements PropertyServiceHandler {
 
 	private PropertyDTOAssembler propertyAssembler;
 	private Properties properties;
-	private PropertySearchParametersParser searchParameterParser;
 
 	public PropertyService() {
 		properties = ServiceLocator.getInstance().getService(Properties.class);
-		searchParameterParser = ServiceLocator.getInstance().getService(PropertySearchParametersParser.class);
 		propertyAssembler = new PropertyDTOAssembler();
 	}
 
 	public PropertyService(PropertyDTOAssembler propertyAssembler, Properties properties,
-			PropertySearchParametersParser searchParameterParser) {
+			PropertyOrderingParametersParser searchParameterParser) {
 		this.propertyAssembler = propertyAssembler;
 		this.properties = properties;
-		this.searchParameterParser = searchParameterParser;
 	}
 
 	@Override

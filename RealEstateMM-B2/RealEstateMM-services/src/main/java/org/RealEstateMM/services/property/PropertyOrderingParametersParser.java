@@ -2,7 +2,7 @@ package org.RealEstateMM.services.property;
 
 import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 
-public class PropertySearchParametersParser {
+public class PropertyOrderingParametersParser {
 
 	private static final String RECENTLY_UPLOADED_FIRST = "recently_uploaded_first";
 	private static final String RECENTLY_UPLOADED_LAST = "recently_uploaded_last";

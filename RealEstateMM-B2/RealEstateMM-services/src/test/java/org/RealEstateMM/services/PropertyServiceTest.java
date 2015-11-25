@@ -12,7 +12,7 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.RealEstateMM.services.property.InvalidSearchParameterException;
-import org.RealEstateMM.services.property.PropertySearchParametersParser;
+import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -35,7 +35,7 @@ public class PropertyServiceTest {
 	private Property property;
 	private PropertyAddress address;
 	private PropertyFeatures features;
-	private PropertySearchParametersParser searchParameterParser;
+	private PropertyOrderingParametersParser searchParameterParser;
 	private Properties properties;
 
 	private PropertyService propertyService;
@@ -44,7 +44,7 @@ public class PropertyServiceTest {
 	public void setup() throws Throwable {
 		assembler = mock(PropertyDTOAssembler.class);
 		properties = mock(Properties.class);
-		searchParameterParser = mock(PropertySearchParametersParser.class);
+		searchParameterParser = mock(PropertyOrderingParametersParser.class);
 		propertyService = new PropertyService(assembler, properties, searchParameterParser);
 
 		given(searchParameterParser.getParsedSearchParameter(ORDER_BY)).willReturn(SEARCH_PARAM);

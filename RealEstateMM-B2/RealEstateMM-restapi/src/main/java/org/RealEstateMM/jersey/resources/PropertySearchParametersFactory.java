@@ -16,10 +16,14 @@ public class PropertySearchParametersFactory {
 		searchParamDTO.setOrderBy(searchParam.getQueryParameters().getFirst(ORDER_BY));
 		searchParamDTO.setPropertyTypes(searchParam.getQueryParameters().get(PROPERTY_TYPES));
 		String minNumBedrooms = searchParam.getQueryParameters().getFirst(MIN_NUM_BEDROOMS);
-		try {
-			searchParamDTO.setMinNumBedrooms(Integer.parseInt(minNumBedrooms));
-		} catch (NumberFormatException e) {
-			throw new InvalidSearchParameterException();
+		if (minNumBedrooms != null) {
+			try {
+				searchParamDTO.setMinNumBedrooms(Integer.parseInt(minNumBedrooms));
+			} catch (NumberFormatException e) {
+				throw new InvalidSearchParameterException();
+			}
+		} else {
+			searchParamDTO.setMinNumBedrooms(0);
 		}
 		return searchParamDTO;
 	}
