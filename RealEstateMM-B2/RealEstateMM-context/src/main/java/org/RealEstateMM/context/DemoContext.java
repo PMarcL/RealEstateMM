@@ -35,6 +35,7 @@ import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.PropertyServiceSecurity;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.validation.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.statistics.StatisticService;
@@ -133,6 +134,8 @@ public class DemoContext extends Context {
 
 	private void registerAssemblers() {
 		ServiceLocator.getInstance().registerService(UserAssembler.class, new UserAssembler(new UserRoleFactory()));
+		ServiceLocator.getInstance().registerService(PropertySearchParametersDTOAssembler.class,
+				new PropertySearchParametersDTOAssembler());
 	}
 
 	@Override

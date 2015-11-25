@@ -10,21 +10,17 @@ import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
-import org.RealEstateMM.services.property.InvalidSearchParameterException;
-import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyServiceTest {
-
-	private final String ORDER_BY = "recently_uploaded_last";
-	private final PropertyOrderingParameters SEARCH_PARAM = PropertyOrderingParameters.RECENTLY_UPLOADED_LAST;
 	private final String OWNER = "owner90";
 	private final String PSEUDO = "pseudo32";
 
@@ -35,25 +31,27 @@ public class PropertyServiceTest {
 	private Property property;
 	private PropertyAddress address;
 	private PropertyFeatures features;
-	private PropertyOrderingParametersParser searchParameterParser;
 	private Properties properties;
+	private PropertySearchParameters searchParams;
 
 	private PropertyService propertyService;
+	private PropertySearchParametersDTOAssembler searchParamAssembler;
 
 	@Before
 	public void setup() throws Throwable {
 		assembler = mock(PropertyDTOAssembler.class);
 		properties = mock(Properties.class);
-		searchParameterParser = mock(PropertyOrderingParametersParser.class);
-		propertyService = new PropertyService(assembler, properties, searchParameterParser);
+		searchParamAssembler = mock(PropertySearchParametersDTOAssembler.class);
+		propertyService = new PropertyService(assembler, properties, searchParamAssembler);
 
-		given(searchParameterParser.getParsedSearchParameter(ORDER_BY)).willReturn(SEARCH_PARAM);
 		propertyDTO = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
 		searchParamsDTO = mock(PropertySearchParametersDTO.class);
 		property = mock(Property.class);
 		features = mock(PropertyFeatures.class);
 		address = mock(PropertyAddress.class);
+		searchParams = mock(PropertySearchParameters.class);
+		given(searchParamAssembler.fromDTO(searchParamsDTO)).willReturn(searchParams);
 		configureAssembler();
 	}
 
@@ -70,21 +68,27 @@ public class PropertyServiceTest {
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenGetsAllPropertyFromProperties() {
+	public void whenGetPropertiesSearchResultsThenUsesAssemblerToBuildSearchParameters() throws Exception {
 		propertyService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
-		verify(properties).getAllProperties();
+		verify(searchParamAssembler).fromDTO(searchParamsDTO);
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenBuildDTOsFromPropertiesWithAssembler() {
-		given(properties.getAllProperties()).willReturn(buildPropertiesList());
+	public void whenGetPropertiesSearchResultsThenGetPropertiesSearchFromProperties() throws Exception {
+		propertyService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
+		verify(properties).getPropertiesSearchResults(searchParams);
+	}
+
+	@Test
+	public void whenGetPropertiesSearchResultsThenBuildDTOsFromPropertiesWithAssembler() throws Exception {
+		given(properties.getPropertiesSearchResults(searchParams)).willReturn(buildPropertiesList());
 		propertyService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
 		verify(assembler).toDTO(property);
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenReturnsDTOsOfAllProperties() {
-		given(properties.getAllProperties()).willReturn(buildPropertiesList());
+	public void whenGetPropertiesSearchResultsThenReturnsDTOsOfAllProperties() throws Exception {
+		given(properties.getPropertiesSearchResults(searchParams)).willReturn(buildPropertiesList());
 		List<PropertyDTO> returnedDTOs = propertyService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
 		assertTrue(returnedDTOs.contains(propertyDTO));
 	}

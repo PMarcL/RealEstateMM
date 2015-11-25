@@ -108,33 +108,42 @@ public class PropertiesTest {
 		assertEquals(ownersProperties, returnedProperties);
 	}
 
-	@Test
-	public void givenPropertySearchParametersWhenGetPropertiesSearchResultsThenUsesFactoryToGetOrderingStrategy() {
-		properties.getPropertiesSearchResults(SEARCH_PARAM);
-		verify(factory).getOrderingStrategy(SEARCH_PARAM);
-	}
-
-	@Test
-	public void givenPropertySearchParametersWhenGetPropertiesSearchResultsThenUsesRepositoryToGetAllProperties() {
-		properties.getPropertiesSearchResults(SEARCH_PARAM);
-		verify(repository).getAll();
-	}
-
-	@Test
-	public void givenPseudoAndPropertyFilterWhenGetOrderedPropertiesThenUsesOrderingStrategyToGetProperties() {
-		properties.getPropertiesSearchResults(SEARCH_PARAM);
-		verify(orderingStrategy).getOrderedProperties(PROPERTIES);
-	}
-
-	@Test
-	public void givenPseudoAndPropertyFilterWhenGetOrderedPropertiesThenReturnsOrderingStrategyProperties() {
-		ArrayList<Property> orderedProperties = new ArrayList<Property>();
-		given(orderingStrategy.getOrderedProperties(PROPERTIES)).willReturn(orderedProperties);
-
-		List<Property> returnedProperties = properties.getPropertiesSearchResults(SEARCH_PARAM);
-
-		assertEquals(orderedProperties, returnedProperties);
-	}
+	// @Test
+	// public void
+	// givenPropertySearchParametersWhenGetPropertiesSearchResultsThenUsesFactoryToGetOrderingStrategy()
+	// {
+	// properties.getPropertiesSearchResults(SEARCH_PARAM);
+	// verify(factory).getOrderingStrategy(SEARCH_PARAM);
+	// }
+	//
+	// @Test
+	// public void
+	// givenPropertySearchParametersWhenGetPropertiesSearchResultsThenUsesRepositoryToGetAllProperties()
+	// {
+	// properties.getPropertiesSearchResults(SEARCH_PARAM);
+	// verify(repository).getAll();
+	// }
+	//
+	// @Test
+	// public void
+	// givenPseudoAndPropertyFilterWhenGetOrderedPropertiesThenUsesOrderingStrategyToGetProperties()
+	// {
+	// properties.getPropertiesSearchResults(SEARCH_PARAM);
+	// verify(orderingStrategy).getOrderedProperties(PROPERTIES);
+	// }
+	//
+	// @Test
+	// public void
+	// givenPseudoAndPropertyFilterWhenGetOrderedPropertiesThenReturnsOrderingStrategyProperties()
+	// {
+	// ArrayList<Property> orderedProperties = new ArrayList<Property>();
+	// given(orderingStrategy.getOrderedProperties(PROPERTIES)).willReturn(orderedProperties);
+	//
+	// List<Property> returnedProperties =
+	// properties.getPropertiesSearchResults(SEARCH_PARAM);
+	//
+	// assertEquals(orderedProperties, returnedProperties);
+	// }
 
 	@Test
 	public void givenAnAddressWhenGetPropertyAtAddressThenUsesRepository() throws Exception {

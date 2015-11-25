@@ -9,6 +9,7 @@ import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
 import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 
 public class Properties {
 
@@ -38,10 +39,12 @@ public class Properties {
 		return repository.getPropertiesFromOwner(owner);
 	}
 
-	public List<Property> getPropertiesSearchResults(PropertyOrderingParameters searchParameter) {
-		PropertyOrderingStrategy orderingStrategy = factory.getOrderingStrategy(searchParameter);
-		List<Property> properties = repository.getAll();
-		return orderingStrategy.getOrderedProperties(properties);
+	public List<Property> getPropertiesSearchResults(PropertySearchParameters searchParameter) {
+		// PropertyOrderingStrategy orderingStrategy =
+		// factory.getOrderingStrategy(searchParameter);
+		// List<Property> properties = repository.getAll();
+		// return orderingStrategy.getOrderedProperties(properties);
+		return null;
 	}
 
 	public Property getPropertyAtAddress(PropertyAddress address) throws PropertyNotFoundException {

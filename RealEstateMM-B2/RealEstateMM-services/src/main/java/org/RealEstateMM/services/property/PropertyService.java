@@ -8,25 +8,30 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
+import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 
 public class PropertyService implements PropertyServiceHandler {
 
 	private PropertyDTOAssembler propertyAssembler;
+	private PropertySearchParametersDTOAssembler searchParamAssembler;
 	private Properties properties;
 
 	public PropertyService() {
 		properties = ServiceLocator.getInstance().getService(Properties.class);
 		propertyAssembler = new PropertyDTOAssembler();
+		searchParamAssembler = ServiceLocator.getInstance().getService(PropertySearchParametersDTOAssembler.class);
 	}
 
 	public PropertyService(PropertyDTOAssembler propertyAssembler, Properties properties,
-			PropertyOrderingParametersParser searchParameterParser) {
+			PropertySearchParametersDTOAssembler searchParamAssembler) {
 		this.propertyAssembler = propertyAssembler;
+		this.searchParamAssembler = searchParamAssembler;
 		this.properties = properties;
 	}
 
@@ -37,8 +42,10 @@ public class PropertyService implements PropertyServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getPropertiesSearchResult(String pseudo, PropertySearchParametersDTO searchParams) {
-		List<Property> allProperties = properties.getAllProperties();
+	public List<PropertyDTO> getPropertiesSearchResult(String pseudo, PropertySearchParametersDTO searchParamsDTO)
+			throws InvalidSearchParameterException {
+		PropertySearchParameters searchParams = searchParamAssembler.fromDTO(searchParamsDTO);
+		List<Property> allProperties = properties.getPropertiesSearchResults(searchParams);
 		return buildDTOsFromProperties(allProperties);
 	}
 
