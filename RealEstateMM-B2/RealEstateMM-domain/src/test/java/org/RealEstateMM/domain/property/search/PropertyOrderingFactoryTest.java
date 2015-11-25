@@ -17,7 +17,7 @@ public class PropertyOrderingFactoryTest {
 	@Test
 	public void givenPropertySearchFilterRecentlyUploadedFirstWhenGetOrderingStrategyThenReturnsInstanceOfRecentlyUploadedFirst() {
 		PropertyOrderingStrategy strategy = factory
-				.getOrderingStrategy(PropertySearchParameters.RECENTLY_UPLOADED_FIRST);
+				.getOrderingStrategy(PropertyOrderingParameters.RECENTLY_UPLOADED_FIRST);
 		assertTrue(strategy instanceof PropertyRecentlyUploadedFirst);
 	}
 }

@@ -2,7 +2,7 @@ package org.RealEstateMM.services.property;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,28 +24,28 @@ public class PropertySearchParametersParserTest {
 	@Test
 	public void givenANewSearchFilterWhenInitializeWithRecentlyAddedFirstStringThenGetReturnsCorrespondingEnum()
 			throws Throwable {
-		assertEquals(PropertySearchParameters.RECENTLY_UPLOADED_FIRST,
+		assertEquals(PropertyOrderingParameters.RECENTLY_UPLOADED_FIRST,
 				propertyFilter.getParsedSearchParameter(RECENTLY_UPLOADED_FIRST));
 	}
 
 	@Test
 	public void givenANewSearchFilterWhenInitializeWithRecentlyAddedLastStringThenGetReturnsCorrespondingEnum()
 			throws Throwable {
-		assertEquals(PropertySearchParameters.RECENTLY_UPLOADED_LAST,
+		assertEquals(PropertyOrderingParameters.RECENTLY_UPLOADED_LAST,
 				propertyFilter.getParsedSearchParameter(RECENTLY_UPLOADED_LAST));
 	}
 
 	@Test
 	public void givenANewSearchFilterWhenInitializeWithHighestPriceFirstStringThenGetReturnsCorrespondingEnum()
 			throws Throwable {
-		assertEquals(PropertySearchParameters.HIGHEST_PRICE_FIRST,
+		assertEquals(PropertyOrderingParameters.HIGHEST_PRICE_FIRST,
 				propertyFilter.getParsedSearchParameter(HIGHEST_PRICE_FIRST));
 	}
 
 	@Test
 	public void givenANewSearchFilterWhenInitializeWithHighestPriceLastStringThenGetReturnsCorrespondingEnum()
 			throws Throwable {
-		assertEquals(PropertySearchParameters.HIGHEST_PRICE_LAST,
+		assertEquals(PropertyOrderingParameters.HIGHEST_PRICE_LAST,
 				propertyFilter.getParsedSearchParameter(HIGHEST_PRICE_LAST));
 	}
 

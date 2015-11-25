@@ -8,7 +8,7 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
-import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 
 public class Properties {
 
@@ -38,7 +38,7 @@ public class Properties {
 		return repository.getPropertiesFromOwner(owner);
 	}
 
-	public List<Property> getOrderedProperties(PropertySearchParameters searchParameter) {
+	public List<Property> getOrderedProperties(PropertyOrderingParameters searchParameter) {
 		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParameter);
 		return strategy.getOrderedProperties(repository);
 	}

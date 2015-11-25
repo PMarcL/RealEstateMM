@@ -8,7 +8,7 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;

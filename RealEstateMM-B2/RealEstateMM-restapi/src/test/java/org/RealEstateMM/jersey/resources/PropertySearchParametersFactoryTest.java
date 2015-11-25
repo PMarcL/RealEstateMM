@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
+import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ public class PropertySearchParametersFactoryTest {
 	private final String ORDER_BY_VAL = "recently_uploaded_first";
 	private final List<String> PROPERTY_TYPES_VAL = new ArrayList<String>();
 	private final String MIN_NUM_BEDROOMS_VAL = "2";
+	private final String INVALID_MIN_NUM_BEDROOMS_VAL = "hello";
 
 	private UriInfo searchParam;
 	private MultivaluedMap<String, String> queryParams;
@@ -36,7 +38,7 @@ public class PropertySearchParametersFactoryTest {
 	}
 
 	@Test
-	public void givenAUriInfoWhenGetSearchParametersThenGetInfoFromUriInfo() {
+	public void givenAUriInfoWhenGetSearchParametersThenGetInfoFromUriInfo() throws Exception {
 		factory.getSearchParametersDTO(searchParam);
 
 		verify(searchParam, times(3)).getQueryParameters();
@@ -46,12 +48,19 @@ public class PropertySearchParametersFactoryTest {
 	}
 
 	@Test
-	public void givenAUriInfoWhenGetSearchParametersThenReturnsDTOWithCorrectInfo() {
+	public void givenAUriInfoWhenGetSearchParametersThenReturnsDTOWithCorrectInfo() throws Exception {
 		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
 
 		assertEquals(ORDER_BY_VAL, result.getOrderBy());
 		assertEquals(PROPERTY_TYPES_VAL, result.getPropertyTypes());
 		assertEquals(Integer.parseInt(MIN_NUM_BEDROOMS_VAL), result.getMinNumBedrooms());
+	}
+
+	@Test(expected = InvalidSearchParameterException.class)
+	public void givenUriInfoWithInvalidNumberWhenGetSearchParametersThenThrowsInvalidParameterException()
+			throws Exception {
+		given(queryParams.getFirst(MIN_NUM_BEDROOMS)).willReturn(INVALID_MIN_NUM_BEDROOMS_VAL);
+		factory.getSearchParametersDTO(searchParam);
 	}
 
 	private void configureUriInfoMock() {

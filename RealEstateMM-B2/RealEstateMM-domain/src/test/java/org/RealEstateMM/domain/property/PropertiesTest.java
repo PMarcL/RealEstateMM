@@ -11,7 +11,7 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
-import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -19,7 +19,7 @@ import org.mockito.InOrder;
 public class PropertiesTest {
 
 	private final String OWNER = "owner90";
-	private final PropertySearchParameters SEARCH_PARAM = PropertySearchParameters.RECENTLY_UPLOADED_FIRST;
+	private final PropertyOrderingParameters SEARCH_PARAM = PropertyOrderingParameters.RECENTLY_UPLOADED_FIRST;
 
 	private Property property;
 	private PropertyRepository repository;

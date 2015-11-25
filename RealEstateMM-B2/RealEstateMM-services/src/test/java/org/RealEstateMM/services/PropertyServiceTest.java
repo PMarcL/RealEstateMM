@@ -10,7 +10,7 @@ import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.PropertySearchParametersParser;
 import org.RealEstateMM.services.property.PropertyService;
@@ -24,7 +24,7 @@ import org.junit.Test;
 public class PropertyServiceTest {
 
 	private final String ORDER_BY = "recently_uploaded_last";
-	private final PropertySearchParameters SEARCH_PARAM = PropertySearchParameters.RECENTLY_UPLOADED_LAST;
+	private final PropertyOrderingParameters SEARCH_PARAM = PropertyOrderingParameters.RECENTLY_UPLOADED_LAST;
 	private final String OWNER = "owner90";
 	private final String PSEUDO = "pseudo32";
 

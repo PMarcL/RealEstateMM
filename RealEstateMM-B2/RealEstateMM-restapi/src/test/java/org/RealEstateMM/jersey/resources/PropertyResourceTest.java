@@ -120,6 +120,13 @@ public class PropertyResourceTest {
 	}
 
 	@Test
+	public void givenQueryParamsWhenSearchPropertiesThenReturnsBadRequestIfFactoryThrowsException() throws Exception {
+		doThrow(InvalidSearchParameterException.class).when(searchParamFactory).getSearchParametersDTO(searchParam);
+		Response response = propertyResource.searchProperties(TOKEN, searchParam);
+		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
+	}
+
+	@Test
 	public void whenSearchPropertiesThenUsesTheServiceToGetProperties() throws Throwable {
 		propertyResource.searchProperties(TOKEN, searchParam);
 		verify(service).getPropertiesSearchResult(OWNER, searchParamDTO);

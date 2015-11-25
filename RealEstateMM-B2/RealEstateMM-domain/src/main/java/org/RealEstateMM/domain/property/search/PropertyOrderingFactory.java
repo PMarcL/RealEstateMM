@@ -2,7 +2,7 @@ package org.RealEstateMM.domain.property.search;
 
 public class PropertyOrderingFactory {
 
-	public PropertyOrderingStrategy getOrderingStrategy(PropertySearchParameters searchParameter) {
+	public PropertyOrderingStrategy getOrderingStrategy(PropertyOrderingParameters searchParameter) {
 		switch (searchParameter) {
 		case RECENTLY_UPLOADED_FIRST:
 			return new PropertyRecentlyUploadedFirst();
