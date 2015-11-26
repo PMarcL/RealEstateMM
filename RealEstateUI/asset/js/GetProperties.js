@@ -18,7 +18,7 @@ function getProperties(param) {
             var propertiesJSON = JSON.parse(httpResponse.responseText);
             createHtmlPropertyList(propertiesJSON);
         },
-        error: function (data, textStatus, xhr) {
+        error: function (data) {
             console.log(data.responseText);
         }
     });
@@ -56,3 +56,19 @@ $('#propertylist').on('click', '.editProperty', function(){
     $.cookie("currentPropertyAddress", JSON.stringify(propertyAddress));
     window.location.href = 'propertyDetails.html';
 });
+
+/*
+ $(function () {
+ $( "#slider-range" ).slider({
+ range: true,
+ min: 0,
+ max: 5000000,
+ values: [ 12000, 250000 ],
+ slide: function( event, ui ) {
+ $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+ }
+ });
+ $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+ " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+ });*/
+

@@ -1,5 +1,5 @@
 body {
-  font-weight: 150;
+  font-weight: 200;
   font-size: 1.25em; }
 
 .propertylist-item {
@@ -56,6 +56,67 @@ body {
   .streetAddress:last-child {
     margin-right: 0; }
 
+.dividerForSearchType {
+  float: left;
+  width: 27.9%;
+  height: 18%;
+
+}
+
+.dividerForSearchTypeCheckBox {
+  display: table-row-group;
+  vertical-align: middle;
+
+}
+
+.form {
+  width: auto;
+  max-width: 960px;
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0; }
+
+.input-field {
+  float: left;
+  clear: none;
+  width: 31.33333%;
+  margin-left: 0;
+  margin-right: 3%; }
+.input-field:last-child {
+  margin-right: 0; }
+
+.signup {
+  display: block;
+  clear: both;
+  float: none;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto; }
+.signup:first-child {
+  margin-left: auto; }
+.signup:last-child {
+  margin-right: auto; }
+
+label {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 18px;
+  color: #333;
+  height: 20px;
+  width: 200px;
+  margin-top: 10px;
+  margin-left: 10px;
+  text-align: right;
+  clear: both;
+  float:left;
+  margin-right:15px;
+}
+/*#advancedSearch-Type {
+
+}*/
+
 .zipCode {
   float: left;
   clear: none;
@@ -98,5 +159,7 @@ body {
   font-weight: bold; }
   .featureTitle:last-child {
     margin-right: 0; }
+
+
 
 /*# sourceMappingURL=browseProperties.css.map */

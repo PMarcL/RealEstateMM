@@ -6,6 +6,9 @@
 
     <link rel="stylesheet" href="asset/css/browseProperties.css"/>
     <link rel="stylesheet" href="materialize/css/materialize.min.css">
+
+
+
 </head>
 <body>
 
@@ -23,7 +26,55 @@
         </select>
     </div>
 </div>
-<div class="divider"></div>
+
+
+
+
+<div class="form">
+    <h4 style="margin:0;">Advanced options</h4>
+    <form>
+
+        <div class="input-field">
+            <input id="MaximumPrice" data-popup-enabled="true" type="range" name="MaxPrice" value="5000000" min="0" max="5000000" class="validate">
+            <label for="MaximumPrice">Maximum Price</label>
+        </div>
+
+        <div class="input-field">
+            <label for="maxroom">maximum room</label>
+            <input id="maxroom" data-popup-enabled="true" type="range" name="maxRoom" value="10" min="0" max="30">
+        </div>
+        <div class="input-field">
+            <label for="maxBath">maximum bathroom</label>
+            <input id="maxBath" data-popup-enabled="true" type="range" name="maxBath" value="1" min="0" max="10">
+        </div>
+
+        <div class="input-field select">
+            <select style="display:table-row" multiple="multiple">
+                <option value="" disabled selected>Choose property type</option>
+                <option value="farm">Farm</option>
+                <option value="condo">Condo</option>
+                <option value="Multiplex">Multiplex</option>
+                <option value="seller">House</option>
+                <option value="seller">Commercial</option>
+            </select>
+        </div>
+
+        <div id="Orientation" class="input-field select">
+            <select style="display:table-row" multiple="multiple">
+                <option value="" disabled selected>Choose orientation</option>
+                <option value="farm">North</option>
+                <option value="condo">South</option>
+                <option value="Multiplex">East</option>
+                <option value="seller">West</option>
+            </select>
+        </div>
+
+        <div class="Search"><a class="waves-effect waves-light btn" onclick="GetSearchProperty()">Search</a></div>
+
+    </form>
+
+</div>
+
 
 <ul id="propertylist" style="margin:0;">
 
@@ -35,5 +86,6 @@
 <script src="materialize/js/materialize.min.js"></script>
 <script src="asset/js/TokenCookie.js"></script>
 <script src="asset/js/GetProperties.js"></script>
+<script src="asset/js/onSaleProp.js"></script>
 </body>
 </html>
