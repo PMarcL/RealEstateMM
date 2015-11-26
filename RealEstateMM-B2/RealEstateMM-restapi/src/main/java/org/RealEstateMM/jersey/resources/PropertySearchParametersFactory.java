@@ -2,6 +2,7 @@ package org.RealEstateMM.jersey.resources;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 
@@ -13,8 +14,25 @@ public class PropertySearchParametersFactory {
 	public PropertySearchParametersDTO getSearchParametersDTO(UriInfo searchParam)
 			throws InvalidSearchParameterException {
 		PropertySearchParametersDTO searchParamDTO = new PropertySearchParametersDTO();
-		searchParamDTO.setOrderBy(searchParam.getQueryParameters().getFirst(ORDER_BY));
+
+		setOrderingParameter(searchParam, searchParamDTO);
+		setMinNumBedroomsParameter(searchParam, searchParamDTO);
 		searchParamDTO.setPropertyTypes(searchParam.getQueryParameters().get(PROPERTY_TYPES));
+
+		return searchParamDTO;
+	}
+
+	private void setOrderingParameter(UriInfo searchParam, PropertySearchParametersDTO searchParamDTO) {
+		String orderBy = searchParam.getQueryParameters().getFirst(ORDER_BY);
+		if (orderBy == null) {
+			searchParamDTO.setOrderBy(PropertyOrderingParameters.NO_ORDERING.toString());
+		} else {
+			searchParamDTO.setOrderBy(orderBy);
+		}
+	}
+
+	private void setMinNumBedroomsParameter(UriInfo searchParam, PropertySearchParametersDTO searchParamDTO)
+			throws InvalidSearchParameterException {
 		String minNumBedrooms = searchParam.getQueryParameters().getFirst(MIN_NUM_BEDROOMS);
 		if (minNumBedrooms != null) {
 			try {
@@ -25,6 +43,5 @@ public class PropertySearchParametersFactory {
 		} else {
 			searchParamDTO.setMinNumBedrooms(0);
 		}
-		return searchParamDTO;
 	}
 }

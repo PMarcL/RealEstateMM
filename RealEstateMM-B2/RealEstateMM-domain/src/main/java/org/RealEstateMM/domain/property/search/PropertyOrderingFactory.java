@@ -12,6 +12,8 @@ public class PropertyOrderingFactory {
 			return new PropertyWithHighestPriceFirst();
 		case HIGHEST_PRICE_LAST:
 			return new PropertyWithHighestPriceLast();
+		case NO_ORDERING:
+			return new PropertyRecentlyUploadedFirst();
 		}
 		return null;
 	}

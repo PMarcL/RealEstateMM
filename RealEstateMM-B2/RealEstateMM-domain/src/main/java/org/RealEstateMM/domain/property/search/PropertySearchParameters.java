@@ -40,10 +40,6 @@ public class PropertySearchParameters {
 		this.minNumberOfBedrooms = minNumberOfBedrooms;
 	}
 
-	public boolean hasOrderingParameter() {
-		return orderingParam != null;
-	}
-
 	public boolean hasPropertyTypesToFilter() {
 		return !propertyTypesToFilter.isEmpty();
 	}

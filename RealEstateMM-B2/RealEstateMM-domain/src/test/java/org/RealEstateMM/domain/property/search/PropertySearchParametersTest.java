@@ -25,7 +25,6 @@ public class PropertySearchParametersTest {
 	public void givenANewPropertySearchParametersWithAllParamsThenHasAllParams() {
 		searchParams = new PropertySearchParameters(ORDERING_PARAM, propertyTypeToFilter, MIN_NUM_BEDROOMS);
 
-		assertTrue(searchParams.hasOrderingParameter());
 		assertTrue(searchParams.hasPropertyTypesToFilter());
 		assertTrue(searchParams.hasMinNumOfBedrooms());
 	}
@@ -40,11 +39,5 @@ public class PropertySearchParametersTest {
 	public void givenANewPropertySearchParametersWithOrderingAndMinNumOfBedroomsThenHasPropertyTypesToFiles() {
 		searchParams = new PropertySearchParameters(ORDERING_PARAM, new ArrayList<PropertyType>(), MIN_NUM_BEDROOMS);
 		assertFalse(searchParams.hasPropertyTypesToFilter());
-	}
-
-	@Test
-	public void givenANewPropertySearchParametersWithMinNumOfBedroomsAndPropertyTypesThenHasNoOrderingParam() {
-		searchParams = new PropertySearchParameters(null, propertyTypeToFilter, MIN_NUM_BEDROOMS);
-		assertFalse(searchParams.hasOrderingParameter());
 	}
 }
