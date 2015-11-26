@@ -4,21 +4,27 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
 import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
+import org.RealEstateMM.domain.property.search.PropertySearchFilterFactory;
+import org.RealEstateMM.domain.property.search.PropertySearchFilterStrategy;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 
 public class Properties {
 
 	private PropertyRepository repository;
-	private PropertyOrderingFactory factory;
+	private PropertyOrderingFactory orderingFactory;
+	private PropertySearchFilterFactory filterFactory;
 
-	public Properties(PropertyRepository repository, PropertyOrderingFactory factory) {
+	public Properties(PropertyRepository repository, PropertyOrderingFactory factory,
+			PropertySearchFilterFactory filterFactory) {
 		this.repository = repository;
-		this.factory = factory;
+		this.orderingFactory = factory;
+		this.filterFactory = filterFactory;
 	}
 
 	public void addProperty(Property property) {
@@ -39,12 +45,14 @@ public class Properties {
 		return repository.getPropertiesFromOwner(owner);
 	}
 
-	public List<Property> getPropertiesSearchResults(PropertySearchParameters searchParameter) {
-		// PropertyOrderingStrategy orderingStrategy =
-		// factory.getOrderingStrategy(searchParameter);
-		// List<Property> properties = repository.getAll();
-		// return orderingStrategy.getOrderedProperties(properties);
-		return null;
+	public List<Property> getPropertiesSearchResults(PropertySearchParameters searchParameters) {
+		PropertyOrderingStrategy orderingStrategy = orderingFactory.getOrderingStrategy(searchParameters
+				.getOrderingParam());
+		PropertySearchFilterStrategy filteringStrategy = filterFactory.getSearchFilterStrategy(searchParameters);
+
+		List<Property> properties = repository.getAll();
+		properties = filteringStrategy.getFilteredProperties(properties);
+		return orderingStrategy.getOrderedProperties(properties);
 	}
 
 	public Property getPropertyAtAddress(PropertyAddress address) throws PropertyNotFoundException {

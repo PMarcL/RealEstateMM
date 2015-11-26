@@ -12,6 +12,7 @@ import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
+import org.RealEstateMM.domain.property.search.PropertySearchFilterFactory;
 import org.RealEstateMM.domain.user.Administrator;
 import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.User;
@@ -119,7 +120,8 @@ public class DemoContext extends Context {
 				new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
-		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory());
+		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory(),
+				new PropertySearchFilterFactory());
 		this.users = new Users(userRepository, validator);
 
 	}
