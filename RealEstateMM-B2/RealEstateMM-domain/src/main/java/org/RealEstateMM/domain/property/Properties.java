@@ -4,12 +4,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
-import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingStrategy;
-import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.RealEstateMM.domain.property.search.PropertySearchFilterFactory;
 import org.RealEstateMM.domain.property.search.PropertySearchFilterStrategy;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;

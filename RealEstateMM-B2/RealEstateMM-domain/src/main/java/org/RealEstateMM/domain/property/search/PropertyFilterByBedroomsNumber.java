@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
 
-public class PropertySearchFilterComposite implements PropertySearchFilterStrategy {
+public class PropertyFilterByBedroomsNumber implements PropertySearchFilterStrategy {
+
+	public PropertyFilterByBedroomsNumber(int minNumberOfBedrooms) {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public List<Property> getFilteredProperties(List<Property> properties) {
 		return null;
 	}
 
-	public void add(PropertySearchFilterStrategy typeFilter) {
-		// TODO Auto-generated method stub
-
-	}
 }
