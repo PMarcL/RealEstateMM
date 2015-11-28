@@ -85,8 +85,8 @@ public class DemoContext extends Context {
 		PropertyServiceSecurity propertySecurity = new PropertyServiceSecurity(new PropertyService(),
 				new UserAuthorizations(userRepository));
 		this.propertyService = new PropertyServiceAntiCorruption(propertySecurity, new PropertyInformationsValidator());
-		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(), new UserAuthorizations(
-				userRepository));
+		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(),
+				new UserAuthorizations(userRepository));
 		this.userService = new UserServiceAntiCorruption(userSecurity, new UserInformationsValidator());
 		this.statisticService = new StatisticService();
 		this.sessionService = new SessionService();
@@ -116,8 +116,8 @@ public class DemoContext extends Context {
 	private void initializeRepositories() {
 		File xmlUsers = new File(usersFilePath());
 		File xmlProperty = new File(propertiesFilePath());
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
-				new UserRoleFactory()));
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
+				new XmlUserAssembler(new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
 		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory(),
@@ -152,7 +152,6 @@ public class DemoContext extends Context {
 		try {
 			userRepository.addUser(admin);
 		} catch (ExistingUserException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

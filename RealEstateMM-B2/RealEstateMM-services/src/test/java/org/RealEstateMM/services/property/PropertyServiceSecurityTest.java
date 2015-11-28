@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyServiceSecurityTest {
-	private final String ORDER_BY = "recently_uploaded_last";
 	private final String PSEUDONYM = "bobby134";
 
 	private PropertyDTO propertyDTO;
@@ -79,7 +78,8 @@ public class PropertyServiceSecurityTest {
 	}
 
 	@Test
-	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized() throws Throwable {
+	public void givenPseudonymAndPropertyDTOWhenEditPropertyFeaturesShouldValidateIfUserIsAuthorized()
+			throws Throwable {
 		service.editPropertyFeatures(PSEUDONYM, propertyDTO);
 		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.SELLER);
 	}

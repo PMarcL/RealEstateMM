@@ -3,11 +3,12 @@ package org.RealEstateMM.jersey.resources;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.RealEstateMM.jersey.responses.statistics.NumberOfActiveUserResponse;
-import org.RealEstateMM.jersey.responses.statistics.NumberOfPropertiesSoldThisYearResponse;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.statistics.StatisticService;
 import org.junit.After;
@@ -19,6 +20,7 @@ public class StatisticResourceTest {
 	private static final int NUMBER_OF_PROPERTIES_SOLD_THIS_YEAR = 1;
 	private static final int NUMBER_OF_ACTIVE_BUYER = 2;
 	private static final int NUMBER_OF_ACTIVE_SELLER = 3;
+
 	private StatisticResource statisticResource;
 
 	@Before
@@ -28,8 +30,7 @@ public class StatisticResourceTest {
 		given(statisticService.getNumberOfActiveSeller()).willReturn(NUMBER_OF_ACTIVE_SELLER);
 		given(statisticService.getNumberOfActiveBuyer()).willReturn(NUMBER_OF_ACTIVE_BUYER);
 
-		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
-		statisticResource = new StatisticResource();
+		statisticResource = new StatisticResource(statisticService);
 	}
 
 	@After
@@ -46,16 +47,27 @@ public class StatisticResourceTest {
 	@Test
 	public void whenGetNumberOfPropertiesSoldThisYearThenReturnsNumberOfPropertiesSoldThisYearResponse() {
 		Response actual = statisticResource.getNumberOfPropertiesSoldThisYear();
-		NumberOfPropertiesSoldThisYearResponse expected = new NumberOfPropertiesSoldThisYearResponse(
-				NUMBER_OF_PROPERTIES_SOLD_THIS_YEAR);
+
+		Map<String, String> expected = new HashMap<String, String>();
+		expected.put("numberOfPropertiesSoldThisYear", "" + NUMBER_OF_PROPERTIES_SOLD_THIS_YEAR);
+
 		assertEquals(expected, actual.getEntity());
+	}
+
+	@Test
+	public void whenGetNumberOfActiveUserThenReturnsResponseStatusOK() {
+		Response actual = statisticResource.getNumberOfActiveUser();
+		assertEquals(Status.OK, actual.getStatusInfo());
 	}
 
 	@Test
 	public void whenGetNumberOfActiveUserThenReturnsNumberOfActiveUserResponse() {
 		Response actual = statisticResource.getNumberOfActiveUser();
-		NumberOfActiveUserResponse expected = new NumberOfActiveUserResponse(NUMBER_OF_ACTIVE_SELLER,
-				NUMBER_OF_ACTIVE_BUYER);
+
+		Map<String, String> expected = new HashMap<String, String>();
+		expected.put("numberOfActiveSeller", "" + NUMBER_OF_ACTIVE_SELLER);
+		expected.put("numberOfActiveBuyer", "" + NUMBER_OF_ACTIVE_BUYER);
+
 		assertEquals(expected, actual.getEntity());
 	}
 

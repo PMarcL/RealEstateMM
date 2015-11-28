@@ -10,14 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.jersey.responses.JsonFormatter;
-import org.RealEstateMM.jersey.responses.statistics.NumberOfActiveUserResponse;
-import org.RealEstateMM.jersey.responses.statistics.NumberOfPropertiesSoldThisYearResponse;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.statistics.StatisticService;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("/stats")
 public class StatisticResource {
@@ -28,54 +22,50 @@ public class StatisticResource {
 		this.statisticService = ServiceLocator.getInstance().getService(StatisticService.class);
 	}
 
+	public StatisticResource(StatisticService statisticService) {
+		this.statisticService = statisticService;
+	}
+
 	@GET
 	@Path("numberofsoldproperties")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfPropertiesSoldThisYear() {
-		int numberOfPropertiesSoldThisYearResponse = statisticService.getNumberOfPropertiesSoldThisYear();
-		NumberOfPropertiesSoldThisYearResponse entity = new NumberOfPropertiesSoldThisYearResponse(
-				numberOfPropertiesSoldThisYearResponse);
-		return Response.ok().entity(entity).build();
+		int numberOfPropertiesSoldThisYear = statisticService.getNumberOfPropertiesSoldThisYear();
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("numberOfPropertiesSoldThisYear", "" + numberOfPropertiesSoldThisYear);
+
+		return Response.ok().entity(map).build();
 	}
 
 	@GET
 	@Path("numberofactiveuser")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfActiveUser() {
-		int numberOfActiveSeller = statisticService.getNumberOfActiveSeller();
-		int numberOfActiveBuyer = statisticService.getNumberOfActiveBuyer();
-		NumberOfActiveUserResponse entity = new NumberOfActiveUserResponse(numberOfActiveSeller, numberOfActiveBuyer);
-		return Response.ok().entity(entity).build();
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("numberOfActiveSeller", "" + statisticService.getNumberOfActiveSeller());
+		map.put("numberOfActiveBuyer", "" + statisticService.getNumberOfActiveBuyer());
+		return Response.ok().entity(map).build();
 	}
 
 	@GET
 	@Path("numberofonsaleproperties")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfOnSalePropertiesByCategory() {
-		Map<String, Integer> resultsPerCategory = new HashMap<String, Integer>();
+		Map<String, String> resultsPerCategory = new HashMap<String, String>();
 		for (PropertyType type : PropertyType.values()) {
-			int numberOfPropertiesOfType = statisticService.getNumberOfOnSalePropertiesPerType(type);
+			String numberOfPropertiesOfType = "" + statisticService.getNumberOfOnSalePropertiesPerType(type);
 			resultsPerCategory.put(PropertyType.getStringFromType(type), numberOfPropertiesOfType);
 		}
-		try {
-			String propertiesAsJson = new ObjectMapper().writeValueAsString(resultsPerCategory);
-			return Response.ok().entity(propertiesAsJson).build();
-		} catch (JsonProcessingException e) {
-			return Response.serverError().build();
-		}
+		return Response.ok().entity(resultsPerCategory).build();
 	}
 
 	@GET
 	@Path("numberofactiveseller")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNumberOfSellersWithAnOnsaleProperties() {
-		try {
-			String numberOfActiveSellers = String.valueOf(statisticService.getNumberOfActiveSeller());
-			return Response.ok().entity(JsonFormatter.fieldToJSON("numberOfSellerWithAProperty", numberOfActiveSellers))
-					.build();
-		} catch (Exception e) {
-			return Response.serverError().build();
-		}
-
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("numberOfSellerWithAProperty", "" + statisticService.getNumberOfActiveSeller());
+		return Response.ok().entity(map).build();
 	}
 }

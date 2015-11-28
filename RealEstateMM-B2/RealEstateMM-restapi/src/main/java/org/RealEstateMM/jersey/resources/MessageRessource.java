@@ -1,0 +1,46 @@
+package org.RealEstateMM.jersey.resources;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
+import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.services.message.MessageService;
+
+public class MessageRessource {
+
+	private MessageService messageService;
+	private SessionService sessionService;
+
+	public MessageRessource(MessageService contactRequestService, SessionService sessionService) {
+		this.messageService = contactRequestService;
+		this.sessionService = sessionService;
+	}
+
+	@GET
+	@Path("contactseller")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response contactSeller(@Context HttpHeaders headers, String message) {
+		String token = headers.getHeaderString("Authorization");
+		if (token == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		try {
+			String pseudonym = sessionService.validate(token);
+			messageService.contactSeller(pseudonym, message);
+
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
+		return Response.ok().build();
+	}
+
+}
