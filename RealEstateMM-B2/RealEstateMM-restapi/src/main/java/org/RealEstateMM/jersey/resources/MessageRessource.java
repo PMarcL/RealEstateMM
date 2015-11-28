@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.services.message.MessageService;
+import org.RealEstateMM.services.message.dtos.MessageDTO;
 
 public class MessageRessource {
 
@@ -26,15 +27,15 @@ public class MessageRessource {
 	@GET
 	@Path("contactseller")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response contactSeller(@Context HttpHeaders headers, String message) {
+	public Response contactSeller(@Context HttpHeaders headers, MessageDTO message) {
 		String token = headers.getHeaderString("Authorization");
 		if (token == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 
 		try {
-			String pseudonym = sessionService.validate(token);
-			messageService.contactSeller(pseudonym, message);
+			String buyerPseudonym = sessionService.validate(token);
+			messageService.contactSeller(buyerPseudonym, message);
 
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).build();

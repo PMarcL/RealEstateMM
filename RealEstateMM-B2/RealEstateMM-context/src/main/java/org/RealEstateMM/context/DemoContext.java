@@ -8,6 +8,9 @@ import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.emailsender.gmail.GmailSender;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
+import org.RealEstateMM.domain.message.Message;
+import org.RealEstateMM.domain.message.MessageRepository;
+import org.RealEstateMM.domain.message.Messages;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
@@ -56,8 +59,10 @@ public class DemoContext extends Context {
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
 	private SessionRepository sessionRepository;
+	private MessageRepository messageRepository;
 	private Properties properties;
 	private Users users;
+	private Messages messages;
 	private PropertyServiceHandler propertyService;
 	private UserServiceHandler userService;
 	private StatisticService statisticService;
@@ -111,6 +116,7 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
 		ServiceLocator.getInstance().registerService(Properties.class, properties);
 		ServiceLocator.getInstance().registerService(Users.class, users);
+		ServiceLocator.getInstance().registerService(Messages.class, messages);
 	}
 
 	private void initializeRepositories() {
@@ -120,9 +126,16 @@ public class DemoContext extends Context {
 				new XmlUserAssembler(new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
+		this.messageRepository = new MessageRepository() {
+			@Override
+			public void add(Message message) {
+				// TODO Auto-generated method stub
+			}
+		};
 		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory(),
 				new PropertySearchFilterFactory());
 		this.users = new Users(userRepository, validator);
+		this.messages = new Messages(messageRepository, userRepository, messageFactory)
 
 	}
 

@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.services.message.MessageService;
+import org.RealEstateMM.services.message.dtos.MessageDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,7 +63,7 @@ public class MessageRessourceTest {
 	@Test
 	public void givenAValidTokenWhenContactSellerThenCalledContactSellerOnServiceWithTheBuyerUsernameAndTheRequestInfo() {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
-		String message = "Allo, I wanna, maybe, buy your beautiful house";
+		MessageDTO message = new MessageDTO("Allo, I wanna, maybe, buy your beautiful house", "recipentUsername");
 		contactRequestResource.contactSeller(headers, message);
 		verify(contactRequestService, times(1)).contactSeller(A_PSEUDONYM, message);
 	}
