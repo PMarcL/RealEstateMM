@@ -23,19 +23,16 @@ public class Messages {
 		this.messageFactory = messageFactory;
 	}
 
-	public void contactSeller(String buyerPseudonym, String sellerPseudonym, String buyersMessage) {
-		try {
-			User buyer = userRepository.getUserWithPseudonym(buyerPseudonym);
-			User seller = userRepository.getUserWithPseudonym(sellerPseudonym);
-			if (seller.getRoleDescription() != UserRole.AccessLevel.SELLER) {
-				throw new UserIsNotASellerException(sellerPseudonym);
-			}
-
-			Message message = messageFactory.createContactSellerMessage(buyer, seller, buyersMessage);
-			messageRepository.add(message);
-		} catch (UserNotFoundException | UserIsNotASellerException e) {
-			e.printStackTrace();
+	public void contactSeller(String buyerPseudonym, String sellerPseudonym, String buyersMessage)
+			throws UserNotFoundException, UserIsNotASellerException {
+		User buyer = userRepository.getUserWithPseudonym(buyerPseudonym);
+		User seller = userRepository.getUserWithPseudonym(sellerPseudonym);
+		if (seller.getRoleDescription() != UserRole.AccessLevel.SELLER) {
+			throw new UserIsNotASellerException(sellerPseudonym);
 		}
+
+		Message message = messageFactory.createContactSellerMessage(buyer, seller, buyersMessage);
+		messageRepository.add(message);
 	}
 
 }

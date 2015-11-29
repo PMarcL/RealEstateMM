@@ -41,7 +41,8 @@ public class MessagesTest {
 	}
 
 	@Test
-	public void givenBuyerAndSellerPseudonymAndAMessageOrNotWhenContactSellerThenAddProperMessageToMessageRepo() {
+	public void givenBuyerAndSellerPseudonymAndAMessageOrNotWhenContactSellerThenAddProperMessageToMessageRepo()
+			throws UserNotFoundException, UserIsNotASellerException {
 		String aMessageOrNot = null;
 
 		Message contactSellerMessage = mock(Message.class);
@@ -53,15 +54,17 @@ public class MessagesTest {
 		verify(messageRepository, times(1)).add(contactSellerMessage);
 	}
 
-	@Test
-	public void givenAnInvalidSellerPseudoWhenContactSellerThenDoNotAddMessageToMessageRepo() {
+	@Test(expected = UserNotFoundException.class)
+	public void givenAnInvalidSellerPseudoWhenContactSellerThenDoNotAddMessageToMessageRepo()
+			throws UserNotFoundException, UserIsNotASellerException {
 		String aMessageOrNot = null;
 		messages.contactSeller(A_BUYER_PSEUDO, AN_INVALID_PSEUDO, aMessageOrNot);
 		verify(messageRepository, times(0)).add(any());
 	}
 
-	@Test
-	public void givenAValidPseudoThatIsNotASellerPseudoPseudoWhenContactSellerThenDoNotAddMessageToMessageRepo() {
+	@Test(expected = UserIsNotASellerException.class)
+	public void givenAValidPseudoThatIsNotASellerPseudoPseudoWhenContactSellerThenDoNotAddMessageToMessageRepo()
+			throws UserNotFoundException, UserIsNotASellerException {
 		String aMessageOrNot = null;
 		messages.contactSeller(A_BUYER_PSEUDO, A_BUYER_PSEUDO, aMessageOrNot);
 		verify(messageRepository, times(0)).add(any());

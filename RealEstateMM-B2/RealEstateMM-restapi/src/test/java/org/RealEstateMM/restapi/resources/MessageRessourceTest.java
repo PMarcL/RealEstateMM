@@ -9,6 +9,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.message.UserIsNotASellerException;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.restapi.resources.MessageRessource;
 import org.RealEstateMM.services.message.MessageService;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
@@ -20,26 +22,26 @@ public class MessageRessourceTest {
 	private static final String A_VALID_TOKEN = "aValidToken";
 	private static final String A_PSEUDONYM = "SomeCoolPseudo";
 
-	private MessageService contactRequestService;
+	private MessageService messageService;
 
-	private MessageRessource contactRequestResource;
+	private MessageRessource messageResource;
 
 	private SessionService sessionService;
 
 	@Before
 	public void setUp() throws Exception {
-		contactRequestService = mock(MessageService.class);
+		messageService = mock(MessageService.class);
 		sessionService = mock(SessionService.class);
 
 		given(sessionService.validate(A_VALID_TOKEN)).willReturn(A_PSEUDONYM);
 
-		contactRequestResource = new MessageRessource(contactRequestService, sessionService);
+		messageResource = new MessageRessource(messageService, sessionService);
 	}
 
 	@Test
 	public void givenNoTokenWhenContactSellerThenReturnBadRequestStatus() {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(null);
-		Response actual = contactRequestResource.contactSeller(headers, null);
+		Response actual = messageResource.contactSeller(headers, null);
 		assertEquals(Status.BAD_REQUEST, actual.getStatusInfo());
 	}
 
@@ -49,7 +51,7 @@ public class MessageRessourceTest {
 		given(sessionService.validate(invalidToken)).willThrow(new InvalidSessionTokenException());
 
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(invalidToken);
-		Response actual = contactRequestResource.contactSeller(headers, null);
+		Response actual = messageResource.contactSeller(headers, null);
 
 		assertEquals(Status.UNAUTHORIZED, actual.getStatusInfo());
 	}
@@ -57,16 +59,43 @@ public class MessageRessourceTest {
 	@Test
 	public void givenAValidTokenWhenContactSellerThenReturnsStatusOk() {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
-		Response actual = contactRequestResource.contactSeller(headers, null);
+		Response actual = messageResource.contactSeller(headers, null);
 		assertEquals(Status.OK, actual.getStatusInfo());
 	}
 
 	@Test
-	public void givenAValidTokenWhenContactSellerThenCalledContactSellerOnServiceWithTheBuyerUsernameAndTheRequestInfo() {
+	public void givenAValidTokenWhenContactSellerThenCalledContactSellerOnServiceWithTheBuyerUsernameAndTheRequestInfo()
+			throws UserNotFoundException, UserIsNotASellerException {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
 		MessageDTO message = new MessageDTO("Allo, I wanna, maybe, buy your beautiful house", "recipentUsername");
-		contactRequestResource.contactSeller(headers, message);
-		verify(contactRequestService, times(1)).contactSeller(A_PSEUDONYM, message);
+		messageResource.contactSeller(headers, message);
+		verify(messageService, times(1)).contactSeller(A_PSEUDONYM, message);
+	}
+
+	@Test
+	public void givenAUserIsNotASellerWhenContactSellerThenReturnABadRequestStatus()
+			throws UserNotFoundException, UserIsNotASellerException {
+		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
+		MessageDTO message = new MessageDTO("Allo, I wanna, maybe, buy your beautiful house", "recipentUsername");
+
+		doThrow(new UserIsNotASellerException(null)).when(messageService).contactSeller(A_PSEUDONYM, message);
+
+		Response actual = messageResource.contactSeller(headers, message);
+
+		assertEquals(Status.BAD_REQUEST, actual.getStatusInfo());
+	}
+
+	@Test
+	public void givenAUserNotFoundWhenContactSellerThenReturnABadRequestStatus()
+			throws UserNotFoundException, UserIsNotASellerException {
+		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
+		MessageDTO message = new MessageDTO("Allo, I wanna, maybe, buy your beautiful house", "recipentUsername");
+
+		doThrow(new UserNotFoundException(null)).when(messageService).contactSeller(A_PSEUDONYM, message);
+
+		Response actual = messageResource.contactSeller(headers, message);
+
+		assertEquals(Status.BAD_REQUEST, actual.getStatusInfo());
 	}
 
 	private HttpHeaders aHeaderMockWithAuthorizationHeader(String token) {

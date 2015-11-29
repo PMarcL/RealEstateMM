@@ -11,6 +11,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.message.UserIsNotASellerException;
+import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.services.message.MessageService;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 
@@ -36,9 +38,10 @@ public class MessageRessource {
 		try {
 			String buyerPseudonym = sessionService.validate(token);
 			messageService.contactSeller(buyerPseudonym, message);
-
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).build();
+		} catch (UserNotFoundException | UserIsNotASellerException e) {
+			return Response.status(Status.BAD_REQUEST).build();
 		}
 
 		return Response.ok().build();
