@@ -1,6 +1,7 @@
 package org.RealEstateMM.domain.user.emailconfirmation;
 
 import org.RealEstateMM.domain.encoder.Encoder;
+import org.RealEstateMM.domain.user.InvalidConfirmationCodeException;
 
 public class ConfirmationCode {
 	private final String SEPARATOR = ";";
@@ -24,7 +25,7 @@ public class ConfirmationCode {
 		String decodedCode = encoder.decode(confirmationCodeValue);
 		String[] codeParts = decodedCode.split(SEPARATOR);
 		if (codeParts.length != 2) {
-			throw new InvalidEmailConfirmationCodeException();
+			throw new InvalidConfirmationCodeException();
 		}
 
 		this.pseudonym = codeParts[0];

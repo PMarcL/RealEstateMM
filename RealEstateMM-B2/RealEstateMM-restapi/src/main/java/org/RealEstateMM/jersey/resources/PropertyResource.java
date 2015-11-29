@@ -85,9 +85,7 @@ public class PropertyResource {
 		} catch (PropertyNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
 		} catch (InvalidPropertyInformationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
 	}
 

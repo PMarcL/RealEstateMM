@@ -45,13 +45,13 @@ public class UserEmailAddressValidatorTest {
 
 	@Test
 	public void givenAUserWhenSendEmailConfirmationMessageShouldCreateConfirmationCode() {
-		validator.sendEmailConfirmationMessage(USER_INFOS);
+		validator.sendValidationRequest(USER_INFOS);
 		verify(confirmCodeFactory).createConfirmationCode(PSEUDONYM, EMAIL_ADDRESS);
 	}
 
 	@Test
 	public void givenAUserWhenSendEmailConfirmationMessageShouldCreateEmailMessage() {
-		validator.sendEmailConfirmationMessage(USER_INFOS);
+		validator.sendValidationRequest(USER_INFOS);
 		verify(messageFactory).createEmailAddressConfirmationMessage(EMAIL_ADDRESS, confirmationCode);
 	}
 
@@ -61,14 +61,14 @@ public class UserEmailAddressValidatorTest {
 		given(messageFactory.createEmailAddressConfirmationMessage(EMAIL_ADDRESS, confirmationCode))
 				.willReturn(message);
 
-		validator.sendEmailConfirmationMessage(USER_INFOS);
+		validator.sendValidationRequest(USER_INFOS);
 
 		verify(emailSender).sendEmail(message);
 	}
 
 	@Test
 	public void givenAConfirmationCodeValueWhenConfirmEmailAddressShouldCreateConfirmationCode() {
-		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
+		validator.confirmUserInformation(CONFIRMATION_CODE_VALUE, userRepository);
 		verify(confirmCodeFactory).createConfirmationCode(CONFIRMATION_CODE_VALUE);
 	}
 
@@ -76,7 +76,7 @@ public class UserEmailAddressValidatorTest {
 	public void givenUserExistsAndHasSameEmailAddressAsConfirmationCodeWhenConfirmEmailAddressShouldUnlockUserAndPersistItBackToRepository() {
 		given(user.hasEmailAddress(EMAIL_ADDRESS)).willReturn(true);
 
-		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
+		validator.confirmUserInformation(CONFIRMATION_CODE_VALUE, userRepository);
 
 		InOrder inOrder = inOrder(user, userRepository);
 		inOrder.verify(user).unlock();
@@ -86,14 +86,14 @@ public class UserEmailAddressValidatorTest {
 	@Test
 	public void givenUserDoesNotExistWhenConfirmEmailAddressShouldNotUnlockAnyUser() throws Throwable {
 		given(userRepository.getUserWithPseudonym(anyString())).willThrow(new UserNotFoundException(PSEUDONYM));
-		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
+		validator.confirmUserInformation(CONFIRMATION_CODE_VALUE, userRepository);
 		verify(user, never()).unlock();
 	}
 
 	@Test
 	public void givenUserExistsButDoesNotHaveSameEmailAddressWhenConfirmEmailAddressShouldNotUnlockUser() {
 		given(user.hasEmailAddress(EMAIL_ADDRESS)).willReturn(false);
-		validator.confirmEmailAddress(CONFIRMATION_CODE_VALUE, userRepository);
+		validator.confirmUserInformation(CONFIRMATION_CODE_VALUE, userRepository);
 		verify(user, never()).unlock();
 	}
 

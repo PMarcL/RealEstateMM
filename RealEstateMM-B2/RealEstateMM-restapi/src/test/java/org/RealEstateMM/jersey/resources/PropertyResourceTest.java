@@ -263,6 +263,14 @@ public class PropertyResourceTest {
 	}
 
 	@Test
+	public void givenTokenAndInvalidPropertyInformationsWhenGetPropertyAtAddrssThenReturnBadRequest()
+			throws Exception, PropertyNotFoundException, InvalidPropertyInformationException {
+		doThrow(InvalidPropertyInformationException.class).when(searchService).getPropertyAtAddress(OWNER, addressDTO);
+		Response result = propertyResource.getPropertyAtAddress(TOKEN, addressDTO);
+		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());
+	}
+
+	@Test
 	public void givenTokenAndAddressDTOWhenGetPropertyAtAddressThenReturnsPropertyDTOAndOkStatus() throws Exception {
 		given(searchService.getPropertyAtAddress(OWNER, addressDTO)).willReturn(propertyDTO);
 		Response result = propertyResource.getPropertyAtAddress(TOKEN, addressDTO);

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.emailsender.EmailException;
-import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,12 +42,12 @@ public class UsersTest {
 	@Test
 	public void givenAUserWhenAddUserThenShouldConfirmEmailAddress() throws Throwable {
 		users.addUser(user);
-		verify(emailValidator).sendEmailConfirmationMessage(USER_INFORMATIONS);
+		verify(emailValidator).sendValidationRequest(USER_INFORMATIONS);
 	}
 
 	@Test(expected = EmailAddressConfirmationException.class)
 	public void givenEmailConfirmationFailWhenAddUserThenShouldThrowException() throws Throwable {
-		doThrow(new EmailException(new RuntimeException())).when(emailValidator).sendEmailConfirmationMessage(any());
+		doThrow(new EmailException(new RuntimeException())).when(emailValidator).sendValidationRequest(any());
 		users.addUser(user);
 	}
 
@@ -86,12 +85,12 @@ public class UsersTest {
 	public void givenAConfirmationCodeWhenConfirmEmailAddressShouldAskEmailValidatorToValidateUserEmailAddress()
 			throws Throwable {
 		users.confirmEmailAddress(CONFIRMATION_CODE);
-		verify(emailValidator).confirmEmailAddress(CONFIRMATION_CODE, userRepository);
+		verify(emailValidator).confirmUserInformation(CONFIRMATION_CODE, userRepository);
 	}
 
 	@Test(expected = EmailAddressConfirmationException.class)
 	public void givenAnInvalidConfirmationCodeWhenConfirmEmailAddressShouldThrowException() throws Throwable {
-		doThrow(new InvalidEmailConfirmationCodeException()).when(emailValidator).confirmEmailAddress(CONFIRMATION_CODE,
+		doThrow(new InvalidConfirmationCodeException()).when(emailValidator).confirmUserInformation(CONFIRMATION_CODE,
 				userRepository);
 		users.confirmEmailAddress(CONFIRMATION_CODE);
 	}
@@ -117,12 +116,12 @@ public class UsersTest {
 			throws Throwable {
 		given(user.hasEmailAddress(EMAIL_ADDRESS)).willReturn(false);
 		users.updateUserProfile(USER_INFORMATIONS);
-		verify(emailValidator).sendEmailConfirmationMessage(USER_INFORMATIONS);
+		verify(emailValidator).sendValidationRequest(USER_INFORMATIONS);
 	}
 
 	@Test(expected = EmailAddressConfirmationException.class)
 	public void givenEmailAddressConfirmationFailWhenUpdateUserProfileShouldThrowException() throws Throwable {
-		doThrow(new EmailException(new RuntimeException())).when(emailValidator).sendEmailConfirmationMessage(any());
+		doThrow(new EmailException(new RuntimeException())).when(emailValidator).sendValidationRequest(any());
 		users.updateUserProfile(USER_INFORMATIONS);
 	}
 
@@ -143,6 +142,6 @@ public class UsersTest {
 			throws Throwable {
 		given(user.hasEmailAddress(EMAIL_ADDRESS)).willReturn(true);
 		users.updateUserProfile(USER_INFORMATIONS);
-		verify(emailValidator, never()).sendEmailConfirmationMessage(any(UserInformations.class));
+		verify(emailValidator, never()).sendValidationRequest(any(UserInformations.class));
 	}
 }
