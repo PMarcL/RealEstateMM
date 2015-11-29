@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.property;
+package org.RealEstateMM.domain.property.filters;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
@@ -6,21 +6,22 @@ import static org.mockito.BDDMockito.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.RealEstateMM.domain.property.Property;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PropertyFilterTest {
+public class PropertiesSoldThisYearFilterTest {
 
-	private PropertyFilter propertyFilter;
+	private PropertiesSoldThisYearFilter propertiesSoldThisYearFilter;
 
 	@Before
 	public void setUp() {
-		propertyFilter = new PropertyFilter();
+		propertiesSoldThisYearFilter = new PropertiesSoldThisYearFilter();
 	}
 
 	@Test
 	public void givenAnEmptyListWhenFilterPropertiesSoldThisYearThenAnEmptyList() {
-		Collection<Property> actual = propertyFilter.getPropertiesSoldThisYear(new ArrayList<Property>());
+		Collection<Property> actual = propertiesSoldThisYearFilter.getPropertiesSoldThisYear(new ArrayList<Property>());
 		assertEquals(new ArrayList<Property>(), new ArrayList<Property>(actual));
 	}
 
@@ -36,7 +37,7 @@ public class PropertyFilterTest {
 		properties.add(propertySoldThisYear2);
 		int numberOfPropertiesSoldThisYear = 2;
 
-		Collection<Property> actual = propertyFilter.getPropertiesSoldThisYear(properties);
+		Collection<Property> actual = propertiesSoldThisYearFilter.getPropertiesSoldThisYear(properties);
 
 		assertTrue(actual.contains(propertySoldThisYear1));
 		assertTrue(actual.contains(propertySoldThisYear2));
@@ -48,5 +49,4 @@ public class PropertyFilterTest {
 		given(property.isSoldThisYear()).willReturn(isSoldThisYear);
 		return property;
 	}
-
 }

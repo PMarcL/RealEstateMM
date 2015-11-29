@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.Calendar;
 
-import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
 import org.junit.Before;
 import org.junit.Test;
 

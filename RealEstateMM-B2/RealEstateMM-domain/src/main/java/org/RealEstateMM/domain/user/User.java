@@ -77,13 +77,18 @@ public class User {
 		return role.isAuthorized(accessLevel);
 	}
 
-	public boolean isActive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
+	}
+
+	public boolean hasLoggedLastAfter(Date when) {
+		Calendar lastLoginCalendar = Calendar.getInstance();
+		Calendar whenCalendar = Calendar.getInstance();
+
+		lastLoginCalendar.setTime(lastLoginDate);
+		whenCalendar.setTime(when);
+
+		return lastLoginCalendar.after(whenCalendar);
 	}
 
 }

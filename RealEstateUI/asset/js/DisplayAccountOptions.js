@@ -24,10 +24,15 @@ function accountTypeOptions() {
         toggleElementVisibilityWithClass('seller-option','inline-block');
         toggleElementVisibilityWithClass('admin-option','none');
     }
-    else {
+    else if (accountType == 'ADMIN'){
         toggleElementVisibilityWithClass('buyer-option','none');
         toggleElementVisibilityWithClass('seller-option','none');
         toggleElementVisibilityWithClass('admin-option','inline-block');
+    }
+    else{
+        toggleElementVisibilityWithClass('buyer-option','none');
+        toggleElementVisibilityWithClass('seller-option','none');
+        toggleElementVisibilityWithClass('admin-option','none');
     }
 }
 

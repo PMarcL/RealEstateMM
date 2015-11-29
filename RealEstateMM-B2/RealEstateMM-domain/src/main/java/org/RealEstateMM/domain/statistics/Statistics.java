@@ -1,69 +1,77 @@
 package org.RealEstateMM.domain.statistics;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.PropertyFilter;
 import org.RealEstateMM.domain.property.PropertyRepository;
-import org.RealEstateMM.domain.property.onsale.NumberOfOnSaleProperties;
-import org.RealEstateMM.domain.property.onsale.OnSaleProperties;
-import org.RealEstateMM.domain.property.onsale.SellersWithOnSaleProperty;
+import org.RealEstateMM.domain.property.filters.PropertiesSoldThisYearFilter;
+import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
+import org.RealEstateMM.domain.property.filters.PropertyStatusFilter;
+import org.RealEstateMM.domain.property.filters.PropertyTypeFilter;
+import org.RealEstateMM.domain.property.informations.PropertyStatus;
+import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.user.User;
-import org.RealEstateMM.domain.user.UserFilter;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
+import org.RealEstateMM.domain.user.filters.UserFilterFactory;
+import org.RealEstateMM.domain.user.filters.UserLoggedInTheLastSixMonthsFilter;
+import org.RealEstateMM.domain.user.filters.UserTypeFilter;
 
 public class Statistics {
 
-	private PropertyFilter propertyFilter;
-	private UserFilter userFilter;
 	private PropertyRepository propertyRepository;
 	private UserRepository userRepository;
 
-	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository) {
-		propertyFilter = new PropertyFilter();
+	private UserLoggedInTheLastSixMonthsFilter loggedInTheLastSixMonthsFilter;
+	private UserTypeFilter userTypeFilter;
+
+	private PropertiesSoldThisYearFilter propertiesSoldThisYearFilter;
+	private PropertyStatusFilter propertyStatusFilter;
+	private PropertyTypeFilter propertyTypeFilter;
+
+	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository,
+			UserFilterFactory userFilterFactory, PropertyFilterFactory propertyFilterFactory) {
 		this.propertyRepository = propertyRepository;
 		this.userRepository = userRepository;
 
-		propertyFilter = new PropertyFilter();
-		userFilter = new UserFilter();
+		initializeUserFilters(userFilterFactory);
+		initializePropertyFilters(propertyFilterFactory);
 	}
 
-	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository, UserFilter userFilter,
-			PropertyFilter propertyFilter) {
-		this.propertyRepository = propertyRepository;
-		this.userRepository = userRepository;
-		this.userFilter = userFilter;
-		this.propertyFilter = propertyFilter;
+	private void initializeUserFilters(UserFilterFactory userFilterFactory) {
+		loggedInTheLastSixMonthsFilter = userFilterFactory.createLoggedInTheLastSixMonthsFilter();
+		userTypeFilter = userFilterFactory.createUserTypeFilter();
+	}
+
+	private void initializePropertyFilters(PropertyFilterFactory propertyFilterFactory) {
+		propertiesSoldThisYearFilter = propertyFilterFactory.createPropertiesSoldThisYearFilter();
+		propertyStatusFilter = propertyFilterFactory.createPropertyStatusFilter();
+		propertyTypeFilter = propertyFilterFactory.createPropertyTypeFilter();
 	}
 
 	public int getNumberOfPropertiesSoldThisYear() {
 		Collection<Property> properties = propertyRepository.getAll();
-		return propertyFilter.getPropertiesSoldThisYear(properties).size();
+		return propertiesSoldThisYearFilter.getPropertiesSoldThisYear(properties).size();
 	}
 
-	public HashMap<String, Integer> getNumberOfPropertiesOnSalePerCategory() {
-		OnSaleProperties onSaleProperties = new OnSaleProperties(propertyRepository);
-		NumberOfOnSaleProperties numberOfPropertiesByCategory = new NumberOfOnSaleProperties(onSaleProperties);
-		return numberOfPropertiesByCategory.getMapTypeNumberOfProperties();
+	public int getNumberOfPropertiesOnSalePerType(PropertyType type) {
+		Collection<Property> properties = propertyRepository.getAll();
+		Collection<Property> onSaleProperties = propertyStatusFilter.filter(properties, PropertyStatus.ON_SALE);
+		return propertyTypeFilter.filter(onSaleProperties, type).size();
 	}
 
 	public int getNumberOfActiveSeller() {
-		Collection<User> users = userRepository.getAllUsers();
-		Collection<User> sellers = userFilter.getUsersWithUserType(users, AccessLevel.SELLER);
-		return userFilter.getActiveUsers(sellers).size();
+		ArrayList<Property> properties = propertyRepository.getAll();
+		Collection<Property> onSaleProperties = propertyStatusFilter.filter(properties, PropertyStatus.ON_SALE);
+		return (int) onSaleProperties.stream().map(p -> p.getOwner()).distinct().count();
+
 	}
 
 	public int getNumberOfActiveBuyer() {
 		Collection<User> users = userRepository.getAllUsers();
-		Collection<User> buyers = userFilter.getUsersWithUserType(users, AccessLevel.BUYER);
-		return userFilter.getActiveUsers(buyers).size();
-	}
-	
-	public int getNumberOfSellersWithOnSaleProperties(){
-		SellersWithOnSaleProperty sellers = new SellersWithOnSaleProperty(propertyRepository);
-		return sellers.findNumberOfSellerWithOnSaleProperty();
+		Collection<User> buyers = userTypeFilter.filter(users, AccessLevel.BUYER);
+		return loggedInTheLastSixMonthsFilter.filter(buyers).size();
 	}
 
 }

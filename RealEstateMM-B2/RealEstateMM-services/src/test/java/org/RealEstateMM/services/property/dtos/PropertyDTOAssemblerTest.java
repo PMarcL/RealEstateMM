@@ -8,12 +8,6 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
-import org.RealEstateMM.services.property.dtos.PropertyAddressDTOAssembler;
-import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
-import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
-import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTOAssembler;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,6 +1,7 @@
 package org.RealEstateMM.domain.property;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.junit.Before;

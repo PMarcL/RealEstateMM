@@ -1,13 +1,12 @@
 package org.RealEstateMM.domain.user;
 
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.user.UserRole.AccessLevel;
-
-import static org.junit.Assert.*;
-
 import java.util.Calendar;
+import java.util.Date;
 
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -136,5 +135,29 @@ public class UserTest {
 		User confirmedUser = aConfirmedUserWithPassword(PASSWORD);
 		confirmedUser.authenticate(invalidPassword);
 		assertNull(confirmedUser.getLastLoginDate());
+	}
+
+	@Test
+	public void givenAUserWhoJustLoggedInWhenCheckingIfHasLoggedAfterYesterdayThenReturnTrue() {
+		user.setLastLoginDate(new Date());
+
+		Calendar yesterdayCalendar = Calendar.getInstance();
+		yesterdayCalendar.add(Calendar.DAY_OF_MONTH, -1);
+		Date yesterday = yesterdayCalendar.getTime();
+		boolean actual = user.hasLoggedLastAfter(yesterday);
+
+		assertTrue(actual);
+	}
+
+	@Test
+	public void givenAUserWhoJustLoggedInWhenCheckingIfHasLoggedAfterTomorrowThenReturnFalse() {
+		user.setLastLoginDate(new Date());
+
+		Calendar yesterdayCalendar = Calendar.getInstance();
+		yesterdayCalendar.add(Calendar.DAY_OF_MONTH, +1);
+		Date yesterday = yesterdayCalendar.getTime();
+		boolean actual = user.hasLoggedLastAfter(yesterday);
+
+		assertFalse(actual);
 	}
 }

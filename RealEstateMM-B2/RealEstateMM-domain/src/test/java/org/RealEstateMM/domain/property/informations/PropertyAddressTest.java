@@ -2,7 +2,6 @@ package org.RealEstateMM.domain.property.informations;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.junit.Before;
 import org.junit.Test;
 

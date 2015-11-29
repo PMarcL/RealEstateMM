@@ -1,16 +1,14 @@
 package org.RealEstateMM.services.user.dtos;
 
-import static org.mockito.BDDMockito.*;
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.helpers.UserBuilder;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRole;
-import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
-import org.RealEstateMM.services.user.dtos.UserAssembler;
-import org.RealEstateMM.services.user.dtos.UserDTO;
+import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.junit.Before;
 import org.junit.Test;
 

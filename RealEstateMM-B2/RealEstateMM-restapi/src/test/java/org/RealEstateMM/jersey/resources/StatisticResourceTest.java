@@ -44,7 +44,7 @@ public class StatisticResourceTest {
 	}
 
 	@Test
-	public void whenGetNumberOfPropertiesSoldThisYearThenReturnsNumberOfPropertiesSOldThisYearResponse() {
+	public void whenGetNumberOfPropertiesSoldThisYearThenReturnsNumberOfPropertiesSoldThisYearResponse() {
 		Response actual = statisticResource.getNumberOfPropertiesSoldThisYear();
 		NumberOfPropertiesSoldThisYearResponse expected = new NumberOfPropertiesSoldThisYearResponse(
 				NUMBER_OF_PROPERTIES_SOLD_THIS_YEAR);

@@ -9,6 +9,7 @@ import org.RealEstateMM.domain.emailsender.gmail.GmailSender;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.search.PropertySearchEngine;
 import org.RealEstateMM.domain.user.Administrator;
@@ -23,6 +24,7 @@ import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.EmailMessageFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
+import org.RealEstateMM.domain.user.filters.UserFilterFactory;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
@@ -110,6 +112,8 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(SearchParametersParser.class, new SearchParametersParser());
 		ServiceLocator.getInstance().registerService(PropertySearchEngine.class,
 				new PropertySearchEngine(propertyRepository, new PropertyOrderingFactory()));
+		ServiceLocator.getInstance().registerService(UserFilterFactory.class, new UserFilterFactory());
+		ServiceLocator.getInstance().registerService(PropertyFilterFactory.class, new PropertyFilterFactory());
 	}
 
 	private void registerRepositories() {
@@ -154,6 +158,7 @@ public class DemoContext extends Context {
 		UserInformations adminInfo = new UserInformations("ADMIN", "admin1234", "Olivier", "Dugas",
 				"olivierD@admin.com", "418 892-3940");
 		User admin = new User(adminInfo, new Administrator());
+		admin.unlock();
 		try {
 			userRepository.addUser(admin);
 		} catch (ExistingUserException e) {

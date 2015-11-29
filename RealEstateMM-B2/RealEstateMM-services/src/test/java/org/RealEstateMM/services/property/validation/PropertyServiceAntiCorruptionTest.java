@@ -7,8 +7,6 @@ import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
-import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
-import org.RealEstateMM.services.property.validation.PropertyServiceAntiCorruption;
 import org.junit.Before;
 import org.junit.Test;
 

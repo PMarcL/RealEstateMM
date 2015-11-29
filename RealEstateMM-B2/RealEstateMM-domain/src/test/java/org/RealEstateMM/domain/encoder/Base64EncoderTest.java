@@ -2,7 +2,6 @@ package org.RealEstateMM.domain.encoder;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.junit.Before;
 import org.junit.Test;
 

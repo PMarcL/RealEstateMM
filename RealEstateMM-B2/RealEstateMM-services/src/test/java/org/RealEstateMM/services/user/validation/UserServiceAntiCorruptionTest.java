@@ -6,8 +6,6 @@ import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.RealEstateMM.services.user.validation.UserInformationsValidator;
-import org.RealEstateMM.services.user.validation.UserServiceAntiCorruption;
 import org.junit.Before;
 import org.junit.Test;
 

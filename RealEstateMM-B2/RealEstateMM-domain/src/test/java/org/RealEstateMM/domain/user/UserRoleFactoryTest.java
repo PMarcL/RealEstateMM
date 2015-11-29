@@ -2,12 +2,6 @@ package org.RealEstateMM.domain.user;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.user.Administrator;
-import org.RealEstateMM.domain.user.Buyer;
-import org.RealEstateMM.domain.user.InvalidRoleDescriptionException;
-import org.RealEstateMM.domain.user.Seller;
-import org.RealEstateMM.domain.user.UserRole;
-import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.junit.Before;
 import org.junit.Test;
