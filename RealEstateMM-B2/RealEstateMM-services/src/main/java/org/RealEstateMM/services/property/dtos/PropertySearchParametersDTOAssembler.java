@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
-import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
 
@@ -14,7 +13,7 @@ public class PropertySearchParametersDTOAssembler {
 	private PropertyOrderingParametersParser orderingParamParser;
 
 	public PropertySearchParametersDTOAssembler() {
-		this.orderingParamParser = ServiceLocator.getInstance().getService(PropertyOrderingParametersParser.class);
+		this.orderingParamParser = new PropertyOrderingParametersParser();
 	}
 
 	public PropertySearchParametersDTOAssembler(PropertyOrderingParametersParser orderingParamParser) {

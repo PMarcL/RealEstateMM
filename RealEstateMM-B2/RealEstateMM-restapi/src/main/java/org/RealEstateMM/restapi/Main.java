@@ -1,6 +1,6 @@
-package org.RealEstateMM.jersey;
+package org.RealEstateMM.restapi;
 
-import org.RealEstateMM.context.DemoContext;
+import org.RealEstateMM.context.demo.DemoContext;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;

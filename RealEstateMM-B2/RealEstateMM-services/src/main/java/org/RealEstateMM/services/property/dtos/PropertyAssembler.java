@@ -6,17 +6,17 @@ import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
 
-public class PropertyDTOAssembler {
+public class PropertyAssembler {
 
 	private PropertyAddressDTOAssembler addressAssembler;
 	private PropertyFeaturesDTOAssembler featuresAssembler;
 
-	public PropertyDTOAssembler() {
+	public PropertyAssembler() {
 		this.addressAssembler = new PropertyAddressDTOAssembler();
 		this.featuresAssembler = new PropertyFeaturesDTOAssembler();
 	}
 
-	public PropertyDTOAssembler(PropertyAddressDTOAssembler addressAssembler,
+	public PropertyAssembler(PropertyAddressDTOAssembler addressAssembler,
 			PropertyFeaturesDTOAssembler featuresAssembler) {
 		this.addressAssembler = addressAssembler;
 		this.featuresAssembler = featuresAssembler;

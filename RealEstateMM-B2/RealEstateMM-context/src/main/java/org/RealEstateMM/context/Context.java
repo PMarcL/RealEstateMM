@@ -1,19 +1,7 @@
 package org.RealEstateMM.context;
 
-public abstract class Context {
+public interface Context {
 
-	public Context() {
-	}
+	public void apply();
 
-	public void apply() {
-		registerServiceDependencies();
-		registerServices();
-		injectData();
-	}
-
-	protected abstract void registerServiceDependencies();
-
-	protected abstract void registerServices();
-
-	protected abstract void injectData();
 }

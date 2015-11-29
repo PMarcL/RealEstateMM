@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey.resources;
+package org.RealEstateMM.restapi.resources;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.restapi.resources.MessageRessource;
 import org.RealEstateMM.services.message.MessageService;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 import org.junit.Before;

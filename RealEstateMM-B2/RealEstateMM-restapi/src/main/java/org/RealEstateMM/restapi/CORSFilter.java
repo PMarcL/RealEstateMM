@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey;
+package org.RealEstateMM.restapi;
 
 import java.io.IOException;
 

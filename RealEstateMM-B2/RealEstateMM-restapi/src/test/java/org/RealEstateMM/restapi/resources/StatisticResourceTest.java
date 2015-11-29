@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey.resources;
+package org.RealEstateMM.restapi.resources;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.RealEstateMM.restapi.resources.StatisticResource;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.statistics.StatisticService;
 import org.junit.After;

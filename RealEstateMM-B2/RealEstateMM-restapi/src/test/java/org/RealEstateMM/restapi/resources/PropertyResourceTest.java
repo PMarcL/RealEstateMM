@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey.resources;
+package org.RealEstateMM.restapi.resources;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
+import org.RealEstateMM.restapi.resources.PropertyResource;
+import org.RealEstateMM.restapi.resources.PropertySearchParametersFactory;
 import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;

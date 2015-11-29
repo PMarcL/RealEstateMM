@@ -12,23 +12,23 @@ import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
+import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 
 public class PropertyService implements PropertyServiceHandler {
 
-	private PropertyDTOAssembler propertyAssembler;
+	private PropertyAssembler propertyAssembler;
 	private PropertySearchParametersDTOAssembler searchParamAssembler;
 	private Properties properties;
 
 	public PropertyService() {
 		properties = ServiceLocator.getInstance().getService(Properties.class);
-		propertyAssembler = new PropertyDTOAssembler();
-		searchParamAssembler = ServiceLocator.getInstance().getService(PropertySearchParametersDTOAssembler.class);
+		propertyAssembler = ServiceLocator.getInstance().getService(PropertyAssembler.class);
+		searchParamAssembler = new PropertySearchParametersDTOAssembler();
 	}
 
-	public PropertyService(PropertyDTOAssembler propertyAssembler, Properties properties,
+	public PropertyService(PropertyAssembler propertyAssembler, Properties properties,
 			PropertySearchParametersDTOAssembler searchParamAssembler) {
 		this.propertyAssembler = propertyAssembler;
 		this.searchParamAssembler = searchParamAssembler;

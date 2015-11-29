@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey.resources;
+package org.RealEstateMM.restapi.resources;
 
 import javax.ws.rs.core.UriInfo;
 

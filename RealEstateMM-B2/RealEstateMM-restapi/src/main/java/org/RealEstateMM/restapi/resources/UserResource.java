@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey.resources;
+package org.RealEstateMM.restapi.resources;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,7 +19,7 @@ import org.RealEstateMM.domain.user.AuthenticationFailedException;
 import org.RealEstateMM.domain.user.EmailAddressConfirmationException;
 import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
-import org.RealEstateMM.jersey.responses.LoginResponse;
+import org.RealEstateMM.restapi.responses.LoginResponse;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;

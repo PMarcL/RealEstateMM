@@ -23,7 +23,7 @@ public class PropertyDTOAssemblerTest {
 	private PropertyDTO propertyDTO;
 	private Property property;
 	private PropertyAddressDTOAssembler addressAssembler;
-	private PropertyDTOAssembler assembler;
+	private PropertyAssembler assembler;
 	private PropertyFeaturesDTO featuresDTO;
 	private PropertyFeaturesDTOAssembler featuresAssembler;
 	private PropertyFeatures features;
@@ -33,7 +33,7 @@ public class PropertyDTOAssemblerTest {
 		addressAssembler = mock(PropertyAddressDTOAssembler.class);
 		featuresAssembler = mock(PropertyFeaturesDTOAssembler.class);
 
-		assembler = new PropertyDTOAssembler(addressAssembler, featuresAssembler);
+		assembler = new PropertyAssembler(addressAssembler, featuresAssembler);
 		addressDTO = mock(PropertyAddressDTO.class);
 		featuresDTO = mock(PropertyFeaturesDTO.class);
 		features = mock(PropertyFeatures.class);

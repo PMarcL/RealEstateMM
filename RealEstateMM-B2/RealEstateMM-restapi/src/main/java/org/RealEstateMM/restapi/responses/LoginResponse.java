@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey.responses;
+package org.RealEstateMM.restapi.responses;
 
 public class LoginResponse {
 

@@ -1,4 +1,4 @@
-package org.RealEstateMM.jersey.resources;
+package org.RealEstateMM.restapi.resources;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
@@ -10,6 +10,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
+import org.RealEstateMM.restapi.resources.PropertySearchParametersFactory;
 import org.RealEstateMM.services.property.InvalidSearchParameterException;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.junit.Before;

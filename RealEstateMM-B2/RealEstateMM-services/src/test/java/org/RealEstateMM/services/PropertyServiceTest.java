@@ -14,7 +14,7 @@ import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
+import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class PropertyServiceTest {
 	private final String OWNER = "owner90";
 	private final String PSEUDO = "pseudo32";
 
-	private PropertyDTOAssembler assembler;
+	private PropertyAssembler assembler;
 	private PropertyDTO propertyDTO;
 	private PropertyAddressDTO addressDTO;
 	private PropertySearchParametersDTO searchParamsDTO;
@@ -39,7 +39,7 @@ public class PropertyServiceTest {
 
 	@Before
 	public void setup() throws Throwable {
-		assembler = mock(PropertyDTOAssembler.class);
+		assembler = mock(PropertyAssembler.class);
 		properties = mock(Properties.class);
 		searchParamAssembler = mock(PropertySearchParametersDTOAssembler.class);
 		propertyService = new PropertyService(assembler, properties, searchParamAssembler);

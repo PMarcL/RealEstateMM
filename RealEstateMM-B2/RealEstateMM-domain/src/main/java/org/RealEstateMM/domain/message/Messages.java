@@ -11,6 +11,12 @@ public class Messages {
 	private UserRepository userRepository;
 	private MessageFactory messageFactory;
 
+	public Messages(MessageRepository messageRepository, UserRepository userRepository) {
+		this.messageRepository = messageRepository;
+		this.userRepository = userRepository;
+		this.messageFactory = new MessageFactory();
+	}
+
 	public Messages(MessageRepository messageRepository, UserRepository userRepository, MessageFactory messageFactory) {
 		this.messageRepository = messageRepository;
 		this.userRepository = userRepository;
