@@ -26,7 +26,7 @@ public class MessageService {
 		messages.contactSeller(buyerPseudonym, message.getRecipientPseudonym(), message.getMessage());
 	}
 
-	public List<MessageDTO> getMessages(String pseudonym) {
+	public List<MessageDTO> getNewMessages(String pseudonym) {
 		List<Message> messageList = messages.getMessages();
 
 		List<MessageDTO> messageDTOList = new LinkedList<MessageDTO>();

@@ -46,7 +46,7 @@ public class MessageServiceTest {
 		given(messageAssembler.toDTO(message1)).willReturn(messageDTO1);
 		given(messageAssembler.toDTO(message2)).willReturn(messageDTO2);
 
-		List<MessageDTO> actual = messageService.getMessages(A_PSEUDONYM);
+		List<MessageDTO> actual = messageService.getNewMessages(A_PSEUDONYM);
 
 		assertTrue(actual.contains(messageDTO1));
 		assertTrue(actual.contains(messageDTO2));

@@ -32,8 +32,9 @@ public class MessageResource {
 	}
 
 	@GET
+	@Path("new")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMessages(@Context HttpHeaders headers) {
+	public Response getNewMessages(@Context HttpHeaders headers) {
 		String token = headers.getHeaderString("Authorization");
 		if (token == null) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -41,7 +42,7 @@ public class MessageResource {
 
 		try {
 			String pseudo = sessionService.validate(token);
-			List<MessageDTO> messages = messageService.getMessages(pseudo);
+			List<MessageDTO> messages = messageService.getNewMessages(pseudo);
 			return Response.ok().entity(messages).build();
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).build();
