@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.message.MessageService;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 
@@ -19,9 +20,9 @@ public class MessageRessource {
 	private MessageService messageService;
 	private SessionService sessionService;
 
-	public MessageRessource(MessageService contactRequestService, SessionService sessionService) {
-		this.messageService = contactRequestService;
-		this.sessionService = sessionService;
+	public MessageRessource() {
+		this.messageService = ServiceLocator.getInstance().getService(MessageService.class);
+		this.sessionService = ServiceLocator.getInstance().getService(SessionService.class);
 	}
 
 	@GET

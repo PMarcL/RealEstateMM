@@ -13,24 +13,24 @@ import org.RealEstateMM.services.user.dtos.UserDTO;
 
 public class UserService implements UserServiceHandler {
 
-	private UserAssembler assembler;
+	private UserAssembler userAssembler;
 	private Users users;
 
-	public UserService() {
-		assembler = ServiceLocator.getInstance().getService(UserAssembler.class);
+	public UserService(UserAssembler userAssembler) {
+		this.userAssembler = userAssembler;
 		users = ServiceLocator.getInstance().getService(Users.class);
 	}
 
 	@Override
 	public void createUser(UserDTO userDTO) throws ExistingUserException, EmailAddressConfirmationException {
-		User newUser = assembler.fromDTO(userDTO);
+		User newUser = userAssembler.fromDTO(userDTO);
 		users.addUser(newUser);
 	}
 
 	@Override
 	public UserDTO authenticate(String pseudonym, String password) throws AuthenticationFailedException {
 		User authendicatedUser = users.authenticate(pseudonym, password);
-		return assembler.toDTO(authendicatedUser);
+		return userAssembler.toDTO(authendicatedUser);
 	}
 
 	@Override
@@ -41,14 +41,14 @@ public class UserService implements UserServiceHandler {
 	@Override
 	public void updateUserProfile(String pseudo, UserDTO userProfile)
 			throws UserNotFoundException, EmailAddressConfirmationException {
-		UserInformations userInfos = assembler.createUserInformations(userProfile);
+		UserInformations userInfos = userAssembler.createUserInformations(userProfile);
 		users.updateUserProfile(userInfos);
 	}
 
 	@Override
 	public UserDTO getUserProfile(String pseudonym) throws UserNotFoundException {
 		User user = users.getUser(pseudonym);
-		return assembler.toDTO(user);
+		return userAssembler.toDTO(user);
 	}
 
 }

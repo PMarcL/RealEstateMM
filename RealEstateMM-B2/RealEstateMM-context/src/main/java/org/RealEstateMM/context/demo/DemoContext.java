@@ -7,10 +7,10 @@ public class DemoContext implements Context {
 
 	public void apply() {
 		// Careful: The Order is important for dependencies
+		// TODO
 		new RepositoryRegisterer().register();
 		new DomainHandlerRegisterer(BASE_URL).register();
 
-		new AssemblerRegisterer().register();
 		new ServiceRegisterer().register();
 
 		new DataInjector().injectData();

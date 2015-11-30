@@ -4,10 +4,13 @@ import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.emailsender.gmail.GmailSender;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
+import org.RealEstateMM.domain.message.MessageFactory;
 import org.RealEstateMM.domain.message.MessageRepository;
 import org.RealEstateMM.domain.message.Messages;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
+import org.RealEstateMM.domain.property.search.PropertySearchFilterFactory;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
@@ -28,9 +31,15 @@ public class DomainHandlerRegisterer {
 		PropertyRepository propertyRepository = ServiceLocator.getInstance().getService(PropertyRepository.class);
 		MessageRepository messageRepository = ServiceLocator.getInstance().getService(MessageRepository.class);
 
-		this.properties = new Properties(propertyRepository);
-		this.messages = new Messages(messageRepository, userRepository);
 		initializeUsers(userRepository);
+		initializeProperties(propertyRepository);
+		this.messages = new Messages(messageRepository, userRepository, new MessageFactory());
+	}
+
+	private void initializeProperties(PropertyRepository propertyRepository) {
+		PropertyOrderingFactory orderingFactory = new PropertyOrderingFactory();
+		PropertySearchFilterFactory filterFactory = new PropertySearchFilterFactory();
+		this.properties = new Properties(propertyRepository, orderingFactory, filterFactory);
 	}
 
 	private void initializeUsers(UserRepository userRepository) {

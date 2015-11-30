@@ -18,7 +18,7 @@ public class UserServiceTest {
 	private final String PASSWORD = "myTooOriginalPassword12345";
 
 	private UserDTO dto;
-	private UserAssembler assembler;
+	private UserAssembler userAssembler;
 	private User user;
 	private Users users;
 	private UserService service;
@@ -26,16 +26,15 @@ public class UserServiceTest {
 	@Before
 	public void setup() {
 		dto = mock(UserDTO.class);
-		assembler = mock(UserAssembler.class);
+		userAssembler = mock(UserAssembler.class);
 		user = mock(User.class);
-		given(assembler.fromDTO(dto)).willReturn(user);
-		given(assembler.toDTO(user)).willReturn(dto);
+		given(userAssembler.fromDTO(dto)).willReturn(user);
+		given(userAssembler.toDTO(user)).willReturn(dto);
 		users = mock(Users.class);
 
-		ServiceLocator.getInstance().registerService(UserAssembler.class, assembler);
 		ServiceLocator.getInstance().registerService(Users.class, users);
 
-		service = new UserService();
+		service = new UserService(userAssembler);
 	}
 
 	@After
@@ -79,7 +78,7 @@ public class UserServiceTest {
 	@Test
 	public void givenDTOWhenUpdateUserProfileThenShouldUpdateUserProfile() throws Throwable {
 		UserInformations userInfos = mock(UserInformations.class);
-		given(assembler.createUserInformations(dto)).willReturn(userInfos);
+		given(userAssembler.createUserInformations(dto)).willReturn(userInfos);
 
 		service.updateUserProfile(PSEUDONYM, dto);
 

@@ -39,11 +39,6 @@ public class UserResource {
 		this.sessionService = ServiceLocator.getInstance().getService(SessionService.class);
 	}
 
-	public UserResource(UserServiceHandler userService, SessionService sessionService) {
-		this.userService = userService;
-		this.sessionService = sessionService;
-	}
-
 	@POST
 	@Path("logout/{token}")
 	public Response logout(@PathParam("token") String token) {
