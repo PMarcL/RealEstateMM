@@ -21,7 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MessageRessourceTest {
+public class MessageResourceTest {
 
 	private static final String AN_INVALID_TOKEN = "anInvalidToken";
 	private static final String A_VALID_TOKEN = "aValidToken";
@@ -31,7 +31,7 @@ public class MessageRessourceTest {
 
 	private MessageService messageService;
 
-	private MessageRessource messageResource;
+	private MessageResource messageResource;
 
 	private SessionService sessionService;
 
@@ -46,7 +46,7 @@ public class MessageRessourceTest {
 		ServiceLocator.getInstance().registerService(MessageService.class, messageService);
 		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
 
-		messageResource = new MessageRessource();
+		messageResource = new MessageResource();
 	}
 
 	@After

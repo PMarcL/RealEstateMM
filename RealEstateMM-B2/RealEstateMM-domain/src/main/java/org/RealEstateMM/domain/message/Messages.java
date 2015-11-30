@@ -1,5 +1,7 @@
 package org.RealEstateMM.domain.message;
 
+import java.util.List;
+
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -27,6 +29,11 @@ public class Messages {
 
 		Message message = messageFactory.createContactSellerMessage(buyer, seller, buyersMessage);
 		messageRepository.add(message);
+	}
+
+	public List<Message> getMessages() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

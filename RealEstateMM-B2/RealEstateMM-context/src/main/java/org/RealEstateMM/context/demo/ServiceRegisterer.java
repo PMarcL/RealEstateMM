@@ -5,6 +5,8 @@ import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.message.MessageService;
+import org.RealEstateMM.services.message.dtos.MessageAssembler;
 import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
@@ -27,6 +29,7 @@ public class ServiceRegisterer {
 	private UserServiceAntiCorruption userService;
 	private StatisticService statisticService;
 	private SessionService sessionService;
+	private MessageService messageService;
 
 	public ServiceRegisterer() {
 		UserRepository userRepository = ServiceLocator.getInstance().getService(UserRepository.class);
@@ -35,6 +38,7 @@ public class ServiceRegisterer {
 		initializeUserService(userRepository);
 		this.statisticService = new StatisticService();
 		this.sessionService = new SessionService();
+		this.messageService = new MessageService(new MessageAssembler());
 	}
 
 	private void initializeUserService(UserRepository userRepository) {
@@ -62,5 +66,6 @@ public class ServiceRegisterer {
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
 		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
 		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
+		ServiceLocator.getInstance().registerService(MessageService.class, messageService);
 	}
 }

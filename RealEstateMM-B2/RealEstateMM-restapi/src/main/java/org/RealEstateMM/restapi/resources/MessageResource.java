@@ -2,7 +2,6 @@ package org.RealEstateMM.restapi.resources;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -22,12 +21,12 @@ import org.RealEstateMM.services.message.MessageService;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 
 @Path("/message")
-public class MessageRessource {
+public class MessageResource {
 
 	private MessageService messageService;
 	private SessionService sessionService;
 
-	public MessageRessource() {
+	public MessageResource() {
 		this.messageService = ServiceLocator.getInstance().getService(MessageService.class);
 		this.sessionService = ServiceLocator.getInstance().getService(SessionService.class);
 	}
