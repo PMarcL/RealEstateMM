@@ -18,12 +18,6 @@ public class Properties {
 	private PropertyOrderingFactory orderingFactory;
 	private PropertySearchFilterFactory filterFactory;
 
-	public Properties(PropertyRepository repository) {
-		this.repository = repository;
-		this.orderingFactory = new PropertyOrderingFactory();
-		this.filterFactory = new PropertySearchFilterFactory();
-	}
-
 	public Properties(PropertyRepository repository, PropertyOrderingFactory factory,
 			PropertySearchFilterFactory filterFactory) {
 		this.repository = repository;

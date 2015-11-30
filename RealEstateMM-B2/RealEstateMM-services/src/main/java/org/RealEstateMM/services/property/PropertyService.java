@@ -11,8 +11,8 @@ import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
-import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 
@@ -22,17 +22,11 @@ public class PropertyService implements PropertyServiceHandler {
 	private PropertySearchParametersDTOAssembler searchParamAssembler;
 	private Properties properties;
 
-	public PropertyService() {
-		properties = ServiceLocator.getInstance().getService(Properties.class);
-		propertyAssembler = ServiceLocator.getInstance().getService(PropertyAssembler.class);
-		searchParamAssembler = new PropertySearchParametersDTOAssembler();
-	}
-
-	public PropertyService(PropertyAssembler propertyAssembler, Properties properties,
+	public PropertyService(PropertyAssembler propertyAssembler,
 			PropertySearchParametersDTOAssembler searchParamAssembler) {
 		this.propertyAssembler = propertyAssembler;
 		this.searchParamAssembler = searchParamAssembler;
-		this.properties = properties;
+		this.properties = ServiceLocator.getInstance().getService(Properties.class);
 	}
 
 	@Override

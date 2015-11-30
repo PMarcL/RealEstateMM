@@ -31,7 +31,9 @@ public class StatisticResourceTest {
 		given(statisticService.getNumberOfActiveSeller()).willReturn(NUMBER_OF_ACTIVE_SELLER);
 		given(statisticService.getNumberOfActiveBuyer()).willReturn(NUMBER_OF_ACTIVE_BUYER);
 
-		statisticResource = new StatisticResource(statisticService);
+		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
+
+		statisticResource = new StatisticResource();
 	}
 
 	@After

@@ -12,10 +12,6 @@ public class PropertySearchParametersDTOAssembler {
 
 	private PropertyOrderingParametersParser orderingParamParser;
 
-	public PropertySearchParametersDTOAssembler() {
-		this.orderingParamParser = new PropertyOrderingParametersParser();
-	}
-
 	public PropertySearchParametersDTOAssembler(PropertyOrderingParametersParser orderingParamParser) {
 		this.orderingParamParser = orderingParamParser;
 	}

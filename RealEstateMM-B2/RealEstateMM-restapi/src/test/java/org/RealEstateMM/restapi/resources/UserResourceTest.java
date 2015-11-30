@@ -16,11 +16,13 @@ import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.restapi.resources.UserResource;
 import org.RealEstateMM.restapi.responses.LoginResponse;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
 import org.RealEstateMM.services.user.ForbiddenAccessException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.RealEstateMM.services.user.validation.InvalidUserInformationsException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +52,15 @@ public class UserResourceTest {
 		given(sessionService.open(A_USER_DTO)).willReturn(A_SESSION);
 		given(sessionService.validate(A_VALID_TOKEN)).willReturn(A_PSEUDONYM);
 
-		userConnectionResource = new UserResource(userService, sessionService);
+		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
+		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
+
+		userConnectionResource = new UserResource();
+	}
+
+	@After
+	public void tearDown() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test

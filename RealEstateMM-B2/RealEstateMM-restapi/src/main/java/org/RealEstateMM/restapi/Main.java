@@ -34,7 +34,7 @@ public class Main {
 	private ResourceConfig setUpRessoures() {
 		ResourceConfig resourceConfig = new ResourceConfig();
 
-		resourceConfig.packages("org.RealEstateMM.jersey");
+		resourceConfig.packages("org.RealEstateMM.restapi");
 		resourceConfig.register(JacksonFeature.class);
 
 		return resourceConfig;

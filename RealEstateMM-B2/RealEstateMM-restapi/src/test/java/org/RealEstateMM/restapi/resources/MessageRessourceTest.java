@@ -12,8 +12,10 @@ import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.restapi.resources.MessageRessource;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.message.MessageService;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +37,15 @@ public class MessageRessourceTest {
 
 		given(sessionService.validate(A_VALID_TOKEN)).willReturn(A_PSEUDONYM);
 
-		messageResource = new MessageRessource(messageService, sessionService);
+		ServiceLocator.getInstance().registerService(MessageService.class, messageService);
+		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
+
+		messageResource = new MessageRessource();
+	}
+
+	@After
+	public void tearDown() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test

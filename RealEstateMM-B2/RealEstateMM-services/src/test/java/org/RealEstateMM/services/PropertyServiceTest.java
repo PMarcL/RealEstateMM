@@ -11,12 +11,14 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.search.PropertySearchParameters;
+import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
-import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
+import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +44,10 @@ public class PropertyServiceTest {
 		assembler = mock(PropertyAssembler.class);
 		properties = mock(Properties.class);
 		searchParamAssembler = mock(PropertySearchParametersDTOAssembler.class);
-		propertyService = new PropertyService(assembler, properties, searchParamAssembler);
+
+		ServiceLocator.getInstance().registerService(Properties.class, properties);
+
+		propertyService = new PropertyService(assembler, searchParamAssembler);
 
 		propertyDTO = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
@@ -53,6 +58,11 @@ public class PropertyServiceTest {
 		searchParams = mock(PropertySearchParameters.class);
 		given(searchParamAssembler.fromDTO(searchParamsDTO)).willReturn(searchParams);
 		configureAssembler();
+	}
+
+	@After
+	public void tearDown() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test
