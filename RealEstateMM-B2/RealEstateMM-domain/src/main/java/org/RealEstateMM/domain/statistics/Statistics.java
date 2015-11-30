@@ -39,14 +39,6 @@ public class Statistics {
 		initializePropertyFilters(propertyFilterFactory);
 	}
 
-	public Statistics(PropertyRepository propertyRepository, UserRepository userRepository) {
-		this.propertyRepository = propertyRepository;
-		this.userRepository = userRepository;
-
-		initializeUserFilters(new UserFilterFactory());
-		initializePropertyFilters(new PropertyFilterFactory());
-	}
-
 	private void initializeUserFilters(UserFilterFactory userFilterFactory) {
 		loggedInTheLastSixMonthsFilter = userFilterFactory.createLoggedInTheLastSixMonthsFilter();
 		userTypeFilter = userFilterFactory.createUserTypeFilter();

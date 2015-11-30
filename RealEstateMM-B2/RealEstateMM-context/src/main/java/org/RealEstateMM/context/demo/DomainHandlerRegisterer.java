@@ -9,12 +9,15 @@ import org.RealEstateMM.domain.message.MessageRepository;
 import org.RealEstateMM.domain.message.Messages;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
+import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
 import org.RealEstateMM.domain.property.search.PropertySearchFilterFactory;
+import org.RealEstateMM.domain.statistics.Statistics;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
+import org.RealEstateMM.domain.user.filters.UserFilterFactory;
 import org.RealEstateMM.servicelocator.ServiceLocator;
 
 public class DomainHandlerRegisterer {
@@ -23,6 +26,7 @@ public class DomainHandlerRegisterer {
 	private Properties properties;
 	private Users users;
 	private Messages messages;
+	private Statistics statistics;
 
 	public DomainHandlerRegisterer(String baseUrl) {
 		this.baseUrl = baseUrl;
@@ -34,6 +38,8 @@ public class DomainHandlerRegisterer {
 		initializeUsers(userRepository);
 		initializeProperties(propertyRepository);
 		this.messages = new Messages(messageRepository, userRepository, new MessageFactory());
+		this.statistics = new Statistics(propertyRepository, userRepository, new UserFilterFactory(),
+				new PropertyFilterFactory());
 	}
 
 	private void initializeProperties(PropertyRepository propertyRepository) {
@@ -57,5 +63,6 @@ public class DomainHandlerRegisterer {
 		ServiceLocator.getInstance().registerService(Properties.class, properties);
 		ServiceLocator.getInstance().registerService(Users.class, users);
 		ServiceLocator.getInstance().registerService(Messages.class, messages);
+		ServiceLocator.getInstance().registerService(Statistics.class, statistics);
 	}
 }
