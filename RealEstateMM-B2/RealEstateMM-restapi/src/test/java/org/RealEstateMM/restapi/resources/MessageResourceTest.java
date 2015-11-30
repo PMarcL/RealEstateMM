@@ -26,8 +26,8 @@ public class MessageResourceTest {
 	private static final String AN_INVALID_TOKEN = "anInvalidToken";
 	private static final String A_VALID_TOKEN = "aValidToken";
 	private static final String A_PSEUDONYM = "SomeCoolPseudo";
-	private static final MessageDTO A_MESSAGE_DTO = new MessageDTO("allo le monde", "senderUsernameV",
-			"recipentUsername");
+	private static final MessageDTO A_MESSAGE_DTO = new MessageDTO("allo le monde", "senderUsername",
+			"recipentUsername", true);
 
 	private MessageService messageService;
 

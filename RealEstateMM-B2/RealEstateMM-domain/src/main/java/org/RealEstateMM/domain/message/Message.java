@@ -5,12 +5,21 @@ public class Message {
 	protected String senderPseudonym;
 	protected String recipientPseudonym;
 	protected String message;
+	private boolean isUnread;
 
-	public Message(String senderPseudonym, String recipientPseudonym, String message) {
-		super();
+	public Message(String senderPseudonym, String recipientPseudonym, String message, boolean isUnread) {
 		this.senderPseudonym = senderPseudonym;
 		this.recipientPseudonym = recipientPseudonym;
 		this.message = message;
+		this.isUnread = isUnread;
+	}
+
+	public boolean isUnread() {
+		return isUnread;
+	}
+
+	public void setUnread(boolean isUnread) {
+		this.isUnread = isUnread;
 	}
 
 	public String getSenderPseudonym() {

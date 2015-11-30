@@ -23,7 +23,7 @@ public class MessageService {
 
 	public void contactSeller(String buyerPseudonym, MessageDTO message)
 			throws UserNotFoundException, UserIsNotASellerException {
-		messages.contactSeller(buyerPseudonym, message.getRecipient(), message.getMessage());
+		messages.contactSeller(buyerPseudonym, message.getRecipientPseudonym(), message.getMessage());
 	}
 
 	public List<MessageDTO> getMessages(String pseudonym) {

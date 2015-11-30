@@ -19,7 +19,7 @@ public class MessageFactory {
 		message += "Here are the buyer's informations:\n" + buyerInfo.firstName + " " + buyerInfo.lastName + "\n"
 				+ buyerInfo.emailAddress + buyerInfo.phoneNumber;
 
-		return new Message(buyer.getPseudonym(), seller.getPseudonym(), message);
+		return new Message(buyer.getPseudonym(), seller.getPseudonym(), message, true);
 	}
 
 }
