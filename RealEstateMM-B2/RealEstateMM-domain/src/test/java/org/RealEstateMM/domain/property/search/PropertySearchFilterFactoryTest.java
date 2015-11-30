@@ -26,6 +26,8 @@ public class PropertySearchFilterFactoryTest {
 		PropertySearchFilterStrategy result = factory.getSearchFilterStrategy(searchParam);
 
 		assertTrue(result instanceof PropertySearchFilterComposite);
+		// TODO add get filters methods
 	}
 
+	// TODO add more tests for this class
 }
