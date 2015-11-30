@@ -1,6 +1,9 @@
 package org.RealEstateMM.restapi.resources;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -17,6 +20,7 @@ import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.message.MessageService;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 
+@Path("/message")
 public class MessageRessource {
 
 	private MessageService messageService;
@@ -28,8 +32,25 @@ public class MessageRessource {
 	}
 
 	@GET
-	@Path("contactseller")
+	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMessages(HttpHeaders headers) {
+		String token = headers.getHeaderString("Authorization");
+		if (token == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		try {
+			String pseudo = sessionService.validate(token);
+			List<MessageDTO> messages = messageService.getMessages(pseudo);
+			return Response.ok().entity(messages).build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+	}
+
+	@POST
+	@Path("contactseller")
 	public Response contactSeller(@Context HttpHeaders headers, MessageDTO message) {
 		String token = headers.getHeaderString("Authorization");
 		if (token == null) {

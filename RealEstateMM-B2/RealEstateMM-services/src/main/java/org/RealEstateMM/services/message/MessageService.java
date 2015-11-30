@@ -1,5 +1,7 @@
 package org.RealEstateMM.services.message;
 
+import java.util.List;
+
 import org.RealEstateMM.domain.message.Messages;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
@@ -17,6 +19,11 @@ public class MessageService {
 	public void contactSeller(String buyerPseudonym, MessageDTO message)
 			throws UserNotFoundException, UserIsNotASellerException {
 		messages.contactSeller(buyerPseudonym, message.getRecipient(), message.getMessage());
+	}
+
+	public List<MessageDTO> getMessages(String pseudonym) {
+		return null;
+		// TODO Auto-generated method stub
 	}
 
 }

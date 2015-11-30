@@ -3,12 +3,22 @@ package org.RealEstateMM.services.message.dtos;
 public class MessageDTO {
 
 	private String message;
+	private String sender;
 	private String recipient;
 
-	public MessageDTO(String message, String recipientPseudonym) {
+	public MessageDTO(String message, String sender, String recipient) {
 		super();
 		this.message = message;
-		this.recipient = recipientPseudonym;
+		this.sender = sender;
+		this.recipient = recipient;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 
 	public String getMessage() {
