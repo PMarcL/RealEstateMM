@@ -33,7 +33,7 @@ public class RepositoryRegisterer {
 		this.messageRepository = new MessageRepository() {
 			@Override
 			public void add(Message message) {
-				// TODO Auto-generated method stub
+				// TODO to replace when the implementation is done
 			}
 		};
 
