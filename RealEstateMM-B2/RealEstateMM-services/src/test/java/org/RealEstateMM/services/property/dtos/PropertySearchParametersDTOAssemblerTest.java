@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
-import org.RealEstateMM.domain.property.search.PropertySearchParameters;
-import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
+import org.RealEstateMM.domain.search.PropertyOrderingParameters;
+import org.RealEstateMM.domain.search.PropertySearchParameters;
 import org.junit.Before;
 import org.junit.Test;
 

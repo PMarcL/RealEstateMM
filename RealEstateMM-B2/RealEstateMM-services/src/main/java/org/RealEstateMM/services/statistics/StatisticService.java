@@ -2,7 +2,7 @@ package org.RealEstateMM.services.statistics;
 
 import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.statistics.Statistics;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 
 public class StatisticService {
 

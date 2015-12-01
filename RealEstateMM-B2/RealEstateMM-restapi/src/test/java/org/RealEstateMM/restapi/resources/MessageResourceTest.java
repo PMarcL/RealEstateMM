@@ -14,7 +14,7 @@ import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.MessageService;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 import org.junit.After;
@@ -86,8 +86,8 @@ public class MessageResourceTest {
 	}
 
 	@Test
-	public void givenAUserIsNotASellerWhenContactSellerThenReturnABadRequestStatus()
-			throws UserNotFoundException, UserIsNotASellerException {
+	public void givenAUserIsNotASellerWhenContactSellerThenReturnABadRequestStatus() throws UserNotFoundException,
+			UserIsNotASellerException {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
 
 		doThrow(new UserIsNotASellerException(null)).when(messageService).contactSeller(A_PSEUDONYM, A_MESSAGE_DTO);
@@ -98,8 +98,8 @@ public class MessageResourceTest {
 	}
 
 	@Test
-	public void givenAUserNotFoundWhenContactSellerThenReturnABadRequestStatus()
-			throws UserNotFoundException, UserIsNotASellerException {
+	public void givenAUserNotFoundWhenContactSellerThenReturnABadRequestStatus() throws UserNotFoundException,
+			UserIsNotASellerException {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
 
 		doThrow(new UserNotFoundException(null)).when(messageService).contactSeller(A_PSEUDONYM, A_MESSAGE_DTO);

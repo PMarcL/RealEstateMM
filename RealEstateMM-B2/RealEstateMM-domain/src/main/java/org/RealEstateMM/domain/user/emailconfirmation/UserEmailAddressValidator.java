@@ -1,14 +1,14 @@
 package org.RealEstateMM.domain.user.emailconfirmation;
 
 import org.RealEstateMM.domain.emailsender.EmailMessage;
-import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
+import org.RealEstateMM.domain.user.UserInformationsValidator;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
 
-public class UserEmailAddressValidator {
+public class UserEmailAddressValidator implements UserInformationsValidator {
 
 	private ConfirmationCodeFactory confirmCodeFactory;
 	private EmailMessageFactory messageFactory;
@@ -21,7 +21,8 @@ public class UserEmailAddressValidator {
 		this.emailSender = emailSender;
 	}
 
-	public void sendEmailConfirmationMessage(UserInformations userInfos) {
+	@Override
+	public void sendValidationRequest(UserInformations userInfos) {
 		EmailMessage message = createEmail(userInfos);
 		emailSender.sendEmail(message);
 	}
@@ -31,7 +32,8 @@ public class UserEmailAddressValidator {
 		return messageFactory.createEmailAddressConfirmationMessage(userInfos.emailAddress, code);
 	}
 
-	public void confirmEmailAddress(String confirmationCodeValue, UserRepository users) {
+	@Override
+	public void confirmUserInformation(String confirmationCodeValue, UserRepository users) {
 		ConfirmationCode confirmationCode = confirmCodeFactory.createConfirmationCode(confirmationCodeValue);
 		User user;
 		try {

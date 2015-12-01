@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.RealEstateMM.domain.message.Message;
 import org.RealEstateMM.domain.message.Messages;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.dtos.MessageAssembler;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 import org.junit.Before;

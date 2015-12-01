@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.RealEstateMM.domain.property.informations.PropertyType;
+import org.RealEstateMM.domain.search.PropertyOrderingParameters;
+import org.RealEstateMM.domain.search.PropertySearchParameters;
 
 public class PropertySearchParametersTest {
 	private final PropertyOrderingParameters ORDERING_PARAM = PropertyOrderingParameters.HIGHEST_PRICE_FIRST;

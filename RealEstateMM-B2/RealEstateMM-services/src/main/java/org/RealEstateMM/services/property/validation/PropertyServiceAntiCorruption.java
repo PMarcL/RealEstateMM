@@ -1,15 +1,11 @@
 package org.RealEstateMM.services.property.validation;
 
-import java.util.List;
-
-import org.RealEstateMM.domain.property.PropertyNotFoundException;
-import org.RealEstateMM.services.property.InvalidSearchParameterException;
+import org.RealEstateMM.domain.user.ForbiddenAccessException;
+import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyFeaturesDTO;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
-import org.RealEstateMM.services.user.ForbiddenAccessException;
 
 public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 
@@ -22,13 +18,14 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 	}
 
 	@Override
-	public void uploadProperty(String owner, PropertyDTO propertyInfos) throws ForbiddenAccessException {
+	public void uploadProperty(String owner, PropertyDTO propertyInfos) throws ForbiddenAccessException,
+			InvalidPropertyInformationException {
 		validatePropertyInformations(propertyInfos);
 		validatePropertyAddress(propertyInfos.getPropertyAddress());
 		service.uploadProperty(owner, propertyInfos);
 	}
 
-	private void validatePropertyInformations(PropertyDTO propertyInfos) {
+	private void validatePropertyInformations(PropertyDTO propertyInfos) throws InvalidPropertyInformationException {
 		if (!informationValidator.propertyTypeIsValid(propertyInfos.getPropertyType())) {
 			throw new InvalidPropertyInformationException("Property Type");
 		}
@@ -40,21 +37,22 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 		}
 	}
 
-	private void validatePropertyAddress(PropertyAddressDTO addressInfos) {
+	private void validatePropertyAddress(PropertyAddressDTO addressInfos) throws InvalidPropertyInformationException {
 		if (!informationValidator.zipCodeIsValid(addressInfos.getZipCode())) {
 			throw new InvalidPropertyInformationException("Zip code");
 		}
 	}
 
 	@Override
-	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) throws ForbiddenAccessException {
+	public void editPropertyFeatures(String owner, PropertyDTO propertyDTO) throws ForbiddenAccessException,
+			InvalidPropertyInformationException {
 		PropertyFeaturesDTO features = propertyDTO.getPropertyFeatures();
 		verifyNumberOfRoomsValidity(features);
 		verifyYearOfConstructionValidity(features);
 		service.editPropertyFeatures(owner, propertyDTO);
 	}
 
-	private void verifyNumberOfRoomsValidity(PropertyFeaturesDTO features) {
+	private void verifyNumberOfRoomsValidity(PropertyFeaturesDTO features) throws InvalidPropertyInformationException {
 		if (!informationValidator.numberOfRoomsIsValid(features.getNumberOfBathrooms())) {
 			throw new InvalidPropertyInformationException("Number of Bathrooms");
 		}
@@ -67,27 +65,10 @@ public class PropertyServiceAntiCorruption implements PropertyServiceHandler {
 		}
 	}
 
-	private void verifyYearOfConstructionValidity(PropertyFeaturesDTO features) {
+	private void verifyYearOfConstructionValidity(PropertyFeaturesDTO features)
+			throws InvalidPropertyInformationException {
 		if (!informationValidator.yearOfConstructionIsValid(features.getYearOfConstruction())) {
 			throw new InvalidPropertyInformationException("Year of Construction");
 		}
-	}
-
-	@Override
-	public List<PropertyDTO> getPropertiesSearchResult(String pseudo, PropertySearchParametersDTO searchParams)
-			throws ForbiddenAccessException, InvalidSearchParameterException {
-		return service.getPropertiesSearchResult(pseudo, searchParams);
-	}
-
-	@Override
-	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException {
-		return service.getPropertiesFromOwner(owner);
-	}
-
-	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
-			PropertyNotFoundException {
-		validatePropertyAddress(address);
-		return service.getPropertyAtAddress(pseudo, address);
 	}
 }

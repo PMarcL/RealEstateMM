@@ -14,7 +14,7 @@ import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 
 public class RepositoryRegisterer {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;
@@ -46,8 +46,8 @@ public class RepositoryRegisterer {
 
 	private void initializeUserRepository() {
 		File xmlUsers = new File(XML_FILES_LOCATION + USER_REPOSITORY_FILE);
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
-				new XmlUserAssembler(new UserRoleFactory()));
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
+				new UserRoleFactory()));
 	}
 
 	public void register() {

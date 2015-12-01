@@ -9,10 +9,9 @@ import java.util.List;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
-import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
-import org.RealEstateMM.restapi.resources.PropertySearchParametersFactory;
-import org.RealEstateMM.services.property.InvalidSearchParameterException;
+import org.RealEstateMM.domain.search.PropertyOrderingParameters;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.search.InvalidSearchParameterException;
 import org.junit.Before;
 import org.junit.Test;
 
