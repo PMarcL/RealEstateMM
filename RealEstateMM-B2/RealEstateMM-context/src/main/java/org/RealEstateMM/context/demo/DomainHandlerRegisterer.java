@@ -51,7 +51,7 @@ public class DomainHandlerRegisterer {
 
 	private void initializeSearchEngine(PropertyRepository propertyRepository) {
 		PropertyOrderingFactory orderingFactory = new PropertyOrderingFactory();
-		PropertySearchFilterFactory filterFactory = new PropertySearchFilterFactory();
+		PropertySearchFilterFactory filterFactory = new PropertySearchFilterFactory(new PropertyFilterFactory());
 		this.searchEngine = new PropertySearchEngine(propertyRepository, orderingFactory, filterFactory);
 	}
 

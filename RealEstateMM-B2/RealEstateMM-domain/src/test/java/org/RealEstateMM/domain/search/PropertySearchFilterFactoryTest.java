@@ -3,6 +3,7 @@ package org.RealEstateMM.domain.search;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
+import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.search.PropertySearchFilterComposite;
 import org.RealEstateMM.domain.search.PropertySearchFilterFactory;
 import org.RealEstateMM.domain.search.PropertySearchFilterStrategy;
@@ -12,11 +13,13 @@ import org.junit.Test;
 public class PropertySearchFilterFactoryTest {
 
 	private PropertySearchParameters searchParam;
+	private PropertyFilterFactory propertyFilterFactory;
 	private PropertySearchFilterFactory factory;
 
 	@Before
 	public void setup() {
-		factory = new PropertySearchFilterFactory();
+		propertyFilterFactory = mock(PropertyFilterFactory.class);
+		factory = new PropertySearchFilterFactory(propertyFilterFactory);
 
 		searchParam = mock(PropertySearchParameters.class);
 	}
@@ -35,6 +38,7 @@ public class PropertySearchFilterFactoryTest {
 				.getSearchFilterStrategy(searchParam);
 
 		assertTrue(result.get(0) instanceof PropertyFilterByTypes);
+		verify(propertyFilterFactory).createPropertyTypeFilter();
 	}
 
 	@Test
