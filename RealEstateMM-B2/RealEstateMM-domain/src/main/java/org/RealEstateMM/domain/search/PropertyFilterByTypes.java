@@ -14,6 +14,6 @@ public class PropertyFilterByTypes implements PropertySearchFilterStrategy {
 
 	@Override
 	public List<Property> getFilteredProperties(List<Property> properties) {
-		return null;
+		return properties;
 	}
 }

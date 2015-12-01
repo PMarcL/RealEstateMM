@@ -51,6 +51,13 @@ public class PropertyOrderingParametersParserTest {
 				propertyFilter.getParsedSearchParameter(HIGHEST_PRICE_LAST));
 	}
 
+	@Test
+	public void givenANewSearchFilterWhenInitializeWithNoOrderingStringThenGetReturnsCorrespondingEnum()
+			throws Throwable {
+		assertEquals(PropertyOrderingParameters.NO_ORDERING,
+				propertyFilter.getParsedSearchParameter(PropertyOrderingParameters.NO_ORDERING.toString()));
+	}
+
 	@Test(expected = InvalidSearchParameterException.class)
 	public void givenANewSearchFilterWhenInitializeWithInvalidStringThenThrowsException() throws Throwable {
 		propertyFilter.getParsedSearchParameter(INVALID_FILTER);

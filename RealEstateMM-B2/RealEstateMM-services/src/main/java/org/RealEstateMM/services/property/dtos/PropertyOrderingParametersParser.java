@@ -24,6 +24,8 @@ public class PropertyOrderingParametersParser {
 			param = PropertyOrderingParameters.HIGHEST_PRICE_FIRST;
 		} else if (toParse.equals(HIGHEST_PRICE_LAST)) {
 			param = PropertyOrderingParameters.HIGHEST_PRICE_LAST;
+		} else if (toParse.equals(PropertyOrderingParameters.NO_ORDERING.toString())) {
+			param = PropertyOrderingParameters.NO_ORDERING;
 		} else {
 			throw new InvalidSearchParameterException();
 		}

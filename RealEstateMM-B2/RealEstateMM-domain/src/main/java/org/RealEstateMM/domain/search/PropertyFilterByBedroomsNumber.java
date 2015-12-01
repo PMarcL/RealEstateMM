@@ -12,7 +12,7 @@ public class PropertyFilterByBedroomsNumber implements PropertySearchFilterStrat
 
 	@Override
 	public List<Property> getFilteredProperties(List<Property> properties) {
-		return null;
+		return properties;
 	}
 
 }

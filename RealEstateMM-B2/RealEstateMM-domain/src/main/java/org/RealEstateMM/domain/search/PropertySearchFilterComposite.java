@@ -8,7 +8,7 @@ public class PropertySearchFilterComposite implements PropertySearchFilterStrate
 
 	@Override
 	public List<Property> getFilteredProperties(List<Property> properties) {
-		return null;
+		return properties;
 	}
 
 	public void add(PropertySearchFilterStrategy typeFilter) {
