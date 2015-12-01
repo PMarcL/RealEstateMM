@@ -14,12 +14,12 @@ import org.RealEstateMM.domain.user.AuthenticationFailedException;
 import org.RealEstateMM.domain.user.EmailAddressConfirmationException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.ExistingUserException;
+import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.jersey.responses.LoginResponse;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
-import org.RealEstateMM.services.user.ForbiddenAccessException;
+import org.RealEstateMM.services.user.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.UserServiceHandler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.RealEstateMM.services.user.validation.InvalidUserInformationsException;
 import org.junit.Before;
 import org.junit.Test;
 

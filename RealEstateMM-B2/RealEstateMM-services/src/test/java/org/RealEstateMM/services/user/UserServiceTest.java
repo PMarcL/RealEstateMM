@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.*;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.Users;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.After;

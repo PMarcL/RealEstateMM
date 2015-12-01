@@ -1,6 +1,7 @@
 package org.RealEstateMM.services.property;
 
-import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
+import org.RealEstateMM.domain.search.PropertyOrderingParameters;
+import org.RealEstateMM.services.search.InvalidSearchParameterException;
 
 public class PropertyOrderingParametersParser {
 

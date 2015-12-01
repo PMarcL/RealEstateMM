@@ -2,9 +2,9 @@ package org.RealEstateMM.jersey.resources;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.RealEstateMM.domain.property.search.PropertyOrderingParameters;
-import org.RealEstateMM.services.property.InvalidSearchParameterException;
+import org.RealEstateMM.domain.search.PropertyOrderingParameters;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.search.InvalidSearchParameterException;
 
 public class PropertySearchParametersFactory {
 	private final String ORDER_BY = "orderBy";

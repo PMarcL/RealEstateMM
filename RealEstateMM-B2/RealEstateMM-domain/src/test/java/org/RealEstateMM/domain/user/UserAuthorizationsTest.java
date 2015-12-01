@@ -1,6 +1,5 @@
 package org.RealEstateMM.domain.user;
 
-import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
@@ -26,26 +25,21 @@ public class UserAuthorizationsTest {
 		authorizations = new UserAuthorizations(userRepository);
 	}
 
-	@Test
-	public void whenCheckingIfUserIsAuthorizedThenShouldCheckIfUserWhithPseudonymIsAuthorizedForEachAccessLevel() {
-		authorizations.isUserAuthorized(PSEUDONYM, REFUSED_ACCESS_LEVEL, REFUSED_ACCESS_LEVEL);
-		verify(user, times(2)).isAuthorized(REFUSED_ACCESS_LEVEL);
+	@Test(expected = ForbiddenAccessException.class)
+	public void givenUserDoesNotHaveAnyAcceptedAccessLevelWhenValidatingUserAccessShouldThrowException()
+			throws Throwable {
+		authorizations.validateUserAuthorizations(PSEUDONYM, REFUSED_ACCESS_LEVEL, REFUSED_ACCESS_LEVEL);
 	}
 
 	@Test
-	public void givenUserHasAuthorizationsForOneAccessLevelWhenCheckingIfUserIsAuthorizedThenShouldReturnTrue() {
-		assertTrue(authorizations.isUserAuthorized(PSEUDONYM, AUTHORIZED_ACCESS_LEVEL));
+	public void givenUserHasAnAcceptedUserAccessWhenValidatingUserAccessShouldDoNothing() throws Throwable {
+		authorizations.validateUserAuthorizations(PSEUDONYM, REFUSED_ACCESS_LEVEL, AUTHORIZED_ACCESS_LEVEL);
 	}
 
-	@Test
-	public void givenUserDoesNotHaveAuthorizationsForAnyAccessLevelWhenChekingIfUserIsAuthorizedThenShouldReturnFalse() {
-		assertFalse(authorizations.isUserAuthorized(PSEUDONYM, REFUSED_ACCESS_LEVEL));
-	}
-
-	@Test
-	public void givenUserDoesNotExistWhenCheckingIfUserIsAuthorizedThenShouldReturnFalse() throws Throwable {
+	@Test(expected = ForbiddenAccessException.class)
+	public void givenUserDoesNotExistWhenCheckingIfUserIsAuthorizedThenShouldThrowException() throws Throwable {
 		given(userRepository.getUserWithPseudonym(PSEUDONYM)).willThrow(new UserNotFoundException(PSEUDONYM));
-		assertFalse(authorizations.isUserAuthorized(PSEUDONYM, AUTHORIZED_ACCESS_LEVEL));
+		authorizations.validateUserAuthorizations(PSEUDONYM, AUTHORIZED_ACCESS_LEVEL);
 	}
 
 }

@@ -4,15 +4,15 @@ import java.io.File;
 
 import org.RealEstateMM.authentication.session.SessionRepository;
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.domain.emailsender.EmailMessageFactory;
 import org.RealEstateMM.domain.emailsender.EmailSender;
 import org.RealEstateMM.domain.emailsender.gmail.GmailSender;
 import org.RealEstateMM.domain.encoder.Base64Encoder;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
-import org.RealEstateMM.domain.property.search.PropertyOrderingFactory;
-import org.RealEstateMM.domain.property.search.PropertySearchFilterFactory;
+import org.RealEstateMM.domain.search.PropertyOrderingFactory;
+import org.RealEstateMM.domain.search.PropertySearchEngine;
+import org.RealEstateMM.domain.search.PropertySearchFilterFactory;
 import org.RealEstateMM.domain.user.Administrator;
 import org.RealEstateMM.domain.user.ExistingUserException;
 import org.RealEstateMM.domain.user.User;
@@ -23,6 +23,7 @@ import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.domain.user.Users;
 import org.RealEstateMM.domain.user.emailconfirmation.ConfirmationCodeFactory;
+import org.RealEstateMM.domain.user.emailconfirmation.EmailMessageFactory;
 import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 import org.RealEstateMM.domain.user.filters.UserFilterFactory;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
@@ -31,14 +32,19 @@ import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
 import org.RealEstateMM.persistence.xml.user.XmlUserRepository;
-import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.PropertyServiceSecurity;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.validation.PropertyServiceAntiCorruption;
+import org.RealEstateMM.services.search.SearchParametersParser;
+import org.RealEstateMM.services.search.SearchService;
+import org.RealEstateMM.services.search.SearchServiceHandler;
+import org.RealEstateMM.services.search.SearchServiceSecurity;
+import org.RealEstateMM.services.search.validation.SearchServiceAntiCorruption;
 import org.RealEstateMM.services.statistics.StatisticService;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.UserServiceHandler;
@@ -62,6 +68,8 @@ public class DemoContext extends Context {
 	private UserServiceHandler userService;
 	private StatisticService statisticService;
 	private SessionService sessionService;
+	private SearchServiceHandler searchService;
+
 	private UserEmailAddressValidator validator;
 
 	private String propertiesFilePath() {
@@ -79,6 +87,7 @@ public class DemoContext extends Context {
 		ServiceLocator.getInstance().registerService(UserServiceHandler.class, userService);
 		ServiceLocator.getInstance().registerService(StatisticService.class, statisticService);
 		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
+		ServiceLocator.getInstance().registerService(SearchServiceHandler.class, searchService);
 	}
 
 	private void initializeServices() {
@@ -88,8 +97,13 @@ public class DemoContext extends Context {
 		UserServiceSecurity userSecurity = new UserServiceSecurity(new UserService(), new UserAuthorizations(
 				userRepository));
 		this.userService = new UserServiceAntiCorruption(userSecurity, new UserInformationsValidator());
+
 		this.statisticService = new StatisticService();
 		this.sessionService = new SessionService();
+
+		SearchServiceSecurity searchSecurity = new SearchServiceSecurity(new SearchService(), new UserAuthorizations(
+				userRepository));
+		this.searchService = new SearchServiceAntiCorruption(searchSecurity, new PropertyInformationsValidator());
 	}
 
 	@Override
@@ -102,6 +116,11 @@ public class DemoContext extends Context {
 		registerUserEmailValidator();
 		registerRepositories();
 		registerAssemblers();
+		ServiceLocator.getInstance().registerService(SearchParametersParser.class, new SearchParametersParser());
+		ServiceLocator.getInstance().registerService(
+				PropertySearchEngine.class,
+				new PropertySearchEngine(propertyRepository, new PropertyOrderingFactory(),
+						new PropertySearchFilterFactory()));
 	}
 
 	private void registerRepositories() {
@@ -120,8 +139,7 @@ public class DemoContext extends Context {
 				new UserRoleFactory()));
 		this.propertyRepository = new XmlPropertyRepository(new XmlMarshaller(xmlProperty), new XmlPropertyAssembler());
 		this.sessionRepository = new InMemorySessionRepository();
-		this.properties = new Properties(propertyRepository, new PropertyOrderingFactory(),
-				new PropertySearchFilterFactory());
+		this.properties = new Properties(propertyRepository);
 		this.users = new Users(userRepository, validator);
 
 	}

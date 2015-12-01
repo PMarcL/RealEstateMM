@@ -3,6 +3,7 @@ package org.RealEstateMM.services.user.validation;
 import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
+import org.RealEstateMM.services.user.InvalidUserInformationsException;
 import org.RealEstateMM.services.user.UserService;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.Before;

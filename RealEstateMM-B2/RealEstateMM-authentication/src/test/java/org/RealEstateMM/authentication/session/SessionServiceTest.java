@@ -5,8 +5,8 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
 
-import org.RealEstateMM.servicelocator.ServiceLocator;
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.After;
 import org.junit.Before;

@@ -1,15 +1,13 @@
 package org.RealEstateMM.domain.user;
 
 import org.RealEstateMM.domain.emailsender.EmailException;
-import org.RealEstateMM.domain.user.emailconfirmation.InvalidEmailConfirmationCodeException;
-import org.RealEstateMM.domain.user.emailconfirmation.UserEmailAddressValidator;
 
 public class Users {
 
 	private UserRepository userRepository;
-	private UserEmailAddressValidator emailValidator;
+	private UserInformationsValidator emailValidator;
 
-	public Users(UserRepository userRepository, UserEmailAddressValidator emailValidator) {
+	public Users(UserRepository userRepository, UserInformationsValidator emailValidator) {
 		this.userRepository = userRepository;
 		this.emailValidator = emailValidator;
 	}
@@ -21,7 +19,7 @@ public class Users {
 
 	private void askEmailAddressConfirmation(UserInformations userInfos) throws EmailAddressConfirmationException {
 		try {
-			emailValidator.sendEmailConfirmationMessage(userInfos);
+			emailValidator.sendValidationRequest(userInfos);
 		} catch (EmailException e) {
 			throw new EmailAddressConfirmationException(e);
 		}
@@ -39,8 +37,8 @@ public class Users {
 
 	public void confirmEmailAddress(String confirmationCode) throws EmailAddressConfirmationException {
 		try {
-			emailValidator.confirmEmailAddress(confirmationCode, userRepository);
-		} catch (InvalidEmailConfirmationCodeException e) {
+			emailValidator.confirmUserInformation(confirmationCode, userRepository);
+		} catch (InvalidConfirmationCodeException e) {
 			throw new EmailAddressConfirmationException(e);
 		}
 	}

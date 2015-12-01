@@ -6,7 +6,7 @@ import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.statistics.Statistics;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.filters.UserFilterFactory;
-import org.RealEstateMM.servicelocator.ServiceLocator;
+import org.RealEstateMM.services.locator.ServiceLocator;
 
 public class StatisticService {
 
