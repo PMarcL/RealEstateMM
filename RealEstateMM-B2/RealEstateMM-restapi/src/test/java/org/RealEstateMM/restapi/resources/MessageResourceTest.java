@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
+import org.RealEstateMM.domain.message.UserIsNotTheRecipient;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.MessageService;
@@ -86,8 +88,8 @@ public class MessageResourceTest {
 	}
 
 	@Test
-	public void givenAUserIsNotASellerWhenContactSellerThenReturnABadRequestStatus() throws UserNotFoundException,
-			UserIsNotASellerException {
+	public void givenAUserIsNotASellerWhenContactSellerThenReturnABadRequestStatus()
+			throws UserNotFoundException, UserIsNotASellerException {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
 
 		doThrow(new UserIsNotASellerException(null)).when(messageService).contactSeller(A_PSEUDONYM, A_MESSAGE_DTO);
@@ -98,8 +100,8 @@ public class MessageResourceTest {
 	}
 
 	@Test
-	public void givenAUserNotFoundWhenContactSellerThenReturnABadRequestStatus() throws UserNotFoundException,
-			UserIsNotASellerException {
+	public void givenAUserNotFoundWhenContactSellerThenReturnABadRequestStatus()
+			throws UserNotFoundException, UserIsNotASellerException {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
 
 		doThrow(new UserNotFoundException(null)).when(messageService).contactSeller(A_PSEUDONYM, A_MESSAGE_DTO);
@@ -126,6 +128,13 @@ public class MessageResourceTest {
 	}
 
 	@Test
+	public void givenAValidTokenWhenGetMessageThenReturnsStatusOk() {
+		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
+		Response actual = messageResource.getUnreadMessages(headers);
+		assertEquals(Status.OK, actual.getStatusInfo());
+	}
+
+	@Test
 	public void givenAValidTokenWhenGetMessagesThenReturnsUsersMessages() {
 		List<MessageDTO> messages = new LinkedList<MessageDTO>();
 		messages.add(A_MESSAGE_DTO);
@@ -136,6 +145,41 @@ public class MessageResourceTest {
 		Response actual = messageResource.getUnreadMessages(headers);
 
 		assertEquals(messages, actual.getEntity());
+	}
+
+	@Test
+	public void givenNoTokenWhenReadMessageThenReturnBadRequestStatus() {
+		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(null);
+		Response actual = messageResource.contactSeller(headers, null);
+		assertEquals(Status.BAD_REQUEST, actual.getStatusInfo());
+	}
+
+	@Test
+	public void givenAnInvalidTokenWhenReadMessageThenReturnUnauthorizedStatus() {
+		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(AN_INVALID_TOKEN);
+		Response actual = messageResource.contactSeller(headers, null);
+
+		assertEquals(Status.UNAUTHORIZED, actual.getStatusInfo());
+	}
+
+	@Test
+	public void givenAValidTokenWhenReadMessageThenReturnsStatusOk() {
+		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
+		String messageId = UUID.randomUUID().toString();
+		Response actual = messageResource.readMessage(headers, messageId);
+		assertEquals(Status.OK, actual.getStatusInfo());
+	}
+
+	@Test
+	public void givenAUserIsNotTheRecipientExceptionWhenReadMessageThenReturnsBadRequestStatus()
+			throws UserIsNotTheRecipient {
+		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
+		String messageId = UUID.randomUUID().toString();
+
+		doThrow(new UserIsNotTheRecipient()).when(messageService).readMessage(messageId, A_PSEUDONYM);
+
+		Response actual = messageResource.readMessage(headers, messageId);
+		assertEquals(Status.BAD_REQUEST, actual.getStatusInfo());
 	}
 
 	private HttpHeaders aHeaderMockWithAuthorizationHeader(String token) {

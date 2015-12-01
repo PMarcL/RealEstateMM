@@ -6,6 +6,7 @@ import java.util.List;
 import org.RealEstateMM.domain.message.Message;
 import org.RealEstateMM.domain.message.Messages;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
+import org.RealEstateMM.domain.message.UserIsNotTheRecipient;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.dtos.MessageAssembler;
@@ -37,6 +38,8 @@ public class MessageService {
 		return messageDTOList;
 	}
 
-	// TODO supprimer alert (message read)
+	public void readMessage(String messageId, String pseudo) throws UserIsNotTheRecipient {
+		messages.readMessage(messageId, pseudo);
+	}
 
 }

@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserNotFoundException;
@@ -21,6 +22,7 @@ public class MessagesTest {
 
 	private static final User A_BUYER = mock(User.class);
 	private static final User A_SELLER = mock(User.class);
+	private static final String A_MESSAGE_ID = UUID.randomUUID().toString();
 
 	private MessageRepository messageRepository;
 	private UserRepository userRepository;
@@ -90,6 +92,29 @@ public class MessagesTest {
 
 		assertTrue(actual.contains(message1));
 		assertEquals(numberOfUnreadMessages, actual.size());
+	}
+
+	@Test(expected = UserIsNotTheRecipient.class)
+	public void givenAnotherPseudoThanRecipientWhenReadMessageThenThrowUserIsNotTheRecipientException()
+			throws UserIsNotTheRecipient {
+		Message aMessage = aMessageMockWithUnreadStatus(true);
+
+		given(aMessage.getRecipientPseudonym()).willReturn(A_SELLER_PSEUDO);
+		given(messageRepository.getMessageById(A_MESSAGE_ID)).willReturn(aMessage);
+
+		messages.readMessage(A_MESSAGE_ID, A_BUYER_PSEUDO);
+	}
+
+	@Test
+	public void givenAnUnreadMessageIdWhenReadMessageThenSetMessageUnreadStatusToFalse() throws UserIsNotTheRecipient {
+		Message aMessage = aMessageMockWithUnreadStatus(true);
+
+		given(aMessage.getRecipientPseudonym()).willReturn(A_SELLER_PSEUDO);
+		given(messageRepository.getMessageById(A_MESSAGE_ID)).willReturn(aMessage);
+
+		messages.readMessage(A_MESSAGE_ID, A_SELLER_PSEUDO);
+
+		verify(aMessage).markAsRead();
 	}
 
 	private Message aMessageMockWithUnreadStatus(boolean isUnread) {

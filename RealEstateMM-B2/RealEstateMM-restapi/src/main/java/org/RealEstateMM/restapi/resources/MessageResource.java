@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
+import org.RealEstateMM.domain.message.UserIsNotTheRecipient;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.MessageService;
@@ -31,8 +34,27 @@ public class MessageResource {
 		this.sessionService = ServiceLocator.getInstance().getService(SessionService.class);
 	}
 
+	@PUT
+	@Path("/{id}")
+	public Response readMessage(@Context HttpHeaders headers, @PathParam("token") String messageId) {
+		String token = headers.getHeaderString("Authorization");
+		if (token == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		try {
+			String pseudo = sessionService.validate(token);
+			messageService.readMessage(messageId, pseudo);
+			return Response.ok().build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		} catch (UserIsNotTheRecipient e) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+	}
+
 	@GET
-	@Path("new")
+	@Path("/unread")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUnreadMessages(@Context HttpHeaders headers) {
 		String token = headers.getHeaderString("Authorization");
@@ -50,7 +72,7 @@ public class MessageResource {
 	}
 
 	@POST
-	@Path("contactseller")
+	@Path("/contactseller")
 	public Response contactSeller(@Context HttpHeaders headers, MessageDTO message) {
 		String token = headers.getHeaderString("Authorization");
 		if (token == null) {

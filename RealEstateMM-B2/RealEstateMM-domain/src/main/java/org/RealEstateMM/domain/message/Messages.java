@@ -24,6 +24,7 @@ public class Messages {
 			throws UserNotFoundException, UserIsNotASellerException {
 		User buyer = userRepository.getUserWithPseudonym(buyerPseudonym);
 		User seller = userRepository.getUserWithPseudonym(sellerPseudonym);
+
 		if (seller.getRoleDescription() != UserRole.AccessLevel.SELLER) {
 			throw new UserIsNotASellerException(sellerPseudonym);
 		}
@@ -35,6 +36,16 @@ public class Messages {
 	public List<Message> getUnreadMessages(String pseudonym) {
 		List<Message> userMessages = messageRepository.getMessagesByRecipient(pseudonym);
 		return userMessages.stream().filter(u -> u.isUnread()).collect(Collectors.toList());
+	}
+
+	public void readMessage(String messageId, String pseudo) throws UserIsNotTheRecipient {
+		Message message = messageRepository.getMessageById(messageId);
+
+		if (!pseudo.equals(message.getRecipientPseudonym())) {
+			throw new UserIsNotTheRecipient();
+		}
+
+		message.markAsRead();
 	}
 
 }
