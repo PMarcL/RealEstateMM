@@ -112,7 +112,7 @@ public class MessageResourceTest {
 	@Test
 	public void givenAnInvalidTokenWhenGetMessagesThenReturnsUnauthorizedStatus() {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(AN_INVALID_TOKEN);
-		Response actual = messageResource.getNewMessages(headers);
+		Response actual = messageResource.getUnreadMessages(headers);
 
 		assertEquals(Status.UNAUTHORIZED, actual.getStatusInfo());
 
@@ -121,7 +121,7 @@ public class MessageResourceTest {
 	@Test
 	public void givenNoTokenWhenGetMessagesThenReturnsBadRequestStatus() {
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(null);
-		Response actual = messageResource.getNewMessages(headers);
+		Response actual = messageResource.getUnreadMessages(headers);
 		assertEquals(Status.BAD_REQUEST, actual.getStatusInfo());
 	}
 
@@ -130,10 +130,10 @@ public class MessageResourceTest {
 		List<MessageDTO> messages = new LinkedList<MessageDTO>();
 		messages.add(A_MESSAGE_DTO);
 		messages.add(A_MESSAGE_DTO);
-		given(messageService.getNewMessages(A_PSEUDONYM)).willReturn(messages);
+		given(messageService.getUnreadMessages(A_PSEUDONYM)).willReturn(messages);
 
 		HttpHeaders headers = aHeaderMockWithAuthorizationHeader(A_VALID_TOKEN);
-		Response actual = messageResource.getNewMessages(headers);
+		Response actual = messageResource.getUnreadMessages(headers);
 
 		assertEquals(messages, actual.getEntity());
 	}

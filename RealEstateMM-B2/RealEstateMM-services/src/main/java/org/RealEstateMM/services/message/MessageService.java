@@ -21,13 +21,13 @@ public class MessageService {
 		messages = ServiceLocator.getInstance().getService(Messages.class);
 	}
 
-	public void contactSeller(String buyerPseudonym, MessageDTO message) throws UserNotFoundException,
-			UserIsNotASellerException {
+	public void contactSeller(String buyerPseudonym, MessageDTO message)
+			throws UserNotFoundException, UserIsNotASellerException {
 		messages.contactSeller(buyerPseudonym, message.getRecipientPseudonym(), message.getMessage());
 	}
 
-	public List<MessageDTO> getNewMessages(String pseudonym) {
-		List<Message> messageList = messages.getMessages();
+	public List<MessageDTO> getUnreadMessages(String pseudonym) {
+		List<Message> messageList = messages.getUnreadMessages(pseudonym);
 
 		List<MessageDTO> messageDTOList = new LinkedList<MessageDTO>();
 		for (Message m : messageList) {

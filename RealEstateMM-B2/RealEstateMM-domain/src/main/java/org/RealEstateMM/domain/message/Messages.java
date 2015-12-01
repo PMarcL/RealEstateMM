@@ -1,6 +1,7 @@
 package org.RealEstateMM.domain.message;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserNotFoundException;
@@ -31,9 +32,9 @@ public class Messages {
 		messageRepository.add(message);
 	}
 
-	public List<Message> getMessages() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Message> getUnreadMessages(String pseudonym) {
+		List<Message> userMessages = messageRepository.getMessagesByRecipient(pseudonym);
+		return userMessages.stream().filter(u -> u.isUnread()).collect(Collectors.toList());
 	}
 
 }

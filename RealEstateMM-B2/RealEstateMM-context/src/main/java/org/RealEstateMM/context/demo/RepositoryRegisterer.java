@@ -1,6 +1,7 @@
 package org.RealEstateMM.context.demo;
 
 import java.io.File;
+import java.util.List;
 
 import org.RealEstateMM.authentication.session.SessionRepository;
 import org.RealEstateMM.domain.message.Message;
@@ -30,10 +31,17 @@ public class RepositoryRegisterer {
 		initializeUserRepository();
 		initializePropertyRepository();
 		this.sessionRepository = new InMemorySessionRepository();
-		this.messageRepository = new MessageRepository() {
+		this.messageRepository = new MessageRepository() { // TODO to replace
+															// when the
+															// implementation is
+															// done
 			@Override
 			public void add(Message message) {
-				// TODO to replace when the implementation is done
+			}
+
+			@Override
+			public List<Message> getMessagesByRecipient(String aSellerPseudo) {
+				return null;
 			}
 		};
 
@@ -46,8 +54,8 @@ public class RepositoryRegisterer {
 
 	private void initializeUserRepository() {
 		File xmlUsers = new File(XML_FILES_LOCATION + USER_REPOSITORY_FILE);
-		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers), new XmlUserAssembler(
-				new UserRoleFactory()));
+		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
+				new XmlUserAssembler(new UserRoleFactory()));
 	}
 
 	public void register() {
