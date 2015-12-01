@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.property;
+package org.RealEstateMM.services.property.dtos;
 
 import org.RealEstateMM.domain.search.PropertyOrderingParameters;
 import org.RealEstateMM.services.search.InvalidSearchParameterException;

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.search.PropertyOrderingParameters;
 import org.RealEstateMM.domain.search.PropertySearchParameters;
-import org.RealEstateMM.services.property.PropertyOrderingParametersParser;
 import org.RealEstateMM.services.search.InvalidSearchParameterException;
 
 public class PropertySearchParametersDTOAssembler {

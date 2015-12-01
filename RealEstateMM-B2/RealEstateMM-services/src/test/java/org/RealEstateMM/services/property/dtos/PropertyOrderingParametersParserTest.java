@@ -1,8 +1,9 @@
-package org.RealEstateMM.services.property;
+package org.RealEstateMM.services.property.dtos;
 
 import static org.junit.Assert.*;
 
 import org.RealEstateMM.domain.search.PropertyOrderingParameters;
+import org.RealEstateMM.services.property.dtos.PropertyOrderingParametersParser;
 import org.RealEstateMM.services.search.InvalidSearchParameterException;
 import org.junit.Before;
 import org.junit.Test;
