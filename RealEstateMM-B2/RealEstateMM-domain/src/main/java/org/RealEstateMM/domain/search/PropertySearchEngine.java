@@ -14,10 +14,10 @@ public class PropertySearchEngine {
 	private PropertyOrderingFactory orderingFactory;
 	private PropertySearchFilterFactory filterFactory;
 
-	public PropertySearchEngine(PropertyRepository respository, PropertyOrderingFactory factory,
+	public PropertySearchEngine(PropertyRepository respository, PropertyOrderingFactory orderingFactory,
 			PropertySearchFilterFactory filterFactory) {
 		this.repository = respository;
-		this.orderingFactory = factory;
+		this.orderingFactory = orderingFactory;
 		this.filterFactory = filterFactory;
 	}
 

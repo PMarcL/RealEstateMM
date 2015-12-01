@@ -5,16 +5,18 @@ import static org.mockito.BDDMockito.*;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
+import org.RealEstateMM.services.property.dtos.PropertyAssembler;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyServiceTest {
 	private final String OWNER = "owner90";
 
-	private PropertyDTOAssembler assembler;
+	private PropertyAssembler assembler;
 	private PropertyDTO propertyDTO;
 	private Property property;
 	private PropertyFeatures features;
@@ -24,7 +26,7 @@ public class PropertyServiceTest {
 
 	@Before
 	public void setup() throws Throwable {
-		assembler = mock(PropertyDTOAssembler.class);
+		assembler = mock(PropertyAssembler.class);
 		properties = mock(Properties.class);
 		propertyService = new PropertyService(assembler, properties);
 
@@ -32,6 +34,11 @@ public class PropertyServiceTest {
 		property = mock(Property.class);
 		features = mock(PropertyFeatures.class);
 		configureAssembler();
+	}
+
+	@After
+	public void tearDown() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test

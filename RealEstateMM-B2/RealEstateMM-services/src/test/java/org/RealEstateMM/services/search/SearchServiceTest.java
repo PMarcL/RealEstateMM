@@ -10,11 +10,13 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.search.PropertySearchEngine;
 import org.RealEstateMM.domain.search.PropertySearchParameters;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertyDTOAssembler;
+import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +25,7 @@ public class SearchServiceTest {
 	private final String OWNER = "owner90";
 
 	private PropertySearchEngine searchEngine;
-	private PropertyDTOAssembler assembler;
+	private PropertyAssembler assembler;
 	private Property property;
 	private PropertyDTO propertyDTO;
 	private PropertyAddress address;
@@ -37,7 +39,7 @@ public class SearchServiceTest {
 	@Before
 	public void setup() throws Throwable {
 		searchEngine = mock(PropertySearchEngine.class);
-		assembler = mock(PropertyDTOAssembler.class);
+		assembler = mock(PropertyAssembler.class);
 		addressDTO = mock(PropertyAddressDTO.class);
 		address = mock(PropertyAddress.class);
 		property = mock(Property.class);
@@ -49,7 +51,13 @@ public class SearchServiceTest {
 		given(assembler.toDTO(property)).willReturn(propertyDTO);
 		given(assembler.getAddressFromDTO(addressDTO)).willReturn(address);
 
-		searchService = new SearchService(searchEngine, assembler, searchParamAssembler);
+		ServiceLocator.getInstance().registerService(PropertySearchEngine.class, searchEngine);
+		searchService = new SearchService(assembler, searchParamAssembler);
+	}
+
+	@After
+	public void tearDown() {
+		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test
