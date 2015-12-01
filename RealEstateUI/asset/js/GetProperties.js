@@ -17,7 +17,7 @@ $(document).ready(function(){
 
 function getProperties(param) {
     $.ajax({
-        url: "http://localhost:8080/property/" + new TokenCookie().cookie() + "/search?" + param,
+        url: "http://localhost:8080/property/" + new TokenCookie().cookie() + "/search" + param,
         type: "GET",
         contentType: "application/json",
 

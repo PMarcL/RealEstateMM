@@ -22,15 +22,40 @@ public class PropertySearchFilterFactoryTest {
 	}
 
 	@Test
-	public void givenSearchParametersWithTypesAndBedroomsNumWhenGetSearchFilterReturnsCompositeWithAllSearchFilters() {
+	public void givenSearchParametersWhenGetSearchFilterReturnsComposite() {
+		PropertySearchFilterStrategy result = factory.getSearchFilterStrategy(searchParam);
+		assertTrue(result instanceof PropertySearchFilterComposite);
+	}
+
+	@Test
+	public void givenSearchParametersWithPropertyTypeWhenGetSearchFilterReturnsCompositeWithPropertyTypeFilter() {
+		given(searchParam.hasPropertyTypesToFilter()).willReturn(true);
+
+		PropertySearchFilterComposite result = (PropertySearchFilterComposite) factory
+				.getSearchFilterStrategy(searchParam);
+
+		assertTrue(result.get(0) instanceof PropertyFilterByTypes);
+	}
+
+	@Test
+	public void givenSearchParametersWithBedroomNumWhenGetSearchFilterReturnsCompositeWithPropertyBedroomFilter() {
+		given(searchParam.hasMinNumOfBedrooms()).willReturn(true);
+
+		PropertySearchFilterComposite result = (PropertySearchFilterComposite) factory
+				.getSearchFilterStrategy(searchParam);
+
+		assertTrue(result.get(0) instanceof PropertyFilterByBedroomsNumber);
+	}
+
+	@Test
+	public void givenSearchParametersWithPropertyTypeAndBedroomWhenGetSearchFilterReturnsCompositeWithAllFilters() {
 		given(searchParam.hasPropertyTypesToFilter()).willReturn(true);
 		given(searchParam.hasMinNumOfBedrooms()).willReturn(true);
 
-		PropertySearchFilterStrategy result = factory.getSearchFilterStrategy(searchParam);
+		PropertySearchFilterComposite result = (PropertySearchFilterComposite) factory
+				.getSearchFilterStrategy(searchParam);
 
-		assertTrue(result instanceof PropertySearchFilterComposite);
-		// TODO add get filters methods
+		assertTrue(result.get(0) instanceof PropertyFilterByTypes);
+		assertTrue(result.get(1) instanceof PropertyFilterByBedroomsNumber);
 	}
-
-	// TODO add more tests for this class
 }
