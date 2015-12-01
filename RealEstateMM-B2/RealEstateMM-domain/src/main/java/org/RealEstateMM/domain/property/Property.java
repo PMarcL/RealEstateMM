@@ -96,4 +96,8 @@ public class Property {
 			return false;
 		}
 	}
+
+	public boolean hasAtLeastNBedrooms(int numberOfBedrooms) {
+		return features.numberOfBedrooms >= numberOfBedrooms;
+	}
 }
