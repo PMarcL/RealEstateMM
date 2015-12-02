@@ -12,17 +12,31 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
+import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 
 @Path("/search")
 public class SearchResource {
+
+	private SessionService sessionService;
+
+	public SearchResource() {
+		sessionService = ServiceLocator.getInstance().getService(SessionService.class);
+	}
 
 	@GET
 	@Path("{token}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSearch(@PathParam("token") String token) {
 		// TODO retourne une liste de PropertySearchParametersDTO
-		return Response.ok(Status.OK).build();
+		try {
+			sessionService.validate(token);
+			return Response.ok(Status.OK).build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		}
 	}
 
 	@POST
@@ -30,7 +44,12 @@ public class SearchResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveSearch(@PathParam("token") String token, PropertySearchParametersDTO searchParams) {
 		// TODO utilise le service pour persiter un PropertySearchParameters
-		return Response.ok(Status.OK).build();
+		try {
+			sessionService.validate(token);
+			return Response.ok(Status.OK).build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		}
 	}
 
 	@PUT
@@ -39,7 +58,12 @@ public class SearchResource {
 	public Response editSearch(@PathParam("token") String token, PropertySearchParametersDTO searchParams) {
 		// TODO utilise le service pour mettre à jour un
 		// PropertySearchParameters existant
-		return Response.ok(Status.OK).build();
+		try {
+			sessionService.validate(token);
+			return Response.ok(Status.OK).build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		}
 	}
 
 	@DELETE
@@ -48,6 +72,11 @@ public class SearchResource {
 	public Response deleteSearch(@PathParam("token") String token, PropertySearchParametersDTO searchParams) {
 		// TODO utilise le servicce pour supprimer un PropertySearchParameters
 		// existant
-		return Response.ok(Status.OK).build();
+		try {
+			sessionService.validate(token);
+			return Response.ok(Status.OK).build();
+		} catch (InvalidSessionTokenException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+		}
 	}
 }
