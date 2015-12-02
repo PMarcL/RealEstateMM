@@ -25,6 +25,12 @@ public class PropertySearchFilterFactory {
 			filterComposite.add(bedroomsNumFilter);
 		}
 
+		if (searchParam.hasMinNumOfBathrooms()) {
+			PropertySearchFilterStrategy bathroomsNumFilter = new PropertyFilterByBathroomsNumber(
+					searchParam.getMinNumberOfBathrooms());
+			filterComposite.add(bathroomsNumFilter);
+		}
+
 		return filterComposite;
 	}
 

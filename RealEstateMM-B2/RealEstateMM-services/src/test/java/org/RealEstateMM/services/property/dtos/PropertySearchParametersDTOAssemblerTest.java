@@ -16,6 +16,7 @@ public class PropertySearchParametersDTOAssemblerTest {
 	private final String ORDER_BY = "recently_uploaded_last";
 	private final PropertyOrderingParameters ORDER_BY_PARAM = PropertyOrderingParameters.RECENTLY_UPLOADED_LAST;
 	private final int MIN_NUM_OF_BEDROOMS = 2;
+	private final int MIN_NUM_OF_BATHROOMS = 3;
 
 	private List<String> propertyTypes;
 	private PropertyOrderingParametersParser orderingParamParser;
@@ -41,7 +42,9 @@ public class PropertySearchParametersDTOAssemblerTest {
 	@Test
 	public void givenASearchParametersDTOWhenFromDTOThenReturnsSearchParams() throws Exception {
 		PropertySearchParameters result = assembler.fromDTO(searchParamDTO);
+
 		assertEquals(MIN_NUM_OF_BEDROOMS, result.getMinNumberOfBedrooms());
+		assertEquals(MIN_NUM_OF_BATHROOMS, result.getMinNumberOfBathrooms());
 		assertEquals(ORDER_BY_PARAM, result.getOrderingParam());
 		assertEquals(PropertyType.HOUSE, result.getPropertyTypesToFilter().get(0));
 	}
@@ -51,6 +54,7 @@ public class PropertySearchParametersDTOAssemblerTest {
 		propertyTypes.add(PropertyType.getStringFromType(PropertyType.HOUSE));
 		given(searchParamDTO.getOrderBy()).willReturn(ORDER_BY);
 		given(searchParamDTO.getMinNumBedrooms()).willReturn(MIN_NUM_OF_BEDROOMS);
+		given(searchParamDTO.getMinNumBathrooms()).willReturn(MIN_NUM_OF_BATHROOMS);
 		given(searchParamDTO.getPropertyTypes()).willReturn(propertyTypes);
 	}
 }

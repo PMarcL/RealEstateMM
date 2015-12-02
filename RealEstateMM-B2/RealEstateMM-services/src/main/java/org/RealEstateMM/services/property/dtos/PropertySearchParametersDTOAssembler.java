@@ -19,9 +19,10 @@ public class PropertySearchParametersDTOAssembler {
 			throws InvalidSearchParameterException {
 		PropertyOrderingParameters oderBy = orderingParamParser.getParsedSearchParameter(searchParamDTO.getOrderBy());
 		int minNumBedrooms = searchParamDTO.getMinNumBedrooms();
+		int minNumBathrooms = searchParamDTO.getMinNumBathrooms();
 		ArrayList<PropertyType> propertyTypesToFilter = buildPropertyTypesToFilterList(searchParamDTO);
 
-		return new PropertySearchParameters(oderBy, propertyTypesToFilter, minNumBedrooms);
+		return new PropertySearchParameters(oderBy, propertyTypesToFilter, minNumBedrooms, minNumBathrooms);
 	}
 
 	private ArrayList<PropertyType> buildPropertyTypesToFilterList(PropertySearchParametersDTO searchParamDTO) {

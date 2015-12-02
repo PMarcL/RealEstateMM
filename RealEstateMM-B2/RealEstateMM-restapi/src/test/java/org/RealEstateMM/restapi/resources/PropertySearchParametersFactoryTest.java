@@ -19,10 +19,13 @@ public class PropertySearchParametersFactoryTest {
 	private final String ORDER_BY = "orderBy";
 	private final String PROPERTY_TYPES = "propertyTypes";
 	private final String MIN_NUM_BEDROOMS = "minNumBedrooms";
+	private final String MIN_NUM_BATHROOMS = "minNumBathrooms";
 	private final String ORDER_BY_VAL = "recently_uploaded_first";
 	private final List<String> PROPERTY_TYPES_VAL = new ArrayList<String>();
 	private final String MIN_NUM_BEDROOMS_VAL = "2";
-	private final String INVALID_MIN_NUM_BEDROOMS_VAL = "hello";
+	private final String MIN_NUM_BATHROOMS_VAL = "3";
+	private final int DEFAULT_MIN_NUMBER = 0;
+	private final String INVALID_NUMBER = "hello";
 
 	private UriInfo searchParam;
 	private MultivaluedMap<String, String> queryParams;
@@ -42,10 +45,11 @@ public class PropertySearchParametersFactoryTest {
 	public void givenAUriInfoWhenGetSearchParametersThenGetInfoFromUriInfo() throws Exception {
 		factory.getSearchParametersDTO(searchParam);
 
-		verify(searchParam, times(3)).getQueryParameters();
+		verify(searchParam, times(4)).getQueryParameters();
 		verify(queryParams).getFirst(ORDER_BY);
 		verify(queryParams).get(PROPERTY_TYPES);
 		verify(queryParams).getFirst(MIN_NUM_BEDROOMS);
+		verify(queryParams).getFirst(MIN_NUM_BATHROOMS);
 	}
 
 	@Test
@@ -55,13 +59,35 @@ public class PropertySearchParametersFactoryTest {
 		assertEquals(ORDER_BY_VAL, result.getOrderBy());
 		assertEquals(PROPERTY_TYPES_VAL, result.getPropertyTypes());
 		assertEquals(Integer.parseInt(MIN_NUM_BEDROOMS_VAL), result.getMinNumBedrooms());
+		assertEquals(Integer.parseInt(MIN_NUM_BATHROOMS_VAL), result.getMinNumBathrooms());
 	}
 
 	@Test(expected = InvalidSearchParameterException.class)
-	public void givenUriInfoWithInvalidNumberWhenGetSearchParametersThenThrowsInvalidParameterException()
+	public void givenUriInfoWithInvalidNumberOfBedroomsWhenGetSearchParametersThenThrowsInvalidParameterException()
 			throws Exception {
-		given(queryParams.getFirst(MIN_NUM_BEDROOMS)).willReturn(INVALID_MIN_NUM_BEDROOMS_VAL);
+		given(queryParams.getFirst(MIN_NUM_BEDROOMS)).willReturn(INVALID_NUMBER);
 		factory.getSearchParametersDTO(searchParam);
+	}
+
+	@Test(expected = InvalidSearchParameterException.class)
+	public void givenUriInfoWithInvalidNumberOfBathroomsWhenGetSearchParametersThenThrowsInvalidParameterException()
+			throws Exception {
+		given(queryParams.getFirst(MIN_NUM_BATHROOMS)).willReturn(INVALID_NUMBER);
+		factory.getSearchParametersDTO(searchParam);
+	}
+
+	@Test
+	public void givenUrinInfoWithNoNumOfBedroomsWhenGetSearchParametersThenMinNumOfBedroomsIsZero() throws Exception {
+		given(queryParams.getFirst(MIN_NUM_BEDROOMS)).willReturn(null);
+		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
+		assertEquals(DEFAULT_MIN_NUMBER, result.getMinNumBedrooms());
+	}
+
+	@Test
+	public void givenUrinInfoWithNoNumOfBathroomsWhenGetSearchParametersThenMinNumOfBathroomsIsZero() throws Exception {
+		given(queryParams.getFirst(MIN_NUM_BATHROOMS)).willReturn(null);
+		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
+		assertEquals(DEFAULT_MIN_NUMBER, result.getMinNumBathrooms());
 	}
 
 	@Test
@@ -72,10 +98,19 @@ public class PropertySearchParametersFactoryTest {
 		assertEquals(PropertyOrderingParameters.NO_ORDERING.toString(), result.getOrderBy());
 	}
 
+	@Test
+	public void givenUriInfoWithNoPropertyTypeWhenGetSearchParametersThenReturnEmptyPropertyTypesToFilterList()
+			throws Exception {
+		given(queryParams.get(PROPERTY_TYPES)).willReturn(null);
+		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
+		assertNotNull(result.getPropertyTypes());
+	}
+
 	private void configureUriInfoMock() {
 		given(searchParam.getQueryParameters()).willReturn(queryParams);
 		given(queryParams.getFirst(ORDER_BY)).willReturn(ORDER_BY_VAL);
 		given(queryParams.get(PROPERTY_TYPES)).willReturn(PROPERTY_TYPES_VAL);
 		given(queryParams.getFirst(MIN_NUM_BEDROOMS)).willReturn(MIN_NUM_BEDROOMS_VAL);
+		given(queryParams.getFirst(MIN_NUM_BATHROOMS)).willReturn(MIN_NUM_BATHROOMS_VAL);
 	}
 }
