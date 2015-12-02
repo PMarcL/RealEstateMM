@@ -1,11 +1,18 @@
 $(document).ready(function(){
     getProperties('');
 
+
     $('#orderBy').change(function(){
         var queryParam = '?orderBy=' + $(orderBy).val();
         $('#propertylist').empty();
         getProperties(queryParam);
     });
+
+    //$('#').change(function(){
+    //    queryParamSearch = queryParamSearch + 'from=' + $(valueBathroom-Min).val() + '&to=' +  $(valueBathroom-Max).val()+ '?orderBy=' + $(valueBathroom).val();
+    //    $('#propertylist').empty();
+    //    getProperties(queryParamSearch);
+    //});
 });
 
 function getProperties(param) {
@@ -18,7 +25,7 @@ function getProperties(param) {
             var propertiesJSON = JSON.parse(httpResponse.responseText);
             createHtmlPropertyList(propertiesJSON);
         },
-        error: function (data, textStatus, xhr) {
+        error: function (data) {
             console.log(data.responseText);
         }
     });
@@ -56,3 +63,32 @@ $('#propertylist').on('click', '.editProperty', function(){
     $.cookie("currentPropertyAddress", JSON.stringify(propertyAddress));
     window.location.href = 'propertyDetails.html';
 });
+
+
+function GetPropertiesWithForm(){
+    var valuesPropertyListSearch = $('#listPropertyTypesSearch').val();
+
+    var queryParamSearchForm = '';
+    $.each(valuesPropertyListSearch, function () {
+        queryParamSearchForm += '&propertyTypes=' + this.toString();
+    });
+    queryParamSearchForm += '&minNumBedrooms=' + valueInputBedroomMin.value + '&maxNumBedrooms=' + valueInputBedroomMax.value;
+    queryParamSearchForm += '&minNumBathrooms=' + valueInputBathroomMin.value + '&maxNumBathrooms=' + valueInputBathroomMax.value;
+    queryParamSearchForm += '&orderBy=' + $(orderBy).val();
+    getProperties(queryParamSearchForm);
+}
+/*
+ $(function () {
+ $( "#slider-range" ).slider({
+ range: true,
+ min: 0,
+ max: 5000000,
+ values: [ 12000, 250000 ],
+ slide: function( event, ui ) {
+ $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+ }
+ });
+ $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+ " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+ });*/
+

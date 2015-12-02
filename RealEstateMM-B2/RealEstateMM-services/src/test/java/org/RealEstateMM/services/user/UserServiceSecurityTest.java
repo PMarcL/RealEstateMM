@@ -8,6 +8,7 @@ import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 public class UserServiceSecurityTest {
 	private final String PSEUDONYM = "bobby134";
@@ -22,7 +23,6 @@ public class UserServiceSecurityTest {
 		serviceHandler = mock(UserServiceHandler.class);
 		dto = mock(UserDTO.class);
 		authorizations = mock(UserAuthorizations.class);
-		given(authorizations.isUserAuthorized(anyString(), anyVararg())).willReturn(true);
 
 		userService = new UserServiceSecurity(serviceHandler, authorizations);
 	}
@@ -48,22 +48,13 @@ public class UserServiceSecurityTest {
 	}
 
 	@Test
-	public void givenPseudonymAndUserDtoWhenUpdateUserProfileShouldCheckIfUserIsAllowedWithBuyerAndSellerAccessLevel()
+	public void givenPseudonymAndUserDtoWhenUpdateUserProfileShouldVerifyUserAccessBeforeUpdatingProfile()
 			throws Throwable {
 		userService.updateUserProfile(PSEUDONYM, dto);
-		verify(authorizations).isUserAuthorized(PSEUDONYM, AccessLevel.BUYER, AccessLevel.SELLER);
-	}
 
-	@Test
-	public void givenUserIsAuthorizedWhenUpdateUserProfileShouldAskServiceToUpdateProfile() throws Throwable {
-		userService.updateUserProfile(PSEUDONYM, dto);
-		verify(serviceHandler).updateUserProfile(PSEUDONYM, dto);
-	}
-
-	@Test(expected = ForbiddenAccessException.class)
-	public void givenUserIsNotAuthorizedWhenUpdateUserProfileShouldThrowException() throws Throwable {
-		given(authorizations.isUserAuthorized(anyString(), anyVararg())).willReturn(false);
-		userService.updateUserProfile(PSEUDONYM, dto);
+		InOrder inOrder = inOrder(authorizations, serviceHandler);
+		inOrder.verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER, AccessLevel.SELLER);
+		inOrder.verify(serviceHandler).updateUserProfile(PSEUDONYM, dto);
 	}
 
 	@Test

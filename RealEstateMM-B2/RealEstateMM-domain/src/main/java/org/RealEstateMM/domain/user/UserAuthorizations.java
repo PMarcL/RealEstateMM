@@ -10,24 +10,25 @@ public class UserAuthorizations {
 		this.userRepository = userRepository;
 	}
 
-	public boolean isUserAuthorized(String pseudonym, AccessLevel... accessLevels) {
+	public void validateUserAuthorizations(String pseudonym, AccessLevel... accessLevels)
+			throws ForbiddenAccessException {
 		try {
 			User user = userRepository.getUserWithPseudonym(pseudonym);
-			return verifyUserAccessLevel(user, accessLevels);
+			verifyUserAccessLevel(user, accessLevels);
 		} catch (UserNotFoundException e) {
-			return false;
+			throw new ForbiddenAccessException();
 		}
 
 	}
 
-	private boolean verifyUserAccessLevel(User user, AccessLevel... accessLevels) {
+	private void verifyUserAccessLevel(User user, AccessLevel... accessLevels) throws ForbiddenAccessException {
 		for (AccessLevel level : accessLevels) {
 			if (user.isAuthorized(level)) {
-				return true;
+				return;
 			}
 		}
 
-		return false;
+		throw new ForbiddenAccessException();
 	}
 
 }

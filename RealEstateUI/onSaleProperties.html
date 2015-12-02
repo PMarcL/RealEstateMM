@@ -6,12 +6,19 @@
 
     <link rel="stylesheet" href="asset/css/browseProperties.css"/>
     <link rel="stylesheet" href="materialize/css/materialize.min.css">
+    <link rel="stylesheet" href="materialize/css/nouislider.css">
+
+
+
+
 </head>
 <body>
 
 <header></header>
 
-<div class="row section">
+
+<div class="row section ">
+
     <h4 style="margin:0;">Search options</h4>
     <div class="input-field select col s3">
         <select style="display:block" id="orderBy">
@@ -23,7 +30,94 @@
         </select>
     </div>
 </div>
-<div class="divider"></div>
+
+<button id="toggleAdvancedSearchForm"><h3 style="margin:0;">Advanced options</h3></button>
+<div class="formAdvancedSearch" id="advancedSearchForm" style="display: none">
+
+    <form id="advancedForm">
+
+
+
+        <div class="input-field">
+            Room number:
+            <div id="rangeRoom-input">
+            </div>
+            <div>
+                Min: <input id="valueRoom-Min">
+            </div>
+            <div>
+                Max: <input id="valueRoom-Max">
+            </div>
+
+        </div>
+        <div class="input-field">
+            Bathroom number:
+            <div id="rangeBathroom-input">
+            </div>
+            <div>
+                Min: <input id="valueBathroom-Min">
+            </div>
+            <div>
+                Max: <input id="valueBathroom-Max">
+            </div>
+
+        </div>
+
+        <div class="input-field">
+            Bedroom number:
+            <div id="rangeBedroom-input">
+            </div>
+            <div>
+                Min: <input id="valueBedroom-Min">
+            </div>
+            <div>
+                Max: <input id="valueBedroom-Max">
+            </div>
+
+        </div>
+
+
+        <div class="input-field">
+            Price:
+
+            <div id="range-input" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+            </div>
+            <div>
+                Min: <input id="valuePrice-Min">
+            </div>
+            <div>
+                Max: <input id="valuePrice-Max">
+            </div>
+
+        </div>
+
+        <div class="input-field select">
+            <select id="listPropertyTypesSearch" style="display:table-row" multiple="multiple">
+                <option value="" disabled selected>Choose property type</option>
+                <option value="farm">Farm</option>
+                <option value="condo">Condo</option>
+                <option value="Multiplex">Multiplex</option>
+                <option value="House">House</option>
+                <option value="Commercial">Commercial</option>
+            </select>
+        </div>
+
+        <div id="Orientation" class="input-field select">
+            <select style="display:list-item" multiple="multiple">
+                <option value="" disabled selected>Choose orientation</option>
+                <option value="North">North</option>
+                <option value="South">South</option>
+                <option value="East">East</option>
+                <option value="West">West</option>
+            </select>
+        </div>
+
+        <div class="Search"><a class="waves-effect waves-light btn" onclick="GetPropertiesWithForm()">Search</a></div>
+
+    </form>
+
+</div>
+
 
 <ul id="propertylist" style="margin:0;">
 
@@ -33,7 +127,38 @@
 <script src="asset/js/LoadMainMenu.js"></script>
 <script src="jquery-cookie/jquerycookie.js"></script>
 <script src="materialize/js/materialize.min.js"></script>
+<script src="materialize/js/nouislider.js"></script>
 <script src="asset/js/TokenCookie.js"></script>
+<script src="asset/js/onSaleProp.js"></script>
 <script src="asset/js/GetProperties.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#toggleAdvancedSearchForm").click(function(){
+            $("#advancedSearchForm").toggle();
+        });
+    });
+
+    var sliderPrice = doubleSlider('range-input', 500000, 200);
+    var valueInputPriceMin = document.getElementById('valuePrice-Min'),
+            valueInputPriceMax = document.getElementById('valuePrice-Max');
+    updateSlider(sliderPrice, valueInputPriceMin, valueInputPriceMax);
+
+    var sliderBathroom = doubleSlider('rangeBathroom-input', 10, 1);
+    var valueInputBathroomMin = document.getElementById('valueBathroom-Min'),
+            valueInputBathroomMax = document.getElementById('valueBathroom-Max');
+    updateSlider(sliderBathroom, valueInputBathroomMin, valueInputBathroomMax);
+
+    var sliderBedroom = doubleSlider('rangeBedroom-input', 20, 1);
+    var valueInputBedroomMin = document.getElementById('valueBedroom-Min'),
+            valueInputBedroomMax = document.getElementById('valueBedroom-Max');
+    updateSlider(sliderBedroom, valueInputBedroomMin, valueInputBedroomMax);
+
+    var sliderRoom = doubleSlider('rangeRoom-input', 30, 1);
+    var valueInputRoomMin = document.getElementById('valueRoom-Min'),
+            valueInputRoomMax = document.getElementById('valueRoom-Max');
+    updateSlider(sliderRoom, valueInputRoomMin, valueInputRoomMax);
+
+
+</script>
 </body>
 </html>

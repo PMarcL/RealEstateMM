@@ -2,6 +2,7 @@ package org.RealEstateMM.services.property.validation;
 
 import static org.mockito.BDDMockito.*;
 
+import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -14,8 +15,6 @@ public class PropertyServiceAntiCorruptionTest {
 	private final String TYPE = "house";
 	private final String STATUS = "on sale";
 	private final String OWNER = "owner90";
-	private final String PSEUDO = "pseudo32";
-	private final String ORDER_BY = "recently_uploaded_last";
 	private final int NUMBER_OF_BEDROOMS = 2;
 	private final int NUMBER_OF_BATHROOMS = 2;
 	private final int VALID_TOTAL_NUMBER_OF_ROOMS = 4;
@@ -106,24 +105,6 @@ public class PropertyServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenCallsPropertyService() throws Throwable {
-		propertyAntiCorruption.getAllProperties(PSEUDO);
-		verify(service).getAllProperties(PSEUDO);
-	}
-
-	@Test
-	public void whenGetOrderedPropertiesThenCallsPropertyService() throws Throwable {
-		propertyAntiCorruption.getOrderedProperties(PSEUDO, ORDER_BY);
-		verify(service).getOrderedProperties(PSEUDO, ORDER_BY);
-	}
-
-	@Test
-	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenCallsService() throws Throwable {
-		propertyAntiCorruption.getPropertiesFromOwner(OWNER);
-		verify(service).getPropertiesFromOwner(OWNER);
-	}
-
-	@Test
 	public void givenAPropertyDTOWhenEditPropertyFeaturesThenChecksNumberOfBedRoomsValidity() throws Throwable {
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
 		verify(validator, times(2)).numberOfRoomsIsValid(NUMBER_OF_BEDROOMS);
@@ -152,18 +133,6 @@ public class PropertyServiceAntiCorruptionTest {
 	public void givenAPropertyDTOWhenEditPropertyFeaturesThenThrowExceptionIfNumberOfRoomsIsInvalid() throws Throwable {
 		given(validator.numberOfRoomsIsValid(NUMBER_OF_BATHROOMS)).willReturn(false);
 		propertyAntiCorruption.editPropertyFeatures(OWNER, propertyDTO);
-	}
-
-	@Test
-	public void givenAddressDTOAndOwnerWhenGetPropertyAtAddressThenUsesService() throws Exception {
-		propertyAntiCorruption.getPropertyAtAddress(PSEUDO, addressDTO);
-		verify(service).getPropertyAtAddress(PSEUDO, addressDTO);
-	}
-
-	@Test(expected = InvalidPropertyInformationException.class)
-	public void givenAddressDTOWhenGetPropertyAtAddressWithInvalidZipCodeThenThrowsException() throws Throwable {
-		when(validator.zipCodeIsValid(ZIPCODE)).thenReturn(false);
-		propertyAntiCorruption.getPropertyAtAddress(PSEUDO, addressDTO);
 	}
 
 	private void propertyDTOReturnsValidInfos() {

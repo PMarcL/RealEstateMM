@@ -81,10 +81,7 @@ public class PropertyTest {
 
 	@Test
 	public void givenANewPropertyUpdatingItsFeaturesShouldModifyItsFeatures() {
-		PropertyFeatures newFeatures = new PropertyFeatures(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS,
-				A_TOTAL_NUMBER_OF_ROOMS, A_NUMBER_OF_LEVEL, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION,
-				A_LIVING_SPACE_AREA, A_BACKYARD_DIRECTION, A_DESCRIPTION);
-		property.updateFeatures(newFeatures);
+		setPropertyFeatures();
 		PropertyFeatures returnedFeatures = property.getFeatures();
 
 		assertEquals(A_NUMBER_OF_BATHROOMS, returnedFeatures.numberOfBathrooms);
@@ -122,6 +119,24 @@ public class PropertyTest {
 		Property propertySoldOnAPassedYear = new Property(null, null, 0, null, PropertyStatus.SOLD);
 		propertySoldOnAPassedYear.setSaleDate(new Date());
 		assertTrue(propertySoldOnAPassedYear.isSoldThisYear());
+	}
+
+	@Test
+	public void givenABedroomNumberAndEmptyFeaturesWhenCheckIfHasAtLeastNBedroomsThenComparesWithFeatures() {
+		assertFalse(property.hasAtLeastNBedrooms(A_NUMBER_OF_BEDROOMS));
+	}
+
+	@Test
+	public void givenABedroomNumberWhenCheckIfHasAtLeastNBedroomsThenComparesWithFeatures() {
+		setPropertyFeatures();
+		assertTrue(property.hasAtLeastNBedrooms(A_NUMBER_OF_BEDROOMS));
+	}
+
+	private void setPropertyFeatures() {
+		PropertyFeatures newFeatures = new PropertyFeatures(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS,
+				A_TOTAL_NUMBER_OF_ROOMS, A_NUMBER_OF_LEVEL, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION,
+				A_LIVING_SPACE_AREA, A_BACKYARD_DIRECTION, A_DESCRIPTION);
+		property.updateFeatures(newFeatures);
 	}
 
 	private Date aPassedYearDate() {

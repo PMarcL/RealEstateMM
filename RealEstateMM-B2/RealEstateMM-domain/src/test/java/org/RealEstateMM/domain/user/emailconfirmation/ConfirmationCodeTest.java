@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.domain.encoder.Encoder;
+import org.RealEstateMM.domain.user.InvalidConfirmationCodeException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,7 +59,7 @@ public class ConfirmationCodeTest {
 		assertEquals(PSEUDONYM, code.getPseudonym());
 	}
 
-	@Test(expected = InvalidEmailConfirmationCodeException.class)
+	@Test(expected = InvalidConfirmationCodeException.class)
 	public void givenInvalidConfirmationCodeValueWhenBuiltFromConfirmationCodeValueShouldThrowException() {
 		final String INVALID_CONFIRMATION_CODE_VALUE = "invalidConfirmationCode";
 		given(encoder.decode(ENCODED_CONFIRMATION_CODE_VALUE)).willReturn(INVALID_CONFIRMATION_CODE_VALUE);
