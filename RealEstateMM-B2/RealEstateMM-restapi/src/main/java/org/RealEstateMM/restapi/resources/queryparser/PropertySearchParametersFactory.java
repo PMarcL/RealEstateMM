@@ -1,4 +1,4 @@
-package org.RealEstateMM.restapi.resources;
+package org.RealEstateMM.restapi.resources.queryparser;
 
 import java.util.ArrayList;
 import java.util.List;
