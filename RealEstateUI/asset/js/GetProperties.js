@@ -26,23 +26,33 @@ function getProperties(param) {
     });
 }
 
+
 function createHtmlPropertyList(propertiesJSON) {
     var buffer = "";
-    $.each(propertiesJSON, function () {
+    $('#propertylist').empty();
+    if(propertiesJSON.length <= 0){
+        $('#noPropertiesReturned').css('visibility','visible');
+    }
+    else{
 
-        buffer = buffer
-            + "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
-            + "<div class='price'>" + "C $" +this.propertyPrice + "</div>"
-            + "<div class='streetAddress'>" + this.propertyAddress.streetAddress + "</div>"
-            + "<div class='city'>" + this.propertyAddress.city + "</div>"
-            + "<div class='province'>" + this.propertyAddress.province + "</div>"
-            + "<div class='zipCode'>" + this.propertyAddress.zipCode + "</div>"
-            + "<div class='status'>" + this.propertyStatus + "</div>"
-            + "<div class='owner'>" + this.propertyOwner + "</div>"
-            + "<div class='see-details'><a class='waves-effect waves-light btn editProperty'>See details</a></div>"
-            + "<li>";
-        $('#propertylist').html(buffer);
-    });
+        $('#noPropertiesReturned').css('visibility','hidden');
+
+        $.each(propertiesJSON, function () {
+
+            buffer = buffer
+                + "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
+                + "<div class='price'>" + "C $" +this.propertyPrice + "</div>"
+                + "<div class='streetAddress'>" + this.propertyAddress.streetAddress + "</div>"
+                + "<div class='city'>" + this.propertyAddress.city + "</div>"
+                + "<div class='province'>" + this.propertyAddress.province + "</div>"
+                + "<div class='zipCode'>" + this.propertyAddress.zipCode + "</div>"
+                + "<div class='status'>" + this.propertyStatus + "</div>"
+                + "<div class='owner'>" + this.propertyOwner + "</div>"
+                + "<div class='see-details'><a class='waves-effect waves-light btn editProperty'>See details</a></div>"
+                + "<li>";
+            $('#propertylist').html(buffer);
+        });
+    }
 }
 
 $('#propertylist').on('click', '.editProperty', function(){
@@ -70,10 +80,9 @@ function loopForm(form) {
 }
 
 function GetPropertiesWithForm(){
-    var valuesPropertyListSearch = $('#listPropertyTypesSearch').val();
-
     var form =  document.getElementById("advancedForm");
-
+    var orderByValue = document.getElementById("orderBy");
+    var strUser = orderByValue.options[orderByValue.selectedIndex].value;
 
     var queryParamSearchForm = '';
     for (var i = 0; i < form.elements.length; i++) {
@@ -88,7 +97,10 @@ function GetPropertiesWithForm(){
     }
     queryParamSearchForm += '&minNumBedrooms=' + valueInputBedroomMin.value;
     queryParamSearchForm += '&minNumBathrooms=' + valueInputBathroomMin.value;
-    queryParamSearchForm += '&orderBy=' + $(orderBy).val();
+    if(strUser.length !== 0){
+        queryParamSearchForm += '&orderBy=' + strUser;
+    }
+
     getProperties(queryParamSearchForm);
 }
 
