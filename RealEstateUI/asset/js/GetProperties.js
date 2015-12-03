@@ -26,19 +26,14 @@ function getProperties(param) {
     });
 }
 
-
 function createHtmlPropertyList(propertiesJSON) {
     var buffer = "";
     $('#propertylist').empty();
     if(propertiesJSON.length <= 0){
         $('#noPropertiesReturned').css('visibility','visible');
-    }
-    else{
-
+    } else {
         $('#noPropertiesReturned').css('visibility','hidden');
-
         $.each(propertiesJSON, function () {
-
             buffer = buffer
                 + "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
                 + "<div class='price'>" + "C $" +this.propertyPrice + "</div>"

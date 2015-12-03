@@ -1,6 +1,4 @@
-/**
- * Created by alex on 26/11/15.
- */
+
 $(document).ready(function(){
 
 });
@@ -9,7 +7,7 @@ function doubleSlider(idSlider, inputMax, inputStep){
 
     var slider = document.getElementById(idSlider);
     noUiSlider.create(slider, {
-        start: (inputMax/2),
+        start: (0),
         connect: false,
         step: inputStep,
         range: {
@@ -22,15 +20,12 @@ function doubleSlider(idSlider, inputMax, inputStep){
 }
 
 function updateSlider(sliderVar, varInputMin) {
-
 // When the slider value changes, update the input and span
     sliderVar.noUiSlider.on('update', function (values) {
-
         varInputMin.value = Math.round(values[0]);
         //varInputMax.value = Math.round(values[1]);
 
     });
-
 // When the input changes, set the slider value
     varInputMin.addEventListener('change', function () {
         sliderVar.noUiSlider.set(this.value);

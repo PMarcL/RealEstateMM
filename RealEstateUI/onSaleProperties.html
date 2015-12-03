@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="asset/css/browseProperties.css"/>
     <link rel="stylesheet" href="materialize/css/materialize.min.css">
     <link rel="stylesheet" href="materialize/css/nouislider.css">
-
 </head>
 <body>
 
@@ -15,7 +14,6 @@
 
 
 <div class="row section ">
-
     <h4 style="margin:0;">Search options</h4>
     <div class="input-field select col s3">
         <select style="display:block" id="orderBy">
@@ -28,11 +26,10 @@
     </div>
 </div>
 
-<button id="toggleAdvancedSearchForm"><h4 style="margin:0;">Advanced options</h4></button>
+<a class='waves-effect waves-light btn editProperty' id="toggleAdvancedSearchForm">Advanced options</a>
+
 <div class="formAdvancedSearch" id="advancedSearchForm" style="display: none">
-
     <form id="advancedForm">
-
         <div class="input-field">
             Bathroom number:
             <div id="rangeBathroom-input">
@@ -40,8 +37,6 @@
             <div>
                 Min: <input id="valueBathroom-Min">
             </div>
-
-
         </div>
 
         <div class="input-field">
@@ -51,64 +46,47 @@
             <div>
                 Min: <input id="valueBedroom-Min">
             </div>
-
-
         </div>
-
 
         <div class="input-field">
             Price:
-
             <div id="range-input" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
             </div>
             <div>
                 Min: <input id="valuePrice-Min">
             </div>
-
         </div>
 
         <div>
-
             <div class="input-field" id="propertyTypeSearch">
                 Type of property:
-
                 <p>
                     <input type="checkbox" class="propertylistType" value="farm" id="farmCheckbox" />
                     <label for="farmCheckbox">Farm</label>
                 </p>
-
                 <p>
                     <input type="checkbox" class="propertylistType" value="land" id="LandCheckbox" />
                     <label for="LandCheckbox">Land</label>
                 </p>
-
                 <p>
                     <input type="checkbox" class="propertylistType" value="multiplex" id="MultiplexCheckbox" />
                     <label for="MultiplexCheckbox">Multiplex</label>
                 </p>
-
                 <p>
                     <input type="checkbox" class="propertylistType" value="house" id="HouseCheckbox" />
                     <label for="HouseCheckbox">House</label>
                 </p>
-
                 <p>
                     <input type="checkbox" class="propertylistType" value="commercial" id="CommercialCheckbox" />
                     <label for="CommercialCheckbox">Commercial</label>
                 </p>
-
             </div>
         </div>
-
         <div class="Search"><a class="waves-effect waves-light btn" onclick="GetPropertiesWithForm()">Search</a></div>
-
     </form>
-
 </div>
 
-
 <ul id="propertylist" style="margin:0;">
-
 </ul>
 <div id="noPropertiesReturned"> No properties Returned with this request</div>
 
@@ -129,21 +107,15 @@
 
     var sliderPrice = doubleSlider('range-input', 500000, 200);
     var valueInputPriceMin = document.getElementById('valuePrice-Min');
-    //            valueInputPriceMax = document.getElementById('valuePrice-Max');
     updateSlider(sliderPrice, valueInputPriceMin);
 
     var sliderBathroom = doubleSlider('rangeBathroom-input', 10, 1);
     var valueInputBathroomMin = document.getElementById('valueBathroom-Min');
-    //            valueInputBathroomMax = document.getElementById('valueBathroom-Max');
     updateSlider(sliderBathroom, valueInputBathroomMin);
 
     var sliderBedroom = doubleSlider('rangeBedroom-input', 20, 1);
     var valueInputBedroomMin = document.getElementById('valueBedroom-Min');
-    //            valueInputBedroomMax = document.getElementById('valueBedroom-Max');
     updateSlider(sliderBedroom, valueInputBedroomMin);
-
-
-
 </script>
 </body>
 </html>
