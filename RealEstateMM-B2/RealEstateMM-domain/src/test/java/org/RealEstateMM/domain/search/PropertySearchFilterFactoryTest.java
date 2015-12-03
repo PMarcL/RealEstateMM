@@ -52,14 +52,26 @@ public class PropertySearchFilterFactoryTest {
 	}
 
 	@Test
+	public void givenSearchParameterWithBathroomNumWhenGetSearchFilterREturnsCompositeWithPropertyBathroomFilter() {
+		given(searchParam.hasMinNumOfBathrooms()).willReturn(true);
+
+		PropertySearchFilterComposite result = (PropertySearchFilterComposite) factory
+				.getSearchFilterStrategy(searchParam);
+
+		assertTrue(result.get(0) instanceof PropertyFilterByBathroomsNumber);
+	}
+
+	@Test
 	public void givenSearchParametersWithPropertyTypeAndBedroomWhenGetSearchFilterReturnsCompositeWithAllFilters() {
 		given(searchParam.hasPropertyTypesToFilter()).willReturn(true);
 		given(searchParam.hasMinNumOfBedrooms()).willReturn(true);
+		given(searchParam.hasMinNumOfBathrooms()).willReturn(true);
 
 		PropertySearchFilterComposite result = (PropertySearchFilterComposite) factory
 				.getSearchFilterStrategy(searchParam);
 
 		assertTrue(result.get(0) instanceof PropertyFilterByTypes);
 		assertTrue(result.get(1) instanceof PropertyFilterByBedroomsNumber);
+		assertTrue(result.get(2) instanceof PropertyFilterByBathroomsNumber);
 	}
 }

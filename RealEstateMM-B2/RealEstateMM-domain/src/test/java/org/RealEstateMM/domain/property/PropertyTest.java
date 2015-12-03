@@ -132,6 +132,17 @@ public class PropertyTest {
 		assertTrue(property.hasAtLeastNBedrooms(A_NUMBER_OF_BEDROOMS));
 	}
 
+	@Test
+	public void givenABedroomNumberAndEmptyFeaturesWhenCheckIfHasAtLeastNBathroomsThenComparesWithFeatures() {
+		assertFalse(property.hasAtLeastNBathrooms(A_NUMBER_OF_BATHROOMS));
+	}
+
+	@Test
+	public void givenABedroomNumberWhenCheckIfHasAtLeastNBathroomsThenComparesWithFeatures() {
+		setPropertyFeatures();
+		assertTrue(property.hasAtLeastNBathrooms(A_NUMBER_OF_BATHROOMS));
+	}
+
 	private void setPropertyFeatures() {
 		PropertyFeatures newFeatures = new PropertyFeatures(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS,
 				A_TOTAL_NUMBER_OF_ROOMS, A_NUMBER_OF_LEVEL, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION,
