@@ -8,16 +8,11 @@ $(document).ready(function(){
         getProperties(queryParam);
     });
 
-    //$('#').change(function(){
-    //    queryParamSearch = queryParamSearch + 'from=' + $(valueBathroom-Min).val() + '&to=' +  $(valueBathroom-Max).val()+ '?orderBy=' + $(valueBathroom).val();
-    //    $('#propertylist').empty();
-    //    getProperties(queryParamSearch);
-    //});
 });
 
 function getProperties(param) {
     $.ajax({
-        url: "http://localhost:8080/property/" + new TokenCookie().cookie() + "/search" + param,
+        url: "http://localhost:8080/property/" + new TokenCookie().cookie() + "/search?" + param,
         type: "GET",
         contentType: "application/json",
 
@@ -30,7 +25,6 @@ function getProperties(param) {
         }
     });
 }
-
 
 function createHtmlPropertyList(propertiesJSON) {
     var buffer = "";
@@ -64,31 +58,38 @@ $('#propertylist').on('click', '.editProperty', function(){
     window.location.href = 'propertyDetails.html';
 });
 
+function loopForm(form) {
+    var cbResults = [];
+    for (var i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].type == 'checkbox') {
+            if (form.elements[i].checked == true) {
+                cbResults += form.elements[i].value + '';
+            }
+        }
+    }
+}
 
 function GetPropertiesWithForm(){
     var valuesPropertyListSearch = $('#listPropertyTypesSearch').val();
 
+    var form =  document.getElementById("advancedForm");
+
+
     var queryParamSearchForm = '';
-    $.each(valuesPropertyListSearch, function () {
-        queryParamSearchForm += '&propertyTypes=' + this.toString();
-    });
-    queryParamSearchForm += '&minNumBedrooms=' + valueInputBedroomMin.value + '&maxNumBedrooms=' + valueInputBedroomMax.value;
-    queryParamSearchForm += '&minNumBathrooms=' + valueInputBathroomMin.value + '&maxNumBathrooms=' + valueInputBathroomMax.value;
+    for (var i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].type == 'checkbox') {
+            if (form.elements[i].checked == true) {
+                if(form.elements[i].className == "propertylistType"){
+                    queryParamSearchForm += '&propertyTypes=' + form.elements[i].value.toString();
+                }
+
+            }
+        }
+    }
+    queryParamSearchForm += '&minNumBedrooms=' + valueInputBedroomMin.value;
+    queryParamSearchForm += '&minNumBathrooms=' + valueInputBathroomMin.value;
     queryParamSearchForm += '&orderBy=' + $(orderBy).val();
     getProperties(queryParamSearchForm);
 }
-/*
- $(function () {
- $( "#slider-range" ).slider({
- range: true,
- min: 0,
- max: 5000000,
- values: [ 12000, 250000 ],
- slide: function( event, ui ) {
- $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
- }
- });
- $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
- " - $" + $( "#slider-range" ).slider( "values", 1 ) );
- });*/
+
 
