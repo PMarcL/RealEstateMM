@@ -9,6 +9,8 @@ import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.persistence.memory.InMemorySessionRepository;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
+import org.RealEstateMM.persistence.xml.message.XmlMessageAssembler;
+import org.RealEstateMM.persistence.xml.message.XmlMessageRepository;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyAssembler;
 import org.RealEstateMM.persistence.xml.property.XmlPropertyRepository;
 import org.RealEstateMM.persistence.xml.user.XmlUserAssembler;
@@ -19,6 +21,7 @@ public class RepositoryRegisterer {
 	private static final String XML_FILES_LOCATION = ".." + File.separator + "data" + File.separator;
 	private static final String USER_REPOSITORY_FILE = "users.xml";
 	private static final String PROPERTY_REPOSITORY_FILE = "properties.xml";
+	private static final String MESSAGE_REPOSITORY_FILE = "messages.xml";
 
 	private UserRepository userRepository;
 	private PropertyRepository propertyRepository;
@@ -28,8 +31,8 @@ public class RepositoryRegisterer {
 	public RepositoryRegisterer() {
 		initializeUserRepository();
 		initializePropertyRepository();
+		initializeMessageRepository();
 		this.sessionRepository = new InMemorySessionRepository();
-		this.messageRepository = null; // TODO set implementation when done
 
 	}
 
@@ -42,6 +45,11 @@ public class RepositoryRegisterer {
 		File xmlUsers = new File(XML_FILES_LOCATION + USER_REPOSITORY_FILE);
 		this.userRepository = new XmlUserRepository(new XmlMarshaller(xmlUsers),
 				new XmlUserAssembler(new UserRoleFactory()));
+	}
+	
+	private void initializeMessageRepository(){
+		File xmlMessage = new File(XML_FILES_LOCATION + MESSAGE_REPOSITORY_FILE);
+		this.messageRepository = new XmlMessageRepository(new XmlMarshaller(xmlMessage), new XmlMessageAssembler());
 	}
 
 	public void register() {
