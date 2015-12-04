@@ -6,15 +6,18 @@ public class PropertySearchParametersDTO {
 	private String orderBy;
 	private List<String> propertyTypes;
 	private int minNumBedrooms;
+	private int minNumBathrooms;
 
 	public PropertySearchParametersDTO() {
 
 	}
 
-	public PropertySearchParametersDTO(String orderBy, List<String> propertyTypes, int minNumBedrooms) {
+	public PropertySearchParametersDTO(String orderBy, List<String> propertyTypes, int minNumBedrooms,
+			int minNumBathrooms) {
 		setOrderBy(orderBy);
 		setPropertyTypes(propertyTypes);
 		setMinNumBedrooms(minNumBedrooms);
+		setMinNumBathrooms(minNumBathrooms);
 	}
 
 	public String getOrderBy() {
@@ -39,5 +42,13 @@ public class PropertySearchParametersDTO {
 
 	public void setMinNumBedrooms(int minNumBedrooms) {
 		this.minNumBedrooms = minNumBedrooms;
+	}
+
+	public int getMinNumBathrooms() {
+		return minNumBathrooms;
+	}
+
+	public void setMinNumBathrooms(int minNumBathrooms) {
+		this.minNumBathrooms = minNumBathrooms;
 	}
 }

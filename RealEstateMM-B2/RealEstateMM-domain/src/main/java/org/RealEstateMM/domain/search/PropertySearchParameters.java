@@ -8,12 +8,14 @@ public class PropertySearchParameters {
 	private PropertyOrderingParameters orderingParam;
 	private ArrayList<PropertyType> propertyTypesToFilter;
 	private int minNumberOfBedrooms;
+	private int minNumberOfBathrooms;
 
 	public PropertySearchParameters(PropertyOrderingParameters orderingParam,
-			ArrayList<PropertyType> propertyTypesToFilter, int minNumberOfBedrooms) {
+			ArrayList<PropertyType> propertyTypesToFilter, int minNumberOfBedrooms, int minNumberOfBathrooms) {
 		setOrderingParam(orderingParam);
 		setPropertyTypesToFilter(propertyTypesToFilter);
 		setMinNumberOfBedrooms(minNumberOfBedrooms);
+		setMinNumberOfBathrooms(minNumberOfBathrooms);
 	}
 
 	public PropertyOrderingParameters getOrderingParam() {
@@ -40,6 +42,14 @@ public class PropertySearchParameters {
 		this.minNumberOfBedrooms = minNumberOfBedrooms;
 	}
 
+	public int getMinNumberOfBathrooms() {
+		return minNumberOfBathrooms;
+	}
+
+	public void setMinNumberOfBathrooms(int minNumberOfBathrooms) {
+		this.minNumberOfBathrooms = minNumberOfBathrooms;
+	}
+
 	public boolean hasPropertyTypesToFilter() {
 		return !propertyTypesToFilter.isEmpty();
 	}
@@ -48,4 +58,7 @@ public class PropertySearchParameters {
 		return minNumberOfBedrooms != 0;
 	}
 
+	public boolean hasMinNumOfBathrooms() {
+		return minNumberOfBathrooms != 0;
+	}
 }

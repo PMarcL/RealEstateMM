@@ -25,11 +25,6 @@ public class PropertySearchEngine {
 		return repository.getPropertiesFromOwner(owner);
 	}
 
-	public List<Property> getOrderedProperties(PropertyOrderingParameters orderingParameter) {
-		PropertyOrderingStrategy strategy = orderingFactory.getOrderingStrategy(orderingParameter);
-		return strategy.getOrderedProperties(repository.getAll());
-	}
-
 	public Property getPropertyAtAddress(PropertyAddress address) throws PropertyNotFoundException {
 		Optional<Property> property = repository.getPropertyAtAddress(address);
 		if (!property.isPresent()) {
@@ -39,8 +34,7 @@ public class PropertySearchEngine {
 	}
 
 	public List<Property> getPropertiesSearchResults(PropertySearchParameters searchParams) {
-		PropertyOrderingStrategy orderingStrategy = orderingFactory
-				.getOrderingStrategy(searchParams.getOrderingParam());
+		PropertyOrderingStrategy orderingStrategy = orderingFactory.getOrderingStrategy(searchParams);
 		PropertySearchFilterStrategy filteringStrategy = filterFactory.getSearchFilterStrategy(searchParams);
 
 		List<Property> properties = repository.getAll();

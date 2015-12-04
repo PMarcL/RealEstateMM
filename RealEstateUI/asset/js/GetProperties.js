@@ -8,11 +8,6 @@ $(document).ready(function(){
         getProperties(queryParam);
     });
 
-    //$('#').change(function(){
-    //    queryParamSearch = queryParamSearch + 'from=' + $(valueBathroom-Min).val() + '&to=' +  $(valueBathroom-Max).val()+ '?orderBy=' + $(valueBathroom).val();
-    //    $('#propertylist').empty();
-    //    getProperties(queryParamSearch);
-    //});
 });
 
 function getProperties(param) {
@@ -31,24 +26,28 @@ function getProperties(param) {
     });
 }
 
-
 function createHtmlPropertyList(propertiesJSON) {
     var buffer = "";
-    $.each(propertiesJSON, function () {
-
-        buffer = buffer
-            + "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
-            + "<div class='price'>" + "C $" +this.propertyPrice + "</div>"
-            + "<div class='streetAddress'>" + this.propertyAddress.streetAddress + "</div>"
-            + "<div class='city'>" + this.propertyAddress.city + "</div>"
-            + "<div class='province'>" + this.propertyAddress.province + "</div>"
-            + "<div class='zipCode'>" + this.propertyAddress.zipCode + "</div>"
-            + "<div class='status'>" + this.propertyStatus + "</div>"
-            + "<div class='owner'>" + this.propertyOwner + "</div>"
-            + "<div class='see-details'><a class='waves-effect waves-light btn editProperty'>See details</a></div>"
-            + "<li>";
-        $('#propertylist').html(buffer);
-    });
+    $('#propertylist').empty();
+    if(propertiesJSON.length <= 0){
+        $('#noPropertiesReturned').css('visibility','visible');
+    } else {
+        $('#noPropertiesReturned').css('visibility','hidden');
+        $.each(propertiesJSON, function () {
+            buffer = buffer
+                + "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
+                + "<div class='price'>" + "C $" +this.propertyPrice + "</div>"
+                + "<div class='streetAddress'>" + this.propertyAddress.streetAddress + "</div>"
+                + "<div class='city'>" + this.propertyAddress.city + "</div>"
+                + "<div class='province'>" + this.propertyAddress.province + "</div>"
+                + "<div class='zipCode'>" + this.propertyAddress.zipCode + "</div>"
+                + "<div class='status'>" + this.propertyStatus + "</div>"
+                + "<div class='owner'>" + this.propertyOwner + "</div>"
+                + "<div class='see-details'><a class='waves-effect waves-light btn editProperty'>See details</a></div>"
+                + "<li>";
+            $('#propertylist').html(buffer);
+        });
+    }
 }
 
 $('#propertylist').on('click', '.editProperty', function(){
@@ -64,31 +63,40 @@ $('#propertylist').on('click', '.editProperty', function(){
     window.location.href = 'propertyDetails.html';
 });
 
+function loopForm(form) {
+    var cbResults = [];
+    for (var i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].type == 'checkbox') {
+            if (form.elements[i].checked == true) {
+                cbResults += form.elements[i].value + '';
+            }
+        }
+    }
+}
 
 function GetPropertiesWithForm(){
-    var valuesPropertyListSearch = $('#listPropertyTypesSearch').val();
+    var form =  document.getElementById("advancedForm");
+    var orderByValue = document.getElementById("orderBy");
+    var strUser = orderByValue.options[orderByValue.selectedIndex].value;
 
     var queryParamSearchForm = '';
-    $.each(valuesPropertyListSearch, function () {
-        queryParamSearchForm += '&propertyTypes=' + this.toString();
-    });
-    queryParamSearchForm += '&minNumBedrooms=' + valueInputBedroomMin.value + '&maxNumBedrooms=' + valueInputBedroomMax.value;
-    queryParamSearchForm += '&minNumBathrooms=' + valueInputBathroomMin.value + '&maxNumBathrooms=' + valueInputBathroomMax.value;
-    queryParamSearchForm += '&orderBy=' + $(orderBy).val();
+    for (var i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].type == 'checkbox') {
+            if (form.elements[i].checked == true) {
+                if(form.elements[i].className == "propertylistType"){
+                    queryParamSearchForm += '&propertyTypes=' + form.elements[i].value.toString();
+                }
+
+            }
+        }
+    }
+    queryParamSearchForm += '&minNumBedrooms=' + valueInputBedroomMin.value;
+    queryParamSearchForm += '&minNumBathrooms=' + valueInputBathroomMin.value;
+    if(strUser.length !== 0){
+        queryParamSearchForm += '&orderBy=' + strUser;
+    }
+
     getProperties(queryParamSearchForm);
 }
-/*
- $(function () {
- $( "#slider-range" ).slider({
- range: true,
- min: 0,
- max: 5000000,
- values: [ 12000, 250000 ],
- slide: function( event, ui ) {
- $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
- }
- });
- $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
- " - $" + $( "#slider-range" ).slider( "values", 1 ) );
- });*/
+
 

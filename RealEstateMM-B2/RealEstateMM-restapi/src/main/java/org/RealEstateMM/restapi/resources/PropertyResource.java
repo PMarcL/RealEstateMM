@@ -19,6 +19,7 @@ import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
+import org.RealEstateMM.restapi.resources.queryparser.PropertySearchParametersFactory;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;

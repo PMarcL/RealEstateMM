@@ -1,18 +1,31 @@
 package org.RealEstateMM.domain.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
 
 public class PropertySearchFilterComposite implements PropertySearchFilterStrategy {
 
-	@Override
-	public List<Property> getFilteredProperties(List<Property> properties) {
-		return null;
+	private ArrayList<PropertySearchFilterStrategy> filters;
+
+	public PropertySearchFilterComposite() {
+		filters = new ArrayList<PropertySearchFilterStrategy>();
 	}
 
-	public void add(PropertySearchFilterStrategy typeFilter) {
-		// TODO Auto-generated method stub
+	@Override
+	public List<Property> getFilteredProperties(List<Property> properties) {
+		for (PropertySearchFilterStrategy filter : filters) {
+			properties = filter.getFilteredProperties(properties);
+		}
+		return properties;
+	}
 
+	public void add(PropertySearchFilterStrategy filter) {
+		filters.add(filter);
+	}
+
+	public PropertySearchFilterStrategy get(int i) {
+		return filters.get(i);
 	}
 }

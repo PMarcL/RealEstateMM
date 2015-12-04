@@ -47,7 +47,7 @@ public class PropertySearchEngineTest {
 		orderingStrategy = mock(PropertyOrderingStrategy.class);
 		filterStrategy = mock(PropertySearchFilterStrategy.class);
 		given(searchParams.getOrderingParam()).willReturn(ORDERING_PARAM);
-		given(orderingFactory.getOrderingStrategy(ORDERING_PARAM)).willReturn(orderingStrategy);
+		given(orderingFactory.getOrderingStrategy(searchParams)).willReturn(orderingStrategy);
 		given(filterFactory.getSearchFilterStrategy(searchParams)).willReturn(filterStrategy);
 	}
 
@@ -85,7 +85,7 @@ public class PropertySearchEngineTest {
 	@Test
 	public void givenPropertySearchParametersWhenGetPropertiesSearchResultsThenUsesFactoryToGetOrderingStrategy() {
 		searchEngine.getPropertiesSearchResults(searchParams);
-		verify(orderingFactory).getOrderingStrategy(ORDERING_PARAM);
+		verify(orderingFactory).getOrderingStrategy(searchParams);
 	}
 
 	@Test
