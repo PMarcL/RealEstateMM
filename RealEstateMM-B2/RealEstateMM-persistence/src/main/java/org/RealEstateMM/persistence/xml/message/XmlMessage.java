@@ -39,11 +39,11 @@ public class XmlMessage {
 	}
 	
 	@XmlElement(name = "isUnread")
-	public void setMessageIsUnread(boolean isUnread){
+	public void setIsUnread(boolean isUnread){
 		this.isUnread = isUnread;
 	}
 	
-	public boolean isUnread(){
+	public boolean getIsUnread(){
 		return isUnread;
 	}
 }

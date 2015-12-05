@@ -7,6 +7,15 @@ public class MessageDTO {
 	private String recipient;
 	private boolean isUnread;
 
+	public MessageDTO(){}
+	
+	public MessageDTO(String message, String sender, String recipient) {
+		this.message = message;
+		this.sender = sender;
+		this.recipient = recipient;
+		this.isUnread = true;
+	}
+	
 	public MessageDTO(String message, String sender, String recipient, boolean isUnread) {
 		this.message = message;
 		this.sender = sender;

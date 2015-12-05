@@ -36,8 +36,7 @@ public class MessageResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response readMessage(@Context HttpHeaders headers, @PathParam("token") String messageId) {
-		String token = headers.getHeaderString("Authorization");
+	public Response readMessage(@PathParam("token") String token, @PathParam("token") String messageId) {
 		if (token == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -45,7 +44,7 @@ public class MessageResource {
 		try {
 			String pseudo = sessionService.validate(token);
 			messageService.readMessage(messageId, pseudo);
-			return Response.ok().build();
+			return Response.ok(Status.OK).build();
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		} catch (UserIsNotTheRecipient e) {
@@ -54,10 +53,9 @@ public class MessageResource {
 	}
 
 	@GET
-	@Path("/unread")
+	@Path("/unread/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUnreadMessages(@Context HttpHeaders headers) {
-		String token = headers.getHeaderString("Authorization");
+	public Response getUnreadMessages(@PathParam("token") String token) {
 		if (token == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -65,16 +63,15 @@ public class MessageResource {
 		try {
 			String pseudo = sessionService.validate(token);
 			List<MessageDTO> messages = messageService.getUnreadMessages(pseudo);
-			return Response.ok().entity(messages).build();
+			return Response.ok(Status.OK).entity(messages).build();
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 	}
 
 	@POST
-	@Path("/contactseller")
-	public Response contactSeller(@Context HttpHeaders headers, MessageDTO message) {
-		String token = headers.getHeaderString("Authorization");
+	@Path("/contactseller/{token}")
+	public Response contactSeller(@PathParam("token") String token, MessageDTO message) {
 		if (token == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -88,7 +85,7 @@ public class MessageResource {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 
-		return Response.ok().build();
+		return Response.ok(Status.OK).build();
 	}
 
 }

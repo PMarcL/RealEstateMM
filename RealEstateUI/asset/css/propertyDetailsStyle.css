@@ -9,4 +9,53 @@
 h2 {
   margin: 0; }
 
+.contactSellerPage {
+  font-weight: 300;
+  font-size: 1.2em;
+  height: 30%;
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  background-color: white;
+  border: 4px solid #232838;
+  display: none; }
+
+.contactSellerTitle {
+  color: white;
+  background-color: #232838;
+  float: left;
+  clear: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 3%; }
+  .contactSellerTitle:last-child {
+    margin-right: 0; }
+
+.contactSellerText {
+  height: 50%; }
+
+.contactSellerTextArea {
+  height: 100%; }
+
+.contactSellerSend {
+  margin-top: 50px;
+  margin-left: 5px; }
+
+.darkCloud {
+  display: none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #232838;
+  opacity: 0.4; }
+
+.closeContactButton {
+  position: absolute;
+  right: 10px;
+  top: -4px;
+  color: red; }
+
 /*# sourceMappingURL=propertyDetailsStyle.css.map */

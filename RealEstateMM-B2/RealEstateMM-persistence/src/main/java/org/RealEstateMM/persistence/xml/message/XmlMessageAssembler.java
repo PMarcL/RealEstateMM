@@ -7,8 +7,8 @@ public class XmlMessageAssembler {
 	public XmlMessage fromMessage(Message message) {
 		XmlMessage newMessage = new XmlMessage();
 		newMessage.setMessageContent(message.getMessage());
-		newMessage.setMessageIsUnread(message.isUnread());
-		newMessage.setRecipientPseudo(message.getMessage());
+		newMessage.setIsUnread(message.isUnread());
+		newMessage.setRecipientPseudo(message.getRecipientPseudonym());
 		newMessage.setSenderPseudo(message.getSenderPseudonym());
 		return newMessage;
 
@@ -16,7 +16,7 @@ public class XmlMessageAssembler {
 
 	public Message toMessage(XmlMessage xmlMessage) {
 		Message message = new Message(xmlMessage.getSenderPseudo(), xmlMessage.getRecipientPseudo(),
-				xmlMessage.getMessageContent(), xmlMessage.isUnread());
+				xmlMessage.getMessageContent(), xmlMessage.getIsUnread());
 		return message;
 	}
 }
