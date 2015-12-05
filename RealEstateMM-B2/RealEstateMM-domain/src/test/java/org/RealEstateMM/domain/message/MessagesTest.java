@@ -88,34 +88,13 @@ public class MessagesTest {
 
 		given(messageRepository.getMessagesByRecipient(A_SELLER_PSEUDO)).willReturn(userMessages);
 
-		List<Message> actual = messages.getUnreadMessages(A_SELLER_PSEUDO);
+		List<Message> actual = messages.getUserMessages(A_SELLER_PSEUDO);
 
 		assertTrue(actual.contains(message1));
 		assertEquals(numberOfUnreadMessages, actual.size());
 	}
 
-	@Test(expected = UserIsNotTheRecipient.class)
-	public void givenAnotherPseudoThanRecipientWhenReadMessageThenThrowUserIsNotTheRecipientException()
-			throws UserIsNotTheRecipient {
-		Message aMessage = aMessageMockWithUnreadStatus(true);
 
-		given(aMessage.getRecipientPseudonym()).willReturn(A_SELLER_PSEUDO);
-		given(messageRepository.getMessageById(A_MESSAGE_ID)).willReturn(aMessage);
-
-		messages.readMessage(A_MESSAGE_ID, A_BUYER_PSEUDO);
-	}
-
-	@Test
-	public void givenAnUnreadMessageIdWhenReadMessageThenSetMessageUnreadStatusToFalse() throws UserIsNotTheRecipient {
-		Message aMessage = aMessageMockWithUnreadStatus(true);
-
-		given(aMessage.getRecipientPseudonym()).willReturn(A_SELLER_PSEUDO);
-		given(messageRepository.getMessageById(A_MESSAGE_ID)).willReturn(aMessage);
-
-		messages.readMessage(A_MESSAGE_ID, A_SELLER_PSEUDO);
-
-		verify(aMessage).markAsRead();
-	}
 
 	private Message aMessageMockWithUnreadStatus(boolean isUnread) {
 		Message message = mock(Message.class);

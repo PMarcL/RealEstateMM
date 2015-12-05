@@ -19,12 +19,8 @@ public class XmlMessageRepositoryTest {
 	private XmlMessageAssembler assembler;
 	private MessageRepository repository;
 	
-	private Message message;
 	private static final String RECIPIENT = "MarshallErikson";
-	private static final String Sender = "bob";
-	private static final String MESSAGE_CONTENT = "hola";
-	private static final boolean IS_UNREAD = true;
-	
+
 	@Before
 	public void setup(){
 		marshaller = Mockito.mock(XmlMarshaller.class);
@@ -40,5 +36,7 @@ public class XmlMessageRepositoryTest {
 		
 		assertTrue(messages.size() == 0);
 	}
+	
+	
 
 }

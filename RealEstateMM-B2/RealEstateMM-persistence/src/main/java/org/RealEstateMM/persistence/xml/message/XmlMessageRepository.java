@@ -16,6 +16,7 @@ public class XmlMessageRepository implements MessageRepository {
 	private XmlMessageAssembler messageAssembler;
 	private XmlMessageCollection messageCache;
 
+
 	public XmlMessageRepository(XmlMarshaller marshaller, XmlMessageAssembler messageAssembler) {
 		this.marshaller = marshaller;
 		this.messageAssembler = messageAssembler;
@@ -35,18 +36,18 @@ public class XmlMessageRepository implements MessageRepository {
 		return xmlMessages.stream().map(x -> messageAssembler.toMessage(x)).collect(Collectors.toList());
 	}
 
-	@Override
-	public Message getMessageById(String messageId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private void loadMessages() {
 		try {
 			messageCache = marshaller.unmarshal(XmlMessageCollection.class);
 		} catch (EmptyXmlFileException | XmlMarshallingException ex) {
 			messageCache = new XmlMessageCollection();
 		}
+	}
+
+	@Override
+	public void readMessages(String pseudo) {
+		messageCache.readUserMessages(pseudo);
+		marshaller.marshal(XmlMessageCollection.class, messageCache);
 	}
 
 }

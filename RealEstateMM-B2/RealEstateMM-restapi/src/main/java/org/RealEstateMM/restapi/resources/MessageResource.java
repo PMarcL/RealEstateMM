@@ -34,26 +34,25 @@ public class MessageResource {
 		this.sessionService = ServiceLocator.getInstance().getService(SessionService.class);
 	}
 
-	@PUT
-	@Path("/{id}")
-	public Response readMessage(@PathParam("token") String token, @PathParam("token") String messageId) {
+	@GET
+	@Path("/readall/{token}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response readMessage(@PathParam("token") String token) {
 		if (token == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 
 		try {
 			String pseudo = sessionService.validate(token);
-			messageService.readMessage(messageId, pseudo);
+			messageService.readMessages(pseudo);
 			return Response.ok(Status.OK).build();
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).build();
-		} catch (UserIsNotTheRecipient e) {
-			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
 
 	@GET
-	@Path("/unread/{token}")
+	@Path("/usermessages/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUnreadMessages(@PathParam("token") String token) {
 		if (token == null) {
@@ -62,7 +61,7 @@ public class MessageResource {
 
 		try {
 			String pseudo = sessionService.validate(token);
-			List<MessageDTO> messages = messageService.getUnreadMessages(pseudo);
+			List<MessageDTO> messages = messageService.getUserMessages(pseudo);
 			return Response.ok(Status.OK).entity(messages).build();
 		} catch (InvalidSessionTokenException e) {
 			return Response.status(Status.UNAUTHORIZED).build();

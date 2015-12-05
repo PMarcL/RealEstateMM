@@ -1,0 +1,27 @@
+ul{
+  font-size: 1.1em;
+  font-weight: 300;
+}
+
+.title{
+  color:green;
+}
+
+.content{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.3em;
+  font-weight: 400;
+}
+
+.messageContainer:hover{
+  font-weight:500;
+  .content{
+    font-weight:500;
+  }
+}
+
+.title-unread{
+  color:green;
+  font-weight: 600;
+}

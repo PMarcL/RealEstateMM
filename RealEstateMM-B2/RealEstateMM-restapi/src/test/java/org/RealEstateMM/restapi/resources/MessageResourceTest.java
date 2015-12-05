@@ -130,7 +130,7 @@ public class MessageResourceTest {
 		List<MessageDTO> messages = new LinkedList<MessageDTO>();
 		messages.add(A_MESSAGE_DTO);
 		messages.add(A_MESSAGE_DTO);
-		given(messageService.getUnreadMessages(A_PSEUDONYM)).willReturn(messages);
+		given(messageService.getUserMessages(A_PSEUDONYM)).willReturn(messages);
 
 		Response actual = messageResource.getUnreadMessages(A_VALID_TOKEN);
 
@@ -148,24 +148,6 @@ public class MessageResourceTest {
 		Response actual = messageResource.contactSeller(AN_INVALID_TOKEN, null);
 
 		assertEquals(Status.UNAUTHORIZED, actual.getStatusInfo());
-	}
-
-	@Test
-	public void givenAValidTokenWhenReadMessageThenReturnsStatusOk() {
-		String messageId = UUID.randomUUID().toString();
-		Response actual = messageResource.readMessage(A_VALID_TOKEN, messageId);
-		assertEquals(Status.OK, actual.getStatusInfo());
-	}
-
-	@Test
-	public void givenAUserIsNotTheRecipientExceptionWhenReadMessageThenReturnsBadRequestStatus()
-			throws UserIsNotTheRecipient {
-		String messageId = UUID.randomUUID().toString();
-
-		doThrow(new UserIsNotTheRecipient()).when(messageService).readMessage(messageId, A_PSEUDONYM);
-
-		Response actual = messageResource.readMessage(A_VALID_TOKEN, messageId);
-		assertEquals(Status.BAD_REQUEST, actual.getStatusInfo());
 	}
 
 }

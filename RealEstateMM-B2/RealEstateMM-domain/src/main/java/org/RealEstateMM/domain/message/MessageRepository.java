@@ -8,6 +8,6 @@ public interface MessageRepository {
 
 	List<Message> getMessagesByRecipient(String aSellerPseudo);
 
-	Message getMessageById(String messageId);
+	void readMessages(String pseudo);
 
 }

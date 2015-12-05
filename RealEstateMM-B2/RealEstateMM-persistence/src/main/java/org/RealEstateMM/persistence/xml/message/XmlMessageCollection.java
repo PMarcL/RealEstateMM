@@ -23,7 +23,7 @@ public class XmlMessageCollection {
 	public void add(XmlMessage newMessage) {
 		messages.add(newMessage);
 	}
-	
+
 	public List<XmlMessage> getMessages() {
 		return messages;
 	}
@@ -31,5 +31,13 @@ public class XmlMessageCollection {
 	@XmlElement(name = "message")
 	public void setMessages(List<XmlMessage> messages) {
 		this.messages = messages;
+	}
+
+	public void readUserMessages(String pseudo) {
+		for (XmlMessage message : messages) {
+			if (message.getRecipientPseudo().equals(pseudo)) {
+				message.setIsUnread(false);
+			}
+		}
 	}
 }

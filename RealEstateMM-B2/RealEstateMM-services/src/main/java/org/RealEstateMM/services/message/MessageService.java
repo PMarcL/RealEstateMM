@@ -27,8 +27,8 @@ public class MessageService {
 		messages.contactSeller(buyerPseudonym, message.getRecipientPseudonym(), message.getMessage());
 	}
 
-	public List<MessageDTO> getUnreadMessages(String pseudonym) {
-		List<Message> messageList = messages.getUnreadMessages(pseudonym);
+	public List<MessageDTO> getUserMessages(String pseudonym) {
+		List<Message> messageList = messages.getUserMessages(pseudonym);
 
 		List<MessageDTO> messageDTOList = new LinkedList<MessageDTO>();
 		for (Message m : messageList) {
@@ -38,8 +38,8 @@ public class MessageService {
 		return messageDTOList;
 	}
 
-	public void readMessage(String messageId, String pseudo) throws UserIsNotTheRecipient {
-		messages.readMessage(messageId, pseudo);
+	public void readMessages(String pseudo) {
+		messages.readMessages(pseudo);
 	}
 
 }

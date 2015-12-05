@@ -33,19 +33,12 @@ public class Messages {
 		messageRepository.add(message);
 	}
 
-	public List<Message> getUnreadMessages(String pseudonym) {
+	public List<Message> getUserMessages(String pseudonym) {
 		List<Message> userMessages = messageRepository.getMessagesByRecipient(pseudonym);
-		return userMessages.stream().filter(u -> u.isUnread()).collect(Collectors.toList());
+		return userMessages;
 	}
 
-	public void readMessage(String messageId, String pseudo) throws UserIsNotTheRecipient {
-		Message message = messageRepository.getMessageById(messageId);
-
-		if (!pseudo.equals(message.getRecipientPseudonym())) {
-			throw new UserIsNotTheRecipient();
-		}
-
-		message.markAsRead();
+	public void readMessages(String pseudo)  {	
+		messageRepository.readMessages(pseudo);
 	}
-
 }
