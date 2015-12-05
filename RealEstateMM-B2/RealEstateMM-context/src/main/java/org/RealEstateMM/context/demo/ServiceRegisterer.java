@@ -12,12 +12,12 @@ import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.PropertyServiceSecurity;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertyOrderingParametersParser;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.validation.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.search.SearchService;
 import org.RealEstateMM.services.search.SearchServiceHandler;
 import org.RealEstateMM.services.search.SearchServiceSecurity;
+import org.RealEstateMM.services.search.dtos.SearchAssembler;
 import org.RealEstateMM.services.search.validation.SearchServiceAntiCorruption;
 import org.RealEstateMM.services.statistics.StatisticService;
 import org.RealEstateMM.services.user.UserService;
@@ -49,7 +49,7 @@ public class ServiceRegisterer {
 
 	private void initializeSearchService(UserRepository userRepository) {
 		PropertyOrderingParametersParser orderingParamParser = new PropertyOrderingParametersParser();
-		PropertySearchParametersDTOAssembler searchParamAssembler = new PropertySearchParametersDTOAssembler(
+		SearchAssembler searchParamAssembler = new SearchAssembler(
 				orderingParamParser);
 		PropertyAssembler propertyAssembler = new PropertyAssembler();
 

@@ -9,10 +9,10 @@ import java.util.List;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
-import org.RealEstateMM.domain.search.PropertyOrderingParameters;
+import org.RealEstateMM.domain.search.PropertyOrderingType;
 import org.RealEstateMM.restapi.resources.queryparser.PropertySearchParametersFactory;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.search.InvalidSearchParameterException;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,7 +55,7 @@ public class PropertySearchParametersFactoryTest {
 
 	@Test
 	public void givenAUriInfoWhenGetSearchParametersThenReturnsDTOWithCorrectInfo() throws Exception {
-		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
+		SearchDTO result = factory.getSearchParametersDTO(searchParam);
 
 		assertEquals(ORDER_BY_VAL, result.getOrderBy());
 		assertEquals(PROPERTY_TYPES_VAL, result.getPropertyTypes());
@@ -80,14 +80,14 @@ public class PropertySearchParametersFactoryTest {
 	@Test
 	public void givenUrinInfoWithNoNumOfBedroomsWhenGetSearchParametersThenMinNumOfBedroomsIsZero() throws Exception {
 		given(queryParams.getFirst(MIN_NUM_BEDROOMS)).willReturn(null);
-		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
+		SearchDTO result = factory.getSearchParametersDTO(searchParam);
 		assertEquals(DEFAULT_MIN_NUMBER, result.getMinNumBedrooms());
 	}
 
 	@Test
 	public void givenUrinInfoWithNoNumOfBathroomsWhenGetSearchParametersThenMinNumOfBathroomsIsZero() throws Exception {
 		given(queryParams.getFirst(MIN_NUM_BATHROOMS)).willReturn(null);
-		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
+		SearchDTO result = factory.getSearchParametersDTO(searchParam);
 		assertEquals(DEFAULT_MIN_NUMBER, result.getMinNumBathrooms());
 	}
 
@@ -95,15 +95,15 @@ public class PropertySearchParametersFactoryTest {
 	public void givenUriInfoWithNoOrderingParamWhenGetSearchParametersThenReturnsSearchParamWithNoOrdering()
 			throws Exception {
 		given(queryParams.getFirst(ORDER_BY)).willReturn(null);
-		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
-		assertEquals(PropertyOrderingParameters.NO_ORDERING.toString(), result.getOrderBy());
+		SearchDTO result = factory.getSearchParametersDTO(searchParam);
+		assertEquals(PropertyOrderingType.NO_ORDERING.toString(), result.getOrderBy());
 	}
 
 	@Test
 	public void givenUriInfoWithNoPropertyTypeWhenGetSearchParametersThenReturnEmptyPropertyTypesToFilterList()
 			throws Exception {
 		given(queryParams.get(PROPERTY_TYPES)).willReturn(null);
-		PropertySearchParametersDTO result = factory.getSearchParametersDTO(searchParam);
+		SearchDTO result = factory.getSearchParametersDTO(searchParam);
 		assertNotNull(result.getPropertyTypes());
 	}
 

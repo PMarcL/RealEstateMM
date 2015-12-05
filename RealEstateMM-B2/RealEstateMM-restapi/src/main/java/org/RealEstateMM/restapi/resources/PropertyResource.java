@@ -25,9 +25,9 @@ import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.search.InvalidSearchParameterException;
 import org.RealEstateMM.services.search.SearchServiceHandler;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 @Path("/property")
 public class PropertyResource {
@@ -59,8 +59,8 @@ public class PropertyResource {
 	public Response searchProperties(@PathParam("token") String token, @Context UriInfo searchParam) {
 		try {
 			String pseudo = sessionService.validate(token);
-			PropertySearchParametersDTO searchParamDTO = searchParamFactory.getSearchParametersDTO(searchParam);
-			List<PropertyDTO> properties = searchService.getPropertiesSearchResult(pseudo, searchParamDTO);
+			SearchDTO searchParamDTO = searchParamFactory.getSearchParametersDTO(searchParam);
+			List<PropertyDTO> properties = searchService.executeSearch(pseudo, searchParamDTO);
 			return Response.ok(Status.OK).entity(properties).build();
 		} catch (InvalidSearchParameterException exception) {
 			return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();

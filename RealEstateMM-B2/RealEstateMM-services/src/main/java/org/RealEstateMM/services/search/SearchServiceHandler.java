@@ -7,11 +7,11 @@ import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 public interface SearchServiceHandler {
 
-	public List<PropertyDTO> getPropertiesSearchResult(String pseudo, PropertySearchParametersDTO searchParam)
+	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchParam)
 			throws ForbiddenAccessException, InvalidSearchParameterException;
 
 	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException;

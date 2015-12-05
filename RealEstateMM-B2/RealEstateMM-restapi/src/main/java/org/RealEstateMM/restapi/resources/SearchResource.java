@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.services.locator.ServiceLocator;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 @Path("/search")
 public class SearchResource {
@@ -42,7 +42,7 @@ public class SearchResource {
 	@POST
 	@Path("{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response saveSearch(@PathParam("token") String token, PropertySearchParametersDTO searchParams) {
+	public Response saveSearch(@PathParam("token") String token, SearchDTO searchParams) {
 		// TODO utilise le service pour persiter un PropertySearchParameters
 		try {
 			sessionService.validate(token);
@@ -55,7 +55,7 @@ public class SearchResource {
 	@PUT
 	@Path("{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editSearch(@PathParam("token") String token, PropertySearchParametersDTO searchParams) {
+	public Response editSearch(@PathParam("token") String token, SearchDTO searchParams) {
 		// TODO utilise le service pour mettre à jour un
 		// PropertySearchParameters existant
 		try {
@@ -69,7 +69,7 @@ public class SearchResource {
 	@DELETE
 	@Path("{token}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteSearch(@PathParam("token") String token, PropertySearchParametersDTO searchParams) {
+	public Response deleteSearch(@PathParam("token") String token, SearchDTO searchParams) {
 		// TODO utilise le servicce pour supprimer un PropertySearchParameters
 		// existant
 		try {

@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response.Status;
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.services.locator.ServiceLocator;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class SearchResourceTest {
 	private final String PSEUDO = "bobby134";
 	private final String TOKEN = "aToken";
 
-	private PropertySearchParametersDTO searchParams;
+	private SearchDTO searchParams;
 	private SessionService sessionService;
 	private SearchResource searchResource;
 
@@ -28,7 +28,7 @@ public class SearchResourceTest {
 		ServiceLocator.getInstance().registerService(SessionService.class, sessionService);
 		searchResource = new SearchResource();
 
-		searchParams = mock(PropertySearchParametersDTO.class);
+		searchParams = mock(SearchDTO.class);
 	}
 
 	@After

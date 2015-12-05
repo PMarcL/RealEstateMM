@@ -21,9 +21,9 @@ import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.search.InvalidSearchParameterException;
 import org.RealEstateMM.services.search.SearchServiceHandler;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 public class PropertyResourceTest {
 
@@ -36,7 +36,7 @@ public class PropertyResourceTest {
 	private PropertyServiceHandler propertyService;
 	private SessionService sessionService;
 	private UriInfo searchParam;
-	private PropertySearchParametersDTO searchParamDTO;
+	private SearchDTO searchParamDTO;
 	private PropertySearchParametersFactory searchParamFactory;
 	private SearchServiceHandler searchService;
 
@@ -51,7 +51,7 @@ public class PropertyResourceTest {
 		searchParam = mock(UriInfo.class);
 		propertyDTO = mock(PropertyDTO.class);
 		addressDTO = mock(PropertyAddressDTO.class);
-		searchParamDTO = mock(PropertySearchParametersDTO.class);
+		searchParamDTO = mock(SearchDTO.class);
 		given(sessionService.validate(TOKEN)).willReturn(OWNER);
 		given(searchParamFactory.getSearchParametersDTO(searchParam)).willReturn(searchParamDTO);
 	}
@@ -112,7 +112,7 @@ public class PropertyResourceTest {
 
 	@Test
 	public void givenATokenWhenSearchPropertiesThenReturnsForbiddenStatusCodeIfForbiddenAccess() throws Throwable {
-		doThrow(ForbiddenAccessException.class).when(searchService).getPropertiesSearchResult(OWNER, searchParamDTO);
+		doThrow(ForbiddenAccessException.class).when(searchService).executeSearch(OWNER, searchParamDTO);
 		Response response = propertyResource.searchProperties(TOKEN, searchParam);
 		assertEquals(Status.FORBIDDEN, response.getStatusInfo());
 	}
@@ -133,13 +133,13 @@ public class PropertyResourceTest {
 	@Test
 	public void whenSearchPropertiesThenUsesTheServiceToGetProperties() throws Throwable {
 		propertyResource.searchProperties(TOKEN, searchParam);
-		verify(searchService).getPropertiesSearchResult(OWNER, searchParamDTO);
+		verify(searchService).executeSearch(OWNER, searchParamDTO);
 	}
 
 	@Test
 	public void whenSearchPropertiesThenConvertToJsonPropertyDTOs() throws Throwable {
 		ArrayList<PropertyDTO> dtos = createPropertyDTOsList();
-		given(searchService.getPropertiesSearchResult(OWNER, searchParamDTO)).willReturn(dtos);
+		given(searchService.executeSearch(OWNER, searchParamDTO)).willReturn(dtos);
 
 		Response result = propertyResource.searchProperties(TOKEN, searchParam);
 
@@ -148,7 +148,7 @@ public class PropertyResourceTest {
 
 	@Test
 	public void whenSearchPropertiesThenReturnsInvalidRequestIfSearchFiltersAreInvalid() throws Throwable {
-		doThrow(InvalidSearchParameterException.class).when(searchService).getPropertiesSearchResult(OWNER,
+		doThrow(InvalidSearchParameterException.class).when(searchService).executeSearch(OWNER,
 				searchParamDTO);
 		Response result = propertyResource.searchProperties(TOKEN, searchParam);
 		assertEquals(Status.BAD_REQUEST, result.getStatusInfo());

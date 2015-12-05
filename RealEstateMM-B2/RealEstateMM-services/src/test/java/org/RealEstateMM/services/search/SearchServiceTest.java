@@ -8,14 +8,14 @@ import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.search.PropertySearchEngine;
-import org.RealEstateMM.domain.search.PropertySearchParameters;
+import org.RealEstateMM.domain.search.Search;
+import org.RealEstateMM.domain.search.SearchEngine;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
+import org.RealEstateMM.services.search.dtos.SearchAssembler;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTOAssembler;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,35 +24,33 @@ public class SearchServiceTest {
 	private final String PSEUDO = "pseudo32";
 	private final String OWNER = "owner90";
 
-	private PropertySearchEngine searchEngine;
-	private PropertyAssembler assembler;
+	private SearchEngine searchEngine;
+	private PropertyAssembler propertyAssembler;
 	private Property property;
 	private PropertyDTO propertyDTO;
 	private PropertyAddress address;
 	private PropertyAddressDTO addressDTO;
-	private PropertySearchParametersDTO searchParamsDTO;
-	private PropertySearchParameters searchParams;
-	private PropertySearchParametersDTOAssembler searchParamAssembler;
+	private SearchDTO searchDTO;
+	private Search search;
+	private SearchAssembler searchAssembler;
 
 	private SearchService searchService;
 
 	@Before
 	public void setup() throws Throwable {
-		searchEngine = mock(PropertySearchEngine.class);
-		assembler = mock(PropertyAssembler.class);
+		searchEngine = mock(SearchEngine.class);
+		propertyAssembler = mock(PropertyAssembler.class);
 		addressDTO = mock(PropertyAddressDTO.class);
 		address = mock(PropertyAddress.class);
 		property = mock(Property.class);
 		propertyDTO = mock(PropertyDTO.class);
-		searchParamsDTO = mock(PropertySearchParametersDTO.class);
-		searchParamAssembler = mock(PropertySearchParametersDTOAssembler.class);
-		searchParams = mock(PropertySearchParameters.class);
-		given(searchParamAssembler.fromDTO(searchParamsDTO)).willReturn(searchParams);
-		given(assembler.toDTO(property)).willReturn(propertyDTO);
-		given(assembler.getAddressFromDTO(addressDTO)).willReturn(address);
+		searchDTO = mock(SearchDTO.class);
+		searchAssembler = mock(SearchAssembler.class);
+		given(propertyAssembler.toDTO(property)).willReturn(propertyDTO);
+		given(propertyAssembler.getAddressFromDTO(addressDTO)).willReturn(address);
 
-		ServiceLocator.getInstance().registerService(PropertySearchEngine.class, searchEngine);
-		searchService = new SearchService(assembler, searchParamAssembler);
+		ServiceLocator.getInstance().registerService(SearchEngine.class, searchEngine);
+		searchService = new SearchService(propertyAssembler, searchAssembler);
 	}
 
 	@After
@@ -85,39 +83,23 @@ public class SearchServiceTest {
 
 		PropertyDTO result = searchService.getPropertyAtAddress(PSEUDO, addressDTO);
 
-		verify(assembler).toDTO(property);
+		verify(propertyAssembler).toDTO(property);
 		assertEquals(propertyDTO, result);
 	}
 
 	@Test
 	public void givenAnAddressWhenGetPropertyAtAddressThenUsesAssemblerToGetAddress() throws Exception {
 		searchService.getPropertyAtAddress(PSEUDO, addressDTO);
-		verify(assembler).getAddressFromDTO(addressDTO);
+		verify(propertyAssembler).getAddressFromDTO(addressDTO);
 	}
 
 	@Test
-	public void whenGetPropertiesSearchResultsThenUsesAssemblerToBuildSearchParameters() throws Exception {
-		searchService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
-		verify(searchParamAssembler).fromDTO(searchParamsDTO);
-	}
+	public void whenExecuteSearchThenReturnsSearchResults() throws Exception {
+		given(searchAssembler.fromDTO(searchDTO)).willReturn(search);
+		given(searchEngine.executeSearch(search)).willReturn(buildPropertiesList());
 
-	@Test
-	public void whenGetPropertiesSearchResultsThenGetPropertiesSearchFromProperties() throws Exception {
-		searchService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
-		verify(searchEngine).getPropertiesSearchResults(searchParams);
-	}
+		List<PropertyDTO> returnedDTOs = searchService.executeSearch(PSEUDO, searchDTO);
 
-	@Test
-	public void whenGetPropertiesSearchResultsThenBuildDTOsFromPropertiesWithAssembler() throws Exception {
-		given(searchEngine.getPropertiesSearchResults(searchParams)).willReturn(buildPropertiesList());
-		searchService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
-		verify(assembler).toDTO(property);
-	}
-
-	@Test
-	public void whenGetPropertiesSearchResultsThenReturnsDTOsOfAllProperties() throws Exception {
-		given(searchEngine.getPropertiesSearchResults(searchParams)).willReturn(buildPropertiesList());
-		List<PropertyDTO> returnedDTOs = searchService.getPropertiesSearchResult(PSEUDO, searchParamsDTO);
 		assertTrue(returnedDTOs.contains(propertyDTO));
 	}
 

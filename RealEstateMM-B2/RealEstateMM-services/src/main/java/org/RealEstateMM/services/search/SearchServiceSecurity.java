@@ -9,7 +9,7 @@ import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 public class SearchServiceSecurity implements SearchServiceHandler {
 
@@ -22,10 +22,10 @@ public class SearchServiceSecurity implements SearchServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> getPropertiesSearchResult(String pseudo, PropertySearchParametersDTO searchParam)
+	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchParam)
 			throws ForbiddenAccessException, InvalidSearchParameterException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
-		return service.getPropertiesSearchResult(pseudo, searchParam);
+		return service.executeSearch(pseudo, searchParam);
 	}
 
 	@Override

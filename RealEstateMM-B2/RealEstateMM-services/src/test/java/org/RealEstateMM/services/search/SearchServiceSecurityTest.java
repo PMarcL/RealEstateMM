@@ -10,7 +10,7 @@ import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class SearchServiceSecurityTest {
 	private SearchServiceHandler serviceHandler;
 	private PropertyDTO dto;
 	private PropertyAddressDTO addressDTO;
-	private PropertySearchParametersDTO searchParams;
+	private SearchDTO searchParams;
 
 	private SearchServiceSecurity service;
 
@@ -39,14 +39,14 @@ public class SearchServiceSecurityTest {
 
 	@Test
 	public void givenAnOwnerAndSearchParamsWhenGetPropertiesSearchResultThenValidateUserAccess() throws Exception {
-		service.getPropertiesSearchResult(PSEUDONYM, searchParams);
+		service.executeSearch(PSEUDONYM, searchParams);
 		verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
 	}
 
 	@Test
 	public void givenAnOwnerAndSearchParamsWhenGetPropertiesSearchResultThenShouldAskService() throws Exception {
-		given(serviceHandler.getPropertiesSearchResult(PSEUDONYM, searchParams)).willReturn(propertyList);
-		List<PropertyDTO> result = service.getPropertiesSearchResult(PSEUDONYM, searchParams);
+		given(serviceHandler.executeSearch(PSEUDONYM, searchParams)).willReturn(propertyList);
+		List<PropertyDTO> result = service.executeSearch(PSEUDONYM, searchParams);
 		assertSame(propertyList, result);
 	}
 

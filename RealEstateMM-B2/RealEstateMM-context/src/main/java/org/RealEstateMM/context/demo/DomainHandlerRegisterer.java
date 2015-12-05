@@ -9,9 +9,9 @@ import org.RealEstateMM.domain.message.Messages;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
-import org.RealEstateMM.domain.search.PropertyOrderingFactory;
-import org.RealEstateMM.domain.search.PropertySearchEngine;
-import org.RealEstateMM.domain.search.PropertySearchFilterFactory;
+import org.RealEstateMM.domain.search.PropertyCriteriaFactory;
+import org.RealEstateMM.domain.search.PropertyOrderingStrategyFactory;
+import org.RealEstateMM.domain.search.SearchEngine;
 import org.RealEstateMM.domain.statistics.Statistics;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.Users;
@@ -26,7 +26,7 @@ public class DomainHandlerRegisterer {
 
 	private Properties properties;
 	private Users users;
-	private PropertySearchEngine searchEngine;
+	private SearchEngine searchEngine;
 	private Messages messages;
 	private Statistics statistics;
 
@@ -50,9 +50,9 @@ public class DomainHandlerRegisterer {
 	}
 
 	private void initializeSearchEngine(PropertyRepository propertyRepository) {
-		PropertyOrderingFactory orderingFactory = new PropertyOrderingFactory();
-		PropertySearchFilterFactory filterFactory = new PropertySearchFilterFactory(new PropertyFilterFactory());
-		this.searchEngine = new PropertySearchEngine(propertyRepository, orderingFactory, filterFactory);
+		PropertyOrderingStrategyFactory orderingFactory = new PropertyOrderingStrategyFactory();
+		PropertyCriteriaFactory filterFactory = new PropertyCriteriaFactory(new PropertyFilterFactory());
+		this.searchEngine = new SearchEngine(propertyRepository, orderingFactory, filterFactory);
 	}
 
 	private void initializeUsers(UserRepository userRepository) {
@@ -71,6 +71,6 @@ public class DomainHandlerRegisterer {
 		ServiceLocator.getInstance().registerService(Users.class, users);
 		ServiceLocator.getInstance().registerService(Messages.class, messages);
 		ServiceLocator.getInstance().registerService(Statistics.class, statistics);
-		ServiceLocator.getInstance().registerService(PropertySearchEngine.class, searchEngine);
+		ServiceLocator.getInstance().registerService(SearchEngine.class, searchEngine);
 	}
 }

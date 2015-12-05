@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.RealEstateMM.domain.search.PropertyOrderingParameters;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
+import org.RealEstateMM.domain.search.PropertyOrderingType;
 import org.RealEstateMM.services.search.InvalidSearchParameterException;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 public class PropertySearchParametersFactory {
 	private final String ORDER_BY = "orderBy";
@@ -15,9 +15,9 @@ public class PropertySearchParametersFactory {
 	private final String MIN_NUM_BEDROOMS = "minNumBedrooms";
 	private final String MIN_NUM_BATHROOMS = "minNumBathrooms";
 
-	public PropertySearchParametersDTO getSearchParametersDTO(UriInfo searchParam)
+	public SearchDTO getSearchParametersDTO(UriInfo searchParam)
 			throws InvalidSearchParameterException {
-		PropertySearchParametersDTO searchParamDTO = new PropertySearchParametersDTO();
+		SearchDTO searchParamDTO = new SearchDTO();
 
 		setOrderingParameter(searchParam, searchParamDTO);
 		setMinNumBedroomsParameter(searchParam, searchParamDTO);
@@ -27,16 +27,16 @@ public class PropertySearchParametersFactory {
 		return searchParamDTO;
 	}
 
-	private void setOrderingParameter(UriInfo searchParam, PropertySearchParametersDTO searchParamDTO) {
+	private void setOrderingParameter(UriInfo searchParam, SearchDTO searchParamDTO) {
 		String orderBy = searchParam.getQueryParameters().getFirst(ORDER_BY);
 		if (orderBy == null) {
-			searchParamDTO.setOrderBy(PropertyOrderingParameters.NO_ORDERING.toString());
+			searchParamDTO.setOrderBy(PropertyOrderingType.NO_ORDERING.toString());
 		} else {
 			searchParamDTO.setOrderBy(orderBy);
 		}
 	}
 
-	private void setMinNumBedroomsParameter(UriInfo searchParam, PropertySearchParametersDTO searchParamDTO)
+	private void setMinNumBedroomsParameter(UriInfo searchParam, SearchDTO searchParamDTO)
 			throws InvalidSearchParameterException {
 		String minNumBedrooms = searchParam.getQueryParameters().getFirst(MIN_NUM_BEDROOMS);
 		if (minNumBedrooms != null) {
@@ -50,7 +50,7 @@ public class PropertySearchParametersFactory {
 		}
 	}
 
-	private void setMinNumBathroomsParameter(UriInfo searchParam, PropertySearchParametersDTO searchParamDTO)
+	private void setMinNumBathroomsParameter(UriInfo searchParam, SearchDTO searchParamDTO)
 			throws InvalidSearchParameterException {
 		String minNumBathrooms = searchParam.getQueryParameters().getFirst(MIN_NUM_BATHROOMS);
 		if (minNumBathrooms != null) {
@@ -64,7 +64,7 @@ public class PropertySearchParametersFactory {
 		}
 	}
 
-	private void setPropertyTypesToFilter(UriInfo searchParam, PropertySearchParametersDTO searchParamDTO) {
+	private void setPropertyTypesToFilter(UriInfo searchParam, SearchDTO searchParamDTO) {
 		List<String> propertyTypesToFilter = searchParam.getQueryParameters().get(PROPERTY_TYPES);
 		if (propertyTypesToFilter != null) {
 			searchParamDTO.setPropertyTypes(propertyTypesToFilter);

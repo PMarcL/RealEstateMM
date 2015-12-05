@@ -4,9 +4,9 @@ import static org.mockito.BDDMockito.*;
 
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
-import org.RealEstateMM.services.property.dtos.PropertySearchParametersDTO;
 import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
 import org.RealEstateMM.services.search.SearchServiceHandler;
+import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class SearchServiceAntiCorruptionTest {
 	private PropertyAddressDTO addressDTO;
 	private PropertyInformationsValidator validator;
 	private SearchServiceHandler serviceHandler;
-	private PropertySearchParametersDTO searchParams;
+	private SearchDTO searchParams;
 
 	private SearchServiceAntiCorruption service;
 
@@ -27,7 +27,7 @@ public class SearchServiceAntiCorruptionTest {
 		addressDTO = mock(PropertyAddressDTO.class);
 		serviceHandler = mock(SearchServiceHandler.class);
 		validator = mock(PropertyInformationsValidator.class);
-		searchParams = mock(PropertySearchParametersDTO.class);
+		searchParams = mock(SearchDTO.class);
 
 		service = new SearchServiceAntiCorruption(serviceHandler, validator);
 		propertyDTOReturnsValidInfos();
@@ -47,8 +47,8 @@ public class SearchServiceAntiCorruptionTest {
 
 	@Test
 	public void whenGetAllPropertiesThenCallsPropertyService() throws Throwable {
-		service.getPropertiesSearchResult(PSEUDO, searchParams);
-		verify(serviceHandler).getPropertiesSearchResult(PSEUDO, searchParams);
+		service.executeSearch(PSEUDO, searchParams);
+		verify(serviceHandler).executeSearch(PSEUDO, searchParams);
 	}
 
 	@Test

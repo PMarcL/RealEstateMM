@@ -5,6 +5,6 @@ import org.RealEstateMM.domain.property.Property;
 
 public interface PropertyOrderingStrategy {
 
-	public List<Property> getOrderedProperties(List<Property> properties);
+	public List<Property> sort(List<Property> properties);
 
 }
