@@ -6,6 +6,7 @@ import java.util.List;
 import org.RealEstateMM.domain.message.Message;
 import org.RealEstateMM.domain.message.Messages;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
+import org.RealEstateMM.domain.message.UserIsNotTheRecipient;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.dtos.MessageAssembler;
@@ -21,13 +22,13 @@ public class MessageService {
 		messages = ServiceLocator.getInstance().getService(Messages.class);
 	}
 
-	public void contactSeller(String buyerPseudonym, MessageDTO message) throws UserNotFoundException,
-			UserIsNotASellerException {
+	public void contactSeller(String buyerPseudonym, MessageDTO message)
+			throws UserNotFoundException, UserIsNotASellerException {
 		messages.contactSeller(buyerPseudonym, message.getRecipientPseudonym(), message.getMessage());
 	}
 
-	public List<MessageDTO> getNewMessages(String pseudonym) {
-		List<Message> messageList = messages.getMessages();
+	public List<MessageDTO> getUserMessages(String pseudonym) {
+		List<Message> messageList = messages.getUserMessages(pseudonym);
 
 		List<MessageDTO> messageDTOList = new LinkedList<MessageDTO>();
 		for (Message m : messageList) {
@@ -37,6 +38,8 @@ public class MessageService {
 		return messageDTOList;
 	}
 
-	// TODO supprimer alert (message read)
+	public void readMessages(String pseudo) {
+		messages.readMessages(pseudo);
+	}
 
 }

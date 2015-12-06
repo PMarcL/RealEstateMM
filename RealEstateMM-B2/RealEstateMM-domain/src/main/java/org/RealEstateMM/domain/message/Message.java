@@ -2,9 +2,9 @@ package org.RealEstateMM.domain.message;
 
 public class Message {
 
-	protected String senderPseudonym;
-	protected String recipientPseudonym;
-	protected String message;
+	private String senderPseudonym;
+	private String recipientPseudonym;
+	private String message;
 	private boolean isUnread;
 
 	public Message(String senderPseudonym, String recipientPseudonym, String message, boolean isUnread) {
@@ -18,8 +18,8 @@ public class Message {
 		return isUnread;
 	}
 
-	public void setUnread(boolean isUnread) {
-		this.isUnread = isUnread;
+	public void markAsRead() {
+		this.isUnread = false;
 	}
 
 	public String getSenderPseudonym() {

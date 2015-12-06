@@ -12,20 +12,39 @@
 <header></header>
 
 <h2 style="margin: 0">Property details</h2>
+
 <div class="divider"></div>
 
-<div id="imageContainer" >
-    <img src="asset/image/house.png" class="hoverable" />
-    <img src="asset/image/livingRoom.jpg" class="hoverable" />
-    <img src="asset/image/kitchen.jpg" class="hoverable" />
-    <img src="asset/image/bathroom.jpg" class="hoverable" />
+<div id="imageContainer">
+    <img src="asset/image/house.png" class="hoverable"/>
+    <img src="asset/image/livingRoom.jpg" class="hoverable"/>
+    <img src="asset/image/kitchen.jpg" class="hoverable"/>
+    <img src="asset/image/bathroom.jpg" class="hoverable"/>
 </div>
+
+<div class="darkCloud">
+</div>
+<div class="contactSellerPage">
+    <div class="contactSellerTitle">Message:</div>
+    <div class="closeContactButton"><a class="btn-floating red" onclick="closeContactMessage()"> <i class="material-icons">delete</i></a></div>
+    <div class="contactSellerText">
+        <textarea class="contactSellerTextArea"></textarea>
+    </div>
+    <div class="contactSellerSend">
+        <a class='waves-effect waves-light btn' onclick="postContactMessage()">Send</a>
+    </div>
+
+</div>
+
 
 <div class='row'>
     <div class='col s8 offset-s1 card-panel hoverable'>
+
         <div id="detailsContainer"></div>
     </div>
+
 </div>
+
 
 <script src="jquery/jquery-2.1.4.js"></script>
 <script src="asset/js/LoadMainMenu.js"></script>

@@ -1,6 +1,7 @@
 package org.RealEstateMM.domain.message;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserNotFoundException;
@@ -23,6 +24,7 @@ public class Messages {
 			throws UserNotFoundException, UserIsNotASellerException {
 		User buyer = userRepository.getUserWithPseudonym(buyerPseudonym);
 		User seller = userRepository.getUserWithPseudonym(sellerPseudonym);
+
 		if (seller.getRoleDescription() != UserRole.AccessLevel.SELLER) {
 			throw new UserIsNotASellerException(sellerPseudonym);
 		}
@@ -31,9 +33,12 @@ public class Messages {
 		messageRepository.add(message);
 	}
 
-	public List<Message> getMessages() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Message> getUserMessages(String pseudonym) {
+		List<Message> userMessages = messageRepository.getMessagesByRecipient(pseudonym);
+		return userMessages;
 	}
 
+	public void readMessages(String pseudo)  {	
+		messageRepository.readMessages(pseudo);
+	}
 }

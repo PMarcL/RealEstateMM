@@ -1,6 +1,11 @@
 package org.RealEstateMM.domain.message;
 
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserNotFoundException;
@@ -17,6 +22,7 @@ public class MessagesTest {
 
 	private static final User A_BUYER = mock(User.class);
 	private static final User A_SELLER = mock(User.class);
+	private static final String A_MESSAGE_ID = UUID.randomUUID().toString();
 
 	private MessageRepository messageRepository;
 	private UserRepository userRepository;
@@ -68,6 +74,32 @@ public class MessagesTest {
 		String aMessageOrNot = null;
 		messages.contactSeller(A_BUYER_PSEUDO, A_BUYER_PSEUDO, aMessageOrNot);
 		verify(messageRepository, times(0)).add(any());
+	}
+
+	@Test
+	public void givenAUserPseudoWhenGetNewMessagesThenReturnsAListOfUnreadMessagesSentToTheUser() {
+		Message message1 = aMessageMockWithUnreadStatus(true);
+		Message message2 = aMessageMockWithUnreadStatus(false);
+
+		List<Message> userMessages = new LinkedList<Message>();
+		userMessages.add(message1);
+		userMessages.add(message2);
+		int numberOfUnreadMessages = 1;
+
+		given(messageRepository.getMessagesByRecipient(A_SELLER_PSEUDO)).willReturn(userMessages);
+
+		List<Message> actual = messages.getUserMessages(A_SELLER_PSEUDO);
+
+		assertTrue(actual.contains(message1));
+		assertEquals(numberOfUnreadMessages, actual.size());
+	}
+
+
+
+	private Message aMessageMockWithUnreadStatus(boolean isUnread) {
+		Message message = mock(Message.class);
+		given(message.isUnread()).willReturn(isUnread);
+		return message;
 	}
 
 }
