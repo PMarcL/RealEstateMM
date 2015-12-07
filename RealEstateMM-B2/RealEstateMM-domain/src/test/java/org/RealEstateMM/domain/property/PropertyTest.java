@@ -143,6 +143,26 @@ public class PropertyTest {
 		assertTrue(property.hasAtLeastNBathrooms(A_NUMBER_OF_BATHROOMS));
 	}
 
+	@Test
+	public void givenAStatusWhenHasStatusThenReturnsTrueIfThePropertyHasTheStatus() {
+		assertTrue(property.hasStatus(A_PROPERTY_STATUS));
+	}
+
+	@Test
+	public void givenAStatusWhenHasStatusThenReturnsFalseIfTheStatusIsDifferent() {
+		assertFalse(property.hasStatus(PropertyStatus.SOLD));
+	}
+
+	@Test
+	public void givenATypeWhenHasTypeThenReturnsTrueIfThePropertyHasTheType() {
+		assertTrue(property.hasType(A_PROPERTY_TYPE));
+	}
+
+	@Test
+	public void givenATypeWhenHasTypeThenReturnsFalseIfTheTypeIsDifferent() {
+		assertFalse(property.hasType(PropertyType.FARM));
+	}
+
 	private void setPropertyFeatures() {
 		PropertyFeatures newFeatures = new PropertyFeatures(A_NUMBER_OF_BATHROOMS, A_NUMBER_OF_BEDROOMS,
 				A_TOTAL_NUMBER_OF_ROOMS, A_NUMBER_OF_LEVEL, A_LOT_DIMENSION, A_YEAR_OF_CONSTRUCTION,

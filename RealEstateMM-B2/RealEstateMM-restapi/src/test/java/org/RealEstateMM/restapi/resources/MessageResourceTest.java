@@ -5,16 +5,12 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
-
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
-import org.RealEstateMM.domain.message.UserIsNotTheRecipient;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.MessageService;
@@ -84,8 +80,8 @@ public class MessageResourceTest {
 	}
 
 	@Test
-	public void givenAUserIsNotASellerWhenContactSellerThenReturnABadRequestStatus()
-			throws UserNotFoundException, UserIsNotASellerException {
+	public void givenAUserIsNotASellerWhenContactSellerThenReturnABadRequestStatus() throws UserNotFoundException,
+			UserIsNotASellerException {
 
 		doThrow(new UserIsNotASellerException(null)).when(messageService).contactSeller(A_PSEUDONYM, A_MESSAGE_DTO);
 
@@ -95,8 +91,8 @@ public class MessageResourceTest {
 	}
 
 	@Test
-	public void givenAUserNotFoundWhenContactSellerThenReturnABadRequestStatus()
-			throws UserNotFoundException, UserIsNotASellerException {
+	public void givenAUserNotFoundWhenContactSellerThenReturnABadRequestStatus() throws UserNotFoundException,
+			UserIsNotASellerException {
 
 		doThrow(new UserNotFoundException(null)).when(messageService).contactSeller(A_PSEUDONYM, A_MESSAGE_DTO);
 

@@ -57,7 +57,7 @@ public class UserTypeFilterTest {
 
 	private User aUserMockReturningUserType(AccessLevel userType) {
 		User user = mock(User.class);
-		given(user.getRoleDescription()).willReturn(userType);
+		given(user.isAuthorized(userType)).willReturn(true);
 		return user;
 	}
 
