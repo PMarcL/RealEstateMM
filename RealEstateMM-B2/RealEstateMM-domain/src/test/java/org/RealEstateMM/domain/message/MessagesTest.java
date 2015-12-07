@@ -74,22 +74,21 @@ public class MessagesTest {
 	}
 
 	@Test
-	public void givenAUserPseudoWhenGetNewMessagesThenReturnsAListOfUnreadMessagesSentToTheUser() {
+	public void givenAUserPseudoGetUserMessagesWillReturnBothMessagesIfHeHasMultiple() {
 		Message message1 = aMessageMockWithUnreadStatus(true);
 		Message message2 = aMessageMockWithUnreadStatus(false);
 
 		List<Message> userMessages = new LinkedList<Message>();
 		userMessages.add(message1);
 		userMessages.add(message2);
-		int numberOfUnreadMessages = 1;
+		int numberOfMessages = 2;
 
 		given(messageRepository.getMessagesByRecipient(A_SELLER_PSEUDO)).willReturn(userMessages);
 
 		List<Message> actual = messages.getUserMessages(A_SELLER_PSEUDO);
 
 		assertTrue(actual.contains(message1));
-		// TODO wtf is this? assertEquals(numberOfUnreadMessages,
-		// actual.size());
+		assertEquals(numberOfMessages, actual.size());
 	}
 
 	private Message aMessageMockWithUnreadStatus(boolean isUnread) {
