@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyStatusFilterTest {
+	private final PropertyStatus STATUS = PropertyStatus.ON_SALE;
 
 	private PropertyStatusFilter propertyStatusFilter;
 
@@ -22,23 +23,23 @@ public class PropertyStatusFilterTest {
 
 	@Test
 	public void givenAListOfPropertiesWhenFilterOnSalePropertiesThenReturnOnlyThePropertiesWithStatusOnSale() {
-		Property soldProperty = aPropertyMockWithStatus(PropertyStatus.SOLD);
-		Property propertyOnSale = aPropertyMockWithStatus(PropertyStatus.ON_SALE);
+		Property soldProperty = aFilteredProperty(false);
+		Property propertyOnSale = aFilteredProperty(true);
 
 		Collection<Property> properties = new ArrayList<Property>();
 		properties.add(soldProperty);
 		properties.add(propertyOnSale);
 		int numberOfPropertiesOnSale = 1;
 
-		Collection<Property> actual = propertyStatusFilter.filter(properties, PropertyStatus.ON_SALE);
+		Collection<Property> actual = propertyStatusFilter.filter(properties, STATUS);
 
 		assertTrue(actual.contains(propertyOnSale));
 		assertEquals(numberOfPropertiesOnSale, actual.size());
 	}
 
-	private Property aPropertyMockWithStatus(PropertyStatus propertyStatus) {
+	private Property aFilteredProperty(boolean isFiltered) {
 		Property property = mock(Property.class);
-		given(property.getStatus()).willReturn(propertyStatus);
+		given(property.hasStatus(STATUS)).willReturn(isFiltered);
 		return property;
 	}
 

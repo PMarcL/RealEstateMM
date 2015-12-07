@@ -9,7 +9,7 @@ import org.RealEstateMM.domain.property.informations.PropertyStatus;
 public class PropertyStatusFilter {
 
 	public Collection<Property> filter(Collection<Property> properties, PropertyStatus status) {
-		return properties.stream().filter(p -> p.getStatus() == status).collect(Collectors.toList());
+		return properties.stream().filter(p -> p.hasStatus(status)).collect(Collectors.toList());
 	}
 
 }

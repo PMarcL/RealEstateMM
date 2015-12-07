@@ -19,6 +19,30 @@ public class User {
 		lock();
 	}
 
+	public UserInformations getUserInformations() {
+		return userInformations;
+	}
+
+	public String getPseudonym() {
+		return userInformations.pseudonym;
+	}
+
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public AccessLevel getRoleDescription() {
+		return role.getRoleDescription();
+	}
+
+	public void updateUserInformations(UserInformations userInformations) {
+		this.userInformations = userInformations;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
 	public void authenticate(String password) {
 		if (isLocked()) {
 			throw new UnconfirmedEmailException();
@@ -33,52 +57,28 @@ public class User {
 		this.lastLoginDate = new Date();
 	}
 
-	public UserInformations getUserInformations() {
-		return userInformations;
-	}
-
-	public String getPseudonym() {
-		return userInformations.pseudonym;
-	}
-
-	public boolean hasPassword(String password) {
-		return userInformations.password.equals(password);
-	}
-
-	public Date getLastLoginDate() {
-		return lastLoginDate;
-	}
-
 	public boolean isLocked() {
 		return isLocked;
-	}
-
-	public void unlock() {
-		isLocked = false;
-	}
-
-	public boolean hasEmailAddress(String emailAddress) {
-		return userInformations.emailAddress.equals(emailAddress);
-	}
-
-	public void updateUserInformations(UserInformations userInformations) {
-		this.userInformations = userInformations;
 	}
 
 	public void lock() {
 		isLocked = true;
 	}
 
-	public AccessLevel getRoleDescription() {
-		return role.getRoleDescription();
+	public void unlock() {
+		isLocked = false;
+	}
+
+	public boolean hasPassword(String password) {
+		return userInformations.password.equals(password);
+	}
+
+	public boolean hasEmailAddress(String emailAddress) {
+		return userInformations.emailAddress.equals(emailAddress);
 	}
 
 	public boolean isAuthorized(AccessLevel accessLevel) {
 		return role.isAuthorized(accessLevel);
-	}
-
-	public void setLastLoginDate(Date lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
 	}
 
 	public boolean hasLoggedLastAfter(Date when) {

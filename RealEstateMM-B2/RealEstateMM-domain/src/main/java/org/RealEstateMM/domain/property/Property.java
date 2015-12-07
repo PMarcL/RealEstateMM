@@ -104,4 +104,12 @@ public class Property {
 	public boolean hasAtLeastNBathrooms(int numberOfBathrooms) {
 		return features.numberOfBathrooms >= numberOfBathrooms;
 	}
+
+	public boolean hasStatus(PropertyStatus aPropertyStatus) {
+		return status.equals(aPropertyStatus);
+	}
+
+	public boolean hasType(PropertyType aPropertyType) {
+		return type.equals(aPropertyType);
+	}
 }

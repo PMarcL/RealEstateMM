@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyTypeFilterTest {
+	private final PropertyType TYPE_TO_FILTER = PropertyType.HOUSE;
 
 	private PropertyTypeFilter propertyTypeFilter;
 
@@ -22,9 +23,9 @@ public class PropertyTypeFilterTest {
 
 	@Test
 	public void givenAPropertyListWhenFilterTypeHouseThenReturnsOnlyHousePropertiesOftheInitialList() {
-		Property aFarm = aMockPropertyWithType(PropertyType.FARM);
-		Property aCommercial = aMockPropertyWithType(PropertyType.COMMERCIAL);
-		Property aHouse = aMockPropertyWithType(PropertyType.HOUSE);
+		Property aFarm = aFilteredMockProperty(false);
+		Property aCommercial = aFilteredMockProperty(false);
+		Property aHouse = aFilteredMockProperty(true);
 
 		Collection<Property> properties = new ArrayList<Property>();
 		properties.add(aFarm);
@@ -38,9 +39,9 @@ public class PropertyTypeFilterTest {
 		assertEquals(numberOfHousesInProperties, actual.size());
 	}
 
-	private Property aMockPropertyWithType(PropertyType type) {
+	private Property aFilteredMockProperty(boolean isFiltered) {
 		Property property = mock(Property.class);
-		given(property.getType()).willReturn(type);
+		given(property.hasType(TYPE_TO_FILTER)).willReturn(isFiltered);
 		return property;
 	}
 }

@@ -1,12 +1,11 @@
 package org.RealEstateMM.domain.message;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.UserRepository;
-import org.RealEstateMM.domain.user.UserRole;
+import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 
 public class Messages {
 
@@ -25,7 +24,7 @@ public class Messages {
 		User buyer = userRepository.getUserWithPseudonym(buyerPseudonym);
 		User seller = userRepository.getUserWithPseudonym(sellerPseudonym);
 
-		if (seller.getRoleDescription() != UserRole.AccessLevel.SELLER) {
+		if (!seller.isAuthorized(AccessLevel.SELLER)) {
 			throw new UserIsNotASellerException(sellerPseudonym);
 		}
 
@@ -38,7 +37,7 @@ public class Messages {
 		return userMessages;
 	}
 
-	public void readMessages(String pseudo)  {	
+	public void readMessages(String pseudo) {
 		messageRepository.readMessages(pseudo);
 	}
 }
