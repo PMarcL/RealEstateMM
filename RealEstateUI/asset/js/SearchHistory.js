@@ -1,8 +1,19 @@
 
 $('.saveSearchBtn').click(function(){
-    var data = buildSearchParam();
-    PostSearchParameters(data);
+    if($('#searchName').val() == '') {
+        $('.noNameSearch').show();
+    }
+    else {
+        $('.noNameSearch').hide();
+        var data = buildSearchParam();
+        PostSearchParameters(data);
+    }
 });
+
+$('.deleteSearchBtn').click(function(){
+
+});
+
 
 function buildSearchParam(){
     var propertyTypesArray = new Array;

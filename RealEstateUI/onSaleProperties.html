@@ -35,8 +35,10 @@
 
 <div class="formAdvancedSearch container" id="advancedSearchForm" style="display: none">
     <div>
+        <div class="card-panel red noNameSearch" style="display: none;"><p class="white-text">Fill the name field to save search criteria.</p></div>
         <a class="waves-effect waves-light btn saveSearchBtn">Save Search</a>
-        <div class="input-field col s3" style="float: none; display: inline-block">
+        <a class="waves-effect waves-light btn red deleteSearchBtn">Delete Search</a>
+        <div class="input-field col s3" style="float: none; display: block">
             <input id="searchName" type="text" class="validate">
             <label for="searchName">Search Name</label>
         </div>
@@ -45,6 +47,7 @@
                 <option value="" disabled selected>Load search criteria</option>
             </select>
     </div>
+
     <form id="advancedForm" style="display: inline-block">
         <div class="input-field">
             Bathroom number:

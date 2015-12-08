@@ -29,9 +29,9 @@ function createHtmlPropertyList(propertiesJSON) {
     var buffer = "";
     $('#propertylist').empty();
     if(propertiesJSON.length <= 0){
-        $('#noPropertiesReturned').css('visibility','visible');
+        $('#noPropertiesReturned').show();
     } else {
-        $('#noPropertiesReturned').css('visibility','hidden');
+        $('#noPropertiesReturned').hide();
         $.each(propertiesJSON, function () {
             buffer = buffer
                 + "<li class='propertylist-item'><div class='type'>" + this.propertyType + "</div>"
