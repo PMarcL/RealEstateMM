@@ -62,19 +62,6 @@ public class SearchResourceTest {
 	}
 
 	@Test
-	public void givenATokenWhenEditSearchThenValidateToken() throws Exception {
-		searchResource.editSearch(TOKEN, searchParams);
-		verify(sessionService).validate(TOKEN);
-	}
-
-	@Test
-	public void givenAnInvalidTokenWhenEditSearchThenReturnsUnauthorizedStatusCode() throws Exception {
-		doThrow(InvalidSessionTokenException.class).when(sessionService).validate(TOKEN);
-		Response result = searchResource.editSearch(TOKEN, searchParams);
-		assertEquals(Status.UNAUTHORIZED, result.getStatusInfo());
-	}
-
-	@Test
 	public void givenATokenWhenDeleteSearchThenValidateToken() throws Exception {
 		searchResource.deleteSearch(TOKEN, searchParams);
 		verify(sessionService).validate(TOKEN);

@@ -52,20 +52,6 @@ public class SearchResource {
 		}
 	}
 
-	@PUT
-	@Path("{token}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editSearch(@PathParam("token") String token, SearchDTO searchParams) {
-		// TODO utilise le service pour mettre à jour un
-		// PropertySearchParameters existant
-		try {
-			sessionService.validate(token);
-			return Response.ok(Status.OK).build();
-		} catch (InvalidSessionTokenException e) {
-			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
-		}
-	}
-
 	@DELETE
 	@Path("{token}")
 	@Consumes(MediaType.APPLICATION_JSON)

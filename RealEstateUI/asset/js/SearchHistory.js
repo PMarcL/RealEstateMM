@@ -1,17 +1,24 @@
 
 $('.saveSearchBtn').click(function(){
     if($('#searchName').val() == '') {
-        $('.noNameSearch').show();
+        $('.errorSearch').show();
     }
     else {
-        $('.noNameSearch').hide();
+        $('.errorSearch').hide();
         var data = buildSearchParam();
         PostSearchParameters(data);
     }
 });
 
 $('.deleteSearchBtn').click(function(){
-
+    if($('#searchName').val() == '') {
+        $('.errorSearch').show();
+    }
+    else {
+        $('.errorSearch').hide();
+        var data = buildSearchParam();
+        DeleteSearchParameters(data);
+    }
 });
 
 
@@ -49,6 +56,22 @@ function PostSearchParameters(data) {
         },
         error: function(){
             console.log('save search error');
+        }
+    });
+}
+
+function DeleteSearchParameters(data) {
+    $.ajax({
+        url: "http://localhost:8080/search/" + new TokenCookie().cookie(),
+        type: 'DELETE',
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: 'json',
+        success: function(){
+            console.log('delete params done');
+        },
+        error: function(){
+            console.log('delete search error');
         }
     });
 }
