@@ -3,6 +3,7 @@ package org.RealEstateMM.services.search.dtos;
 import java.util.List;
 
 public class SearchDTO {
+	private String name;
 	private String orderBy;
 	private List<String> propertyTypes;
 	private int minNumBedrooms;
@@ -42,5 +43,13 @@ public class SearchDTO {
 
 	public void setMinNumBathrooms(int minNumBathrooms) {
 		this.minNumBathrooms = minNumBathrooms;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

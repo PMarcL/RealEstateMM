@@ -15,7 +15,6 @@ function getProperties(param) {
         url: "http://localhost:8080/property/" + new TokenCookie().cookie() + "/search?" + param,
         type: "GET",
         contentType: "application/json",
-
         success: function (data, status, httpResponse) {
             var propertiesJSON = JSON.parse(httpResponse.responseText);
             createHtmlPropertyList(propertiesJSON);
@@ -62,17 +61,6 @@ $('#propertylist').on('click', '.editProperty', function(){
     $.cookie("currentPropertyAddress", JSON.stringify(propertyAddress));
     window.location.href = 'propertyDetails.html';
 });
-
-function loopForm(form) {
-    var cbResults = [];
-    for (var i = 0; i < form.elements.length; i++) {
-        if (form.elements[i].type == 'checkbox') {
-            if (form.elements[i].checked == true) {
-                cbResults += form.elements[i].value + '';
-            }
-        }
-    }
-}
 
 function GetPropertiesWithForm(){
     var form =  document.getElementById("advancedForm");

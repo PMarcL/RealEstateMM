@@ -1,6 +1,9 @@
 package org.RealEstateMM.context.demo;
 
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.search.SearchFactory;
+import org.RealEstateMM.domain.search.criterias.SearchCriteriaFactory;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategyFactory;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRoleFactory;
@@ -11,7 +14,6 @@ import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.PropertyServiceHandler;
 import org.RealEstateMM.services.property.PropertyServiceSecurity;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
-import org.RealEstateMM.services.property.dtos.PropertyOrderingParametersParser;
 import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
 import org.RealEstateMM.services.property.validation.PropertyServiceAntiCorruption;
 import org.RealEstateMM.services.search.SearchService;
@@ -48,9 +50,8 @@ public class ServiceRegisterer {
 	}
 
 	private void initializeSearchService(UserRepository userRepository) {
-		PropertyOrderingParametersParser orderingParamParser = new PropertyOrderingParametersParser();
-		SearchAssembler searchParamAssembler = new SearchAssembler(
-				orderingParamParser);
+		SearchAssembler searchParamAssembler = new SearchAssembler(new SearchFactory(
+				new PropertyOrderingStrategyFactory()), new SearchCriteriaFactory());
 		PropertyAssembler propertyAssembler = new PropertyAssembler();
 
 		SearchService service = new SearchService(propertyAssembler, searchParamAssembler);

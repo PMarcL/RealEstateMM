@@ -26,10 +26,26 @@
     </div>
 </div>
 
-<a class='waves-effect waves-light btn editProperty' id="toggleAdvancedSearchForm">Advanced options</a>
+<div class="Search">
+    <a class="waves-effect waves-light btn" onclick="GetPropertiesWithForm()">Search</a>
+    <a class='waves-effect waves-light btn editProperty' id="toggleAdvancedSearchForm">Advanced options</a>
+</div>
 
-<div class="formAdvancedSearch" id="advancedSearchForm" style="display: none; width: 80%; margin: auto">
-    <form id="advancedForm">
+<div class="divider" style="margin: 20px 0 20px 0;"></div>
+
+<div class="formAdvancedSearch container" id="advancedSearchForm" style="display: none">
+    <div>
+        <a class="waves-effect waves-light btn saveSearchBtn">Save Search</a>
+        <div class="input-field col s3" style="float: none; display: inline-block">
+            <input id="searchName" type="text" class="validate">
+            <label for="searchName">Search Name</label>
+        </div>
+        <div class="input-field select" style="float: none; display: inline-block">
+            <select style="display:block" id="previousSearch">
+                <option value="" disabled selected>Load search criteria</option>
+            </select>
+    </div>
+    <form id="advancedForm" style="display: inline-block">
         <div class="input-field">
             Bathroom number:
             <div id="rangeBathroom-input">
@@ -82,13 +98,15 @@
                 </p>
             </div>
         </div>
-        <div class="Search"><a class="waves-effect waves-light btn" onclick="GetPropertiesWithForm()">Search</a></div>
     </form>
+    <div class="divider" style="margin: 20px 0 20px 0;"></div>
 </div>
+
 
 <ul id="propertylist" style="margin:0;">
 </ul>
-<div id="noPropertiesReturned"> No properties Returned with this request</div>
+
+<div id="noPropertiesReturned" style="text-align: center">No properties Returned with this request</div>
 
 <script src="jquery/jquery-2.1.4.js"></script>
 <script src="asset/js/LoadMainMenu.js"></script>
@@ -96,7 +114,8 @@
 <script src="materialize/js/materialize.min.js"></script>
 <script src="materialize/js/nouislider.js"></script>
 <script src="asset/js/TokenCookie.js"></script>
-<script src="asset/js/onSaleProp.js"></script>
+<script src="asset/js/OnSalePropertySliders.js"></script>
+<script src="asset/js/GetProperties.js"></script>
 <script src="asset/js/GetProperties.js"></script>
 <script type="text/javascript">
     $(function() {
@@ -117,5 +136,6 @@
     var valueInputBedroomMin = document.getElementById('valueBedroom-Min');
     updateSlider(sliderBedroom, valueInputBedroomMin);
 </script>
+<script type="text/javascript" src="asset/js/SearchHistory.js"></script>
 </body>
 </html>

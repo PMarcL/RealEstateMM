@@ -1,18 +1,16 @@
 package org.RealEstateMM.persistence.xml.user;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserRole;
 import org.RealEstateMM.domain.user.UserRoleFactory;
 import org.RealEstateMM.persistence.xml.InvalidXmlFileException;
+import org.RealEstateMM.persistence.xml.util.DateUtil;
 
 public class XmlUserAssembler {
 
-	public final static String DATE_FORMAT_NOW = "yyyy-MM-dd-HH:mm:ss";
-	private SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT_NOW);
 	private UserRoleFactory roleFactory;
 
 	public XmlUserAssembler(UserRoleFactory roleFactory) {
@@ -31,7 +29,7 @@ public class XmlUserAssembler {
 		newUser.setPhoneNumber(userInfo.phoneNumber);
 		newUser.setUserType(user.getRoleDescription().toString());
 		newUser.setLocked(user.isLocked());
-		newUser.setLastLoginDate(dateFormatter.format(user.getLastLoginDate()));
+		newUser.setLastLoginDate(DateUtil.formatDate(user.getLastLoginDate()));
 
 		return newUser;
 	}
@@ -47,7 +45,7 @@ public class XmlUserAssembler {
 
 		if (xmlUser.getLastLoginDate() != null) {
 			try {
-				user.setLastLoginDate(dateFormatter.parse(xmlUser.getLastLoginDate()));
+				user.setLastLoginDate(DateUtil.parseDate(xmlUser.getLastLoginDate()));
 			} catch (ParseException e) {
 				throw new InvalidXmlFileException();
 			}

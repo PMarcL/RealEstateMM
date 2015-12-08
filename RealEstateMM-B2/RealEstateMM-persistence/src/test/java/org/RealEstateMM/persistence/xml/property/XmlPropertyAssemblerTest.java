@@ -8,6 +8,7 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
+import org.RealEstateMM.persistence.xml.util.DateUtil;
 import org.junit.Before;
 import org.junit.Test;
 

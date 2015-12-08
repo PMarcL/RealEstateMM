@@ -1,4 +1,4 @@
-package org.RealEstateMM.persistence.xml.property;
+package org.RealEstateMM.persistence.xml.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -8,6 +8,7 @@ import org.RealEstateMM.domain.property.informations.PropertyFeatures;
 import org.RealEstateMM.domain.property.informations.PropertyStatus;
 import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.persistence.xml.InvalidXmlFileException;
+import org.RealEstateMM.persistence.xml.util.DateUtil;
 
 public class XmlPropertyAssembler {
 
