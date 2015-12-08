@@ -35,8 +35,8 @@ public class MessagesTest {
 
 		given(userRepository.getUserWithPseudonym(A_BUYER_PSEUDO)).willReturn(A_BUYER);
 		given(userRepository.getUserWithPseudonym(A_SELLER_PSEUDO)).willReturn(A_SELLER);
-		given(userRepository.getUserWithPseudonym(AN_INVALID_PSEUDO))
-				.willThrow(new UserNotFoundException(AN_INVALID_PSEUDO));
+		given(userRepository.getUserWithPseudonym(AN_INVALID_PSEUDO)).willThrow(
+				new UserNotFoundException(AN_INVALID_PSEUDO));
 		given(A_SELLER.isAuthorized(AccessLevel.SELLER)).willReturn(true);
 		given(A_BUYER.isAuthorized(AccessLevel.SELLER)).willReturn(false);
 
@@ -49,8 +49,8 @@ public class MessagesTest {
 		String aMessageOrNot = null;
 
 		Message contactSellerMessage = mock(Message.class);
-		given(messageFactory.createContactSellerMessage(A_BUYER, A_SELLER, aMessageOrNot))
-				.willReturn(contactSellerMessage);
+		given(messageFactory.createContactSellerMessage(A_BUYER, A_SELLER, aMessageOrNot)).willReturn(
+				contactSellerMessage);
 
 		messages.contactSeller(A_BUYER_PSEUDO, A_SELLER_PSEUDO, aMessageOrNot);
 
@@ -74,20 +74,21 @@ public class MessagesTest {
 	}
 
 	@Test
-	public void givenAUserPseudoWhenGetNewMessagesThenReturnsAListOfUnreadMessagesSentToTheUser() {
+	public void givenAUserPseudoGetUserMessagesWillReturnBothMessagesIfHeHasMultiple() {
 		Message message1 = aMessageMockWithUnreadStatus(true);
 		Message message2 = aMessageMockWithUnreadStatus(false);
 
 		List<Message> userMessages = new LinkedList<Message>();
 		userMessages.add(message1);
 		userMessages.add(message2);
+		int numberOfMessages = 2;
+
 		given(messageRepository.getMessagesByRecipient(A_SELLER_PSEUDO)).willReturn(userMessages);
 
 		List<Message> actual = messages.getUserMessages(A_SELLER_PSEUDO);
 
 		assertTrue(actual.contains(message1));
-		// TODO wtf is this? assertEquals(numberOfUnreadMessages,
-		// actual.size());
+		assertEquals(numberOfMessages, actual.size());
 	}
 
 	private Message aMessageMockWithUnreadStatus(boolean isUnread) {
