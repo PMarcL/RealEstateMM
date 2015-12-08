@@ -8,14 +8,12 @@ import org.RealEstateMM.domain.message.MessageRepository;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
 import org.RealEstateMM.persistence.xml.XmlMarshallingException;
-import org.RealEstateMM.persistence.xml.property.XmlPropertyCollection;
 
 public class XmlMessageRepository implements MessageRepository {
 
 	private XmlMarshaller marshaller;
 	private XmlMessageAssembler messageAssembler;
 	private XmlMessageCollection messageCache;
-
 
 	public XmlMessageRepository(XmlMarshaller marshaller, XmlMessageAssembler messageAssembler) {
 		this.marshaller = marshaller;

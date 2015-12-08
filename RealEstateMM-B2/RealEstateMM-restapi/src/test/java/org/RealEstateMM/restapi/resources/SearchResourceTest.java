@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SearchResourceTest {
-	private final String PSEUDO = "bobby134";
 	private final String TOKEN = "aToken";
 
 	private SearchDTO searchParams;
