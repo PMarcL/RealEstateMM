@@ -1,8 +1,6 @@
 package org.RealEstateMM.domain.search.ordering;
 
 import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
-
 import org.RealEstateMM.domain.search.ordering.AscendingAddedDateOrdering;
 import org.RealEstateMM.domain.search.ordering.DescendingPriceOrdering;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategy;
@@ -15,47 +13,41 @@ import org.junit.Test;
 
 public class PropertyOrderingStrategyFactoryTest {
 
-	private PropertySearchParameters searchParam;
 	private PropertyOrderingStrategyFactory factory;
 
 	@Before
 	public void setup() {
 		factory = new PropertyOrderingStrategyFactory();
-		searchParam = mock(PropertySearchParameters.class);
 	}
 
 	@Test
-	public void givenPropertySearchFilterRecentlyUploadedFirstWhenGetOrderingStrategyThenReturnsInstanceOfRecentlyUploadedFirst() {
-		given(searchParam.getOrderingParam()).willReturn(PropertyOrderingType.RECENTLY_UPLOADED_FIRST);
-		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParam);
+	public void givenOrderByRecentlyUploadedFirstWhenGetOrderingStrategyThenReturnsInstanceOfRecentlyUploadedFirst() {
+		PropertyOrderingStrategy strategy = factory
+				.createOrderingStrategy(PropertyOrderingType.RECENTLY_UPLOADED_FIRST);
 		assertTrue(strategy instanceof DescendingAddedDateOrdering);
 	}
 
 	@Test
-	public void givenPropertySearchFilterRecentlyUploadedLastWhenGetOrderingStrategyThenReturnsInstanceOfRecentlyUploadedLast() {
-		given(searchParam.getOrderingParam()).willReturn(PropertyOrderingType.RECENTLY_UPLOADED_LAST);
-		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParam);
+	public void givenOrderByRecentlyUploadedLastWhenGetOrderingStrategyThenReturnsInstanceOfRecentlyUploadedLast() {
+		PropertyOrderingStrategy strategy = factory.createOrderingStrategy(PropertyOrderingType.RECENTLY_UPLOADED_LAST);
 		assertTrue(strategy instanceof AscendingAddedDateOrdering);
 	}
 
 	@Test
-	public void givenPropertySearchFilterHighestPriceFirstWhenGetOrderingStrategyThenReturnsInstanceOfHighestPriceFirst() {
-		given(searchParam.getOrderingParam()).willReturn(PropertyOrderingType.HIGHEST_PRICE_FIRST);
-		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParam);
+	public void givenOrderByHighestPriceFirstWhenGetOrderingStrategyThenReturnsInstanceOfHighestPriceFirst() {
+		PropertyOrderingStrategy strategy = factory.createOrderingStrategy(PropertyOrderingType.HIGHEST_PRICE_FIRST);
 		assertTrue(strategy instanceof DescendingPriceOrdering);
 	}
 
 	@Test
-	public void givenPropertySearchFilterHighestPriceLastWhenGetOrderingStrategyThenReturnsInstanceOfHighestPriceLast() {
-		given(searchParam.getOrderingParam()).willReturn(PropertyOrderingType.HIGHEST_PRICE_LAST);
-		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParam);
+	public void givenOrderByHighestPriceLastWhenGetOrderingStrategyThenReturnsInstanceOfHighestPriceLast() {
+		PropertyOrderingStrategy strategy = factory.createOrderingStrategy(PropertyOrderingType.HIGHEST_PRICE_LAST);
 		assertTrue(strategy instanceof AscendingPriceOrdering);
 	}
 
 	@Test
 	public void givenPropertySearchFilterNoOrderingWhenGetOrderingStrategyThenReturnsInstanceOfRecentlyUploadedFirst() {
-		given(searchParam.getOrderingParam()).willReturn(PropertyOrderingType.NO_ORDERING);
-		PropertyOrderingStrategy strategy = factory.getOrderingStrategy(searchParam);
+		PropertyOrderingStrategy strategy = factory.createOrderingStrategy(PropertyOrderingType.NO_ORDERING);
 		assertTrue(strategy instanceof DescendingAddedDateOrdering);
 	}
 }
