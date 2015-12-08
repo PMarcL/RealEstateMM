@@ -2,7 +2,7 @@ package org.RealEstateMM.services.search;
 
 import static org.junit.Assert.*;
 
-import org.RealEstateMM.domain.search.PropertyOrderingType;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 import org.junit.Before;
 import org.junit.Test;
 

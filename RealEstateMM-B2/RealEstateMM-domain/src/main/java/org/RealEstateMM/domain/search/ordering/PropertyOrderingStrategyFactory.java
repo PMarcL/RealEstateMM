@@ -1,9 +1,4 @@
-package org.RealEstateMM.domain.search;
-
-import org.RealEstateMM.domain.search.ordering.AscendingAddedDateOrdering;
-import org.RealEstateMM.domain.search.ordering.AscendingPriceOrdering;
-import org.RealEstateMM.domain.search.ordering.DescendingPriceOrdering;
-import org.RealEstateMM.domain.search.ordering.DescendingAddedDateOrdering;
+package org.RealEstateMM.domain.search.ordering;
 
 public class PropertyOrderingStrategyFactory {
 

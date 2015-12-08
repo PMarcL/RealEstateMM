@@ -1,4 +1,4 @@
-package org.RealEstateMM.domain.search;
+package org.RealEstateMM.domain.search.ordering;
 
 import java.util.List;
 import org.RealEstateMM.domain.property.Property;

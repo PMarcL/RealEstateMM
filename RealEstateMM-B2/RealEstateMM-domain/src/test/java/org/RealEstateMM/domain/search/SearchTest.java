@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.search.criterias.SearchCriteria;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategy;
 import org.junit.Before;
 import org.junit.Test;
 

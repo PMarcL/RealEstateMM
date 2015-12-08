@@ -1,6 +1,6 @@
 package org.RealEstateMM.services.search;
 
-import org.RealEstateMM.domain.search.PropertyOrderingType;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 
 public class SearchParametersParser {
 

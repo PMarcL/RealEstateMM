@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.search.criterias.SearchCriteria;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategy;
 
 public class Search {
 

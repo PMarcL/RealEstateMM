@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.search.PropertyOrderingType;
 import org.RealEstateMM.domain.search.Search;
 import org.RealEstateMM.domain.search.SearchFactory;
 import org.RealEstateMM.domain.search.criterias.SearchCriteria;
 import org.RealEstateMM.domain.search.criterias.SearchCriteriaFactory;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 
 public class SearchAssembler {
 

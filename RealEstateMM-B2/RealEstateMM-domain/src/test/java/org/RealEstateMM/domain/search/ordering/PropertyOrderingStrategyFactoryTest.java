@@ -1,13 +1,13 @@
-package org.RealEstateMM.domain.search;
+package org.RealEstateMM.domain.search.ordering;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
 
-import org.RealEstateMM.domain.search.PropertyOrderingType;
-import org.RealEstateMM.domain.search.PropertyOrderingStrategy;
 import org.RealEstateMM.domain.search.ordering.AscendingAddedDateOrdering;
-import org.RealEstateMM.domain.search.PropertyOrderingStrategyFactory;
 import org.RealEstateMM.domain.search.ordering.DescendingPriceOrdering;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategy;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategyFactory;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 import org.RealEstateMM.domain.search.ordering.DescendingAddedDateOrdering;
 import org.RealEstateMM.domain.search.ordering.AscendingPriceOrdering;
 import org.junit.Before;

@@ -4,27 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
-import org.RealEstateMM.domain.property.filters.PropertyTypeFilter;
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.search.PropertyCriteria;
 
 public class PropertyTypeCriteria implements SearchCriteria {
 
-	// TODO
-	private PropertyTypeFilter propertyTypeFilter;
-	private List<PropertyType> typesToFilter;
+	private List<PropertyType> searchedTypes;
 
-	public PropertyTypeCriteria(List<PropertyType> typesToFilter) {
-		this.propertyTypeFilter = propertyTypeFilter;
-		this.typesToFilter = typesToFilter;
+	public PropertyTypeCriteria(List<PropertyType> searchedTypes) {
+		this.searchedTypes = searchedTypes;
 	}
 
-	// @Override
-	// public List<Property> getFilteredProperties(List<Property> properties) {
-	// List<Property> filteredProperties = new ArrayList<Property>();
-	// for (PropertyType type : typesToFilter) {
-	// filteredProperties.addAll(propertyTypeFilter.filter(properties, type));
-	// }
-	// return filteredProperties;
-	// }
+	@Override
+	public List<Property> filterProperties(List<Property> properties) {
+		List<Property> result = new ArrayList<>();
+		for (Property prop : properties) {
+			if (hasSearchedType(prop)) {
+				result.add(prop);
+			}
+		}
+
+		return result;
+	}
+
+	private boolean hasSearchedType(Property prop) {
+		for (PropertyType type : searchedTypes) {
+			if (prop.hasType(type)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
