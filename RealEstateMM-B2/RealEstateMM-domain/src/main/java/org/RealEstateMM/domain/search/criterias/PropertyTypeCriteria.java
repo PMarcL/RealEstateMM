@@ -27,12 +27,13 @@ public class PropertyTypeCriteria implements SearchCriteria {
 	}
 
 	private boolean hasSearchedType(Property prop) {
+		boolean hasType = searchedTypes.isEmpty();
 		for (PropertyType type : searchedTypes) {
 			if (prop.hasType(type)) {
-				return true;
+				hasType = true;
 			}
 		}
 
-		return false;
+		return hasType;
 	}
 }
