@@ -11,7 +11,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 import org.RealEstateMM.restapi.resources.queryparser.PropertySearchParametersFactory;
-import org.RealEstateMM.services.search.InvalidSearchParameterException;
 import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.Before;
 import org.junit.Test;

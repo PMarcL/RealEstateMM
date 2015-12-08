@@ -2,7 +2,6 @@ package org.RealEstateMM.services.search;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +11,10 @@ import org.RealEstateMM.domain.search.Search;
 import org.RealEstateMM.domain.search.SearchEngine;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
+import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.search.dtos.SearchAssembler;
 import org.RealEstateMM.services.search.dtos.SearchDTO;
-import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,7 @@ public class SearchServiceTest {
 	private SearchService searchService;
 
 	@Before
-	public void setup() throws Throwable {
+	public void setup() {
 		searchEngine = mock(SearchEngine.class);
 		propertyAssembler = mock(PropertyAssembler.class);
 		addressDTO = mock(PropertyAddressDTO.class);

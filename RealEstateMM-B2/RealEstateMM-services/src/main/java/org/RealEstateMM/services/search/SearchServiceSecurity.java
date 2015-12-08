@@ -22,8 +22,7 @@ public class SearchServiceSecurity implements SearchServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchParam)
-			throws ForbiddenAccessException, InvalidSearchParameterException {
+	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchParam) throws ForbiddenAccessException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.executeSearch(pseudo, searchParam);
 	}
@@ -35,8 +34,8 @@ public class SearchServiceSecurity implements SearchServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
-			PropertyNotFoundException, InvalidPropertyInformationException {
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address)
+			throws ForbiddenAccessException, PropertyNotFoundException, InvalidPropertyInformationException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.getPropertyAtAddress(pseudo, address);
 	}

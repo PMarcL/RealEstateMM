@@ -44,8 +44,7 @@ public class SearchService implements SearchServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchDTO)
-			throws ForbiddenAccessException, InvalidSearchParameterException {
+	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchDTO) throws ForbiddenAccessException {
 		Search search = searchAssembler.fromDTO(searchDTO);
 		List<Property> searchResults = searchEngine.executeSearch(search);
 		return buildDTOsFromProperties(searchResults);

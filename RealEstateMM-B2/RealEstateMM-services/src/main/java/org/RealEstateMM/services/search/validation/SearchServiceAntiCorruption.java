@@ -8,7 +8,6 @@ import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
-import org.RealEstateMM.services.search.InvalidSearchParameterException;
 import org.RealEstateMM.services.search.SearchServiceHandler;
 import org.RealEstateMM.services.search.dtos.SearchDTO;
 
@@ -23,8 +22,7 @@ public class SearchServiceAntiCorruption implements SearchServiceHandler {
 	}
 
 	@Override
-	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchParam)
-			throws ForbiddenAccessException, InvalidSearchParameterException {
+	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchParam) throws ForbiddenAccessException {
 		return service.executeSearch(pseudo, searchParam);
 	}
 
@@ -34,8 +32,8 @@ public class SearchServiceAntiCorruption implements SearchServiceHandler {
 	}
 
 	@Override
-	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address) throws ForbiddenAccessException,
-			PropertyNotFoundException, InvalidPropertyInformationException {
+	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address)
+			throws ForbiddenAccessException, PropertyNotFoundException, InvalidPropertyInformationException {
 		validatePropertyAddress(address);
 		return service.getPropertyAtAddress(pseudo, address);
 	}
