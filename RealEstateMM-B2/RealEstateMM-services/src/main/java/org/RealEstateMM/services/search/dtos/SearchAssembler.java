@@ -4,26 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.search.Search;
-import org.RealEstateMM.domain.search.SearchFactory;
+import org.RealEstateMM.domain.search.SearchDescription;
 import org.RealEstateMM.domain.search.criterias.SearchCriteria;
 import org.RealEstateMM.domain.search.criterias.SearchCriteriaFactory;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 
 public class SearchAssembler {
 
-	private SearchFactory searchFactory;
 	private SearchCriteriaFactory criteriaFactory;
 
-	public SearchAssembler(SearchFactory searchFactory, SearchCriteriaFactory criteriaFactory) {
-		this.searchFactory = searchFactory;
+	public SearchAssembler(SearchCriteriaFactory criteriaFactory) {
 		this.criteriaFactory = criteriaFactory;
 	}
 
-	public Search fromDTO(SearchDTO searchDTO) {
-		PropertyOrderingType ordering = getOrderingType(searchDTO.getOrderBy());
+	public SearchDescription fromDTO(SearchDTO searchDTO) {
+		PropertyOrderingType orderBy = getOrderingType(searchDTO.getOrderBy());
 		List<SearchCriteria> criterias = createCriterias(searchDTO);
-		return searchFactory.createSearch(ordering, criterias);
+		return new SearchDescription(searchDTO.getName(), orderBy, criterias);
 	}
 
 	private List<SearchCriteria> createCriterias(SearchDTO searchDTO) {

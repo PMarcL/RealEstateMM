@@ -1,7 +1,7 @@
 package org.RealEstateMM.domain.search;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,28 +13,32 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SearchFactoryTest {
-	private static PropertyOrderingType ORDER_BY = PropertyOrderingType.NO_ORDERING;
+	private static final PropertyOrderingType ORDER_BY = PropertyOrderingType.NO_ORDERING;
+	private static final List<SearchCriteria> CRITERIAS = new ArrayList<>();
 
 	private PropertyOrderingStrategyFactory orderingStrategyFactory;
-	private List<SearchCriteria> criterias;
+	private SearchDescription searchDescription;
+
 	private SearchFactory factory;
 
 	@Before
 	public void setup() {
+		searchDescription = mock(SearchDescription.class);
+		given(searchDescription.getCriterias()).willReturn(CRITERIAS);
+		given(searchDescription.getOrderBy()).willReturn(ORDER_BY);
 		orderingStrategyFactory = mock(PropertyOrderingStrategyFactory.class);
-		criterias = new ArrayList<>();
 		factory = new SearchFactory(orderingStrategyFactory);
 	}
 
 	@Test
 	public void whenCreateSearchShouldCreateOrderingStrategy() {
-		factory.createSearch(ORDER_BY, criterias);
+		factory.createSearch(searchDescription);
 		verify(orderingStrategyFactory).createOrderingStrategy(ORDER_BY);
 	}
 
 	@Test
 	public void whenCreateSearchShouldReturnSearchInstance() {
-		Search result = factory.createSearch(ORDER_BY, criterias);
+		Search result = factory.createSearch(searchDescription);
 		assertTrue(result instanceof Search);
 	}
 }

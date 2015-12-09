@@ -1,8 +1,5 @@
 package org.RealEstateMM.domain.search;
 
-import java.util.List;
-
-import org.RealEstateMM.domain.search.criterias.SearchCriteria;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategy;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategyFactory;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
@@ -15,9 +12,10 @@ public class SearchFactory {
 		this.orderingFactory = orderingStrategyFactory;
 	}
 
-	public Search createSearch(PropertyOrderingType orderBy, List<SearchCriteria> searchCriterias) {
+	public Search createSearch(SearchDescription searchDescription) {
+		PropertyOrderingType orderBy = searchDescription.getOrderBy();
 		PropertyOrderingStrategy orderByStrategy = orderingFactory.createOrderingStrategy(orderBy);
-		return new Search(searchCriterias, orderByStrategy);
+		return new Search(searchDescription.getCriterias(), orderByStrategy);
 	}
 
 }

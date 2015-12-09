@@ -10,30 +10,28 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 
 public class SearchEngine {
 
-	private PropertyRepository repository;
+	private PropertyRepository propertyRepository;
+	private SearchFactory searchFactory;
 
-	public SearchEngine(PropertyRepository respository) {
-		this.repository = respository;
+	public SearchEngine(SearchFactory searchFactory, PropertyRepository respository) {
+		this.searchFactory = searchFactory;
+		this.propertyRepository = respository;
 	}
 
 	public List<Property> getPropertiesFromOwner(String owner) {
-		return repository.getPropertiesFromOwner(owner);
+		return propertyRepository.getPropertiesFromOwner(owner);
 	}
 
 	public Property getPropertyAtAddress(PropertyAddress address) throws PropertyNotFoundException {
-		Optional<Property> property = repository.getPropertyAtAddress(address);
+		Optional<Property> property = propertyRepository.getPropertyAtAddress(address);
 		if (!property.isPresent()) {
 			throw new PropertyNotFoundException();
 		}
 		return property.get();
 	}
 
-	public List<Property> executeSearch(Search search) {
-		return search.execute(repository.getAll());
-	}
-
-	public void save(Search search) {
-		// TODO Auto-generated method stub
-
+	public List<Property> executeSearch(SearchDescription searchDescription) {
+		Search search = searchFactory.createSearch(searchDescription);
+		return search.execute(propertyRepository.getAll());
 	}
 }

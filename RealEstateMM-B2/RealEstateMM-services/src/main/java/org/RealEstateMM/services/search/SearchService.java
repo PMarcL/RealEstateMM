@@ -6,8 +6,8 @@ import java.util.List;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.search.Search;
-import org.RealEstateMM.domain.search.SearchEngine;
+import org.RealEstateMM.domain.search.SearchDescription;
+import org.RealEstateMM.domain.search.Searches;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
@@ -18,12 +18,12 @@ import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 public class SearchService implements SearchServiceHandler {
 
-	private SearchEngine searchEngine;
+	private Searches searches;
 	private PropertyAssembler propertyAssembler;
 	private SearchAssembler searchAssembler;
 
 	public SearchService(PropertyAssembler assembler, SearchAssembler searchAssembler) {
-		this.searchEngine = ServiceLocator.getInstance().getService(SearchEngine.class);
+		this.searches = ServiceLocator.getInstance().getService(Searches.class);
 		this.propertyAssembler = assembler;
 		this.searchAssembler = searchAssembler;
 	}
@@ -39,14 +39,14 @@ public class SearchService implements SearchServiceHandler {
 
 	@Override
 	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException {
-		List<Property> ownersProperties = searchEngine.getPropertiesFromOwner(owner);
+		List<Property> ownersProperties = searches.getPropertiesFromOwner(owner);
 		return buildDTOsFromProperties(ownersProperties);
 	}
 
 	@Override
 	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchDTO) throws ForbiddenAccessException {
-		Search search = searchAssembler.fromDTO(searchDTO);
-		List<Property> searchResults = searchEngine.executeSearch(search);
+		SearchDescription search = searchAssembler.fromDTO(searchDTO);
+		List<Property> searchResults = searches.executeSearch(search);
 		return buildDTOsFromProperties(searchResults);
 	}
 
@@ -54,14 +54,14 @@ public class SearchService implements SearchServiceHandler {
 	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO addressDTO)
 			throws ForbiddenAccessException, PropertyNotFoundException {
 		PropertyAddress address = propertyAssembler.getAddressFromDTO(addressDTO);
-		Property property = searchEngine.getPropertyAtAddress(address);
+		Property property = searches.getPropertyAtAddress(address);
 		return propertyAssembler.toDTO(property);
 	}
 
 	@Override
 	public void saveSearch(String pseudo, SearchDTO searchDTO) throws ForbiddenAccessException {
-		Search search = searchAssembler.fromDTO(searchDTO);
-		searchEngine.save(search);
+		SearchDescription search = searchAssembler.fromDTO(searchDTO);
+		searches.save(search, pseudo);
 	}
 
 }
