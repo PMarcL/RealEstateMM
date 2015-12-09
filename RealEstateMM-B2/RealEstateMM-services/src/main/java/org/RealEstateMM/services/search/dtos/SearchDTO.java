@@ -8,6 +8,8 @@ public class SearchDTO {
 	private List<String> propertyTypes;
 	private int minNumBedrooms;
 	private int minNumBathrooms;
+	private int minPrice;
+	private int maxPrice;
 
 	public SearchDTO() {
 
@@ -51,5 +53,21 @@ public class SearchDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(int minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public int getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(int maxPrice) {
+		this.maxPrice = maxPrice;
 	}
 }
