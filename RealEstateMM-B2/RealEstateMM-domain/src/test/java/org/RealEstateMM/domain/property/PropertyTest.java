@@ -40,6 +40,8 @@ public class PropertyTest {
 	private Property property;
 
 	private static final double A_PROPERTY_PRICE = 200000.00;
+	private static final int A_HIGHER_PRICE = 300000;
+	private static final int A_LOWER_PRICE = 100000;
 	private static final PropertyStatus A_PROPERTY_STATUS = PropertyStatus.ON_SALE;
 	private static final String OWNER_USERNAME = "Bob";
 	private static final String NOT_THE_OWNER_USERNAME = "NotBob";
@@ -161,6 +163,18 @@ public class PropertyTest {
 	@Test
 	public void givenATypeWhenHasTypeThenReturnsFalseIfTheTypeIsDifferent() {
 		assertFalse(property.hasType(PropertyType.FARM));
+	}
+
+	@Test
+	public void givenALowerPriceWhenIsLessExpensiveReturnFalseIsMoreExpensiveReturnsTrue() {
+		assertFalse(property.isLessExpensive(A_LOWER_PRICE));
+		assertTrue(property.isMoreExpensive(A_LOWER_PRICE));
+	}
+
+	@Test
+	public void givenAHigherPriceWhenIsLessExpensiveReturnsTrueIsMoreExpensiveReturnsFalse() {
+		assertTrue(property.isLessExpensive(A_HIGHER_PRICE));
+		assertFalse(property.isMoreExpensive(A_HIGHER_PRICE));
 	}
 
 	private void setPropertyFeatures() {

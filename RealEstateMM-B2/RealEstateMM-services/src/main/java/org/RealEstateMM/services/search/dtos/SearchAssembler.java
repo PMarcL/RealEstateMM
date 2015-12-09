@@ -35,6 +35,12 @@ public class SearchAssembler {
 		if (searchDTO.getMinNumBathrooms() > 0) {
 			criterias.add(criteriaFactory.createMinimumBathroomNumberCriteria(searchDTO.getMinNumBathrooms()));
 		}
+		if (searchDTO.getMaxPrice() > 0) {
+			criterias.add(criteriaFactory.createMaximumPriceCriteria(searchDTO.getMaxPrice()));
+		}
+		if (searchDTO.getMinPrice() > 0) {
+			criterias.add(criteriaFactory.createMinimumPriceCriteria(searchDTO.getMinPrice()));
+		}
 		return criterias;
 	}
 

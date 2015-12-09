@@ -18,4 +18,12 @@ public class SearchCriteriaFactory {
 		return new MinimumBathroomsNumberCriteria(minimum);
 	}
 
+	public SearchCriteria createMinimumPriceCriteria(int minimumPrice) {
+		return new MinimumPriceCriteria(minimumPrice);
+	}
+
+	public SearchCriteria createMaximumPriceCriteria(int maximumPrice) {
+		return new MaximumPriceCriteria(maximumPrice);
+	}
+
 }

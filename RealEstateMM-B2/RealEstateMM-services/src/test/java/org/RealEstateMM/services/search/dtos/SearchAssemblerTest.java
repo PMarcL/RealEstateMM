@@ -21,6 +21,9 @@ public class SearchAssemblerTest {
 	private static final int MINIMUM_ROOM_NUMBER = 3;
 	private static final String INVALID_ORDERING_VALUE = "cannot order on this!";
 	private static final String VALID_ORDERING_VALUE = "recently_uploaded_first";
+	private static final int MINIMUM_PRICE = 500;
+	private static final int MAXIMUM_PRICE = 10000;
+	private static final int NO_PRICE = 0;
 	private static final PropertyOrderingType VALID_ORDERING_TYPE = PropertyOrderingType.RECENTLY_UPLOADED_FIRST;
 	private static final PropertyType PROPERTY_TYPE_1 = PropertyType.COMMERCIAL;
 	private static final PropertyType PROPERTY_TYPE_2 = PropertyType.FARM;
@@ -73,8 +76,8 @@ public class SearchAssemblerTest {
 	@Test
 	public void givenValidPropertyTypeListInDtoWhenCreateSearchFromDtoShouldCreatePropertyTypeCriteriaWithCorrespondingPropertyType() {
 		assembler.fromDTO(searchDto);
-		verify(criteriaFactory)
-				.createPropertyTypeCriteria(argThat(containsPropertyType(PROPERTY_TYPE_1, PROPERTY_TYPE_2)));
+		verify(criteriaFactory).createPropertyTypeCriteria(
+				argThat(containsPropertyType(PROPERTY_TYPE_1, PROPERTY_TYPE_2)));
 	}
 
 	@Test
@@ -121,6 +124,34 @@ public class SearchAssemblerTest {
 		given(searchDto.getMinNumBathrooms()).willReturn(NO_MIN_ROOM_NUMBER);
 		SearchDescription result = assembler.fromDTO(searchDto);
 		assertFalse(result.getCriterias().contains(minBathroomCriteria));
+	}
+
+	@Test
+	public void givenMaximumPriceWhenCreateSearchShouldCreateMaximumPriceCriteria() {
+		given(searchDto.getMaxPrice()).willReturn(MAXIMUM_PRICE);
+		assembler.fromDTO(searchDto);
+		verify(criteriaFactory).createMaximumPriceCriteria(MAXIMUM_PRICE);
+	}
+
+	@Test
+	public void givenMinimumPriceWhenCreateSearchShouldCreateMinimumPriceCriteria() {
+		given(searchDto.getMinPrice()).willReturn(MINIMUM_PRICE);
+		assembler.fromDTO(searchDto);
+		verify(criteriaFactory).createMinimumPriceCriteria(MINIMUM_PRICE);
+	}
+
+	@Test
+	public void givenNoMinimumPriceWhenCreateSearchShouldNotcreateMinimumPriceCriteria() {
+		given(searchDto.getMinPrice()).willReturn(NO_PRICE);
+		assembler.fromDTO(searchDto);
+		verify(criteriaFactory, never()).createMinimumPriceCriteria(anyInt());
+	}
+
+	@Test
+	public void givenNoMaximumPriceWhenCreateSearchShouldNotcreateMaximumPriceCriteria() {
+		given(searchDto.getMaxPrice()).willReturn(NO_PRICE);
+		assembler.fromDTO(searchDto);
+		verify(criteriaFactory, never()).createMaximumPriceCriteria(anyInt());
 	}
 
 	private List<String> invalidPropertyTypeList() {

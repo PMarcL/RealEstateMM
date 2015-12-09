@@ -43,4 +43,14 @@ public class PropertyTypeCriteriaTest {
 		List<Property> result = criteria.filterProperties(properties);
 		assertFalse(result.contains(property));
 	}
+
+	@Test
+	public void givenPropertyTypeWithoutTypesToFilterWhenFilterThenReturnsSameList() {
+		propertyTypes = new ArrayList<>();
+		criteria = new PropertyTypeCriteria(propertyTypes);
+
+		List<Property> result = criteria.filterProperties(properties);
+
+		assertTrue(result.contains(property));
+	}
 }

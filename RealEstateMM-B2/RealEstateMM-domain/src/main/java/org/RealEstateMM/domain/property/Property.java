@@ -112,4 +112,12 @@ public class Property {
 	public boolean hasType(PropertyType aPropertyType) {
 		return type.equals(aPropertyType);
 	}
+
+	public boolean isMoreExpensive(int price) {
+		return this.price > price;
+	}
+
+	public boolean isLessExpensive(int price) {
+		return this.price < price;
+	}
 }
