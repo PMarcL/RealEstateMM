@@ -11,6 +11,7 @@ import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.search.SearchEngine;
 import org.RealEstateMM.domain.search.SearchFactory;
+import org.RealEstateMM.domain.search.Searches;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategyFactory;
 import org.RealEstateMM.domain.statistics.Statistics;
 import org.RealEstateMM.domain.user.UserRepository;
@@ -52,6 +53,9 @@ public class DomainHandlerRegisterer {
 	private void initializeSearchEngine(PropertyRepository propertyRepository) {
 		this.searchEngine = new SearchEngine(new SearchFactory(new PropertyOrderingStrategyFactory()),
 				propertyRepository);
+
+		Searches searches = new Searches(searchEngine, null);
+		ServiceLocator.getInstance().registerService(Searches.class, searches);
 	}
 
 	private void initializeUsers(UserRepository userRepository) {
