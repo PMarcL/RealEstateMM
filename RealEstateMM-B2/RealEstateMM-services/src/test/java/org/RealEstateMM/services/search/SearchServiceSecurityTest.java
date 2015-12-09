@@ -13,6 +13,7 @@ import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 public class SearchServiceSecurityTest {
 	private final String PSEUDONYM = "bobby134";
@@ -22,7 +23,7 @@ public class SearchServiceSecurityTest {
 	private SearchServiceHandler serviceHandler;
 	private PropertyDTO dto;
 	private PropertyAddressDTO addressDTO;
-	private SearchDTO searchParams;
+	private SearchDTO searchDTO;
 
 	private SearchServiceSecurity service;
 
@@ -39,14 +40,14 @@ public class SearchServiceSecurityTest {
 
 	@Test
 	public void givenAnOwnerAndSearchParamsWhenGetPropertiesSearchResultThenValidateUserAccess() throws Exception {
-		service.executeSearch(PSEUDONYM, searchParams);
+		service.executeSearch(PSEUDONYM, searchDTO);
 		verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
 	}
 
 	@Test
 	public void givenAnOwnerAndSearchParamsWhenGetPropertiesSearchResultThenShouldAskService() throws Exception {
-		given(serviceHandler.executeSearch(PSEUDONYM, searchParams)).willReturn(propertyList);
-		List<PropertyDTO> result = service.executeSearch(PSEUDONYM, searchParams);
+		given(serviceHandler.executeSearch(PSEUDONYM, searchDTO)).willReturn(propertyList);
+		List<PropertyDTO> result = service.executeSearch(PSEUDONYM, searchDTO);
 		assertSame(propertyList, result);
 	}
 
@@ -74,5 +75,15 @@ public class SearchServiceSecurityTest {
 		given(serviceHandler.getPropertyAtAddress(PSEUDONYM, addressDTO)).willReturn(dto);
 		PropertyDTO result = service.getPropertyAtAddress(PSEUDONYM, addressDTO);
 		assertEquals(dto, result);
+	}
+
+	@Test
+	public void givenPseudoAndSearchDtoWhenSaveSearchShouldValidateUserAccessBeforeCallingRealService()
+			throws Exception {
+		service.saveSearch(PSEUDONYM, searchDTO);
+
+		InOrder inOrder = inOrder(authorizations, serviceHandler);
+		inOrder.verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
+		inOrder.verify(serviceHandler).saveSearch(PSEUDONYM, searchDTO);
 	}
 }

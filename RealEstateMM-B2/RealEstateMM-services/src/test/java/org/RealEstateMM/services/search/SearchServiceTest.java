@@ -47,6 +47,7 @@ public class SearchServiceTest {
 		searchAssembler = mock(SearchAssembler.class);
 		given(propertyAssembler.toDTO(property)).willReturn(propertyDTO);
 		given(propertyAssembler.getAddressFromDTO(addressDTO)).willReturn(address);
+		given(searchAssembler.fromDTO(searchDTO)).willReturn(search);
 
 		ServiceLocator.getInstance().registerService(SearchEngine.class, searchEngine);
 		searchService = new SearchService(propertyAssembler, searchAssembler);
@@ -94,12 +95,15 @@ public class SearchServiceTest {
 
 	@Test
 	public void whenExecuteSearchThenReturnsSearchResults() throws Exception {
-		given(searchAssembler.fromDTO(searchDTO)).willReturn(search);
 		given(searchEngine.executeSearch(search)).willReturn(buildPropertiesList());
-
 		List<PropertyDTO> returnedDTOs = searchService.executeSearch(PSEUDO, searchDTO);
-
 		assertTrue(returnedDTOs.contains(propertyDTO));
+	}
+
+	@Test
+	public void givenSearchDTOWhenSaveSearchShouldSaveSearchToSearchEngine() throws Exception {
+		searchService.saveSearch(PSEUDO, searchDTO);
+		verify(searchEngine).save(search);
 	}
 
 	private ArrayList<Property> buildPropertiesList() {

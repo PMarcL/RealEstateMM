@@ -31,4 +31,9 @@ public class SearchEngine {
 	public List<Property> executeSearch(Search search) {
 		return search.execute(repository.getAll());
 	}
+
+	public void save(Search search) {
+		// TODO Auto-generated method stub
+
+	}
 }

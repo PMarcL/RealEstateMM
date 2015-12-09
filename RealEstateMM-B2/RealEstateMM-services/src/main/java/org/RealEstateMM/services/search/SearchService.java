@@ -58,4 +58,10 @@ public class SearchService implements SearchServiceHandler {
 		return propertyAssembler.toDTO(property);
 	}
 
+	@Override
+	public void saveSearch(String pseudo, SearchDTO searchDTO) throws ForbiddenAccessException {
+		Search search = searchAssembler.fromDTO(searchDTO);
+		searchEngine.save(search);
+	}
+
 }

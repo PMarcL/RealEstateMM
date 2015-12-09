@@ -43,4 +43,9 @@ public class SearchServiceAntiCorruption implements SearchServiceHandler {
 			throw new InvalidPropertyInformationException("Zip code");
 		}
 	}
+
+	@Override
+	public void saveSearch(String pseudo, SearchDTO search) throws ForbiddenAccessException {
+		service.saveSearch(pseudo, search);
+	}
 }

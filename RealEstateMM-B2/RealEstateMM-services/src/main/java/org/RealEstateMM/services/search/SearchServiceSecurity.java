@@ -40,6 +40,12 @@ public class SearchServiceSecurity implements SearchServiceHandler {
 		return service.getPropertyAtAddress(pseudo, address);
 	}
 
+	@Override
+	public void saveSearch(String pseudo, SearchDTO search) throws ForbiddenAccessException {
+		validateUserAccess(pseudo, AccessLevel.BUYER);
+		service.saveSearch(pseudo, search);
+	}
+
 	private void validateUserAccess(String pseudo, AccessLevel... accessLevels) throws ForbiddenAccessException {
 		authorizations.validateUserAuthorizations(pseudo, accessLevels);
 	}

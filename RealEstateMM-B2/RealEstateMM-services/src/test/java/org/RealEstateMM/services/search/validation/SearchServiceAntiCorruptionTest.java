@@ -46,7 +46,7 @@ public class SearchServiceAntiCorruptionTest {
 	}
 
 	@Test
-	public void whenGetAllPropertiesThenCallsPropertyService() throws Throwable {
+	public void whenExecuteSearchThenCallsService() throws Throwable {
 		service.executeSearch(PSEUDO, searchParams);
 		verify(serviceHandler).executeSearch(PSEUDO, searchParams);
 	}
@@ -55,6 +55,12 @@ public class SearchServiceAntiCorruptionTest {
 	public void givenPropertyOwnerWhenGetPropertiesFromOwnerThenCallsService() throws Throwable {
 		service.getPropertiesFromOwner(OWNER);
 		verify(serviceHandler).getPropertiesFromOwner(OWNER);
+	}
+
+	@Test
+	public void whenSaveSearchThenCallsService() throws Throwable {
+		service.saveSearch(PSEUDO, searchParams);
+		verify(serviceHandler).saveSearch(PSEUDO, searchParams);
 	}
 
 	private void propertyDTOReturnsValidInfos() {

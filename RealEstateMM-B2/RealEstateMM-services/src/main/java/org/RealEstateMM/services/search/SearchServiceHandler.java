@@ -13,6 +13,8 @@ public interface SearchServiceHandler {
 
 	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchParam) throws ForbiddenAccessException;
 
+	public void saveSearch(String pseudo, SearchDTO search) throws ForbiddenAccessException;
+
 	public List<PropertyDTO> getPropertiesFromOwner(String owner) throws ForbiddenAccessException;
 
 	public PropertyDTO getPropertyAtAddress(String pseudo, PropertyAddressDTO address)
