@@ -17,6 +17,7 @@ import org.mockito.InOrder;
 
 public class SearchServiceSecurityTest {
 	private final String PSEUDONYM = "bobby134";
+	private final String SEARCH_NAME = "GoogleThis";
 
 	private UserAuthorizations authorizations;
 	private List<PropertyDTO> propertyList;
@@ -85,5 +86,50 @@ public class SearchServiceSecurityTest {
 		InOrder inOrder = inOrder(authorizations, serviceHandler);
 		inOrder.verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
 		inOrder.verify(serviceHandler).saveSearch(PSEUDONYM, searchDTO);
+	}
+
+	@Test
+	public void givenPseudoWhenGetSavedSearchForUserShouldValidateUserAccessBeforeCallingService() throws Exception {
+		service.getSavedSearchesForUser(PSEUDONYM);
+
+		InOrder inOrder = inOrder(authorizations, serviceHandler);
+		inOrder.verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
+		inOrder.verify(serviceHandler).getSavedSearchesForUser(PSEUDONYM);
+	}
+
+	@Test
+	public void givenPseudoWhenGetSaveSearchForUserShouldReturnServiceResult() throws Exception {
+		List<String> searches = new ArrayList<>();
+		given(serviceHandler.getSavedSearchesForUser(any())).willReturn(searches);
+
+		List<String> result = service.getSavedSearchesForUser(PSEUDONYM);
+
+		assertSame(searches, result);
+	}
+
+	@Test
+	public void givenPseudoAndSearchNameWhenDeleteSearchShouldValidateUserAccessBeforeCallingService()
+			throws Exception {
+		service.deleteSearch(PSEUDONYM, SEARCH_NAME);
+
+		InOrder inOrder = inOrder(authorizations, serviceHandler);
+		inOrder.verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
+		inOrder.verify(serviceHandler).deleteSearch(PSEUDONYM, SEARCH_NAME);
+	}
+
+	@Test
+	public void givenPseudoAndSearchNameWhenGetSearchShouldValidateUserAccessBeforeCallingService() throws Exception {
+		service.getSearch(PSEUDONYM, SEARCH_NAME);
+
+		InOrder inOrder = inOrder(authorizations, serviceHandler);
+		inOrder.verify(authorizations).validateUserAuthorizations(PSEUDONYM, AccessLevel.BUYER);
+		inOrder.verify(serviceHandler).getSearch(PSEUDONYM, SEARCH_NAME);
+	}
+
+	@Test
+	public void givenPseudoAndSearchNameWhenGetSearchShouldReturnServiceResult() throws Exception {
+		given(serviceHandler.getSearch(any(), any())).willReturn(searchDTO);
+		SearchDTO result = service.getSearch(PSEUDONYM, SEARCH_NAME);
+		assertSame(searchDTO, result);
 	}
 }

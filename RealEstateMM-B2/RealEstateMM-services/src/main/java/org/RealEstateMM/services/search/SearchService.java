@@ -64,4 +64,20 @@ public class SearchService implements SearchServiceHandler {
 		searches.save(search, pseudo);
 	}
 
+	@Override
+	public List<String> getSavedSearchesForUser(String pseudo) throws ForbiddenAccessException {
+		return searches.findSearchesForUser(pseudo);
+	}
+
+	@Override
+	public void deleteSearch(String pseudo, String searchName) throws ForbiddenAccessException {
+		searches.deleteSearch(pseudo, searchName);
+	}
+
+	@Override
+	public SearchDTO getSearch(String pseudo, String searchName) throws ForbiddenAccessException {
+		SearchDescription search = searches.getSearch(pseudo, searchName);
+		return searchAssembler.toDTO(search);
+	}
+
 }

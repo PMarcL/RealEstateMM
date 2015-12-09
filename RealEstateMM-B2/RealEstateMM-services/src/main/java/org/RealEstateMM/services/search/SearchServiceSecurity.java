@@ -50,4 +50,22 @@ public class SearchServiceSecurity implements SearchServiceHandler {
 		authorizations.validateUserAuthorizations(pseudo, accessLevels);
 	}
 
+	@Override
+	public List<String> getSavedSearchesForUser(String pseudo) throws ForbiddenAccessException {
+		validateUserAccess(pseudo, AccessLevel.BUYER);
+		return service.getSavedSearchesForUser(pseudo);
+	}
+
+	@Override
+	public void deleteSearch(String pseudo, String searchName) throws ForbiddenAccessException {
+		validateUserAccess(pseudo, AccessLevel.BUYER);
+		service.deleteSearch(pseudo, searchName);
+	}
+
+	@Override
+	public SearchDTO getSearch(String pseudo, String searchName) throws ForbiddenAccessException {
+		validateUserAccess(pseudo, AccessLevel.BUYER);
+		return service.getSearch(pseudo, searchName);
+	}
+
 }

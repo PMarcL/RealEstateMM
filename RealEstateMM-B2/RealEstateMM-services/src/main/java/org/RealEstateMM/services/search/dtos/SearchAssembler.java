@@ -60,4 +60,9 @@ public class SearchAssembler {
 			return PropertyOrderingType.NO_ORDERING;
 		}
 	}
+
+	public SearchDTO toDTO(SearchDescription searchDescription) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

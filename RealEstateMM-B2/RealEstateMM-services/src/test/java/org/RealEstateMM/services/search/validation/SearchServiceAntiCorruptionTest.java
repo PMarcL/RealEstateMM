@@ -1,6 +1,10 @@
 package org.RealEstateMM.services.search.validation;
 
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
@@ -14,6 +18,7 @@ public class SearchServiceAntiCorruptionTest {
 	private final String PSEUDO = "pseudo32";
 	private final String OWNER = "owner90";
 	private final String ZIPCODE = "G6P7H7";
+	private final String SEARCH_NAME = "GoogleThis";
 
 	private PropertyAddressDTO addressDTO;
 	private PropertyInformationsValidator validator;
@@ -61,6 +66,29 @@ public class SearchServiceAntiCorruptionTest {
 	public void whenSaveSearchThenCallsService() throws Throwable {
 		service.saveSearch(PSEUDO, searchParams);
 		verify(serviceHandler).saveSearch(PSEUDO, searchParams);
+	}
+
+	@Test
+	public void whenGetSavedSearchesForUserShouldReturnServiceAnswer() throws Throwable {
+		List<String> savedSearches = new ArrayList<>();
+		given(serviceHandler.getSavedSearchesForUser(PSEUDO)).willReturn(savedSearches);
+
+		List<String> result = service.getSavedSearchesForUser(PSEUDO);
+
+		assertSame(savedSearches, result);
+	}
+
+	@Test
+	public void givenValidPseudonymAndSearchNameWhenDeleteSearchShouldCallService() throws Throwable {
+		service.deleteSearch(PSEUDO, SEARCH_NAME);
+		verify(serviceHandler).deleteSearch(PSEUDO, SEARCH_NAME);
+	}
+
+	@Test
+	public void givenValidPseudonymAndSearchNameWhenGetSearchShouldReturnServiceResult() throws Throwable {
+		given(serviceHandler.getSearch(PSEUDO, SEARCH_NAME)).willReturn(searchParams);
+		SearchDTO result = service.getSearch(PSEUDO, SEARCH_NAME);
+		assertSame(searchParams, result);
 	}
 
 	private void propertyDTOReturnsValidInfos() {

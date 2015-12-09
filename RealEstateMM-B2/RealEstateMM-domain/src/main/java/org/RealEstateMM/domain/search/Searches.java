@@ -1,5 +1,6 @@
 package org.RealEstateMM.domain.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
@@ -30,6 +31,21 @@ public class Searches {
 
 	public void save(SearchDescription searchDescription, String pseudonym) {
 		repository.persist(searchDescription, pseudonym);
+	}
+
+	public List<String> findSearchesForUser(String pseudonym) {
+		List<SearchDescription> savedSearches = repository.findSearchesForUser(pseudonym);
+		ArrayList<String> result = new ArrayList<>();
+		savedSearches.stream().forEach(s -> result.add(s.getName()));
+		return result;
+	}
+
+	public void deleteSearch(String pseudonym, String searchName) {
+		repository.remove(pseudonym, searchName);
+	}
+
+	public SearchDescription getSearch(String pseudonym, String searchName) {
+		return repository.getSearchWithNameForUser(pseudonym, searchName);
 	}
 
 }

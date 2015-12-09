@@ -22,6 +22,7 @@ import org.junit.Test;
 public class SearchServiceTest {
 	private final String PSEUDO = "pseudo32";
 	private final String OWNER = "owner90";
+	private final String SEARCH_NAME = "GoogleThis";
 
 	private Searches searches;
 	private PropertyAssembler propertyAssembler;
@@ -104,6 +105,32 @@ public class SearchServiceTest {
 	public void givenSearchDTOWhenSaveSearchShouldSaveSearchToSearchEngine() throws Exception {
 		searchService.saveSearch(PSEUDO, searchDTO);
 		verify(searches).save(searchDescription, PSEUDO);
+	}
+
+	@Test
+	public void whenGetSavedSearchesForUserThenReturnsSearchesResponse() throws Exception {
+		List<String> savedSearches = new ArrayList<>();
+		given(searches.findSearchesForUser(PSEUDO)).willReturn(savedSearches);
+
+		List<String> result = searchService.getSavedSearchesForUser(PSEUDO);
+
+		assertSame(savedSearches, result);
+	}
+
+	@Test
+	public void givenPseudonymAndSearchNameWhenDeleteSearchShouldAskSearches() throws Exception {
+		searchService.deleteSearch(PSEUDO, SEARCH_NAME);
+		verify(searches).deleteSearch(PSEUDO, SEARCH_NAME);
+	}
+
+	@Test
+	public void givenPseudonymAndSearchNameWhenGetSearchShouldReturnAssembledSearch() throws Exception {
+		given(searches.getSearch(PSEUDO, SEARCH_NAME)).willReturn(searchDescription);
+		given(searchAssembler.toDTO(searchDescription)).willReturn(searchDTO);
+
+		SearchDTO result = searchService.getSearch(PSEUDO, SEARCH_NAME);
+
+		assertSame(searchDTO, result);
 	}
 
 	private ArrayList<Property> buildPropertiesList() {

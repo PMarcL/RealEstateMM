@@ -44,8 +44,25 @@ public class SearchServiceAntiCorruption implements SearchServiceHandler {
 		}
 	}
 
+	// TODO add more validation from here
+
 	@Override
 	public void saveSearch(String pseudo, SearchDTO search) throws ForbiddenAccessException {
 		service.saveSearch(pseudo, search);
+	}
+
+	@Override
+	public List<String> getSavedSearchesForUser(String pseudo) throws ForbiddenAccessException {
+		return service.getSavedSearchesForUser(pseudo);
+	}
+
+	@Override
+	public void deleteSearch(String pseudo, String searchName) throws ForbiddenAccessException {
+		service.deleteSearch(pseudo, searchName);
+	}
+
+	@Override
+	public SearchDTO getSearch(String pseudo, String searchName) throws ForbiddenAccessException {
+		return service.getSearch(pseudo, searchName);
 	}
 }
