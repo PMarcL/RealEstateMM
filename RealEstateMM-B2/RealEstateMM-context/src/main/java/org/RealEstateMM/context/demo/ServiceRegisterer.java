@@ -1,9 +1,7 @@
 package org.RealEstateMM.context.demo;
 
 import org.RealEstateMM.authentication.session.SessionService;
-import org.RealEstateMM.domain.search.SearchFactory;
 import org.RealEstateMM.domain.search.criterias.SearchCriteriaFactory;
-import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategyFactory;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.UserRoleFactory;
@@ -50,8 +48,7 @@ public class ServiceRegisterer {
 	}
 
 	private void initializeSearchService(UserRepository userRepository) {
-		SearchAssembler searchParamAssembler = new SearchAssembler(new SearchFactory(
-				new PropertyOrderingStrategyFactory()), new SearchCriteriaFactory());
+		SearchAssembler searchParamAssembler = new SearchAssembler(new SearchCriteriaFactory());
 		PropertyAssembler propertyAssembler = new PropertyAssembler();
 
 		SearchService service = new SearchService(propertyAssembler, searchParamAssembler);

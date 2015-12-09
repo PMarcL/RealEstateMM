@@ -10,6 +10,8 @@ import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.PropertyRepository;
 import org.RealEstateMM.domain.property.filters.PropertyFilterFactory;
 import org.RealEstateMM.domain.search.SearchEngine;
+import org.RealEstateMM.domain.search.SearchFactory;
+import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategyFactory;
 import org.RealEstateMM.domain.statistics.Statistics;
 import org.RealEstateMM.domain.user.UserRepository;
 import org.RealEstateMM.domain.user.Users;
@@ -48,7 +50,8 @@ public class DomainHandlerRegisterer {
 	}
 
 	private void initializeSearchEngine(PropertyRepository propertyRepository) {
-		this.searchEngine = new SearchEngine(propertyRepository);
+		this.searchEngine = new SearchEngine(new SearchFactory(new PropertyOrderingStrategyFactory()),
+				propertyRepository);
 	}
 
 	private void initializeUsers(UserRepository userRepository) {
