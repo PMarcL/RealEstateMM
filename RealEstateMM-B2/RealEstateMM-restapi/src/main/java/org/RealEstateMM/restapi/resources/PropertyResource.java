@@ -46,7 +46,6 @@ public class PropertyResource {
 
 	public PropertyResource(PropertyServiceHandler propertyService, SessionService sessionService,
 			SearchServiceHandler searchService, PropertySearchParametersFactory searchParamFactory) {
-		// TODO remove constructor
 		this.propertyService = propertyService;
 		this.sessionService = sessionService;
 		this.searchService = searchService;
