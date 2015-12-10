@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.RealEstateMM.domain.search.SearchDescription;
+import org.RealEstateMM.domain.search.SearchDTO;
 import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
 import org.RealEstateMM.persistence.xml.XmlMarshaller;
@@ -24,7 +24,7 @@ public class XmlSearchRespositoryTest {
 	private List<XmlSearchDescription> xmlSearches;
 	private XmlSearchDescription xmlSearch;
 	private XmlSearchAssembler assembler;
-	private SearchDescription searchDescription;
+	private SearchDTO searchDescription;
 
 	private XmlSearchRespository repository;
 
@@ -36,7 +36,7 @@ public class XmlSearchRespositoryTest {
 
 	@Test
 	public void unmarshallSearchesCollectionWhenCreated() {
-		List<SearchDescription> searches = repository.getSearchesForUser(PSEUDONYM);
+		List<SearchDTO> searches = repository.getSearchesForUser(PSEUDONYM);
 		assertTrue(searches.contains(searchDescription));
 	}
 
@@ -46,7 +46,7 @@ public class XmlSearchRespositoryTest {
 
 		repository = new XmlSearchRespository(marshaller, assembler);
 
-		List<SearchDescription> searches = repository.getSearchesForUser(PSEUDONYM);
+		List<SearchDTO> searches = repository.getSearchesForUser(PSEUDONYM);
 		assertFalse(searches.contains(searchDescription));
 	}
 
@@ -56,7 +56,7 @@ public class XmlSearchRespositoryTest {
 
 		repository = new XmlSearchRespository(marshaller, assembler);
 
-		List<SearchDescription> searches = repository.getSearchesForUser(PSEUDONYM);
+		List<SearchDTO> searches = repository.getSearchesForUser(PSEUDONYM);
 		assertFalse(searches.contains(searchDescription));
 	}
 
@@ -100,7 +100,7 @@ public class XmlSearchRespositoryTest {
 
 	@Test
 	public void givenSearchExistWhenGetSearcheWithNameForUserShouldReturnSearch() throws Throwable {
-		SearchDescription result = repository.getSearchWithNameForUser(PSEUDONYM, SEARCH_NAME);
+		SearchDTO result = repository.getSearchWithNameForUser(PSEUDONYM, SEARCH_NAME);
 		assertSame(searchDescription, result);
 	}
 
@@ -120,7 +120,7 @@ public class XmlSearchRespositoryTest {
 		xmlSearches.add(xmlSearch);
 		given(searchCollection.getSearchesForUser(PSEUDONYM)).willReturn(xmlSearches);
 		assembler = mock(XmlSearchAssembler.class);
-		searchDescription = mock(SearchDescription.class);
+		searchDescription = mock(SearchDTO.class);
 		given(searchDescription.getName()).willReturn(SEARCH_NAME);
 		given(assembler.toSearchDTO(xmlSearch)).willReturn(searchDescription);
 		given(assembler.fromSearchDTO(searchDescription, PSEUDONYM)).willReturn(xmlSearch);
