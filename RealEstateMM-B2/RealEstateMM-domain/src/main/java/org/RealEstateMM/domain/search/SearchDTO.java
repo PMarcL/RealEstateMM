@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.search.dtos;
+package org.RealEstateMM.domain.search;
 
 import java.util.List;
 

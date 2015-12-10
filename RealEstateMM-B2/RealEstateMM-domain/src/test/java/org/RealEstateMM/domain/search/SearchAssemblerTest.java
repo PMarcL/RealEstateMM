@@ -1,4 +1,4 @@
-package org.RealEstateMM.services.search.dtos;
+package org.RealEstateMM.domain.search;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.*;
@@ -7,13 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.search.SearchDescription;
+import org.RealEstateMM.domain.search.SearchAssembler;
 import org.RealEstateMM.domain.search.criterias.SearchCriteria;
 import org.RealEstateMM.domain.search.criterias.SearchCriteriaFactory;
+
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
+import org.mockito.Captor;
+import org.mockito.MockitoAnnotations;
 
 public class SearchAssemblerTest {
 	private static final String SEARCH_NAME = "Google me that!";
@@ -28,56 +32,63 @@ public class SearchAssemblerTest {
 	private static final PropertyType PROPERTY_TYPE_1 = PropertyType.COMMERCIAL;
 	private static final PropertyType PROPERTY_TYPE_2 = PropertyType.FARM;
 
+	@Captor
+	private ArgumentCaptor<List<SearchCriteria>> captor;
+
 	private SearchDTO searchDto;
 	private SearchCriteria propertyTypeCriteria;
 	private SearchCriteria minBedroomCriteria;
 	private SearchCriteria minBathroomCriteria;
+	private SearchCriteria maxPriceCriteria;
+	private SearchCriteria minPriceCriteria;
 	private SearchCriteriaFactory criteriaFactory;
+	private SearchFactory searchFactory;
 	private SearchAssembler assembler;
 
 	@Before
 	public void setup() {
+		MockitoAnnotations.initMocks(this);
 		searchDto = mock(SearchDTO.class);
 		given(searchDto.getName()).willReturn(SEARCH_NAME);
 		given(searchDto.getOrderBy()).willReturn(VALID_ORDERING_VALUE);
 		given(searchDto.getPropertyTypes()).willReturn(validPropertyTypeList());
 		given(searchDto.getMinNumBedrooms()).willReturn(MINIMUM_ROOM_NUMBER);
 		given(searchDto.getMinNumBathrooms()).willReturn(MINIMUM_ROOM_NUMBER);
+		given(searchDto.getMaxPrice()).willReturn(MAXIMUM_PRICE);
+		given(searchDto.getMinPrice()).willReturn(MINIMUM_PRICE);
 		criteriaFactory = mock(SearchCriteriaFactory.class);
 		propertyTypeCriteria = mock(SearchCriteria.class);
 		minBathroomCriteria = mock(SearchCriteria.class);
 		minBedroomCriteria = mock(SearchCriteria.class);
+		maxPriceCriteria = mock(SearchCriteria.class);
 		given(criteriaFactory.createPropertyTypeCriteria(any())).willReturn(propertyTypeCriteria);
 		given(criteriaFactory.createMinimumBathroomNumberCriteria(MINIMUM_ROOM_NUMBER)).willReturn(minBathroomCriteria);
 		given(criteriaFactory.createMinimumBedroomNumberCriteria(MINIMUM_ROOM_NUMBER)).willReturn(minBedroomCriteria);
+		given(criteriaFactory.createMaximumPriceCriteria(MAXIMUM_PRICE)).willReturn(maxPriceCriteria);
+		given(criteriaFactory.createMaximumPriceCriteria(MINIMUM_PRICE)).willReturn(minPriceCriteria);
+		searchFactory = mock(SearchFactory.class);
 
-		assembler = new SearchAssembler(criteriaFactory);
+		assembler = new SearchAssembler(criteriaFactory, searchFactory);
 	}
 
 	@Test
-	public void givenSearchNameWhenCreateSearchFromDtoShouldReturnsDescriptionWithCorrespondingName() {
-		SearchDescription result = assembler.fromDTO(searchDto);
-		assertEquals(SEARCH_NAME, result.getName());
-	}
-
-	@Test
-	public void givenValidSearchOrderingValueInDtoWhenCreateSearchDescriptionFromDtoShouldReturnsDescriptionWithCorrespondingOrderingType() {
-		SearchDescription result = assembler.fromDTO(searchDto);
-		assertEquals(VALID_ORDERING_TYPE, result.getOrderBy());
+	public void givenValidSearchOrderingValueInDtoWhenCreateSearchFromDtoShouldCreateSearchWithCorrespondingOrderingType() {
+		assembler.fromDTO(searchDto);
+		verify(searchFactory).createSearch(eq(VALID_ORDERING_TYPE), any());
 	}
 
 	@Test
 	public void givenInvalidSearchOrderingValueInDtoWhenCreateSearchFromDtoShouldCreateSearchWithNorOrdering() {
 		given(searchDto.getOrderBy()).willReturn(INVALID_ORDERING_VALUE);
-		SearchDescription result = assembler.fromDTO(searchDto);
-		assertEquals(PropertyOrderingType.NO_ORDERING, result.getOrderBy());
+		assembler.fromDTO(searchDto);
+		verify(searchFactory).createSearch(eq(PropertyOrderingType.NO_ORDERING), any());
 	}
 
 	@Test
 	public void givenValidPropertyTypeListInDtoWhenCreateSearchFromDtoShouldCreatePropertyTypeCriteriaWithCorrespondingPropertyType() {
 		assembler.fromDTO(searchDto);
-		verify(criteriaFactory).createPropertyTypeCriteria(
-				argThat(containsPropertyType(PROPERTY_TYPE_1, PROPERTY_TYPE_2)));
+		verify(criteriaFactory)
+				.createPropertyTypeCriteria(argThat(containsPropertyType(PROPERTY_TYPE_1, PROPERTY_TYPE_2)));
 	}
 
 	@Test
@@ -95,63 +106,87 @@ public class SearchAssemblerTest {
 	}
 
 	@Test
-	public void givenValidPropertyTypeListIndDtoWhenCreateSearchShouldCreateSearchWithPropertyTypeCriteria() {
-		SearchDescription result = assembler.fromDTO(searchDto);
-		assertTrue(result.getCriterias().contains(propertyTypeCriteria));
+	public void givenValidPropertyTypeListInDtoWhenCreateSearchShouldCreateSearchWithPropertyTypeCriteria() {
+		assembler.fromDTO(searchDto);
+		verifyCriteriasContains(propertyTypeCriteria);
 	}
 
 	@Test
-	public void givenMinimumNumberOfBedroomsWhenCreateSearchShouldCreateMinimumBedroomNumberCriteria() {
-		SearchDescription result = assembler.fromDTO(searchDto);
-		assertTrue(result.getCriterias().contains(minBedroomCriteria));
+	public void givenMinimumNumberOfBedroomsWhenCreateSearchShouldCreateSearchWithMinimumBedroomNumberCriteria() {
+		assembler.fromDTO(searchDto);
+		verifyCriteriasContains(minBedroomCriteria);
 	}
 
 	@Test
 	public void givenNoMinimumNumberOfBedroomsWhenCreateSearchShouldNotcreateMinimumBedroomCriteria() {
 		given(searchDto.getMinNumBedrooms()).willReturn(NO_MIN_ROOM_NUMBER);
-		SearchDescription result = assembler.fromDTO(searchDto);
-		assertFalse(result.getCriterias().contains(minBedroomCriteria));
+		assembler.fromDTO(searchDto);
+		verifyCriteriasDoesNotContains(minBedroomCriteria);
 	}
 
 	@Test
 	public void givenMinimumNumberOfBathroomsWhenCreateSearchShouldCreateMinimumBathroomNumberCriteria() {
-		SearchDescription result = assembler.fromDTO(searchDto);
-		assertTrue(result.getCriterias().contains(minBathroomCriteria));
+		assembler.fromDTO(searchDto);
+		verifyCriteriasContains(minBathroomCriteria);
 	}
 
 	@Test
 	public void givenNoMinimumNumberOfBathroomsWhenCreateSearchShouldNotCreateMinimumBathroomCriteria() {
 		given(searchDto.getMinNumBathrooms()).willReturn(NO_MIN_ROOM_NUMBER);
-		SearchDescription result = assembler.fromDTO(searchDto);
-		assertFalse(result.getCriterias().contains(minBathroomCriteria));
+		assembler.fromDTO(searchDto);
+		verifyCriteriasDoesNotContains(minBathroomCriteria);
 	}
 
 	@Test
 	public void givenMaximumPriceWhenCreateSearchShouldCreateMaximumPriceCriteria() {
-		given(searchDto.getMaxPrice()).willReturn(MAXIMUM_PRICE);
 		assembler.fromDTO(searchDto);
-		verify(criteriaFactory).createMaximumPriceCriteria(MAXIMUM_PRICE);
+		verifyCriteriasContains(maxPriceCriteria);
 	}
 
 	@Test
 	public void givenMinimumPriceWhenCreateSearchShouldCreateMinimumPriceCriteria() {
-		given(searchDto.getMinPrice()).willReturn(MINIMUM_PRICE);
 		assembler.fromDTO(searchDto);
-		verify(criteriaFactory).createMinimumPriceCriteria(MINIMUM_PRICE);
+		verifyCriteriasContains(minPriceCriteria);
 	}
 
 	@Test
 	public void givenNoMinimumPriceWhenCreateSearchShouldNotcreateMinimumPriceCriteria() {
 		given(searchDto.getMinPrice()).willReturn(NO_PRICE);
 		assembler.fromDTO(searchDto);
-		verify(criteriaFactory, never()).createMinimumPriceCriteria(anyInt());
+		verifyCriteriasDoesNotContains(minPriceCriteria);
 	}
 
 	@Test
 	public void givenNoMaximumPriceWhenCreateSearchShouldNotcreateMaximumPriceCriteria() {
 		given(searchDto.getMaxPrice()).willReturn(NO_PRICE);
 		assembler.fromDTO(searchDto);
-		verify(criteriaFactory, never()).createMaximumPriceCriteria(anyInt());
+		verifyCriteriasDoesNotContains(maxPriceCriteria);
+	}
+
+	@Test
+	public void whenCreateSearchReturnCreatedSearch() {
+		Search search = mock(Search.class);
+		given(searchFactory.createSearch(any(), any())).willReturn(search);
+
+		Search result = assembler.fromDTO(searchDto);
+
+		assertSame(search, result);
+	}
+
+	private void verifyCriteriasContains(SearchCriteria criteria) {
+		List<SearchCriteria> criterias = captureCriterias();
+		assertTrue(criterias.contains(criteria));
+	}
+
+	private List<SearchCriteria> captureCriterias() {
+		verify(searchFactory).createSearch(any(), captor.capture());
+		List<SearchCriteria> criterias = captor.getValue();
+		return criterias;
+	}
+
+	private void verifyCriteriasDoesNotContains(SearchCriteria criteria) {
+		List<SearchCriteria> criterias = captureCriterias();
+		assertFalse(criterias.contains(criteria));
 	}
 
 	private List<String> invalidPropertyTypeList() {

@@ -20,11 +20,13 @@ public class SearchesTest {
 
 	private SearchEngine searchEngine;
 	private SearchRepository repository;
+	private SearchDTO search;
 	private Searches searches;
 
 	@Before
 	public void setup() {
 		searchEngine = mock(SearchEngine.class);
+		search = mock(SearchDTO.class);
 		repository = mock(SearchRepository.class);
 		searches = new Searches(searchEngine, repository);
 	}
@@ -49,19 +51,15 @@ public class SearchesTest {
 
 	@Test
 	public void givenSearchDescriptionWhenExecuteSearchShouldReturnSearchResults() {
-		SearchDescription searchDescription = mock(SearchDescription.class);
-		given(searchEngine.executeSearch(searchDescription)).willReturn(SEARCH_RESULTS);
-
-		List<Property> result = searches.executeSearch(searchDescription);
-
+		given(searchEngine.executeSearch(search)).willReturn(SEARCH_RESULTS);
+		List<Property> result = searches.executeSearch(search);
 		assertSame(SEARCH_RESULTS, result);
 	}
 
 	@Test
 	public void givenSearchDescriptionWhenSaveShouldPersistToSearchRespository() {
-		SearchDescription searchDescription = mock(SearchDescription.class);
-		searches.save(searchDescription, PSEUDONYM);
-		verify(repository).persist(searchDescription, PSEUDONYM);
+		searches.save(search, PSEUDONYM);
+		verify(repository).addSearch(search, PSEUDONYM);
 	}
 
 	@Test
@@ -81,11 +79,10 @@ public class SearchesTest {
 	}
 
 	@Test
-	public void givenPseudonymAndSearchNameWhenGetSearchShouldGetSearchFromRepository() {
-		SearchDescription search = searchDescriptionWithName(SEARCH_NAME_1);
+	public void givenPseudonymAndSearchNameWhenGetSearchShouldGetSearchFromRepository() throws Throwable {
 		given(repository.getSearchWithNameForUser(PSEUDONYM, SEARCH_NAME_1)).willReturn(search);
 
-		SearchDescription result = searches.getSearch(PSEUDONYM, SEARCH_NAME_1);
+		SearchDTO result = searches.getSearch(PSEUDONYM, SEARCH_NAME_1);
 
 		assertSame(search, result);
 	}
@@ -94,7 +91,7 @@ public class SearchesTest {
 		List<SearchDescription> savedSearches = new ArrayList<>();
 		savedSearches.add(searchDescriptionWithName(SEARCH_NAME_1));
 		savedSearches.add(searchDescriptionWithName(SEARCH_NAME_2));
-		given(repository.findSearchesForUser(PSEUDONYM)).willReturn(savedSearches);
+		given(repository.getSearchesForUser(PSEUDONYM)).willReturn(savedSearches);
 	}
 
 	private SearchDescription searchDescriptionWithName(String searchName) {

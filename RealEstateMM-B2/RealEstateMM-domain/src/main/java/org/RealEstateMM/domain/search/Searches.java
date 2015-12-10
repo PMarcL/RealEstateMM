@@ -25,16 +25,16 @@ public class Searches {
 		return searchEngine.getPropertyAtAddress(address);
 	}
 
-	public List<Property> executeSearch(SearchDescription searchDescription) {
-		return searchEngine.executeSearch(searchDescription);
+	public List<Property> executeSearch(SearchDTO search) {
+		return searchEngine.executeSearch(search);
 	}
 
-	public void save(SearchDescription searchDescription, String pseudonym) {
-		repository.persist(searchDescription, pseudonym);
+	public void save(SearchDTO search, String pseudonym) {
+		repository.addSearch(search, pseudonym);
 	}
 
 	public List<String> findSearchesForUser(String pseudonym) {
-		List<SearchDescription> savedSearches = repository.findSearchesForUser(pseudonym);
+		List<SearchDescription> savedSearches = repository.getSearchesForUser(pseudonym);
 		ArrayList<String> result = new ArrayList<>();
 		savedSearches.stream().forEach(s -> result.add(s.getName()));
 		return result;
@@ -44,7 +44,7 @@ public class Searches {
 		repository.remove(pseudonym, searchName);
 	}
 
-	public SearchDescription getSearch(String pseudonym, String searchName) {
+	public SearchDTO getSearch(String pseudonym, String searchName) throws SearchNotFoundException {
 		return repository.getSearchWithNameForUser(pseudonym, searchName);
 	}
 

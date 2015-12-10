@@ -1,10 +1,9 @@
-package org.RealEstateMM.services.search.dtos;
+package org.RealEstateMM.domain.search;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.informations.PropertyType;
-import org.RealEstateMM.domain.search.SearchDescription;
 import org.RealEstateMM.domain.search.criterias.SearchCriteria;
 import org.RealEstateMM.domain.search.criterias.SearchCriteriaFactory;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
@@ -12,15 +11,17 @@ import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 public class SearchAssembler {
 
 	private SearchCriteriaFactory criteriaFactory;
+	private SearchFactory searchFactory;
 
-	public SearchAssembler(SearchCriteriaFactory criteriaFactory) {
+	public SearchAssembler(SearchCriteriaFactory criteriaFactory, SearchFactory searchFactory) {
 		this.criteriaFactory = criteriaFactory;
+		this.searchFactory = searchFactory;
 	}
 
-	public SearchDescription fromDTO(SearchDTO searchDTO) {
+	public Search fromDTO(SearchDTO searchDTO) {
 		PropertyOrderingType orderBy = getOrderingType(searchDTO.getOrderBy());
 		List<SearchCriteria> criterias = createCriterias(searchDTO);
-		return new SearchDescription(searchDTO.getName(), orderBy, criterias);
+		return searchFactory.createSearch(orderBy, criterias);
 	}
 
 	private List<SearchCriteria> createCriterias(SearchDTO searchDTO) {
@@ -65,10 +66,5 @@ public class SearchAssembler {
 		} catch (IllegalArgumentException e) {
 			return PropertyOrderingType.NO_ORDERING;
 		}
-	}
-
-	public SearchDTO toDTO(SearchDescription searchDescription) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

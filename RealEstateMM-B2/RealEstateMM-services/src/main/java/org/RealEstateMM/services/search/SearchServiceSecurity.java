@@ -3,13 +3,14 @@ package org.RealEstateMM.services.search;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
+import org.RealEstateMM.domain.search.SearchDTO;
+import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.domain.user.UserAuthorizations;
 import org.RealEstateMM.domain.user.UserRole.AccessLevel;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 public class SearchServiceSecurity implements SearchServiceHandler {
 
@@ -63,7 +64,8 @@ public class SearchServiceSecurity implements SearchServiceHandler {
 	}
 
 	@Override
-	public SearchDTO getSearch(String pseudo, String searchName) throws ForbiddenAccessException {
+	public SearchDTO getSearch(String pseudo, String searchName)
+			throws ForbiddenAccessException, SearchNotFoundException {
 		validateUserAccess(pseudo, AccessLevel.BUYER);
 		return service.getSearch(pseudo, searchName);
 	}

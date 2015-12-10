@@ -3,13 +3,14 @@ package org.RealEstateMM.services.search.validation;
 import java.util.List;
 
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
+import org.RealEstateMM.domain.search.SearchDTO;
+import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.services.property.InvalidPropertyInformationException;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.validation.PropertyInformationsValidator;
 import org.RealEstateMM.services.search.SearchServiceHandler;
-import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 public class SearchServiceAntiCorruption implements SearchServiceHandler {
 
@@ -62,7 +63,8 @@ public class SearchServiceAntiCorruption implements SearchServiceHandler {
 	}
 
 	@Override
-	public SearchDTO getSearch(String pseudo, String searchName) throws ForbiddenAccessException {
+	public SearchDTO getSearch(String pseudo, String searchName)
+			throws ForbiddenAccessException, SearchNotFoundException {
 		return service.getSearch(pseudo, searchName);
 	}
 }

@@ -6,26 +6,23 @@ import java.util.List;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.PropertyNotFoundException;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.search.SearchDescription;
+import org.RealEstateMM.domain.search.SearchDTO;
+import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.domain.search.Searches;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.search.dtos.SearchAssembler;
-import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 public class SearchService implements SearchServiceHandler {
 
 	private Searches searches;
 	private PropertyAssembler propertyAssembler;
-	private SearchAssembler searchAssembler;
 
-	public SearchService(PropertyAssembler assembler, SearchAssembler searchAssembler) {
+	public SearchService(PropertyAssembler assembler) {
 		this.searches = ServiceLocator.getInstance().getService(Searches.class);
 		this.propertyAssembler = assembler;
-		this.searchAssembler = searchAssembler;
 	}
 
 	private List<PropertyDTO> buildDTOsFromProperties(List<Property> properties) {
@@ -45,8 +42,7 @@ public class SearchService implements SearchServiceHandler {
 
 	@Override
 	public List<PropertyDTO> executeSearch(String pseudo, SearchDTO searchDTO) throws ForbiddenAccessException {
-		SearchDescription search = searchAssembler.fromDTO(searchDTO);
-		List<Property> searchResults = searches.executeSearch(search);
+		List<Property> searchResults = searches.executeSearch(searchDTO);
 		return buildDTOsFromProperties(searchResults);
 	}
 
@@ -60,8 +56,7 @@ public class SearchService implements SearchServiceHandler {
 
 	@Override
 	public void saveSearch(String pseudo, SearchDTO searchDTO) throws ForbiddenAccessException {
-		SearchDescription search = searchAssembler.fromDTO(searchDTO);
-		searches.save(search, pseudo);
+		searches.save(searchDTO, pseudo);
 	}
 
 	@Override
@@ -75,9 +70,9 @@ public class SearchService implements SearchServiceHandler {
 	}
 
 	@Override
-	public SearchDTO getSearch(String pseudo, String searchName) throws ForbiddenAccessException {
-		SearchDescription search = searches.getSearch(pseudo, searchName);
-		return searchAssembler.toDTO(search);
+	public SearchDTO getSearch(String pseudo, String searchName)
+			throws ForbiddenAccessException, SearchNotFoundException {
+		return searches.getSearch(pseudo, searchName);
 	}
 
 }

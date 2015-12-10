@@ -7,14 +7,12 @@ import java.util.List;
 
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
-import org.RealEstateMM.domain.search.SearchDescription;
+import org.RealEstateMM.domain.search.SearchDTO;
 import org.RealEstateMM.domain.search.Searches;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.RealEstateMM.services.search.dtos.SearchAssembler;
-import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,8 +29,6 @@ public class SearchServiceTest {
 	private PropertyAddress address;
 	private PropertyAddressDTO addressDTO;
 	private SearchDTO searchDTO;
-	private SearchDescription searchDescription;
-	private SearchAssembler searchAssembler;
 
 	private SearchService searchService;
 
@@ -45,13 +41,11 @@ public class SearchServiceTest {
 		property = mock(Property.class);
 		propertyDTO = mock(PropertyDTO.class);
 		searchDTO = mock(SearchDTO.class);
-		searchAssembler = mock(SearchAssembler.class);
 		given(propertyAssembler.toDTO(property)).willReturn(propertyDTO);
 		given(propertyAssembler.getAddressFromDTO(addressDTO)).willReturn(address);
-		given(searchAssembler.fromDTO(searchDTO)).willReturn(searchDescription);
 
 		ServiceLocator.getInstance().registerService(Searches.class, searches);
-		searchService = new SearchService(propertyAssembler, searchAssembler);
+		searchService = new SearchService(propertyAssembler);
 	}
 
 	@After
@@ -96,7 +90,7 @@ public class SearchServiceTest {
 
 	@Test
 	public void whenExecuteSearchThenReturnsSearchResults() throws Exception {
-		given(searches.executeSearch(searchDescription)).willReturn(buildPropertiesList());
+		given(searches.executeSearch(searchDTO)).willReturn(buildPropertiesList());
 		List<PropertyDTO> returnedDTOs = searchService.executeSearch(PSEUDO, searchDTO);
 		assertTrue(returnedDTOs.contains(propertyDTO));
 	}
@@ -104,7 +98,7 @@ public class SearchServiceTest {
 	@Test
 	public void givenSearchDTOWhenSaveSearchShouldSaveSearchToSearchEngine() throws Exception {
 		searchService.saveSearch(PSEUDO, searchDTO);
-		verify(searches).save(searchDescription, PSEUDO);
+		verify(searches).save(searchDTO, PSEUDO);
 	}
 
 	@Test
@@ -125,8 +119,7 @@ public class SearchServiceTest {
 
 	@Test
 	public void givenPseudonymAndSearchNameWhenGetSearchShouldReturnAssembledSearch() throws Exception {
-		given(searches.getSearch(PSEUDO, SEARCH_NAME)).willReturn(searchDescription);
-		given(searchAssembler.toDTO(searchDescription)).willReturn(searchDTO);
+		given(searches.getSearch(PSEUDO, SEARCH_NAME)).willReturn(searchDTO);
 
 		SearchDTO result = searchService.getSearch(PSEUDO, SEARCH_NAME);
 

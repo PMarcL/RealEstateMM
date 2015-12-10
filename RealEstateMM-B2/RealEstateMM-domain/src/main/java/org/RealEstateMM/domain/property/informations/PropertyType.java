@@ -1,5 +1,6 @@
 package org.RealEstateMM.domain.property.informations;
 
+// TODO refactor
 public enum PropertyType {
 
 	HOUSE, MULTIPLEX, COMMERCIAL, LAND, FARM;

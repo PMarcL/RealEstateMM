@@ -25,15 +25,13 @@ public class XmlUserRepository extends UserRepository {
 	private void loadUsers() {
 		try {
 			usersCache = marshaller.unmarshal(XmlUserCollection.class);
-		} catch (EmptyXmlFileException e) {
-			usersCache = new XmlUserCollection();
-		} catch (XmlMarshallingException e) {
+		} catch (EmptyXmlFileException | XmlMarshallingException e) {
 			usersCache = new XmlUserCollection();
 		}
 	}
 
 	@Override
-	public java.util.ArrayList<User> getAllUsers() {
+	public List<User> getAllUsers() {
 		ArrayList<User> users = new ArrayList<User>();
 		List<XmlUser> xmlUsers = usersCache.getUsers();
 

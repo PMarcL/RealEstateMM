@@ -30,8 +30,10 @@ public class SearchEngine {
 		return property.get();
 	}
 
-	public List<Property> executeSearch(SearchDescription searchDescription) {
-		Search search = searchFactory.createSearch(searchDescription);
-		return search.execute(propertyRepository.getAll());
+	public List<Property> executeSearch(SearchDTO search) {
+		// Search search = searchFactory.createSearch(search);
+		// return search.execute(propertyRepository.getAll());
+		// TODO
+		return null;
 	}
 }

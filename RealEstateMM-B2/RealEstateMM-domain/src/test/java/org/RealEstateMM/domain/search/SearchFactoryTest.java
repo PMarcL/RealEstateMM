@@ -6,6 +6,9 @@ import static org.mockito.BDDMockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.RealEstateMM.domain.search.Search;
+import org.RealEstateMM.domain.search.SearchDescription;
+import org.RealEstateMM.domain.search.SearchFactory;
 import org.RealEstateMM.domain.search.criterias.SearchCriteria;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingStrategyFactory;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
