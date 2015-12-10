@@ -2,9 +2,7 @@ $(document).ready(function(){
     getProperties('');
 
     $('#orderBy').change(function(){
-        var queryParam = '?orderBy=' + $(orderBy).val();
-        $('#propertylist').empty();
-        getProperties(queryParam);
+        GetPropertiesWithForm();
     });
 
 });
