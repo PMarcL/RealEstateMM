@@ -11,10 +11,10 @@ import org.RealEstateMM.domain.property.informations.PropertyAddress;
 public class SearchEngine {
 
 	private PropertyRepository propertyRepository;
-	private SearchFactory searchFactory;
+	private SearchAssembler searchAssembler;
 
-	public SearchEngine(SearchFactory searchFactory, PropertyRepository respository) {
-		this.searchFactory = searchFactory;
+	public SearchEngine(SearchAssembler searchAssembler, PropertyRepository respository) {
+		this.searchAssembler = searchAssembler;
 		this.propertyRepository = respository;
 	}
 
@@ -30,10 +30,8 @@ public class SearchEngine {
 		return property.get();
 	}
 
-	public List<Property> executeSearch(SearchDTO search) {
-		// Search search = searchFactory.createSearch(search);
-		// return search.execute(propertyRepository.getAll());
-		// TODO
-		return null;
+	public List<Property> executeSearch(SearchDTO searchDTO) {
+		Search search = searchAssembler.fromDTO(searchDTO);
+		return search.execute(propertyRepository.getAll());
 	}
 }

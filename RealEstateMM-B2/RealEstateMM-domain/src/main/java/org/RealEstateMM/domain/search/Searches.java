@@ -34,7 +34,7 @@ public class Searches {
 	}
 
 	public List<String> findSearchesForUser(String pseudonym) {
-		List<SearchDescription> savedSearches = repository.getSearchesForUser(pseudonym);
+		List<SearchDTO> savedSearches = repository.getSearchesForUser(pseudonym);
 		ArrayList<String> result = new ArrayList<>();
 		savedSearches.stream().forEach(s -> result.add(s.getName()));
 		return result;
