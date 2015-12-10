@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-
+    createPriceRangeSlider();
 });
 
 function doubleSlider(idSlider, inputMax, inputStep){
@@ -31,3 +31,24 @@ function updateSlider(sliderVar, varInputMin) {
 }
 
 
+function createPriceRangeSlider(){
+    var slider = $('#double-slider')[0];
+    noUiSlider.create(slider, {
+        start: [0, 1000000],
+        connect: true,
+        step: 1000,
+        range: {
+            'min': 0,
+            'max': 5000000
+        }
+    });
+
+    var snapValues = [
+        $('#price-min')[0],
+        $('#price-max')[0]
+    ];
+
+    slider.noUiSlider.on('update', function( values, handle ) {
+        snapValues[handle].innerHTML = values[handle];
+    });
+}

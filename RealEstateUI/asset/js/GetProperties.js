@@ -79,6 +79,8 @@ function GetPropertiesWithForm(){
     }
     queryParamSearchForm += '&minNumBedrooms=' + valueInputBedroomMin.value;
     queryParamSearchForm += '&minNumBathrooms=' + valueInputBathroomMin.value;
+    queryParamSearchForm +='&priceMax =' + $('#price-max').html();
+    queryParamSearchForm +='&priceMin =' + $('#price-min').html();
     if(strUser.length !== 0){
         queryParamSearchForm += '&orderBy=' + strUser;
     }
