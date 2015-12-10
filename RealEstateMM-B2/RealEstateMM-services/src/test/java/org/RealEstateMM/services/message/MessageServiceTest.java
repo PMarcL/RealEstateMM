@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.RealEstateMM.domain.message.Message;
 import org.RealEstateMM.domain.message.Messages;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.dtos.MessageAssembler;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 import org.junit.Before;
@@ -20,36 +19,41 @@ public class MessageServiceTest {
 	private Messages messages;
 	private MessageAssembler messageAssembler;
 	private MessageService messageService;
+	private Message message1;
+	private Message message2;
+	private MessageDTO messageDTO1;
+	private MessageDTO messageDTO2;
+	private List<Message> aMessageList;
 
 	@Before
 	public void setUp() throws Exception {
 		messages = mock(Messages.class);
 		messageAssembler = mock(MessageAssembler.class);
-
-		ServiceLocator.getInstance().registerService(Messages.class, messages);
-
-		messageService = new MessageService(messageAssembler);
-	}
-
-	@Test
-	public void givenAPseudonymWhenGetMessagesReturnListOfMessageDTO() {
-		Message message1 = mock(Message.class);
-		Message message2 = mock(Message.class);
-		MessageDTO messageDTO1 = mock(MessageDTO.class);
-		MessageDTO messageDTO2 = mock(MessageDTO.class);
-
-		List<Message> aMessageList = new LinkedList<Message>();
-		aMessageList.add(message1);
-		aMessageList.add(message2);
-
+		message1 = mock(Message.class);
+		message2 = mock(Message.class);
+		messageDTO1 = mock(MessageDTO.class);
+		messageDTO2 = mock(MessageDTO.class);
+		aMessageList = fillMessageList();
 		given(messages.getUserMessages(A_PSEUDONYM)).willReturn(aMessageList);
 		given(messageAssembler.toDTO(message1)).willReturn(messageDTO1);
 		given(messageAssembler.toDTO(message2)).willReturn(messageDTO2);
 
+		messageService = new MessageService(messageAssembler, messages);
+	}
+
+	@Test
+	public void givenAPseudonymWhenGetMessagesReturnListOfMessageDTO() {
 		List<MessageDTO> actual = messageService.getUserMessages(A_PSEUDONYM);
 
 		assertTrue(actual.contains(messageDTO1));
 		assertTrue(actual.contains(messageDTO2));
+	}
+
+	private List<Message> fillMessageList() {
+		List<Message> aMessageList = new LinkedList<Message>();
+		aMessageList.add(message1);
+		aMessageList.add(message2);
+		return aMessageList;
 	}
 
 }

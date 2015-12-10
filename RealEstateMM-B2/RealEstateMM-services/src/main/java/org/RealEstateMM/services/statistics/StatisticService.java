@@ -2,14 +2,13 @@ package org.RealEstateMM.services.statistics;
 
 import org.RealEstateMM.domain.property.informations.PropertyType;
 import org.RealEstateMM.domain.statistics.Statistics;
-import org.RealEstateMM.services.locator.ServiceLocator;
 
 public class StatisticService {
 
 	private Statistics statistics;
 
-	public StatisticService() {
-		this.statistics = ServiceLocator.getInstance().getService(Statistics.class);
+	public StatisticService(Statistics statistics) {
+		this.statistics = statistics;
 	}
 
 	public int getNumberOfPropertiesSoldThisYear() {

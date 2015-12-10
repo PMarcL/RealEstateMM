@@ -10,7 +10,6 @@ import org.RealEstateMM.domain.search.SearchDTO;
 import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.domain.search.Searches;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
@@ -20,8 +19,8 @@ public class SearchService implements SearchServiceHandler {
 	private Searches searches;
 	private PropertyAssembler propertyAssembler;
 
-	public SearchService(PropertyAssembler assembler) {
-		this.searches = ServiceLocator.getInstance().getService(Searches.class);
+	public SearchService(PropertyAssembler assembler, Searches searches) {
+		this.searches = searches;
 		this.propertyAssembler = assembler;
 	}
 

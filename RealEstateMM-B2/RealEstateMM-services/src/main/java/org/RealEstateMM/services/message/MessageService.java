@@ -7,7 +7,6 @@ import org.RealEstateMM.domain.message.Message;
 import org.RealEstateMM.domain.message.Messages;
 import org.RealEstateMM.domain.message.UserIsNotASellerException;
 import org.RealEstateMM.domain.user.UserNotFoundException;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.message.dtos.MessageAssembler;
 import org.RealEstateMM.services.message.dtos.MessageDTO;
 
@@ -16,9 +15,9 @@ public class MessageService {
 	private Messages messages;
 	private MessageAssembler messageAssembler;
 
-	public MessageService(MessageAssembler messageAssembler) {
+	public MessageService(MessageAssembler messageAssembler, Messages messages) {
 		this.messageAssembler = messageAssembler;
-		messages = ServiceLocator.getInstance().getService(Messages.class);
+		this.messages = messages;
 	}
 
 	public void contactSeller(String buyerPseudonym, MessageDTO message)

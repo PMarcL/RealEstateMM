@@ -3,7 +3,6 @@ package org.RealEstateMM.services.property;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 
@@ -11,11 +10,6 @@ public class PropertyService implements PropertyServiceHandler {
 
 	private PropertyAssembler propertyAssembler;
 	private Properties properties;
-
-	public PropertyService() {
-		properties = ServiceLocator.getInstance().getService(Properties.class);
-		propertyAssembler = new PropertyAssembler();
-	}
 
 	public PropertyService(PropertyAssembler propertyAssembler, Properties properties) {
 		this.propertyAssembler = propertyAssembler;

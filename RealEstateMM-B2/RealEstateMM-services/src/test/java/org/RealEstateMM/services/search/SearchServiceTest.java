@@ -9,11 +9,9 @@ import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyAddress;
 import org.RealEstateMM.domain.search.SearchDTO;
 import org.RealEstateMM.domain.search.Searches;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.dtos.PropertyAddressDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,14 +41,7 @@ public class SearchServiceTest {
 		searchDTO = mock(SearchDTO.class);
 		given(propertyAssembler.toDTO(property)).willReturn(propertyDTO);
 		given(propertyAssembler.getAddressFromDTO(addressDTO)).willReturn(address);
-
-		ServiceLocator.getInstance().registerService(Searches.class, searches);
-		searchService = new SearchService(propertyAssembler);
-	}
-
-	@After
-	public void tearDown() {
-		ServiceLocator.getInstance().clearAllServices();
+		searchService = new SearchService(propertyAssembler, searches);
 	}
 
 	@Test

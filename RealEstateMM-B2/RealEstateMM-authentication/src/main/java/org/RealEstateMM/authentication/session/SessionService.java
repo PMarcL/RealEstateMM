@@ -3,15 +3,14 @@ package org.RealEstateMM.authentication.session;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 
 public class SessionService {
 
 	private SessionRepository sessionRepository;
 
-	public SessionService() {
-		this.sessionRepository = ServiceLocator.getInstance().getService(SessionRepository.class);
+	public SessionService(SessionRepository sessions) {
+		this.sessionRepository = sessions;
 	}
 
 	public Session open(UserDTO userDTO) {

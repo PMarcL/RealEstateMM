@@ -6,9 +6,7 @@ import static org.mockito.BDDMockito.*;
 import java.util.Optional;
 
 import org.RealEstateMM.services.helpers.UserDTOBuilder;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -22,14 +20,8 @@ public class SessionServiceTest {
 	@Before
 	public void setUp() {
 		sessionRepository = mock(SessionRepository.class);
-		ServiceLocator.getInstance().registerService(SessionRepository.class, sessionRepository);
 
-		sessionService = new SessionService();
-	}
-
-	@After
-	public void tearDown() {
-		ServiceLocator.getInstance().clearAllServices();
+		sessionService = new SessionService(sessionRepository);
 	}
 
 	@Test

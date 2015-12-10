@@ -5,11 +5,9 @@ import static org.mockito.BDDMockito.*;
 import org.RealEstateMM.domain.property.Properties;
 import org.RealEstateMM.domain.property.Property;
 import org.RealEstateMM.domain.property.informations.PropertyFeatures;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.property.PropertyService;
 import org.RealEstateMM.services.property.dtos.PropertyDTO;
 import org.RealEstateMM.services.property.dtos.PropertyAssembler;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,11 +32,6 @@ public class PropertyServiceTest {
 		property = mock(Property.class);
 		features = mock(PropertyFeatures.class);
 		configureAssembler();
-	}
-
-	@After
-	public void tearDown() {
-		ServiceLocator.getInstance().clearAllServices();
 	}
 
 	@Test

@@ -6,10 +6,8 @@ import static org.mockito.BDDMockito.*;
 import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.Users;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,14 +30,7 @@ public class UserServiceTest {
 		given(userAssembler.toDTO(user)).willReturn(dto);
 		users = mock(Users.class);
 
-		ServiceLocator.getInstance().registerService(Users.class, users);
-
-		service = new UserService(userAssembler);
-	}
-
-	@After
-	public void tearDown() {
-		ServiceLocator.getInstance().clearAllServices();
+		service = new UserService(userAssembler, users);
 	}
 
 	@Test

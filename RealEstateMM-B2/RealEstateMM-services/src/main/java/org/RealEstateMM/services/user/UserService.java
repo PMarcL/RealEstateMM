@@ -7,7 +7,6 @@ import org.RealEstateMM.domain.user.User;
 import org.RealEstateMM.domain.user.UserInformations;
 import org.RealEstateMM.domain.user.UserNotFoundException;
 import org.RealEstateMM.domain.user.Users;
-import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.user.dtos.UserAssembler;
 import org.RealEstateMM.services.user.dtos.UserDTO;
 
@@ -16,8 +15,8 @@ public class UserService implements UserServiceHandler {
 	private UserAssembler userAssembler;
 	private Users users;
 
-	public UserService(UserAssembler userAssembler) {
-		this.users = ServiceLocator.getInstance().getService(Users.class);
+	public UserService(UserAssembler userAssembler, Users users) {
+		this.users = users;
 		this.userAssembler = userAssembler;
 	}
 
@@ -39,8 +38,8 @@ public class UserService implements UserServiceHandler {
 	}
 
 	@Override
-	public void updateUserProfile(String pseudo, UserDTO userProfile) throws UserNotFoundException,
-			EmailAddressConfirmationException {
+	public void updateUserProfile(String pseudo, UserDTO userProfile)
+			throws UserNotFoundException, EmailAddressConfirmationException {
 		UserInformations userInfos = userAssembler.createUserInformations(userProfile);
 		users.updateUserProfile(userInfos);
 	}
