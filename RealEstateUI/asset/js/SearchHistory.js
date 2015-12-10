@@ -16,8 +16,7 @@ $('.deleteSearchBtn').click(function(){
     }
     else {
         $('.errorSearch').hide();
-        var data = buildSearchParam();
-        DeleteSearchParameters(data);
+        DeleteSearchParameters($('#searchName').val());
     }
 });
 
@@ -40,7 +39,9 @@ function buildSearchParam(){
         'orderBy': $('#orderBy').val(),
         'propertyTypes': propertyTypesArray,
         'minNumBedrooms': valueInputBedroomMin.value,
-        'minNumBathrooms': valueInputBathroomMin.value
+        'minNumBathrooms': valueInputBathroomMin.value,
+        'minPrice': $('#price-min').html().substring(0, $('#price-min').html().indexOf(".")),
+        'maxPrice': $('#price-max').html().substring(0, $('#price-max').html().indexOf("."))
     };
 }
 
@@ -60,18 +61,44 @@ function PostSearchParameters(data) {
     });
 }
 
-function DeleteSearchParameters(data) {
+function DeleteSearchParameters(searchName) {
     $.ajax({
-        url: "http://localhost:8080/search/" + new TokenCookie().cookie(),
+        url: "http://localhost:8080/search/" + new TokenCookie().cookie() + "/" + searchName,
         type: 'DELETE',
-        data: JSON.stringify(data),
         contentType: "application/json",
-        dataType: 'json',
         success: function(){
             console.log('delete params done');
         },
         error: function(){
             console.log('delete search error');
+        }
+    });
+}
+
+function GetSearchParameterNames() {
+    $.ajax({
+        url: "http://localhost:8080/search/" + new TokenCookie().cookie(),
+        type: 'GET',
+        contentType: "application/json",
+        success: function(data){
+            console.log('getSearches done : ' + data);
+        },
+        error: function(){
+            console.log('getSearches error');
+        }
+    });
+}
+
+function GetSearchParameter(name) {
+    $.ajax({
+        url: "http://localhost:8080/search/" + new TokenCookie().cookie() + "/" + name,
+        type: 'GET',
+        contentType: "application/json",
+        success: function(data){
+            console.log('getSearch done : ' + data);
+        },
+        error: function(){
+            console.log('getSearch error');
         }
     });
 }

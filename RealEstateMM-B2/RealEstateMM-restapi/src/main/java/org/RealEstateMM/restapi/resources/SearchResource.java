@@ -48,6 +48,7 @@ public class SearchResource {
 
 	@GET
 	@Path("{token}/{searchName}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSearch(@PathParam("token") String token, @PathParam("searchName") String searchName) {
 		try {
 			String pseudo = sessionService.validate(token);
