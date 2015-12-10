@@ -122,7 +122,7 @@ public class XmlSearchRespositoryTest {
 		assembler = mock(XmlSearchAssembler.class);
 		searchDescription = mock(SearchDescription.class);
 		given(searchDescription.getName()).willReturn(SEARCH_NAME);
-		given(assembler.toSearchDescription(xmlSearch)).willReturn(searchDescription);
-		given(assembler.fromSearchDescription(searchDescription, PSEUDONYM)).willReturn(xmlSearch);
+		given(assembler.toSearchDTO(xmlSearch)).willReturn(searchDescription);
+		given(assembler.fromSearchDTO(searchDescription, PSEUDONYM)).willReturn(xmlSearch);
 	}
 }

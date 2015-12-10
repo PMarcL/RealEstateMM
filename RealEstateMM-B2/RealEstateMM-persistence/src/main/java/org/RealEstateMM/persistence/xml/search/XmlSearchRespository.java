@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.RealEstateMM.domain.search.SearchDTO;
-import org.RealEstateMM.domain.search.SearchDescription;
 import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.domain.search.SearchRepository;
 import org.RealEstateMM.persistence.xml.EmptyXmlFileException;
@@ -33,10 +32,10 @@ public class XmlSearchRespository implements SearchRepository {
 	}
 
 	@Override
-	public void addSearch(SearchDescription searchDescription, String pseudonym) {
-		XmlSearchDescription xmlSearch = assembler.fromSearchDescription(searchDescription, pseudonym);
+	public void addSearch(SearchDTO searchDTO, String pseudonym) {
+		XmlSearchDescription xmlSearch = assembler.fromSearchDTO(searchDTO, pseudonym);
 
-		String searchName = searchDescription.getName();
+		String searchName = searchDTO.getName();
 		if (searchCache.contains(pseudonym, searchName)) {
 			searchCache.remove(pseudonym, searchName);
 		}
@@ -50,10 +49,10 @@ public class XmlSearchRespository implements SearchRepository {
 	}
 
 	@Override
-	public List<SearchDescription> getSearchesForUser(String pseudonym) {
+	public List<SearchDTO> getSearchesForUser(String pseudonym) {
 		List<XmlSearchDescription> xmlSearches = searchCache.getSearchesForUser(pseudonym);
-		List<SearchDescription> result = new ArrayList<>();
-		xmlSearches.stream().forEach(s -> result.add(assembler.toSearchDescription(s)));
+		List<SearchDTO> result = new ArrayList<>();
+		xmlSearches.stream().forEach(s -> result.add(assembler.toSearchDTO(s)));
 		return result;
 	}
 
@@ -68,7 +67,7 @@ public class XmlSearchRespository implements SearchRepository {
 		List<XmlSearchDescription> searches = searchCache.getSearchesForUser(pseudonym);
 		Optional<XmlSearchDescription> xmlSearch = searches.stream().filter(s -> s.getName() == searchName).findFirst();
 		if (xmlSearch.isPresent()) {
-			return assembler.toSearchDescription(xmlSearch.get());
+			return assembler.toSearchDTO(xmlSearch.get());
 		} else {
 			throw new SearchNotFoundException();
 		}

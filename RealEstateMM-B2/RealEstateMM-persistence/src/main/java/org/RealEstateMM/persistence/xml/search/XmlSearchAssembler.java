@@ -1,44 +1,34 @@
 package org.RealEstateMM.persistence.xml.search;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.RealEstateMM.domain.search.SearchDescription;
-import org.RealEstateMM.domain.search.criterias.SearchCriteria;
-import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
-import org.RealEstateMM.persistence.xml.user.XmlSearchCriteria;
+import org.RealEstateMM.domain.search.SearchDTO;
 
 public class XmlSearchAssembler {
 
-	private XmlSearchCriteriaAssembler criteriaAssembler;
+	public SearchDTO toSearchDTO(XmlSearchDescription xmlSearch) {
+		SearchDTO searchDto = new SearchDTO();
 
-	public XmlSearchAssembler(XmlSearchCriteriaAssembler criteriaAssembler) {
-		this.criteriaAssembler = criteriaAssembler;
+		searchDto.setName(xmlSearch.getName());
+		searchDto.setOrderBy(xmlSearch.getOrderBy());
+		searchDto.setMaxPrice(xmlSearch.getMaxPrice());
+		searchDto.setMinPrice(xmlSearch.getMinPrice());
+		searchDto.setMinNumBathrooms(xmlSearch.getMinNumBathrooms());
+		searchDto.setMinNumBedrooms(xmlSearch.getMinNumBedrooms());
+		searchDto.setPropertyTypes(xmlSearch.getPropertyTypes());
+
+		return searchDto;
 	}
 
-	public SearchDescription toSearchDescription(XmlSearchDescription xmlSearch) {
-		String name = xmlSearch.getName();
-		PropertyOrderingType orderBy = PropertyOrderingType.valueOf(xmlSearch.getOrderBy());
-		List<SearchCriteria> criterias = new ArrayList<>();
-		xmlSearch.getSearchCriterias().stream()
-				.forEach(s -> criterias.add(criteriaAssembler.fromXmlSearchCriterias(s)));
-		return new SearchDescription(name, orderBy, criterias);
-	}
-
-	public XmlSearchDescription fromSearchDescription(SearchDescription searchDescription, String pseudonym) {
+	public XmlSearchDescription fromSearchDTO(SearchDTO searchDescription, String pseudonym) {
 		XmlSearchDescription result = new XmlSearchDescription();
+
 		result.setPseudonym(pseudonym);
 		result.setName(searchDescription.getName());
-		result.setOrderBy(searchDescription.getOrderBy().toString());
-		result.setSearchCriterias(createSearchCriterias(searchDescription.getCriterias()));
-		return result;
-	}
-
-	private List<XmlSearchCriteria> createSearchCriterias(List<SearchCriteria> criterias) {
-		ArrayList<XmlSearchCriteria> result = new ArrayList<>();
-		for (SearchCriteria current : criterias) {
-			result.add(criteriaAssembler.toXmlSearchCriteria(current));
-		}
+		result.setOrderBy(searchDescription.getOrderBy());
+		result.setMaxPrice(searchDescription.getMaxPrice());
+		result.setMinNumBathrooms(searchDescription.getMinNumBathrooms());
+		result.setMinNumBedrooms(searchDescription.getMinNumBedrooms());
+		result.setMinPrice(searchDescription.getMinPrice());
+		result.setPropertyTypes(searchDescription.getPropertyTypes());
 
 		return result;
 	}
