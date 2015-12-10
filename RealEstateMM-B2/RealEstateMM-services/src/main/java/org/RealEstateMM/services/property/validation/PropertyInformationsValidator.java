@@ -10,9 +10,9 @@ import org.RealEstateMM.domain.property.informations.PropertyType;
 public class PropertyInformationsValidator {
 
 	private final Pattern ZIP_CODE_PATTERN = Pattern.compile("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$");
-	private final int CONSTRUCTION_YEAR_OF_OLDEST_BUILDING_IN_CANADA = 1637; // According
-																				// to
-																				// wikipedia.org
+	// According to wikipedia.org
+	private final int CONSTRUCTION_YEAR_OF_OLDEST_BUILDING_IN_CANADA = 1637;
+
 	private int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
 	public PropertyInformationsValidator() {
@@ -25,12 +25,7 @@ public class PropertyInformationsValidator {
 	}
 
 	public boolean propertyTypeIsValid(String type) {
-		try {
-			PropertyType.valueOf(type.toUpperCase());
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
-		return true;
+		return PropertyType.isValidPropertyTypeDescription(type);
 	}
 
 	public boolean propertyStatusIsValid(String status) {

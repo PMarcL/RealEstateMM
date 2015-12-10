@@ -38,7 +38,7 @@ public class PropertyAssembler {
 
 	public Property fromDTO(PropertyDTO propertyDTO) {
 		PropertyAddress address = addressAssembler.fromDTO(propertyDTO.getPropertyAddress());
-		PropertyType type = PropertyType.valueOf(propertyDTO.getPropertyType().toUpperCase());
+		PropertyType type = PropertyType.fromString(propertyDTO.getPropertyType());
 		PropertyStatus status = PropertyStatus.getStatusFromString(propertyDTO.getPropertyStatus());
 
 		return new Property(type, address, propertyDTO.getPropertyPrice(), propertyDTO.getPropertyOwner(), status);
