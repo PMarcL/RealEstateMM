@@ -20,6 +20,8 @@ public class PropertySearchParametersFactoryTest {
 	private final String PROPERTY_TYPES = "propertyTypes";
 	private final String MIN_NUM_BEDROOMS = "minNumBedrooms";
 	private final String MIN_NUM_BATHROOMS = "minNumBathrooms";
+	private static final String PRICE_MAX = "priceMax";
+	private static final String PRICE_MIN = "priceMin";
 	private final String ORDER_BY_VAL = "recently_uploaded_first";
 	private final List<String> PROPERTY_TYPES_VAL = new ArrayList<String>();
 	private final String MIN_NUM_BEDROOMS_VAL = "2";
@@ -45,7 +47,7 @@ public class PropertySearchParametersFactoryTest {
 	public void givenAUriInfoWhenGetSearchParametersThenGetInfoFromUriInfo() throws Exception {
 		factory.getSearchParametersDTO(searchParam);
 
-		verify(searchParam, times(4)).getQueryParameters();
+		verify(searchParam, times(6)).getQueryParameters();
 		verify(queryParams).getFirst(ORDER_BY);
 		verify(queryParams).get(PROPERTY_TYPES);
 		verify(queryParams).getFirst(MIN_NUM_BEDROOMS);
@@ -75,7 +77,20 @@ public class PropertySearchParametersFactoryTest {
 		given(queryParams.getFirst(MIN_NUM_BATHROOMS)).willReturn(INVALID_NUMBER);
 		factory.getSearchParametersDTO(searchParam);
 	}
+	@Test(expected = InvalidSearchParameterException.class)
+	public void givenUriInfoWithInvalidPriceMaxWhenGetSearchParametersThenThrowsInvalidParameterException()
+			throws Exception {
+		given(queryParams.getFirst(PRICE_MAX)).willReturn(INVALID_NUMBER);
+		factory.getSearchParametersDTO(searchParam);
+	}
 
+	@Test(expected = InvalidSearchParameterException.class)
+	public void givenUriInfoWithInvalidPriceMinWhenGetSearchParametersThenThrowsInvalidParameterException()
+			throws Exception {
+		given(queryParams.getFirst(PRICE_MIN)).willReturn(INVALID_NUMBER);
+		factory.getSearchParametersDTO(searchParam);
+	}
+	
 	@Test
 	public void givenUrinInfoWithNoNumOfBedroomsWhenGetSearchParametersThenMinNumOfBedroomsIsZero() throws Exception {
 		given(queryParams.getFirst(MIN_NUM_BEDROOMS)).willReturn(null);

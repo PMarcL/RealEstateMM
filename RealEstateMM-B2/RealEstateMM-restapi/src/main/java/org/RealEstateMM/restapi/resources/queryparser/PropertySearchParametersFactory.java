@@ -13,7 +13,9 @@ public class PropertySearchParametersFactory {
 	private final String PROPERTY_TYPES = "propertyTypes";
 	private final String MIN_NUM_BEDROOMS = "minNumBedrooms";
 	private final String MIN_NUM_BATHROOMS = "minNumBathrooms";
-
+	private final String MIN_PRICE = "priceMin";
+	private final String MAX_PRICE = "priceMax";
+	
 	public SearchDTO getSearchParametersDTO(UriInfo searchParam) {
 		SearchDTO searchParamDTO = new SearchDTO();
 
@@ -21,9 +23,12 @@ public class PropertySearchParametersFactory {
 		setMinNumBedroomsParameter(searchParam, searchParamDTO);
 		setMinNumBathroomsParameter(searchParam, searchParamDTO);
 		setPropertyTypesToFilter(searchParam, searchParamDTO);
-
+		setMinPriceParameter(searchParam, searchParamDTO);
+		setMaxPriceParameter(searchParam, searchParamDTO);
 		return searchParamDTO;
 	}
+	
+	
 
 	private void setOrderingParameter(UriInfo searchParam, SearchDTO searchParamDTO) {
 		String orderBy = searchParam.getQueryParameters().getFirst(ORDER_BY);
@@ -31,6 +36,28 @@ public class PropertySearchParametersFactory {
 			searchParamDTO.setOrderBy(PropertyOrderingType.NO_ORDERING.toString());
 		} else {
 			searchParamDTO.setOrderBy(orderBy);
+		}
+	}
+	
+	private void setMinPriceParameter(UriInfo searchParam, SearchDTO searchParamDTO){
+		String minPrice = searchParam.getQueryParameters().getFirst(MIN_PRICE);
+		if (minPrice != null) {
+			try {
+				searchParamDTO.setMinPrice(Integer.parseInt(minPrice));
+			} catch (NumberFormatException e) {
+				throw new InvalidSearchParameterException();
+			}
+		} 
+	}
+	
+	private void setMaxPriceParameter(UriInfo searchParam, SearchDTO searchParamDTO){
+		String maxPrice = searchParam.getQueryParameters().getFirst(MAX_PRICE);
+		if (maxPrice != null) {
+			try {
+				searchParamDTO.setMaxPrice(Integer.parseInt(maxPrice));
+			} catch (NumberFormatException e) {
+				throw new InvalidSearchParameterException();
+			}
 		}
 	}
 
