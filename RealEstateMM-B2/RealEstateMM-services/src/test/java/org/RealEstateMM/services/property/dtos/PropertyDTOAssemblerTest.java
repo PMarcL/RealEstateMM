@@ -46,7 +46,7 @@ public class PropertyDTOAssemblerTest {
 		given(addressAssembler.toDTO(propertyAddress)).willReturn(addressDTO);
 		PropertyDTO propertyInfos = assembler.toDTO(property);
 
-		assertEquals(PropertyType.getStringFromType(A_PROPERTY_TYPE), propertyInfos.getPropertyType());
+		assertEquals(A_PROPERTY_TYPE.toString(), propertyInfos.getPropertyType());
 		assertEquals(addressDTO, propertyInfos.getPropertyAddress());
 		assertEquals(A_PRICE, propertyInfos.getPropertyPrice(), DELTA);
 		assertEquals(OWNER_PSEUDO, propertyInfos.getPropertyOwner());
@@ -127,7 +127,7 @@ public class PropertyDTOAssemblerTest {
 		propertyDTO = mock(PropertyDTO.class);
 		given(propertyDTO.getPropertyAddress()).willReturn(addressDTO);
 		given(propertyDTO.getPropertyOwner()).willReturn(OWNER_PSEUDO);
-		given(propertyDTO.getPropertyType()).willReturn(PropertyType.getStringFromType(A_PROPERTY_TYPE));
+		given(propertyDTO.getPropertyType()).willReturn(A_PROPERTY_TYPE.toString());
 		given(propertyDTO.getPropertyStatus()).willReturn(PropertyStatus.getStringFromStatus(A_PROPERTY_STATUS));
 		given(propertyDTO.getPropertyFeatures()).willReturn(featuresDTO);
 	}

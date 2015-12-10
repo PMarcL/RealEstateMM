@@ -27,7 +27,7 @@ public class PropertyAssembler {
 		PropertyAddressDTO addressDTO = addressAssembler.toDTO(property.getAddress());
 		PropertyFeaturesDTO featuresDTO = featuresAssembler.toDTO(property.getFeatures());
 
-		dto.setPropertyType(PropertyType.getStringFromType(property.getType()));
+		dto.setPropertyType(property.getType().toString());
 		dto.setPropertyAddress(addressDTO);
 		dto.setPropertyFeatures(featuresDTO);
 		dto.setPropertyPrice(property.getPrice());
@@ -38,7 +38,7 @@ public class PropertyAssembler {
 
 	public Property fromDTO(PropertyDTO propertyDTO) {
 		PropertyAddress address = addressAssembler.fromDTO(propertyDTO.getPropertyAddress());
-		PropertyType type = PropertyType.getTypeFromString(propertyDTO.getPropertyType());
+		PropertyType type = PropertyType.valueOf(propertyDTO.getPropertyType().toUpperCase());
 		PropertyStatus status = PropertyStatus.getStatusFromString(propertyDTO.getPropertyStatus());
 
 		return new Property(type, address, propertyDTO.getPropertyPrice(), propertyDTO.getPropertyOwner(), status);

@@ -25,7 +25,12 @@ public class PropertyInformationsValidator {
 	}
 
 	public boolean propertyTypeIsValid(String type) {
-		return PropertyType.isValidPropertyTypeDescription(type);
+		try {
+			PropertyType.valueOf(type.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+		return true;
 	}
 
 	public boolean propertyStatusIsValid(String status) {

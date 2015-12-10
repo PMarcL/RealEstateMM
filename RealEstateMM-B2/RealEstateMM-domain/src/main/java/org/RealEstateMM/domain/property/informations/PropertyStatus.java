@@ -1,5 +1,6 @@
 package org.RealEstateMM.domain.property.informations;
 
+// TODO refactor
 public enum PropertyStatus {
 	ON_SALE, SOLD;
 
