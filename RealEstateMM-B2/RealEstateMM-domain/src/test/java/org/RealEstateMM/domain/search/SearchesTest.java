@@ -81,22 +81,20 @@ public class SearchesTest {
 	@Test
 	public void givenPseudonymAndSearchNameWhenGetSearchShouldGetSearchFromRepository() throws Throwable {
 		given(repository.getSearchWithNameForUser(PSEUDONYM, SEARCH_NAME_1)).willReturn(search);
-
 		SearchDTO result = searches.getSearch(PSEUDONYM, SEARCH_NAME_1);
-
 		assertSame(search, result);
 	}
 
 	private void addSavedSearches() {
-		List<SearchDescription> savedSearches = new ArrayList<>();
-		savedSearches.add(searchDescriptionWithName(SEARCH_NAME_1));
-		savedSearches.add(searchDescriptionWithName(SEARCH_NAME_2));
+		List<SearchDTO> savedSearches = new ArrayList<>();
+		savedSearches.add(searchWithName(SEARCH_NAME_1));
+		savedSearches.add(searchWithName(SEARCH_NAME_2));
 		given(repository.getSearchesForUser(PSEUDONYM)).willReturn(savedSearches);
 	}
 
-	private SearchDescription searchDescriptionWithName(String searchName) {
-		SearchDescription description = mock(SearchDescription.class);
-		given(description.getName()).willReturn(searchName);
-		return description;
+	private SearchDTO searchWithName(String searchName) {
+		SearchDTO search = mock(SearchDTO.class);
+		given(search.getName()).willReturn(searchName);
+		return search;
 	}
 }

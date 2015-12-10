@@ -15,13 +15,9 @@ public class SearchFactory {
 		this.orderingFactory = orderingStrategyFactory;
 	}
 
-	public Search createSearch(PropertyOrderingType validOrderingType, List<SearchCriteria> criterias) {
-		// PropertyOrderingType orderBy = validOrderingType.getOrderBy();
-		// PropertyOrderingStrategy orderByStrategy =
-		// orderingFactory.createOrderingStrategy(orderBy);
-		// return new Search(validOrderingType.getCriterias(), orderByStrategy);
-		// TODO
-		return null;
+	public Search createSearch(PropertyOrderingType orderBy, List<SearchCriteria> criterias) {
+		PropertyOrderingStrategy orderByStrategy = orderingFactory.createOrderingStrategy(orderBy);
+		return new Search(criterias, orderByStrategy);
 	}
 
 }

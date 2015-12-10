@@ -6,7 +6,7 @@ public interface SearchRepository {
 
 	public void addSearch(SearchDTO search, String pseudonym);
 
-	public List<SearchDescription> getSearchesForUser(String pseudonym);
+	public List<SearchDTO> getSearchesForUser(String pseudonym);
 
 	public void remove(String pseudonym, String searchName);
 
