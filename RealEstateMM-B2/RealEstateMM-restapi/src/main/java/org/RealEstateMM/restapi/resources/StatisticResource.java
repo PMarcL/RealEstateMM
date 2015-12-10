@@ -51,7 +51,7 @@ public class StatisticResource {
 		Map<String, String> resultsPerCategory = new HashMap<String, String>();
 		for (PropertyType type : PropertyType.values()) {
 			String numberOfPropertiesOfType = "" + statisticService.getNumberOfOnSalePropertiesPerType(type);
-			resultsPerCategory.put(PropertyType.getStringFromType(type), numberOfPropertiesOfType);
+			resultsPerCategory.put(type.toString(), numberOfPropertiesOfType);
 		}
 		return Response.ok().entity(resultsPerCategory).build();
 	}

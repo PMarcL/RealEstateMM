@@ -49,10 +49,10 @@ public class XmlPropertyAssemblerTest {
 		createProperty();
 		XmlProperty result = assembler.fromProperty(property);
 
-		assertEquals(A_TYPE, PropertyType.getTypeFromString(result.getType()));
+		assertEquals(A_TYPE, PropertyType.fromString(result.getType()));
 		assertEquals(A_PRICE, Double.parseDouble(result.getPrice()), DELTA);
 		assertEquals(A_OWNER_NAME, result.getOwnerUserName());
-		assertEquals(A_STATUS, PropertyStatus.getStatusFromString(result.getStatus()));
+		assertEquals(A_STATUS, PropertyStatus.fromString(result.getStatus()));
 		assertEquals(A_STREETADDRESS, result.getStreetAddress());
 		assertEquals(A_CITY, result.getCityAddress());
 		assertEquals(A_PROVINCE, result.getProvinceAddress());
@@ -92,12 +92,12 @@ public class XmlPropertyAssemblerTest {
 
 	private void createXmlProperty() {
 		xmlProperty = new XmlProperty();
-		xmlProperty.setType(PropertyType.getStringFromType(A_TYPE));
+		xmlProperty.setType(A_TYPE.toString());
 		xmlProperty.setPrice(String.valueOf(A_PRICE));
 		xmlProperty.setOwnerUserName(A_OWNER_NAME);
 		xmlProperty.setCreationDate(A_CREATION_DATE);
 		xmlProperty.setSaleDate(A_SALE_DATE);
-		xmlProperty.setStatus(PropertyStatus.getStringFromStatus(A_STATUS));
+		xmlProperty.setStatus(A_STATUS.toString());
 		xmlProperty.setStreetAddress(A_STREETADDRESS);
 		xmlProperty.setCityAddress(A_CITY);
 		xmlProperty.setProvinceAddress(A_PROVINCE);

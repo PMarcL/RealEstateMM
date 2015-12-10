@@ -17,7 +17,7 @@ public class XmlPropertyAssembler {
 		PropertyAddress propertyAddress = property.getAddress();
 		PropertyFeatures propertyFeatures = property.getFeatures();
 
-		newProperty.setType(PropertyType.getStringFromType(property.getType()));
+		newProperty.setType(property.getType().toString());
 		newProperty.setCreationDate(DateUtil.formatDate(property.getCreationDate()));
 		newProperty.setSaleDate(DateUtil.formatDate(property.getSaleDate()));
 		newProperty.setStreetAddress(propertyAddress.streetAddress);
@@ -26,7 +26,7 @@ public class XmlPropertyAssembler {
 		newProperty.setZipCodeAddress(propertyAddress.zipCode);
 		newProperty.setPrice(String.valueOf(property.getPrice()));
 		newProperty.setOwnerUserName(property.getOwner());
-		newProperty.setStatus(PropertyStatus.getStringFromStatus(property.getStatus()));
+		newProperty.setStatus(property.getStatus().toString());
 
 		newProperty.setNumberOfBathrooms(String.valueOf(propertyFeatures.numberOfBathrooms));
 		newProperty.setNumberOfBedrooms(String.valueOf(propertyFeatures.numberOfBedrooms));
@@ -42,8 +42,8 @@ public class XmlPropertyAssembler {
 	}
 
 	public Property toProperty(XmlProperty xmlProperty) {
-		PropertyType type = PropertyType.getTypeFromString(xmlProperty.getType());
-		PropertyStatus status = PropertyStatus.getStatusFromString(xmlProperty.getStatus());
+		PropertyType type = PropertyType.fromString(xmlProperty.getType());
+		PropertyStatus status = PropertyStatus.fromString(xmlProperty.getStatus());
 
 		PropertyAddress propertyAddress = createPropertyAddress(xmlProperty);
 		PropertyFeatures propertyFeatures = createPropertyFeatures(xmlProperty);
