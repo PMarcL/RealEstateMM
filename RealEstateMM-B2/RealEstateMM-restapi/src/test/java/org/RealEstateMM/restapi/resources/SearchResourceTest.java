@@ -11,10 +11,11 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.search.SearchDTO;
+import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.search.SearchServiceHandler;
-import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -114,6 +115,13 @@ public class SearchResourceTest {
 		given(searchService.getSearch(PSEUDO, SEARCH_NAME)).willReturn(searchDTO);
 		Response result = searchResource.getSearch(TOKEN, SEARCH_NAME);
 		assertEquals(searchDTO, result.getEntity());
+	}
+
+	@Test
+	public void givenAValidTokenAndInvalidSearchNameWhenGetSEarchThenReturnsNotFoundStatus() throws Exception {
+		doThrow(SearchNotFoundException.class).when(searchService).getSearch(PSEUDO, SEARCH_NAME);
+		Response result = searchResource.getSearch(TOKEN, SEARCH_NAME);
+		assertEquals(Status.NOT_FOUND, result.getStatusInfo());
 	}
 
 	@Test

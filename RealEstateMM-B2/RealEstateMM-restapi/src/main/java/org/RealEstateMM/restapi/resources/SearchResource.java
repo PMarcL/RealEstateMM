@@ -15,10 +15,11 @@ import javax.ws.rs.core.Response.Status;
 
 import org.RealEstateMM.authentication.session.InvalidSessionTokenException;
 import org.RealEstateMM.authentication.session.SessionService;
+import org.RealEstateMM.domain.search.SearchDTO;
+import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.domain.user.ForbiddenAccessException;
 import org.RealEstateMM.services.locator.ServiceLocator;
 import org.RealEstateMM.services.search.SearchServiceHandler;
-import org.RealEstateMM.services.search.dtos.SearchDTO;
 
 @Path("/search")
 public class SearchResource {
@@ -58,6 +59,8 @@ public class SearchResource {
 			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
 		} catch (ForbiddenAccessException e) {
 			return Response.status(Status.FORBIDDEN).entity(e.getMessage()).build();
+		} catch (SearchNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
 		}
 	}
 

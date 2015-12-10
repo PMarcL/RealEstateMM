@@ -9,9 +9,9 @@ import java.util.List;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
+import org.RealEstateMM.domain.search.SearchDTO;
 import org.RealEstateMM.domain.search.ordering.PropertyOrderingType;
 import org.RealEstateMM.restapi.resources.queryparser.PropertySearchParametersFactory;
-import org.RealEstateMM.services.search.dtos.SearchDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,6 +77,7 @@ public class PropertySearchParametersFactoryTest {
 		given(queryParams.getFirst(MIN_NUM_BATHROOMS)).willReturn(INVALID_NUMBER);
 		factory.getSearchParametersDTO(searchParam);
 	}
+
 	@Test(expected = InvalidSearchParameterException.class)
 	public void givenUriInfoWithInvalidPriceMaxWhenGetSearchParametersThenThrowsInvalidParameterException()
 			throws Exception {
@@ -90,7 +91,7 @@ public class PropertySearchParametersFactoryTest {
 		given(queryParams.getFirst(PRICE_MIN)).willReturn(INVALID_NUMBER);
 		factory.getSearchParametersDTO(searchParam);
 	}
-	
+
 	@Test
 	public void givenUrinInfoWithNoNumOfBedroomsWhenGetSearchParametersThenMinNumOfBedroomsIsZero() throws Exception {
 		given(queryParams.getFirst(MIN_NUM_BEDROOMS)).willReturn(null);

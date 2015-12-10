@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.RealEstateMM.domain.search.SearchDTO;
 import org.RealEstateMM.domain.search.SearchDescription;
 import org.RealEstateMM.domain.search.SearchNotFoundException;
 import org.RealEstateMM.domain.search.SearchRepository;
@@ -63,8 +64,7 @@ public class XmlSearchRespository implements SearchRepository {
 	}
 
 	@Override
-	public SearchDescription getSearchWithNameForUser(String pseudonym, String searchName)
-			throws SearchNotFoundException {
+	public SearchDTO getSearchWithNameForUser(String pseudonym, String searchName) throws SearchNotFoundException {
 		List<XmlSearchDescription> searches = searchCache.getSearchesForUser(pseudonym);
 		Optional<XmlSearchDescription> xmlSearch = searches.stream().filter(s -> s.getName() == searchName).findFirst();
 		if (xmlSearch.isPresent()) {
