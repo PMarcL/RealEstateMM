@@ -65,7 +65,8 @@ public class XmlSearchRespository implements SearchRepository {
 	@Override
 	public SearchDTO getSearchWithNameForUser(String pseudonym, String searchName) throws SearchNotFoundException {
 		List<XmlSearchDescription> searches = searchCache.getSearchesForUser(pseudonym);
-		Optional<XmlSearchDescription> xmlSearch = searches.stream().filter(s -> s.getName() == searchName).findFirst();
+		Optional<XmlSearchDescription> xmlSearch = searches.stream().filter(s -> s.getName().equals(searchName))
+				.findFirst();
 		if (xmlSearch.isPresent()) {
 			return assembler.toSearchDTO(xmlSearch.get());
 		} else {

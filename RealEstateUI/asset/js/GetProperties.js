@@ -8,6 +8,7 @@ $(document).ready(function(){
 });
 
 function getProperties(param) {
+    $('#advancedSearchForm').toggle();
     $.ajax({
         url: "http://localhost:8080/property/" + new TokenCookie().cookie() + "/search?" + param,
         type: "GET",

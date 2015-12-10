@@ -1,3 +1,6 @@
+$(document).ready(function(){
+    GetSearchParameterNames();
+});
 
 $('.saveSearchBtn').click(function(){
     if($('#searchName').val() == '') {
@@ -20,6 +23,9 @@ $('.deleteSearchBtn').click(function(){
     }
 });
 
+$('#previousSearch').change(function(){
+    GetSearchParameter($('#previousSearch').val());
+});
 
 function buildSearchParam(){
     var propertyTypesArray = new Array;
@@ -53,7 +59,8 @@ function PostSearchParameters(data) {
         contentType: "application/json",
         dataType: 'json',
         success: function(){
-            console.log('search params posted');
+            GetSearchParameterNames();
+            Materialize.toast('Search parameters saved in your search history.', 4000);
         },
         error: function(){
             console.log('save search error');
@@ -66,8 +73,11 @@ function DeleteSearchParameters(searchName) {
         url: "http://localhost:8080/search/" + new TokenCookie().cookie() + "/" + searchName,
         type: 'DELETE',
         contentType: "application/json",
+        dataType: 'json',
         success: function(){
-            console.log('delete params done');
+            GetSearchParameterNames();
+            Materialize.toast('Search parameters removed from your search history.', 4000);
+            $('#searchName').val('');
         },
         error: function(){
             console.log('delete search error');
@@ -81,7 +91,7 @@ function GetSearchParameterNames() {
         type: 'GET',
         contentType: "application/json",
         success: function(data){
-            console.log('getSearches done : ' + data);
+            updateSearchesHistory(data);
         },
         error: function(){
             console.log('getSearches error');
@@ -95,10 +105,44 @@ function GetSearchParameter(name) {
         type: 'GET',
         contentType: "application/json",
         success: function(data){
-            console.log('getSearch done : ' + data);
+            updateSearchParametersField(data);
         },
         error: function(){
             console.log('getSearch error');
         }
     });
+}
+
+function updateSearchesHistory(data){
+    $('.searchOption').remove();
+    for(var i = 0; i < data.length; i++) {
+        $('#previousSearch').append('<option value="' + data[i] + '" class="searchOption">' + data[i] + '</option>')
+    }
+}
+
+function updateSearchParametersField(data){
+    $('#searchName').val(data.name);
+
+    if(data.orderBy != 'null'){
+        $('#orderBy').val(data.orderBy);
+    }
+    sliderBedroom.noUiSlider.set(data.minNumBedrooms);
+    sliderBathroom.noUiSlider.set(data.minNumBathrooms);
+    $('#double-slider')[0].noUiSlider.set([data.minPrice, data.maxPrice]);
+
+    for(var i = 0; i < data.propertyTypes.length; i++) {
+        if(data.propertyTypes[i] == 'farm'){
+            $('#farmCheckbox').prop('checked', true);
+        } else if(data.propertyTypes[i] == 'house'){
+            $('#HouseCheckbox').prop('checked', true);
+        } else if(data.propertyTypes[i] == 'commercial'){
+            $('#CommercialCheckbox').prop('checked', true);
+        } else if(data.propertyTypes[i] == 'land'){
+            $('#LandCheckbox').prop('checked', true);
+        } else if(data.propertyTypes[i] == 'multiplex'){
+            $('#MultiplexCheckbox').prop('checked', true);
+        }
+    }
+
+    GetPropertiesWithForm();
 }
