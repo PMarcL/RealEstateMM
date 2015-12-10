@@ -3,29 +3,22 @@ package org.RealEstateMM.domain.property.informations;
 public enum PropertyStatus {
 	ON_SALE, SOLD;
 
-	private static final String ON_SALE_DESC = "on sale";
-	private static final String SOLD_DESC = "sold";
-
-	public static PropertyStatus getStatusFromString(String description) {
-		if (description.equals(ON_SALE_DESC)) {
-			return PropertyStatus.ON_SALE;
-		} else {
-			return PropertyStatus.SOLD;
-		}
+	@Override
+	public String toString() {
+		return super.toString().replace("_", " ").toLowerCase();
 	}
 
-	public static String getStringFromStatus(PropertyStatus status) {
-		if (status == PropertyStatus.ON_SALE) {
-			return ON_SALE_DESC;
-		} else {
-			return SOLD_DESC;
-		}
+	public static PropertyStatus fromString(String value) {
+		return PropertyStatus.valueOf(value.replace(" ", "_").toUpperCase());
 	}
 
-	public static boolean isValidStatusDescription(String description) {
-		if (description.equals(ON_SALE_DESC) || description.equals(SOLD_DESC)) {
-			return true;
+	public static boolean isValidStatusDescription(String value) {
+		try {
+			PropertyStatus.fromString(value);
+		} catch (IllegalArgumentException e) {
+			return false;
 		}
-		return false;
+
+		return true;
 	}
 }

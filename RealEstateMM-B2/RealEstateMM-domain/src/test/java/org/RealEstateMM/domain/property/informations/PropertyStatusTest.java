@@ -6,31 +6,31 @@ import org.junit.Test;
 
 public class PropertyStatusTest {
 
-	private final String ONSALE = "on sale";
+	private final String ON_SALE = "on sale";
 	private final String SOLD = "sold";
 	private final String INVALID_STATUS = "invalid";
 
 	@Test
 	public void givenAStatusDescriptionWhenConvertToEnumReturnsGoodEnum() {
-		PropertyStatus status = PropertyStatus.getStatusFromString(ONSALE);
+		PropertyStatus status = PropertyStatus.fromString(ON_SALE);
 		assertEquals(PropertyStatus.ON_SALE, status);
 
-		status = PropertyStatus.getStatusFromString(SOLD);
+		status = PropertyStatus.fromString(SOLD);
 		assertEquals(PropertyStatus.SOLD, status);
 	}
 
 	@Test
 	public void givenAStatusWhenConvertToStringReturnsCorrectString() {
-		String description = PropertyStatus.getStringFromStatus(PropertyStatus.ON_SALE);
-		assertEquals(ONSALE, description);
+		String description = PropertyStatus.ON_SALE.toString();
+		assertEquals(ON_SALE, description);
 
-		description = PropertyStatus.getStringFromStatus(PropertyStatus.SOLD);
+		description = PropertyStatus.SOLD.toString();
 		assertEquals(SOLD, description);
 	}
 
 	@Test
 	public void givenAValidStatusDescriptionWhenCheckStatusValidityReturnsTrue() {
-		assertTrue(PropertyStatus.isValidStatusDescription(ONSALE));
+		assertTrue(PropertyStatus.isValidStatusDescription(ON_SALE));
 		assertTrue(PropertyStatus.isValidStatusDescription(SOLD));
 	}
 

@@ -50,7 +50,7 @@ public class PropertyDTOAssemblerTest {
 		assertEquals(addressDTO, propertyInfos.getPropertyAddress());
 		assertEquals(A_PRICE, propertyInfos.getPropertyPrice(), DELTA);
 		assertEquals(OWNER_PSEUDO, propertyInfos.getPropertyOwner());
-		assertEquals(PropertyStatus.getStringFromStatus(A_PROPERTY_STATUS), propertyInfos.getPropertyStatus());
+		assertEquals(A_PROPERTY_STATUS.toString(), propertyInfos.getPropertyStatus());
 	}
 
 	@Test
@@ -128,7 +128,7 @@ public class PropertyDTOAssemblerTest {
 		given(propertyDTO.getPropertyAddress()).willReturn(addressDTO);
 		given(propertyDTO.getPropertyOwner()).willReturn(OWNER_PSEUDO);
 		given(propertyDTO.getPropertyType()).willReturn(A_PROPERTY_TYPE.toString());
-		given(propertyDTO.getPropertyStatus()).willReturn(PropertyStatus.getStringFromStatus(A_PROPERTY_STATUS));
+		given(propertyDTO.getPropertyStatus()).willReturn(A_PROPERTY_STATUS.toString());
 		given(propertyDTO.getPropertyFeatures()).willReturn(featuresDTO);
 	}
 }

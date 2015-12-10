@@ -32,14 +32,14 @@ public class PropertyAssembler {
 		dto.setPropertyFeatures(featuresDTO);
 		dto.setPropertyPrice(property.getPrice());
 		dto.setPropertyOwner(property.getOwner());
-		dto.setPropertyStatus(PropertyStatus.getStringFromStatus(property.getStatus()));
+		dto.setPropertyStatus(property.getStatus().toString());
 		return dto;
 	}
 
 	public Property fromDTO(PropertyDTO propertyDTO) {
 		PropertyAddress address = addressAssembler.fromDTO(propertyDTO.getPropertyAddress());
 		PropertyType type = PropertyType.fromString(propertyDTO.getPropertyType());
-		PropertyStatus status = PropertyStatus.getStatusFromString(propertyDTO.getPropertyStatus());
+		PropertyStatus status = PropertyStatus.fromString(propertyDTO.getPropertyStatus());
 
 		return new Property(type, address, propertyDTO.getPropertyPrice(), propertyDTO.getPropertyOwner(), status);
 	}
